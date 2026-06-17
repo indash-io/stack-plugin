@@ -1,0 +1,27 @@
+{
+  "mcpServers": {
+    "indash": {
+      "type": "http",
+      "url": "https://www.indash.ai/api/mcp",
+      "headers": {
+        "Authorization": "Bearer ${INDASH_TOKEN}"
+      }
+    },
+    "higgsfield": {
+      "type": "http",
+      "url": "https://mcp.higgsfield.ai/mcp"
+    },
+    "google-drive": {
+      "type": "http",
+      "url": "https://drivemcp.googleapis.com/mcp/v1"
+    },
+    "notion": {
+      "type": "http",
+      "url": "https://mcp.notion.com/mcp"
+    },
+    "apify": {
+      "type": "http",
+      "url": "https://mcp.apify.com"
+    }
+  }
+}

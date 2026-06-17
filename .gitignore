@@ -1,0 +1,12 @@
+# Config local del workspace (auto-aprobación de MCPs, etc.) — no se versiona
+.claude/settings.local.json
+
+# Dependencias (por si se agrega tooling node)
+node_modules/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
