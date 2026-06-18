@@ -14,8 +14,14 @@ La idea: cualquier persona del equipo instala este plugin y obtiene los mismos r
 
 | Skill | Qué hace |
 |---|---|
-| **carrusel-nano-banana** | Genera un shot list creativo + N prompts de nano banana (Gemini 2.5 Flash Image) para carruseles **4:5 (1080×1350)** de Instagram, a partir de una URL de producto + una imagen de referencia. |
-| **stories-nano-banana** | Igual, pero para secuencias de Instagram **Stories 9:16 (1080×1920)**, con sugerencia de sticker de engagement por story y texto dentro de la zona segura de UI. |
+| **new-client** | Da de alta un cliente nuevo: crea la estructura de carpetas estándar (con `brand/`), baja marca y productos desde el MCP de Indash y genera el `CLAUDE.md` de contexto de marca que las demás heredan. Se dispara con *"nuevo cliente"*. |
+| **content-brief** | Arma el **brief de contenido del período**: define el mix de piezas (ads, carruseles, stories, videos, emails) con copy + brief de imagen por pieza, y orquesta las skills de ejecución. Se dispara con *"armá el brief del mes"* / *"plan de contenido"*. |
+| **carruseles** | Carruseles **4:5 (1080×1350)**: shot list + **genera las imágenes** con el MCP de Indash (elige modelo por slide) + prompts. |
+| **stories-nano-banana** | Secuencias de **Stories 9:16 (1080×1920)**: shot list + prompts, con sticker de engagement por story y texto en zona segura de UI. |
+| **ads** | Meta ads (FB/IG) para DTC e-commerce: 3-5 variaciones con imagen final (vía MCP) + copy de Meta completo (Primary Text, Headline, Description, CTA). |
+| **ugc-video-prompts** | Paquetes de video UGC (Kling 3.0 / Veo 3.1 / Seedance 2.0 + first/last frame con Nano Banana). |
+| **seedance-multishot** | Prompts multi-shot cinematográficos Seedance 2.0 para film / paid B2B (modo prompt-only o video generado según el MCP). |
+| **email-marketing-ecomm** | Mails promo DTC: 3 variantes (HTML + PNG) brand-first, listas para Klaviyo / Mailchimp / Customer.io. |
 
 Ambas siguen un workflow estricto: intake → discovery (scraping + análisis de imagen) → **una sola pregunta consolidada de decisiones** → concepto → generación de prompts → self-check → output. Nunca generan sin confirmar con vos primero.
 
@@ -39,7 +45,19 @@ Inyecta `hooks/context/stack-policy.md` al inicio de cada sesión. Es **el mecan
 
 ## Instalación
 
-El plugin se distribuye **vía marketplace** (no es un archivo que se baja a mano).
+El plugin se distribuye **vía marketplace** (no es un archivo que se baja a mano). El repo es **privado**: el control de acceso es el acceso al repo en GitHub.
+
+### Requisito previo (importante para repo privado)
+
+Antes de instalar, cada persona necesita:
+
+1. **Acceso de lectura al repo** `indash-io/stack-plugin` en GitHub (te lo da el admin como colaborador o vía team de la org).
+2. **GitHub autenticado localmente** — porque el `marketplace add` clona el repo privado con tus credenciales git. Verificá una de las dos:
+   ```
+   gh auth status          # si usás GitHub CLI
+   ssh -T git@github.com    # si usás SSH
+   ```
+   Si no tenés acceso o no estás autenticado, el `marketplace add` falla con un error de clone.
 
 ### Como usuario del equipo
 
@@ -64,7 +82,21 @@ claude --plugin-dir /ruta/a/este/repo
 
 | Variable | Requerida | Qué es |
 |---|---|---|
-| `INDASH_TOKEN` | Sí | Secret key de acceso al MCP de Indash (formato `indash_sk_...`). **No se incluye en el plugin** — cada usuario o la organización la configura como variable de entorno. |
+| `INDASH_TOKEN` | Sí | Secret key de acceso al MCP de Indash (formato `indash_sk_...`). **Se obtiene desde la app de Indash** (cada usuario ya sabe cómo generarla). No se incluye en el plugin — se configura como variable de entorno. |
+
+Cómo setearla (elegí una):
+
+- **En tu shell** (macOS/Linux — agregalo a `~/.zshrc` o `~/.bashrc` para que persista):
+  ```
+  export INDASH_TOKEN="indash_sk_xxxxxxxx"
+  ```
+  Reabrí la terminal (o `source ~/.zshrc`) y arrancá Claude desde ahí.
+- **En `settings.json` de Claude Code** (bloque `env`):
+  ```json
+  { "env": { "INDASH_TOKEN": "indash_sk_xxxxxxxx" } }
+  ```
+
+Para verificar que quedó: `echo $INDASH_TOKEN` debería imprimir el token. Si está vacío, el MCP `indash` no levanta.
 
 ### Autenticación de los conectores
 
@@ -77,12 +109,18 @@ claude --plugin-dir /ruta/a/este/repo
 
 Pedile a Claude en lenguaje natural — las skills se disparan solas cuando el pedido coincide:
 
-- **Carrusel** → *"Armá un carrusel para este producto: `<URL>`"* + adjuntás una imagen de referencia → dispara `carrusel-nano-banana`.
-- **Stories** → *"Necesito una secuencia de stories para `<URL>`"* + imagen → dispara `stories-nano-banana`.
+1. **Dar de alta un cliente** (primero) → *"Nuevo cliente: Acme Foods"* → dispara `new-client`: crea la carpeta del cliente (con `brand/`), baja marca y productos del MCP de Indash y genera el `CLAUDE.md` de marca. Después trabajás **dentro de esa carpeta** para que el contexto se herede.
+2. **Planificar el período** (opcional, recomendado) → *"Armá el brief de junio para Acme"* → dispara `content-brief`: define el mix de piezas con copy + brief de imagen, y te dice qué skill ejecuta cada bloque.
+3. **Producir cada pieza** → el pedido dispara la skill que corresponde:
+   - **Carrusel** → *"Armá un carrusel para `<URL>`"* + imagen → `carruseles` (genera las imágenes).
+   - **Stories** → *"Necesito stories para `<URL>`"* + imagen → `stories-nano-banana`.
+   - **Meta ads** → *"Hacé 3 ads para `<producto>`"* → `ads`.
+   - **Video** → *"Armá un UGC / video para `<producto>`"* → `ugc-video-prompts` o `seedance-multishot`.
+   - **Email** → *"Armá un mail promo para `<marca>`"* → `email-marketing-ecomm`.
 
-En ambos casos necesitás **URL de producto + imagen de referencia**. Si falta alguno, la skill te lo pide y frena. Antes de generar nada, te hace **una sola pregunta consolidada** (tipo, cantidad de slides/stories, modo visual, hook) con propuestas por default; confirmás o editás, y recién ahí genera.
+Las skills de producto necesitan **URL de producto + imagen de referencia** (si onboardeaste con `new-client`, ya los tenés en `productos/index.md`). Si falta algo, la skill te lo pide y frena. Antes de generar te hace **una sola pregunta consolidada** con defaults; confirmás o editás, y recién ahí genera. Todo entregable se **guarda** en `entregables/<tipo>/` (o `briefs/`) con nombre `<AAAA-MM-DD>_<slug>_v<N>`.
 
-El output siempre es: **shot list / brief creativo** + **N prompts numerados** listos para pegar en nano banana junto a la imagen del producto.
+El output siempre es: **shot list / brief creativo** + **N prompts numerados** listos para pegar en nano banana junto a la imagen del producto. Además de mostrarlo en el chat, **se guarda en disco** dentro de la carpeta del cliente, en `entregables/carruseles/` o `entregables/stories/`, con el nombre canónico `<AAAA-MM-DD>_<producto-slug>_v<N>.md` (versiona solo, no pisa). Así queda todo ordenado y trazable sin pensar la nomenclatura cada vez.
 
 ---
 
@@ -111,16 +149,23 @@ clientes/
 ## Estructura del repo
 
 ```
-.claude-plugin/plugin.json     Manifiesto del plugin
-.mcp.json                      Definición de los MCP servers
-hooks/hooks.json               Hook de SessionStart
-hooks/context/stack-policy.md  Política inyectada en cada sesión (lo que recibe el end user)
-skills/carrusel-nano-banana/   Skill de carruseles 4:5
-skills/stories-nano-banana/    Skill de stories 9:16
-scripts/validate-plugin.mjs    Validador de integridad (JSON + refs de SKILL.md)
-.github/workflows/validate.yml CI que corre el validador en cada push/PR
-CLAUDE.md                      Guía técnica para desarrollar el plugin (solo en-repo)
-README.md                      Este archivo — cómo usar el stack
+.claude-plugin/plugin.json      Manifiesto del plugin
+.claude-plugin/marketplace.json Marketplace privado (lista el plugin para /plugin install)
+.mcp.json                       Definición de los MCP servers
+hooks/hooks.json                Hook de SessionStart
+hooks/context/stack-policy.md   Política inyectada en cada sesión (lo que recibe el end user)
+skills/new-client/              Onboarding de cliente (estructura + brand/ + CLAUDE.md + productos)
+skills/content-brief/           Brief de contenido del período (orquesta las skills de ejecución)
+skills/carruseles/              Carruseles 4:5 (genera imágenes vía MCP)
+skills/stories-nano-banana/     Stories 9:16
+skills/ads/                     Meta ads DTC (imagen + copy)
+skills/ugc-video-prompts/       Paquetes de video UGC (Kling/Veo/Seedance)
+skills/seedance-multishot/      Prompts multi-shot cinematográficos Seedance 2.0
+skills/email-marketing-ecomm/   Mails promo DTC (HTML + PNG)
+scripts/validate-plugin.mjs     Validador de integridad (JSON + refs de SKILL.md)
+.github/workflows/validate.yml  CI que corre el validador en cada push/PR
+CLAUDE.md                       Guía técnica para desarrollar el plugin (solo en-repo)
+README.md                       Este archivo — cómo usar el stack
 ```
 
 Para todo lo técnico (cómo está armado el plugin, cómo agregar una skill o un MCP, cómo distribuir), andá a [`CLAUDE.md`](./CLAUDE.md).

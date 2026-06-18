@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <title>{{SUBJECT}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { margin:0; padding:0; width:100% !important; -webkit-text-size-adjust:100%; background-color:{{BG_COLOR}}; }
+    img { border:0; line-height:100%; outline:none; text-decoration:none; display:block; max-width:100%; height:auto; }
+    table { border-collapse:collapse; }
+    a { color:{{PRIMARY_DARK}}; }
+    @media only screen and (max-width: 599px) {
+      .col-mobile { display:block !important; width:100% !important; }
+      .col-half-mobile { display:block !important; width:100% !important; }
+      .col-third-mobile { display:block !important; width:100% !important; }
+      .px-mobile { padding-left:20px !important; padding-right:20px !important; }
+      .py-mobile { padding-top:24px !important; padding-bottom:24px !important; }
+      .h1-mobile { font-size:30px !important; line-height:1.2 !important; }
+      .h2-mobile { font-size:24px !important; line-height:1.25 !important; }
+      .hide-mobile { display:none !important; }
+    }
+  </style>
+</head>
+<body style="margin:0; padding:0; background-color:{{BG_COLOR}}; font-family:'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;">
+
+  <!-- Preheader invisible -->
+  <div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:{{BG_COLOR}};">
+    {{PREHEADER}}
+  </div>
+
+  <!-- Optional top ribbon -->
+  {{TOP_RIBBON_BLOCK}}
+
+  <!-- Main container -->
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="{{BG_COLOR}}">
+    <tr>
+      <td align="center" style="padding:24px 0;">
+        <table role="presentation" width="600" class="col-mobile" cellspacing="0" cellpadding="0" border="0" style="max-width:600px; width:100%;">
+
+          <!-- LOGO header -->
+          <tr>
+            <td align="center" class="px-mobile" style="padding:16px 40px 24px 40px;">
+              <div style="font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:28px; font-weight:800; letter-spacing:-0.5px; color:{{PRIMARY_DARK}};">
+                {{BRAND_NAME}}
+              </div>
+            </td>
+          </tr>
+
+          <!-- HERO -->
+          {{HERO_BLOCK}}
+
+          <!-- BODY SECTIONS -->
+          {{BODY_BLOCKS}}
+
+          <!-- CLOSING -->
+          {{CLOSING_BLOCK}}
+
+          <!-- FOOTER -->
+          {{FOOTER_BLOCK}}
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+
+<!--
+=========================================================
+VARIABLES ESPERADAS
+=========================================================
+
+PALETA (de brands/{marca}/palette.md):
+- BG_COLOR
+- PRIMARY_DARK / PRIMARY_MID / PRIMARY_LIGHT
+- ACCENT
+- TEXT_PRIMARY / TEXT_SECONDARY / TEXT_MUTED
+- FOOTER_BG / FOOTER_TEXT
+
+CONTENIDO (del brief y copy):
+- SUBJECT, PREHEADER, BRAND_NAME
+- HERO_BLOCK, BODY_BLOCKS, CLOSING_BLOCK, FOOTER_BLOCK
+- TOP_RIBBON_BLOCK (opcional)
+- CTA_LABEL, CTA_URL
+- UNSUBSCRIBE_URL, YEAR
+- IMAGE_URLS (de mcp__indash__generate_image)
+-->

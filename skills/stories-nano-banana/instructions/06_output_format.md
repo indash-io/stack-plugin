@@ -1,6 +1,21 @@
 # 06 — Output Format
 
-Acá entregás. Después de Concept + Prompt Generation + Self-check, formateás el output final con el formato exacto que el user espera.
+Acá entregás. Después de Concept + Prompt Generation + Self-check + **Generation** (paso 7, las imágenes ya están generadas), formateás el output final con el formato exacto que el user espera: shot list + **imágenes generadas (URLs)** + prompts como registro.
+
+---
+
+## Persistencia: guardás el entregable (no solo lo mostrás)
+
+La secuencia de stories **se guarda en disco además de mostrarse en el chat**, siguiendo la convención de carpetas y nomenclatura del stack (definida en la política del stack, inyectada en cada sesión):
+
+- **Dónde**: dentro de la carpeta del cliente, en `entregables/stories/`. Si trabajás dentro de una carpeta de cliente y no existe esa subcarpeta, creala. Si no hay estructura de cliente, guardá en `./entregables/stories/` del directorio actual y sugerí dar de alta el cliente con `new-client`.
+- **Nombre del archivo**: `<AAAA-MM-DD>_<producto-slug>_v<N>.md`
+  - `<producto-slug>` = nombre del producto en kebab-case sin acentos (ej: "Solar 04" → `solar-04`).
+  - `v<N>` = versión; `v1` la primera, subí el número en cada regeneración del mismo producto/día. **Nunca pises un archivo existente** — si el nombre ya existe, subí la versión.
+  - A/B → sufijo `-A` / `-B` (ej: `2026-06-17_solar-04_v1-A.md`).
+- **Qué guardás**: exactamente el mismo contenido markdown que mostrás (brief + tabla story-by-story con stickers + tabla de imágenes generadas con URLs + prompts + notas).
+- **Imágenes generadas (si las bajás a disco)**: van en una subcarpeta con el **mismo nombre sin `.md`**: `entregables/stories/2026-06-17_solar-04_v1/`.
+- **Al entregar**: mostrás el output en el chat **y** decís en una línea la ruta donde lo guardaste.
 
 ---
 
@@ -48,11 +63,23 @@ Acá entregás. Después de Concept + Prompt Generation + Self-check, formateás
 
 ---
 
-## Prompts para Nano Banana
+## Imágenes generadas
 
-> **Cómo usarlos**: pegá cada prompt en nano banana junto con la imagen de referencia del producto (la misma para las N stories). Los prompts están numerados — generá uno por uno en el orden indicado. Después de generar, agregá los stickers sugeridos directamente en Instagram al subir cada story.
+> Estas son las imágenes ya generadas con Indash (paso 7), en 9:16 (1080×1920). Para cada story: la URL pública + el modelo usado. Los stickers de la columna anterior se agregan en Instagram al subir cada story (no están dentro de la imagen).
 
-### Story 1 — Hook
+| # | Función | Modelo | Imagen |
+|---|---|---|---|
+| 1 | Hook | nano-banana / gpt-image | [URL] |
+| 2 | ... | ... | [URL] |
+| N | CTA | ... | [URL] |
+
+---
+
+## Prompts (registro)
+
+> Los prompts con los que se generó cada story, por si querés regenerar o ajustar. Para regenerar una story se reusa el prompt con el modelo indicado, `aspect_ratio: "9:16"` y las mismas referencias. Después de generar, agregá los stickers sugeridos directamente en Instagram al subir cada story.
+
+### Story 1 — Hook _(modelo: [nano-banana / gpt-image])_
 
 ```
 [prompt completo de la story 1, párrafo narrativo en español, todas las dimensiones del template, 9:16 + zona segura]
@@ -162,9 +189,9 @@ Estructura:
 
 ## Reglas duras del output
 
-1. **Siempre** este orden: brief → tabla story-by-story (con columna sticker) → prompts → notas (opcional). Para A/B: contexto compartido → secuencia A completa → secuencia B completa → notas.
-2. **Siempre** los prompts numerados, en bloques de código separados.
-3. **Siempre** el bloque de "Cómo usarlos" antes del primer prompt, mencionando que los stickers se agregan en Instagram al subir.
+1. **Siempre** este orden: brief → tabla story-by-story (con columna sticker) → **tabla de imágenes generadas (URLs)** → prompts (registro) → notas (opcional). Para A/B: contexto compartido → secuencia A completa → secuencia B completa → notas.
+2. **Siempre** los prompts numerados, en bloques de código separados, con el modelo usado anotado.
+3. **Siempre** el bloque introductorio antes del primer prompt, mencionando que es el registro y que los stickers se agregan en Instagram al subir.
 4. **Nunca** mezcles los prompts en un solo bloque — uno por story, separados.
 5. **Nunca** agregues preámbulos tipo *"¡Acá tenés tu secuencia!"* — empezá directo con el `# Stories: ...`.
 6. **Nunca** agregues cierre tipo *"Espero que te sirva, avisame si querés ajustes"* — terminá con las notas finales o sin nada.
@@ -236,11 +263,23 @@ Hook con la promesa numerada → tres razones técnicas concretas → CTA con pr
 
 ---
 
-## Prompts para Nano Banana
+## Imágenes generadas
 
-> **Cómo usarlos**: pegá cada prompt en nano banana junto con la imagen de referencia del producto. Los prompts están numerados — generá uno por uno en el orden indicado. Después de generar, agregá los stickers sugeridos directamente en Instagram al subir cada story.
+| # | Función | Modelo | Imagen |
+|---|---|---|---|
+| 1 | Hook | nano-banana | https://…/solar04_story1_hook.png |
+| 2 | Razón 1 | nano-banana | https://…/solar04_story2.png |
+| 3 | Razón 2 | nano-banana | https://…/solar04_story3.png |
+| 4 | Razón 3 | nano-banana | https://…/solar04_story4.png |
+| 5 | CTA | nano-banana | https://…/solar04_story5_cta.png |
 
-### Story 1 — Hook
+---
+
+## Prompts (registro)
+
+> Registro de los prompts con los que se generó cada story (modelo nano-banana, 9:16, misma referencia de producto). Para regenerar una story, reusá su prompt con `aspect_ratio: "9:16"` y las mismas referencias. Los stickers de la columna del shot list se agregan en Instagram al subir cada story.
+
+### Story 1 — Hook _(modelo: nano-banana)_
 
 \`\`\`
 Usá la imagen de producto provista como sujeto exacto — conservá el frasco de vidrio ámbar, la tipografía de la etiqueta y la tapa dorada idénticos — y ubicá el frasco sobre un pedestal de mármol gastado... [prompt completo en 9:16 con zona segura]
@@ -265,4 +304,4 @@ Usá la imagen de producto provista como sujeto exacto — conservá el frasco d
 Si querés cambiar el hook, ajustar una story o regenerar un prompt específico, decime cuál.
 ```
 
-Ese es el formato exacto. Limpio, escaneable, listo para copiar y pegar en nano banana, con stickers definidos para configurar en Instagram al subir.
+Ese es el formato exacto. Limpio, escaneable: las imágenes ya generadas listas para subir, los prompts como registro para regenerar, y los stickers definidos para configurar en Instagram al subir.

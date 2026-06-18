@@ -46,6 +46,23 @@ const mcp = readJSON(".mcp.json");
 if (mcp && !mcp.mcpServers) fail(`.mcp.json: falta la clave "mcpServers"`);
 const hooks = readJSON("hooks/hooks.json");
 
+// Marketplace privado: parsea, tiene plugins, y cada source apunta a un plugin real.
+const marketplace = readJSON(".claude-plugin/marketplace.json");
+if (marketplace) {
+  if (!marketplace.name) fail(`marketplace.json: falta el campo "name"`);
+  if (!Array.isArray(marketplace.plugins) || !marketplace.plugins.length) {
+    fail(`marketplace.json: "plugins" tiene que ser un array con al menos un plugin`);
+  } else {
+    for (const p of marketplace.plugins) {
+      if (!p.name) fail(`marketplace.json: un plugin no tiene "name"`);
+      const src = p.source ?? "./";
+      const pluginJson = join(ROOT, src, ".claude-plugin", "plugin.json");
+      if (existsSync(pluginJson)) pass(`marketplace.json → plugin "${p.name}" (source ${src}) existe`);
+      else fail(`marketplace.json → plugin "${p.name}": no hay plugin.json en ${src}`);
+    }
+  }
+}
+
 // --- 2 + 3. Skills: frontmatter + referencias ----------------------------
 const skillsDir = join(ROOT, "skills");
 const skills = existsSync(skillsDir)
@@ -72,13 +89,19 @@ for (const skill of skills) {
     if (!/^description:\s*\S/m.test(fm[1])) fail(`skills/${skill}/SKILL.md: frontmatter sin "description"`);
   }
 
-  // Referencias a archivos/carpetas: tokens entre backticks que parezcan rutas
-  // relativas (contienen "/" y terminan en .md o en "/").
+  // Referencias a archivos/carpetas INTERNAS de la skill: tokens entre backticks
+  // que parezcan rutas relativas (contienen "/" y terminan en .md o en "/") y cuyo
+  // primer segmento sea una carpeta estándar de skill. Las rutas de salida en la
+  // carpeta del cliente (brand/, productos/, entregables/…) son runtime, no archivos
+  // del repo — no se chequean.
+  const SKILL_DIRS = new Set(["instructions", "style", "templates", "examples", "eval"]);
   const refs = new Set();
   for (const m of content.matchAll(/`([\w./-]+)`/g)) {
     const token = m[1];
     if (!token.includes("/")) continue;
-    if (token.endsWith(".md") || token.endsWith("/")) refs.add(token);
+    if (!(token.endsWith(".md") || token.endsWith("/"))) continue;
+    if (!SKILL_DIRS.has(token.split("/")[0])) continue;
+    refs.add(token);
   }
 
   let brokenInSkill = 0;

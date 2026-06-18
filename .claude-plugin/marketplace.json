@@ -1,0 +1,20 @@
+{
+  "name": "indash",
+  "owner": {
+    "name": "Indash",
+    "url": "https://www.indash.ai"
+  },
+  "metadata": {
+    "description": "Marketplace privado de Indash. Publica el plugin del stack de creative performance. Acceso = acceso de lectura a este repo en GitHub.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "indash-stack",
+      "source": "./",
+      "description": "Stack de creative performance de Indash: skills (onboarding de cliente, carruseles y stories nano banana) sobre un set de MCPs casi obligatorios (Indash, Higgsfield, Google Drive, Notion, Apify) con gate de autenticación.",
+      "category": "creative",
+      "keywords": ["indash", "creative", "instagram", "carrusel", "stories", "nano-banana", "onboarding"]
+    }
+  ]
+}

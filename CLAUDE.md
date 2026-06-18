@@ -32,6 +32,7 @@ Un plugin es un repo con un manifiesto `.claude-plugin/plugin.json`. Claude Code
 | Archivo / carpeta | Rol | Lo lee… |
 |---|---|---|
 | `.claude-plugin/plugin.json` | Manifiesto: nombre, versión, metadata | Claude Code al instalar |
+| `.claude-plugin/marketplace.json` | Marketplace privado: lista el plugin para `/plugin install` | Claude Code al hacer `marketplace add` |
 | `.mcp.json` | Definición de los 5 MCP servers | Claude Code (autodescubierto) |
 | `hooks/hooks.json` | Registra el hook de SessionStart | Claude Code (autodescubierto) |
 | `hooks/context/stack-policy.md` | **Política operativa del stack** | El **agente del usuario**, cada sesión |
@@ -61,7 +62,13 @@ skills/<skill>/
 
 El `SKILL.md` referencia esos archivos por ruta relativa (ej: `` `instructions/01_intake.md` ``). **Si renombrás o movés uno, la referencia queda rota y la skill se degrada en silencio** → por eso existe el validador.
 
-Las dos skills (`carrusel-nano-banana` y `stories-nano-banana`) nacieron de un template común y divergieron donde el formato lo pide (stories tiene `style/text_composition.md` y reglas de zona segura que carrusel no tiene). Al tocar una, fijate si el cambio aplica también a la otra.
+El plugin tiene tres familias de skills:
+
+- **Onboarding / planificación**: `new-client` (crea la estructura del cliente, baja marca + productos del MCP de Indash, escribe el `CLAUDE.md` de marca) y `content-brief` (arma el brief del período y orquesta a las de ejecución). No tienen `style/` de prompts; sus templates son de scaffolding/brief.
+- **Contenido visual de Instagram**: `carruseles` (genera las imágenes vía MCP, elige modelo por slide) y `stories-nano-banana`. Comparten el esqueleto intake → discovery → decisions → concept → prompts → output. Al tocar una, fijate si aplica a la otra.
+- **Otras piezas de performance**: `ads` (Meta), `ugc-video-prompts` y `seedance-multishot` (video), `email-marketing-ecomm`. Varias se importaron de skills externas y se alinearon a la convención del stack (gate, persistencia en `entregables/<tipo>/`, herencia de marca del cliente).
+
+**Convención transversal que comparten todas**: aplican el gate del MCP `indash`, heredan la marca del `CLAUDE.md` + `brand/` del cliente, y **guardan el entregable en disco** en `entregables/<tipo>/` (o `briefs/`) con nombre `<AAAA-MM-DD>_<slug>_v<N>.md`. Esa convención vive en `hooks/context/stack-policy.md` (fuente única) y se inyecta en cada sesión — no la dupliques por skill.
 
 ---
 
@@ -99,7 +106,7 @@ Antes de commitear, corré el validador (sin dependencias):
 node scripts/validate-plugin.mjs
 ```
 
-Chequea: JSON de config parsean y tienen campos mínimos, frontmatter de cada `SKILL.md`, **que toda referencia de archivo dentro de los SKILL.md exista**, y que el hook de SessionStart apunte a un archivo real. Sale con código ≠0 si algo falla. El mismo chequeo corre en CI (`.github/workflows/validate.yml`) en cada push y PR.
+Chequea: JSON de config parsean y tienen campos mínimos, frontmatter de cada `SKILL.md`, **que toda referencia de archivo dentro de los SKILL.md exista**, que el hook de SessionStart apunte a un archivo real, y que el `marketplace.json` liste plugins con un `source` que tenga su `plugin.json`. Sale con código ≠0 si algo falla. El mismo chequeo corre en CI (`.github/workflows/validate.yml`) en cada push y PR.
 
 ---
 

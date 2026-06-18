@@ -1,7 +1,7 @@
 {
   "name": "indash-stack",
-  "version": "0.1.0",
-  "description": "Stack de trabajo de Indash: skills de creative performance (carruseles y stories nano banana) sobre un set de MCPs casi obligatorios (Indash, Higgsfield, Google Drive, Notion, Apify).",
+  "version": "0.3.0",
+  "description": "Stack de trabajo de Indash: skills de creative performance (onboarding de cliente, brief de período, carruseles, stories, Meta ads, video UGC/cinematográfico y email marketing) sobre un set de MCPs casi obligatorios (Indash, Higgsfield, Google Drive, Notion, Apify).",
   "author": {
     "name": "Indash",
     "url": "https://www.indash.ai"

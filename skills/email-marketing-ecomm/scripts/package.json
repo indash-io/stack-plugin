@@ -1,0 +1,12 @@
+{
+  "name": "promo-mail-ecom-render",
+  "version": "1.0.0",
+  "description": "Renderiza HTML de emails a PNG usando Puppeteer",
+  "private": true,
+  "scripts": {
+    "render": "node render.js"
+  },
+  "dependencies": {
+    "puppeteer": "^23.0.0"
+  }
+}
