@@ -8,10 +8,7 @@
   },
   "license": "UNLICENSED",
   "homepage": "https://github.com/indash-io/stack-plugin#readme",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/indash-io/stack-plugin.git"
-  },
+  "repository": "https://github.com/indash-io/stack-plugin.git",
   "keywords": [
     "indash",
     "creative",
