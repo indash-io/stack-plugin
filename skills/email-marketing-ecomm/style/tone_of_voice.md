@@ -1,6 +1,6 @@
 # Tone of Voice — Transversal
 
-Tono **base** para ecom B2C. La marca del **cliente** lo sobreescribe vía su `CLAUDE.md` + `brand/brand.md` (fuente de verdad). En modo fallback legacy, lo sobreescribe `brands/{marca}/brand.md`. Si hay override de marca, gana la marca.
+Tono **base** para ecom B2C. La marca del **cliente** lo sobreescribe vía su `CLAUDE.md` + `assets/brand-kit/brand.md` (fuente de verdad). En modo fallback legacy, lo sobreescribe `brands/{marca}/brand.md`. Si hay override de marca, gana la marca.
 
 ## Posición general
 

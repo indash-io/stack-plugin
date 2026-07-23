@@ -121,7 +121,7 @@ Corré este sub-check **story por story**:
 
 ---
 
-## Sección 6 — Reglas no-negociables (de skill.md)
+## Sección 6 — Reglas no-negociables (de SKILL.md)
 
 - [ ] Se preguntó al user **antes** de generar (paso 3 Decisions).
 - [ ] Output incluye **shot list (con stickers) + prompts** (no solo prompts pelados).

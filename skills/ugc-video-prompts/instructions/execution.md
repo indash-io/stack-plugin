@@ -238,10 +238,10 @@ Constraints: 9:16 vertical, 15 seconds, 1080p. Maintain element consistency for 
 
 El paquete final **no se muestra solo en el chat: se guarda en disco**. Es la última acción del workflow (paso 10), después de pasar el checklist.
 
-**Dónde:** en `entregables/videos/` de la carpeta del cliente.
-- Si la subcarpeta `videos/` no existe dentro de `entregables/`, creala.
-- Si estás trabajando **dentro de una carpeta de cliente** (tiene `entregables/`), guardá ahí.
-- Si **no** hay estructura de cliente en el directorio actual, guardá en `./entregables/videos/` del directorio de trabajo (creándolo) y avisale al usuario que conviene dar de alta el cliente con `new-client` para tener todo ordenado.
+**Dónde:** en `exports/videos/` de la carpeta del cliente.
+- Si la subcarpeta `videos/` no existe dentro de `exports/`, creala.
+- Si estás trabajando **dentro de una carpeta de cliente** (tiene `exports/`), guardá ahí.
+- Si **no** hay estructura de cliente en el directorio actual, guardá en `./exports/videos/` del directorio de trabajo (creándolo) y avisale al usuario que conviene dar de alta el cliente con `new-client` para tener todo ordenado.
 
 **Nombre del archivo:** `<AAAA-MM-DD>_<concepto-slug>_v<N>.md`
 - `<AAAA-MM-DD>` = fecha del día.
@@ -253,7 +253,7 @@ El paquete final **no se muestra solo en el chat: se guarda en disco**. Es la ú
 1. **Siempre** mostrás el paquete en el chat **y además** lo guardás con el nombre canónico.
 2. **Nunca** pises un archivo existente: si el nombre ya existe, subí la versión (`v2`, `v3`…).
 3. Al entregar, decí en una línea exactamente dónde lo guardaste (la ruta).
-4. Los **assets generados** de ese set (frames de Nano Banana, clips de video) van en una subcarpeta con el **mismo nombre sin `.md`**: `entregables/videos/2026-06-17_testimonial-serum-am_v1/`.
+4. Los **assets generados** de ese set (frames de Nano Banana, clips de video) van en una subcarpeta con el **mismo nombre sin `.md`**: `exports/videos/2026-06-17_testimonial-serum-am_v1/`.
 
 ---
 

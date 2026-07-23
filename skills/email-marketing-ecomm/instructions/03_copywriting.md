@@ -29,7 +29,7 @@
 
 - **Máximo 8 palabras.** Ideal 4–6.
 - **Dos líneas visuales máximo.**
-- Una palabra clave puede ir en color de acento (ver `brand/brand-kit.md` del cliente; fallback `brands/{marca}/palette.md`).
+- Una palabra clave puede ir en color de acento (ver `assets/brand-kit/brand-kit.md` del cliente; fallback `brands/{marca}/palette.md`).
 - Negrita por default.
 
 ## Body / subtext
@@ -78,7 +78,7 @@ Mal → Bien:
 
 ## Prueba social
 
-Solo usar si el contexto de marca del cliente lo valida (`CLAUDE.md` / `brand/brand.md`; fallback `brands/{marca}/brand.md`). Si no, omitir.
+Solo usar si el contexto de marca del cliente lo valida (`CLAUDE.md` / `assets/brand-kit/brand.md`; fallback `brands/{marca}/brand.md`). Si no, omitir.
 
 Si se usa:
 - Stat específico: `+100.000 clientas`, `4.9 en 2.100 reviews`

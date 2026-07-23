@@ -6,15 +6,22 @@
   },
   "metadata": {
     "description": "Marketplace privado de Indash. Publica el plugin del stack de creative performance. Acceso = acceso de lectura a este repo en GitHub.",
-    "version": "0.1.0"
+    "version": "0.4.0"
   },
   "plugins": [
     {
       "name": "indash-stack",
       "source": "./",
-      "description": "Stack de creative performance de Indash: skills (onboarding de cliente, carruseles y stories nano banana) sobre un set de MCPs casi obligatorios (Indash, Higgsfield, Google Drive, Notion, Apify) con gate de autenticación.",
+      "description": "El stack de creative performance de Indash para Claude: 8 skills (onboarding de clientes, brief de contenido, carruseles, stories, ads, UGC video, seedance multi-shot, email ecommerce) + la conexión al MCP de Indash (marca, productos, generación de imagen/video) + la política de trabajo del stack.",
       "category": "creative",
-      "keywords": ["indash", "creative", "instagram", "carrusel", "stories", "nano-banana", "onboarding"]
+      "keywords": [
+        "indash",
+        "creative",
+        "instagram",
+        "carrusel",
+        "stories",
+        "nano-banana"
+      ]
     }
   ]
 }

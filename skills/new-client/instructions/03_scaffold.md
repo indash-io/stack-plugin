@@ -21,14 +21,14 @@ Creá las carpetas y los archivos base según `templates/folder_structure.md`. E
 - La carpeta raíz del cliente (`{slug}/`).
 - Las subcarpetas estándar:
   - `brand/` con `logos/`, `typographies/` y `assets/` (acá aterrizan los assets de marca de Discovery).
-  - `productos/` con `referencias/`.
-  - `entregables/` con `carruseles/` y `stories/`.
+  - `assets/products/` con `referencias/`.
+  - `exports/` con `carruseles/` y `stories/`.
   - `briefs/`.
 - Los archivos base vacíos o con su plantilla:
   - El `CLAUDE.md` del cliente → lo escribís en el paso 4 (Client Context), pero podés crear el archivo acá.
-  - `brand/brand.md` (narrativa de marca) y `brand/brand-kit.md` (resumen estructurado) → los completás en el paso 4 con lo que extrajiste.
-  - El índice de productos (`productos/index.md`) → lo completás en el paso 5.
-  - Un `.gitkeep` en las carpetas que arrancan vacías (incluidas `brand/logos/`, `brand/typographies/`, `brand/assets/`), para que la estructura quede versionable.
+  - `assets/brand-kit/brand.md` (narrativa de marca) y `assets/brand-kit/brand-kit.md` (resumen estructurado) → los completás en el paso 4 con lo que extrajiste.
+  - El índice de productos (`assets/products/index.md`) → lo completás en el paso 5.
+  - Un `.gitkeep` en las carpetas que arrancan vacías (incluidas `assets/logos/`, `assets/fonts/`, `assets/brand-kit/`), para que la estructura quede versionable.
 
 ---
 

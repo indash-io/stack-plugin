@@ -109,7 +109,7 @@ Si el MCP expone `audio_direction: string` aparte del bool `generate_audio`, esc
 Sub-bass pulse from 0s. Soft synth pad swells through the dolly-in. Single warm bell tone on final frame. No voice.
 ```
 
-Mientras `audio_direction` no exista (estado actual del MCP), el audio sale **genérico** y no se puede controlar finamente — aceptarlo o pedir el feature (gap E del [`MCP_GAPS_PROPOSAL.md`](../../MCP_GAPS_PROPOSAL.md)).
+Mientras `audio_direction` no exista (estado actual del MCP), el audio sale **genérico** y no se puede controlar finamente — aceptarlo o pedir el feature (gap E del [`la documentación del MCP de Indash`](../../la documentación del MCP de Indash)).
 
 ---
 

@@ -23,14 +23,14 @@ Esta skill es **brand-first**, pero la marca **no** vive hardcodeada acá. Vive 
 
 1. **Contexto del cliente (fuente de verdad).** Si la carpeta de trabajo es de un cliente, su marca manda y gana sobre cualquier default:
    - `CLAUDE.md` del cliente → contexto canónico de marca (qué es, tono, decisiones de marca).
-   - `brand/brand.md` → narrativa y tono de voz.
-   - `brand/brand-kit.md` → paleta (HEX exactos), tipografía, do's & don'ts.
-   - `brand/logos/` → logos para header/footer del mail.
-   - `brand/typographies/` → tipografías de la marca (para el font stack, con fallback email-safe).
+   - `assets/brand-kit/brand.md` → narrativa y tono de voz.
+   - `assets/brand-kit/brand-kit.md` → paleta (HEX exactos), tipografía, do's & don'ts.
+   - `assets/logos/` → logos para header/footer del mail.
+   - `assets/fonts/` → tipografías de la marca (para el font stack, con fallback email-safe).
 2. **MCP de Indash (complemento).** Trae productos, imágenes y brand kit del workspace para **completar** lo que el contexto del cliente no tenga. Nunca pisa al `CLAUDE.md`/`brand/` del cliente.
-3. **`brands/{slug}/` interno (FALLBACK / legacy).** Marcas semilla que vienen con la skill (ej: `brands/smud/brand.md` + `palette.md`). Es solo un **fallback** para cuando **no** hay contexto de cliente ni datos en Indash. NO es la fuente primaria. Si hay contexto de cliente, ignorá `brands/`.
+3. **Sin contexto de cliente ni Indash**: hacé discovery desde la URL de la marca (paleta, tono, tipografía desde el sitio) y dejá explícito en la entrega qué asumiste. Nunca inventes una marca semilla.
 
-> Regla: **cliente > MCP Indash > `brands/` interno.** Si el `brand/brand-kit.md` del cliente y el `get_brand_kit` del MCP difieren, gana el del cliente. `brands/` solo entra si los dos primeros no existen.
+> Regla: **cliente > MCP Indash > `brands/` interno.** Si el `assets/brand-kit/brand-kit.md` del cliente y el `get_brand_kit` del MCP difieren, gana el del cliente. `brands/` solo entra si los dos primeros no existen.
 
 ## Integración con MCP de Indash
 
@@ -77,7 +77,7 @@ Si falta algo crítico → preguntar **una sola vez** antes de generar. Ver `ins
 
 0. **Chequear el gate del MCP `indash`.** Si no está conectado, frená y pedilo (ver "Gate de autenticación" arriba). No avances sin él.
 1. **Resolver la marca, en orden de prioridad:**
-   - **Cliente (fuente de verdad):** leé el `CLAUDE.md` del cliente + `brand/brand.md` (tono), `brand/brand-kit.md` (paleta HEX, tipografía, do's & don'ts), `brand/logos/` (logo para header/footer).
+   - **Cliente (fuente de verdad):** leé el `CLAUDE.md` del cliente + `assets/brand-kit/brand.md` (tono), `assets/brand-kit/brand-kit.md` (paleta HEX, tipografía, do's & don'ts), `assets/logos/` (logo para header/footer).
    - **Indash (complemento):** `mcp__indash__get_brand_kit` para completar lo que falte (colores, logos del workspace).
    - **Fallback legacy:** si **no** hay contexto de cliente ni datos en Indash, recién ahí leé `brands/{marca}/brand.md` + `brands/{marca}/palette.md`.
 2. **Procesar input** → `instructions/01_input_processing.md`
@@ -91,14 +91,14 @@ Si falta algo crítico → preguntar **una sola vez** antes de generar. Ver `ins
 8. **Generar HTML** ensamblando los layouts elegidos con las imágenes generadas → `instructions/04_html_execution.md`
 9. **Validar** contra `eval/quality_checklist.md` antes de devolver
 10. **(Opcional)** Renderizar PNG corriendo `scripts/render.js` (Puppeteer)
-11. **Guardar en disco** los 3 HTML (+ 3 PNG si se renderizaron) + `brief.md` en `entregables/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/` — versionando, sin pisar. Ver "Output final" abajo. Mostrá igual en el chat y avisá la ruta.
+11. **Guardar en disco** los 3 HTML (+ 3 PNG si se renderizaron) + `brief.md` en `exports/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/` — versionando, sin pisar. Ver "Output final" abajo. Mostrá igual en el chat y avisá la ruta.
 
 ## Output final — persistencia en disco (no negociable)
 
-Los entregables se **guardan en disco además de mostrarse en el chat**. Van a `entregables/emails/` de la carpeta del cliente, en un subfolder versionado con el nombre canónico **`<AAAA-MM-DD>_<campaña-slug>_v<N>`** (sin `.html`):
+Los exports se **guardan en disco además de mostrarse en el chat**. Van a `exports/emails/` de la carpeta del cliente, en un subfolder versionado con el nombre canónico **`<AAAA-MM-DD>_<campaña-slug>_v<N>`** (sin `.html`):
 
 ```
-entregables/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/
+exports/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/
 ├── brief.md                      # brief interpretado + decisiones + URLs de imágenes generadas
 ├── variant_1_emotional.html
 ├── variant_1_emotional.png       # (opcional, si se renderiza con Puppeteer)
@@ -110,15 +110,15 @@ entregables/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/
 
 **Reglas de guardado (alineadas a la política del stack):**
 
-1. Si estás dentro de una carpeta de cliente (tiene `entregables/`), guardá ahí. Si no existe `entregables/emails/`, creala.
-2. Si **no** hay estructura de cliente en el directorio actual, guardá en `./entregables/emails/` del directorio de trabajo (creándolo) y avisá que conviene dar de alta el cliente con `new-client`.
+1. Si estás dentro de una carpeta de cliente (tiene `exports/`), guardá ahí. Si no existe `exports/emails/`, creala.
+2. Si **no** hay estructura de cliente en el directorio actual, guardá en `./exports/emails/` del directorio de trabajo (creándolo) y avisá que conviene dar de alta el cliente con `new-client`.
 3. `<AAAA-MM-DD>` = fecha del día. `<campaña-slug>` = la promo en kebab-case sin acentos (ej: "20% off Borrador" → `20off-borrador`). `v<N>` = versión: `v1` la primera.
 4. **Nunca pises un folder existente:** si `..._v1` ya existe, subí a `v2`, `v3`… (versiona, no pisa).
 5. Siempre mostrás el resultado en el chat **y además** lo guardás. Al entregar, decí en una línea la ruta donde quedó.
 
 Y en el mensaje al usuario:
 - Tabla subjects + preheaders + hipótesis
-- Ruta a archivos (el folder versionado en `entregables/emails/`)
+- Ruta a archivos (el folder versionado en `exports/emails/`)
 - Recomendación de A/B split
 - Próximo paso (cargar en Klaviyo / preview)
 
@@ -126,12 +126,12 @@ Y en el mensaje al usuario:
 
 1. **Nunca output genérico.** Si faltan datos concretos, preguntás.
 2. **Las 3 variantes son A/B testables de verdad** — ángulo + copy + hero distintos.
-3. **Tono SIEMPRE de la marca del cliente.** Leer el `CLAUDE.md` + `brand/brand.md` del cliente antes de escribir (fallback: `brands/{marca}/brand.md`). El contexto del cliente gana.
+3. **Tono SIEMPRE de la marca del cliente.** Leer el `CLAUDE.md` + `assets/brand-kit/brand.md` del cliente antes de escribir (fallback: `brands/{marca}/brand.md`). El contexto del cliente gana.
 4. **HTML email-safe:** tablas, inline CSS, 600px max. Ver `instructions/04_html_execution.md`.
 5. **Cada CTA = verbo + beneficio o urgencia.** "Comprar" NO. "Llevalo con 20% off" SÍ.
 6. **Imágenes con producto real.** Siempre usar `reference_image_urls` con las URLs de Indash. Nunca generar producto de cero si el producto existe en el workspace.
 7. **Gate del MCP `indash`:** si no está conectado, frená y pedilo. No improvises workarounds.
-8. **Persistencia:** guardá los 3 HTML (+ 3 PNG si se renderiza) en disco en `entregables/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/`, versionando (nunca pisar).
+8. **Persistencia:** guardá los 3 HTML (+ 3 PNG si se renderiza) en disco en `exports/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/`, versionando (nunca pisar).
 9. **Validar con `eval/quality_checklist.md` antes de devolver.**
 
 ## Extensibilidad
@@ -145,9 +145,9 @@ La marca primaria viene del **contexto del cliente** (`CLAUDE.md` + `brand/`), q
 
 Esto solo se usa cuando no hay contexto de cliente ni datos en Indash. El resto del skill no se toca.
 
-## Diferencia con `indash-b2b-mail`
+## Diferencia con `una futura skill B2B (no existe aún)`
 
 | Skill | Para qué | Tono | CTAs típicos |
 |---|---|---|---|
 | **`promo-mail-ecom`** (este) | Mails ecom B2C: Smud, Mouthe, Vits, etc. → su audiencia final | Brand-led, ritual / energético / aspiracional según marca | "Comprá en 3x2", "Llevalo con 20% off", "Armá tu ritual" |
-| **`indash-b2b-mail`** | Mails B2B de **Indash mismo** → founders / heads of growth / media buyers de ecom | Founder-to-founder, directo, anti-jargon | "Agendá 15 min", "Probalo gratis", "Activá en tu cuenta" |
+| **`una futura skill B2B (no existe aún)`** | Mails B2B de **Indash mismo** → founders / heads of growth / media buyers de ecom | Founder-to-founder, directo, anti-jargon | "Agendá 15 min", "Probalo gratis", "Activá en tu cuenta" |

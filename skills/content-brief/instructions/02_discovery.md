@@ -11,8 +11,8 @@ Verificá que el MCP `indash` esté disponible. Si no lo está, frená y pedí q
 La marca es la **fuente de verdad** y sale del contexto del cliente:
 
 - `CLAUDE.md` del cliente → identidad, voz, reglas, claims prohibidos.
-- `brand/brand.md` → narrativa y posicionamiento.
-- `brand/brand-kit.md` → paleta (hex), tipografía, do's & don'ts.
+- `assets/brand-kit/brand.md` → narrativa y posicionamiento.
+- `assets/brand-kit/brand-kit.md` → paleta (hex), tipografía, do's & don'ts.
 
 El MCP de Indash (`get_brand_kit`) complementa lo que falte; nunca pisa al `CLAUDE.md` del cliente. Si no hay carpeta de cliente, sugerí correr `new-client` y trabajá con lo que el user provea.
 

@@ -39,7 +39,7 @@ Esta skill **requiere el conector `indash` conectado y autenticado**. Es el que 
 1. **INTAKE** → leer `instructions/01_intake.md`. Validar inputs. Si falta algo requerido, preguntar antes de seguir.
 
 2. **BRAND EXTRACTION** → leer `instructions/02_brand_extraction.md`. Hacerlo **silencioso** — no mostrar el resumen al usuario, usarlo internamente.
-   - **Si la carpeta de trabajo es de un cliente** (tiene `CLAUDE.md` de marca y/o carpeta `brand/`), **PRIMERO heredá la marca de ahí**: el `CLAUDE.md` del cliente es el contexto canónico (paleta, tono, posicionamiento) y `brand/` aporta los assets (`brand/logos/`, `brand/typographies/`, `brand/brand-kit.md`, `brand/assets/`). El `CLAUDE.md` del cliente **gana** sobre cualquier default genérico o sobre lo inferido de las imágenes.
+   - **Si la carpeta de trabajo es de un cliente** (tiene `CLAUDE.md` de marca y/o carpeta `brand/`), **PRIMERO heredá la marca de ahí**: el `CLAUDE.md` del cliente es el contexto canónico (paleta, tono, posicionamiento) y `brand/` aporta los assets (`assets/logos/`, `assets/fonts/`, `assets/brand-kit/brand-kit.md`, `assets/brand-kit/`). El `CLAUDE.md` del cliente **gana** sobre cualquier default genérico o sobre lo inferido de las imágenes.
    - **Después, usá el MCP de Indash como complemento**: si está disponible, llamá `get_brand_kit` y `get_style_references` del workspace para completar lo que falte (paleta exacta, refs de estilo). El MCP no pisa al `CLAUDE.md` del cliente; lo enriquece.
    - Si **no** hay carpeta de cliente, la marca sale del brand kit del MCP + lo extraído de las imágenes de referencia del input (nunca de prejuicios sobre la categoría).
 
@@ -54,7 +54,7 @@ Esta skill **requiere el conector `indash` conectado y autenticado**. Es el que 
 7. **GENERATION** → leer `instructions/05_image_prompting.md` + `instructions/06_meta_copy.md`. Aplicar `style/tone_of_voice.md` + `style/writing_rules.md`.
    - Construir el prompt internamente siguiendo el skeleton.
    - **Llamar al MCP de Indash** (`mcp__indash__generate_image`) para generar la imagen final (una llamada por variación, en paralelo cuando sea posible). Adjuntar las imágenes de referencia del input según corresponda vía `reference_image_urls` (producto desde `get_product_images`).
-   - **Descargar cada imagen generada a una carpeta persistente** (NO `/tmp` porque se borra). Si la carpeta no existe, crearla. Ubicación según la convención del stack (ver "Persistencia del entregable" abajo): las imágenes van en la subcarpeta hermana del `.md` del entregable, `entregables/ads/<AAAA-MM-DD>_<producto-slug>_v<N>/<vN>-<angulo>.png`.
+   - **Descargar cada imagen generada a una carpeta persistente** (NO `/tmp` porque se borra). Si la carpeta no existe, crearla. Ubicación según la convención del stack (ver "Persistencia del entregable" abajo): las imágenes van en la subcarpeta hermana del `.md` del entregable, `exports/ads/<AAAA-MM-DD>_<producto-slug>_v<N>/<vN>-<angulo>.png`.
    - **Renderizar cada imagen inline** llamando a `Read` con el path local antes de armar el bloque de copy. **CRÍTICO**: re-renderizar las imágenes en el bloque de entrega final, no solo en los pasos intermedios — el usuario ve el chat lineal y necesita las imágenes pegadas al copy.
    - Si la llamada al MCP falla → reportar error claro al usuario y entregar el prompt como fallback para que pueda generar manualmente.
    - Usar `templates/output_static.md` o `templates/output_carousel.md` para armar la entrega visual.
@@ -67,14 +67,14 @@ Esta skill **requiere el conector `indash` conectado y autenticado**. Es el que 
 
 Cada corrida **se muestra en el chat Y se guarda en disco** — nunca solo una de las dos. Convención del stack:
 
-- **Dónde**: dentro de la carpeta del cliente, en `entregables/ads/`. Si esa subcarpeta no existe, creala. Si **no** estás dentro de una carpeta de cliente (no hay `entregables/`), guardá en `./entregables/ads/` del directorio actual y avisale al user que conviene dar de alta el cliente con `new-client` para tener todo ordenado.
+- **Dónde**: dentro de la carpeta del cliente, en `exports/ads/`. Si esa subcarpeta no existe, creala. Si **no** estás dentro de una carpeta de cliente (no hay `exports/`), guardá en `./exports/ads/` del directorio actual y avisale al user que conviene dar de alta el cliente con `new-client` para tener todo ordenado.
 - **Nombre del `.md`**: **`<AAAA-MM-DD>_<producto-slug>_v<N>.md`**
   - `<AAAA-MM-DD>` = fecha del día.
   - `<producto-slug>` = nombre del producto en kebab-case, sin acentos (ej: "Pack Starter" → `pack-starter`).
   - `v<N>` = versión: `v1` la primera, subí el número en cada regeneración del mismo producto/día. **Nunca pises un archivo existente** — si el nombre ya existe, subí la versión.
   - Para A/B con ángulos distintos en la misma corrida, usá sufijo `-A` / `-B` (ej: `2026-06-17_pack-starter_v1-A.md`).
 - **Contenido del `.md`**: el entregable completo (las variaciones con su copy de Meta y referencias a las imágenes). Es la versión persistida de lo que mostraste en el chat.
-- **Imágenes generadas**: van en una subcarpeta con el **mismo nombre del `.md` sin la extensión**: `entregables/ads/<AAAA-MM-DD>_<producto-slug>_v<N>/`. Cada imagen con nombre `<vN>-<angulo>.png`. Es la misma carpeta a la que las descargás en el paso de GENERATION.
+- **Imágenes generadas**: van en una subcarpeta con el **mismo nombre del `.md` sin la extensión**: `exports/ads/<AAAA-MM-DD>_<producto-slug>_v<N>/`. Cada imagen con nombre `<vN>-<angulo>.png`. Es la misma carpeta a la que las descargás en el paso de GENERATION.
 
 ## Reglas duras
 - NUNCA generar prompts/copy sin confirmación previa del concepto.
@@ -84,7 +84,7 @@ Cada corrida **se muestra en el chat Y se guarda en disco** — nunca solo una d
 - SIEMPRE indicar qué imagen del input adjuntar al modelo de imagen y con qué rol.
 - SIEMPRE respetar los límites de caracteres de Meta (contar y mostrar el conteo).
 - SIEMPRE renderizar las imágenes inline en la entrega final (no solo links).
-- SIEMPRE guardar el entregable en disco en `entregables/ads/` con el nombre canónico `<AAAA-MM-DD>_<producto-slug>_v<N>.md`, además de mostrarlo. Nunca pisar; versionar.
+- SIEMPRE guardar el entregable en disco en `exports/ads/` con el nombre canónico `<AAAA-MM-DD>_<producto-slug>_v<N>.md`, además de mostrarlo. Nunca pisar; versionar.
 - SIEMPRE requerir el MCP `indash` conectado antes de arrancar. Si no está, frenar y pedirlo (no improvisar).
 - SIEMPRE que la carpeta sea de un cliente, heredar la marca de su `CLAUDE.md` + `brand/` primero; el MCP complementa, no pisa al `CLAUDE.md`.
 

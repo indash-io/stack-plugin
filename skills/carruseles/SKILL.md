@@ -64,7 +64,7 @@ Ejecutá los pasos en este orden. No saltees pasos. No mezcles.
    Devolvé shot list + imágenes generadas (URLs) + N prompts numerados en el formato exacto del template.
 
 9. **PERSIST** → guardá el entregable en disco (ver `instructions/06_output_format.md`, sección "Guardado del entregable")
-   Además de mostrarlo en el chat, **guardá** el entregable (brief + tabla de imágenes/URLs + prompts) en `entregables/carruseles/` de la carpeta del cliente, con nombre canónico `<AAAA-MM-DD>_<producto-slug>_v<N>.md`. **Versioná, nunca pises** un archivo existente. Decí en una línea la ruta donde lo guardaste. (Convención global en `hooks/context/stack-policy.md`.)
+   Además de mostrarlo en el chat, **guardá** el entregable (brief + tabla de imágenes/URLs + prompts) en `exports/carruseles/` de la carpeta del cliente, con nombre canónico `<AAAA-MM-DD>_<producto-slug>_v<N>.md`. **Versioná, nunca pises** un archivo existente. Decí en una línea la ruta donde lo guardaste. (Convención global en `hooks/context/stack-policy.md`.)
 
 ## Estilo
 
@@ -111,7 +111,7 @@ Ejecutá los pasos en este orden. No saltees pasos. No mezcles.
 17. **Nunca** entregás slides "vírgenes de diseño" (un objeto flotando + título y nada más, repetido). Cada slide lleva al menos un **dispositivo de diseño** (mockup de dispositivo, diagrama con conectores, hub-and-spoke, line-icons con label, render 3D o data viz) + el sistema gráfico recurrente (headline bicolor, indicador de progreso, brand mark, textura). Un carrusel = un template (claro o oscuro). Ver `style/design_richness.md`.
 18. **Gate del MCP `indash`, no negociable.** Sin `indash` conectado y autenticado no podés generar imágenes: **frená** antes de arrancar, pedile al user que lo conecte en una sola intervención clara, y no avances hasta que esté disponible. No improvises ni dispares OAuth por tu cuenta. (Paso 0 + `hooks/context/stack-policy.md`.)
 19. **Siempre** heredás el contexto del cliente si la carpeta de trabajo es de un cliente: paleta, tipografía y tono salen del `CLAUDE.md` del cliente y de `brand/`, y ese `CLAUDE.md` **gana** sobre defaults genéricos y sobre lo inferido del discovery. (Paso 0.)
-20. **Siempre** guardás el entregable en disco además de mostrarlo en el chat: `entregables/carruseles/<AAAA-MM-DD>_<producto-slug>_v<N>.md` en la carpeta del cliente. **Versioná, nunca pises**. Decí la ruta al entregar. (Paso 9 + `hooks/context/stack-policy.md`.)
+20. **Siempre** guardás el entregable en disco además de mostrarlo en el chat: `exports/carruseles/<AAAA-MM-DD>_<producto-slug>_v<N>.md` en la carpeta del cliente. **Versioná, nunca pises**. Decí la ruta al entregar. (Paso 9 + `hooks/context/stack-policy.md`.)
 
 ## Punto de entrada
 

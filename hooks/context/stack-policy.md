@@ -24,15 +24,15 @@ Cada skill tiene su `SKILL.md` con el workflow completo: **seguilo al pie de la 
 
 ### MCPs del stack — gate de autenticación (lo más importante)
 
-El stack depende de estos 5 conectores. Tratálos como requeridos para el trabajo de las skills:
+El conector **`indash` es REQUERIDO**: marca, productos y TODA la generación de imagen/video de las skills pasan por él. Los demás son **opcionales según la tarea** — usalos cuando el trabajo los pida, no los exijas de antemano:
 
-| Conector | Para qué se usa |
-|---|---|
-| `indash` | Datos y operaciones propias de Indash |
-| `higgsfield` | Generación de imagen/video (nano banana, Sora, Veo, Kling, Flux) |
-| `google-drive` | Lectura/escritura de archivos y entregables |
-| `notion` | Documentación, briefs y bases de conocimiento de clientes |
-| `apify` | Scraping robusto de URLs de producto y datos web |
+| Conector | Estado | Para qué se usa |
+|---|---|---|
+| `indash` | **requerido** | Marca, productos, generación de imagen/video, drive de creatives |
+| `notion` | opcional | Briefs y bases de conocimiento de clientes (fuente de verdad de copy) |
+| `google-drive` | opcional | Archivos que el cliente comparte por Drive |
+| `apify` | opcional | Scraping robusto de URLs de producto |
+| `higgsfield` | opcional | Generación alternativa; las skills usan `indash` por default |
 
 **Regla del gate, no negociable:**
 
@@ -54,46 +54,49 @@ Si la carpeta de trabajo actual corresponde a un cliente y contiene su propio `C
 
 Esta convención es **global**: igual para todos los clientes, en toda sesión. No se decide por sesión ni se redefine en el `CLAUDE.md` de cada cliente — vive acá. Lo que cambia por cliente (marca, tono, paleta) va en su `CLAUDE.md`; **dónde y cómo se guardan los archivos** va acá.
 
-**Estructura estándar de una carpeta de cliente** (la crea la skill `new-client`):
+**Estructura estándar de una carpeta de cliente** (la crea la skill `new-client`; es la **convención unificada del stack**: la misma carpeta es un proyecto del **Indash Studio**, así que el editor la abre nativo):
 
 ```
 <cliente-slug>/
   CLAUDE.md                  Contexto de marca del cliente (fuente de verdad)
-  brand/
-    brand.md                 Narrativa de marca (qué es, posicionamiento, tono)
-    brand-kit.md             Resumen estructurado: paleta (hex), tipografía, do's & don'ts
+  creatives/                 Scene graphs JSON del Indash Studio (editor de piezas)
+  assets/
     logos/                   TODOS los logos
-    typographies/            TODAS las tipografías (archivos de fuente)
-    assets/                  Brand kit crudo / guidelines (PDF, etc.)
-  productos/
-    index.md                 Catálogo traído del MCP de Indash (nombre + URL + imagen)
-    referencias/             Imágenes de referencia por producto
-  entregables/
+    fonts/                   TODAS las tipografías (archivos de fuente)
+    brand-kit/               Brand kit: brand.md (narrativa), brand-kit.md
+                             (resumen: paleta hex, tipografía, do's & don'ts)
+                             + guidelines crudas (PDF, etc.)
+    products/                index.md (catálogo del MCP de Indash: nombre + URL
+                             + imagen) + imágenes de referencia por producto
+    references/              Referencias de estilo / competidores
+  exports/
     carruseles/              Salida de carruseles
     stories/                 Salida de stories-nano-banana
     ads/                     Salida de ads (Meta)
     videos/                  Salida de ugc-video-prompts y seedance-multishot
     emails/                  Salida de email-marketing-ecomm
   briefs/                    Briefs del período (content-brief) y notas del cliente
+  versions/                  Snapshots de creatives (los maneja el Studio)
+  .indash/                   PRIVADO del Studio (comments, sesión) — NO lo toques
 ```
 
-Assets de marca: se **descargan del MCP de Indash** (la brand cargada en la app). Si la marca no está en Indash, el user pasa los archivos a mano (PDF del brand kit, logos, fuentes) y van a la carpeta de `brand/` que corresponda. Logos → `brand/logos/`, tipografías → `brand/typographies/`, brand kit crudo → `brand/assets/`. Nunca inventes assets que no existen.
+Assets de marca: se **descargan del MCP de Indash** (la brand cargada en la app). Si la marca no está en Indash, el user pasa los archivos a mano (PDF del brand kit, logos, fuentes) y van a la carpeta de `assets/` que corresponda. Logos → `assets/logos/`, tipografías → `assets/fonts/`, brand kit crudo y sus .md → `assets/brand-kit/`. Nunca inventes assets que no existen.
 
 **Nomenclatura de entregables — no negociable:**
 
-- **Todo** entregable de las skills de ejecución (carruseles, stories, ads, videos, emails) y los briefs de período se **guardan en disco** (no solo se muestran en el chat) dentro de `entregables/<tipo>/` (o `briefs/`) de la carpeta del cliente.
+- **Todo** entregable de las skills de ejecución (carruseles, stories, ads, videos, emails) y los briefs de período se **guardan en disco** (no solo se muestran en el chat) dentro de `exports/<tipo>/` (o `briefs/`) de la carpeta del cliente.
 - Nombre del archivo: **`<AAAA-MM-DD>_<slug>_v<N>.md`**
   - `<AAAA-MM-DD>` = fecha del día.
   - `<slug>` = identificador de la pieza en kebab-case, sin acentos: el producto ("Solar 04" → `solar-04`), la campaña, el concepto de video o el período, según la skill.
   - `v<N>` = versión; `v1` la primera, subí el número en cada regeneración del mismo slug/día.
   - A/B → sufijo `-A` / `-B` (ej: `2026-06-17_solar-04_v1-A.md`).
-- Los assets generados de ese set (imágenes, frames, clips, HTML/PNG) van en una subcarpeta con el **mismo nombre sin `.md`**: `entregables/carruseles/2026-06-17_solar-04_v1/`.
-- Mapa de tipo → carpeta: carruseles → `entregables/carruseles/`, stories → `entregables/stories/`, ads → `entregables/ads/`, videos (UGC y seedance) → `entregables/videos/`, emails → `entregables/emails/`, brief de período → `briefs/`.
+- Los assets generados de ese set (imágenes, frames, clips, HTML/PNG) van en una subcarpeta con el **mismo nombre sin `.md`**: `exports/carruseles/2026-06-17_solar-04_v1/`.
+- Mapa de tipo → carpeta: carruseles → `exports/carruseles/`, stories → `exports/stories/`, ads → `exports/ads/`, videos (UGC y seedance) → `exports/videos/`, emails → `exports/emails/`, brief de período → `briefs/`.
 
 **Reglas de guardado:**
 
-1. Si estás trabajando **dentro de una carpeta de cliente** (tiene `entregables/`), guardá ahí. Si no existe la subcarpeta del tipo, creala.
-2. Si **no** hay estructura de cliente en el directorio actual, guardá en `./entregables/<tipo>/` del directorio de trabajo (creándolo) y avisale al user que conviene dar de alta el cliente con `new-client` para tener todo ordenado.
+1. Si estás trabajando **dentro de una carpeta de cliente** (tiene `exports/` o `CLAUDE.md` de cliente), guardá ahí. Si no existe la subcarpeta del tipo, creala.
+2. Si **no** hay estructura de cliente en el directorio actual, guardá en `./exports/<tipo>/` del directorio de trabajo (creándolo) y avisale al user que conviene dar de alta el cliente con `new-client` para tener todo ordenado.
 3. **Siempre** mostrás el resultado en el chat **y además** lo guardás con el nombre canónico. Al entregar, decí en una línea dónde lo guardaste (la ruta).
 4. **Nunca** pises un archivo existente: si el nombre ya existe, subí la versión (`v2`, `v3`…).
 

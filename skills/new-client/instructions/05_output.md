@@ -10,7 +10,7 @@ Cerrás el onboarding mostrando lo que quedó creado y los próximos pasos. Acá
 2. **Estado del onboarding** — qué quedó completo y qué quedó pendiente:
    - ✅ Estructura de carpetas
    - ✅ / ⚠️ Assets de marca (cuántos logos / tipografías / brand kit se guardaron en `brand/`, y de dónde salieron: Indash o user)
-   - ✅ / ⚠️ `CLAUDE.md` + `brand/brand.md` + `brand/brand-kit.md` (marcá qué campos quedaron como placeholder)
+   - ✅ / ⚠️ `CLAUDE.md` + `assets/brand-kit/brand.md` + `assets/brand-kit/brand-kit.md` (marcá qué campos quedaron como placeholder)
    - ✅ / ⚠️ Índice de productos (cuántos productos se trajeron de Indash, o por qué quedó vacío)
 3. **Pendientes accionables** — la lista de placeholders que un humano tiene que completar (ej: conectar Indash, pasar links de Drive/Notion, confirmar paleta).
 
@@ -21,7 +21,7 @@ Cerrás el onboarding mostrando lo que quedó creado y los próximos pasos. Acá
 Cerrá explicando cómo producir contenido para este cliente. Algo así:
 
 > Listo, **{cliente}** quedó dado de alta en `{slug}/`. Para producir contenido, trabajá dentro de esa carpeta (así se hereda el contexto de marca) y pedime:
-> - **Carrusel** → "Armá un carrusel para {producto}" → dispara `carrusel-nano-banana` (4:5).
+> - **Carrusel** → "Armá un carrusel para {producto}" → dispara `carruseles` (4:5).
 > - **Stories** → "Necesito stories para {producto}" → dispara `stories-nano-banana` (9:16).
 >
 > Ambas necesitan **URL del producto + imagen de referencia** — los dos ya los tenés en el índice de productos. La paleta y tipografía del `CLAUDE.md` mandan sobre cualquier default.

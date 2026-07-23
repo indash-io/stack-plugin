@@ -20,7 +20,7 @@ El brief puede venir en cualquier formato. Tu trabajo es extraer estos campos.
 | `segment` | "all subscribers" |
 | `secondary_products` | vacío (solo hero) |
 | `discount_code` | vacío (link directo) |
-| `free_shipping_threshold` | tomar del contexto del cliente (`CLAUDE.md` / `brand/brand.md`) si existe; fallback `brands/{marca}/brand.md` |
+| `free_shipping_threshold` | tomar del contexto del cliente (`CLAUDE.md` / `assets/brand-kit/brand.md`) si existe; fallback `brands/{marca}/brand.md` |
 | `social_proof` | usar solo si el `brand.md` del cliente lo valida (fallback `brands/{marca}/brand.md`) |
 | `language` | `es-AR` (voseo) — override consciente si la marca pide otro |
 
@@ -32,7 +32,7 @@ Una vez identificado el `featured_product` del brief:
 2. **`mcp__indash__get_product_images`** → traer URLs reales del producto. Guardar las primeras 2-3 URLs (las mejores).
 3. Las URLs se usan como `reference_image_urls` en `mcp__indash__generate_image` cuando se generen las imágenes de hero / lifestyle.
 
-**Atajo:** si el contexto del cliente tiene `productos/index.md` (lo arma `new-client` desde el MCP de Indash) y el producto del brief matchea, usá ese `product_id` directo y saltá `list_products`. En modo fallback legacy, los `product_id` semilla viven cacheados en `brands/{marca}/brand.md` bajo `indash_product_ids`.
+**Atajo:** si el contexto del cliente tiene `assets/products/index.md` (lo arma `new-client` desde el MCP de Indash) y el producto del brief matchea, usá ese `product_id` directo y saltá `list_products`. En modo fallback legacy, los `product_id` semilla viven cacheados en `brands/{marca}/brand.md` bajo `indash_product_ids`.
 
 ## Regla: NUNCA inventar datos duros
 
@@ -40,7 +40,7 @@ Prohibido inventar:
 - Precios específicos
 - Stock real ("quedan 12")
 - Testimonios con nombre completo
-- Stats que no estén validados en el contexto de marca del cliente (`CLAUDE.md` / `brand/brand.md`; fallback `brands/{marca}/brand.md`)
+- Stats que no estén validados en el contexto de marca del cliente (`CLAUDE.md` / `assets/brand-kit/brand.md`; fallback `brands/{marca}/brand.md`)
 - Códigos de descuento que no estén en el brief
 
 Si el brief no los tiene → lenguaje cualitativo ("stock limitado", "+100.000 clientas" solo si la marca lo valida).
@@ -55,7 +55,7 @@ Si el usuario dice "dale, decidí vos", asumir defaults y avisar en `brief.md`.
 
 ## Slug del folder de output
 
-Formato canónico: `<AAAA-MM-DD>_<campaña-slug>_v<N>` (kebab-case, sin acentos). Se guarda dentro de `entregables/emails/` de la carpeta del cliente (ver SKILL.md → "Output final"). Versiona, no pisa.
+Formato canónico: `<AAAA-MM-DD>_<campaña-slug>_v<N>` (kebab-case, sin acentos). Se guarda dentro de `exports/emails/` de la carpeta del cliente (ver SKILL.md → "Output final"). Versiona, no pisa.
 
 Ejemplos:
 - `2026-05-05_20off-smud_v1`

@@ -4,23 +4,23 @@ Cómo se entrega el output final al usuario.
 
 ## Estructura de carpeta
 
-Se guarda en `entregables/emails/` de la carpeta del cliente, en un subfolder versionado con el nombre canónico:
+Se guarda en `exports/emails/` de la carpeta del cliente, en un subfolder versionado con el nombre canónico:
 
 ```
-entregables/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/
+exports/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/
 ```
 
 Ejemplos:
-- `entregables/emails/2026-06-02_20off-smud-borrador-vello_v1/`
-- `entregables/emails/2026-04-23_3x2-ice-roller_v1/`
-- `entregables/emails/2026-11-28_bfcm-smud_v2/`
+- `exports/emails/2026-06-02_20off-smud-borrador-vello_v1/`
+- `exports/emails/2026-04-23_3x2-ice-roller_v1/`
+- `exports/emails/2026-11-28_bfcm-smud_v2/`
 
-**Versiona, no pisa:** si el folder `..._v1` ya existe, subí a `v2`, `v3`… Nunca sobreescribas un entregable existente. Si no hay estructura de cliente en el directorio actual, guardá en `./entregables/emails/` del CWD y avisá que conviene onboardear con `new-client`.
+**Versiona, no pisa:** si el folder `..._v1` ya existe, subí a `v2`, `v3`… Nunca sobreescribas un entregable existente. Si no hay estructura de cliente en el directorio actual, guardá en `./exports/emails/` del CWD y avisá que conviene onboardear con `new-client`.
 
 ## Archivos dentro
 
 ```
-entregables/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/
+exports/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/
 ├── brief.md                      # brief interpretado + decisiones + URLs de imágenes generadas
 ├── variant_1_emotional.html      # HTML listo para Klaviyo/Mailchimp/Customer.io
 ├── variant_1_emotional.png       # preview renderizado (opcional, render con Puppeteer)

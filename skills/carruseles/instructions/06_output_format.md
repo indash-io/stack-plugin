@@ -198,8 +198,8 @@ El entregable **no solo se muestra en el chat: también se guarda en disco**. Es
 **Qué se guarda**: el output completo de esta sección — brief creativo + tabla slide-by-slide + tabla de imágenes generadas (URLs) + los N prompts. Es el mismo markdown que mostrás en el chat.
 
 **Dónde**:
-- Si estás **dentro de una carpeta de cliente** (tiene `entregables/`): guardá en `entregables/carruseles/`. Si la subcarpeta `carruseles/` no existe, creala.
-- Si **no** hay estructura de cliente en el directorio actual: guardá en `./entregables/carruseles/` del directorio de trabajo (creándolo) y avisale al user que conviene dar de alta el cliente con `new-client` para tener todo ordenado.
+- Si estás **dentro de una carpeta de cliente** (tiene `exports/`): guardá en `exports/carruseles/`. Si la subcarpeta `carruseles/` no existe, creala.
+- Si **no** hay estructura de cliente en el directorio actual: guardá en `./exports/carruseles/` del directorio de trabajo (creándolo) y avisale al user que conviene dar de alta el cliente con `new-client` para tener todo ordenado.
 
 **Nombre del archivo (canónico)**: `<AAAA-MM-DD>_<producto-slug>_v<N>.md`
 - `<AAAA-MM-DD>` = fecha del día.
@@ -207,7 +207,7 @@ El entregable **no solo se muestra en el chat: también se guarda en disco**. Es
 - `v<N>` = versión: `v1` la primera; subí el número en cada regeneración del mismo producto/día.
 - A/B → sufijo `-A` / `-B` (ej: `2026-06-17_solar-04_v1-A.md` y `..._v1-B.md`).
 
-**Imágenes generadas (si las guardás en disco)**: van en una subcarpeta con el **mismo nombre sin `.md`**: `entregables/carruseles/2026-06-17_solar-04_v1/`.
+**Imágenes generadas (si las guardás en disco)**: van en una subcarpeta con el **mismo nombre sin `.md`**: `exports/carruseles/2026-06-17_solar-04_v1/`.
 
 **Reglas de guardado**:
 1. **Siempre** mostrás el resultado en el chat **y además** lo guardás con el nombre canónico.

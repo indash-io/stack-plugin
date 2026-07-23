@@ -66,9 +66,9 @@ El plugin tiene tres familias de skills:
 
 - **Onboarding / planificación**: `new-client` (crea la estructura del cliente, baja marca + productos del MCP de Indash, escribe el `CLAUDE.md` de marca) y `content-brief` (arma el brief del período y orquesta a las de ejecución). No tienen `style/` de prompts; sus templates son de scaffolding/brief.
 - **Contenido visual de Instagram**: `carruseles` (genera las imágenes vía MCP, elige modelo por slide) y `stories-nano-banana`. Comparten el esqueleto intake → discovery → decisions → concept → prompts → output. Al tocar una, fijate si aplica a la otra.
-- **Otras piezas de performance**: `ads` (Meta), `ugc-video-prompts` y `seedance-multishot` (video), `email-marketing-ecomm`. Varias se importaron de skills externas y se alinearon a la convención del stack (gate, persistencia en `entregables/<tipo>/`, herencia de marca del cliente).
+- **Otras piezas de performance**: `ads` (Meta), `ugc-video-prompts` y `seedance-multishot` (video), `email-marketing-ecomm`. Varias se importaron de skills externas y se alinearon a la convención del stack (gate, persistencia en `exports/<tipo>/`, herencia de marca del cliente).
 
-**Convención transversal que comparten todas**: aplican el gate del MCP `indash`, heredan la marca del `CLAUDE.md` + `brand/` del cliente, y **guardan el entregable en disco** en `entregables/<tipo>/` (o `briefs/`) con nombre `<AAAA-MM-DD>_<slug>_v<N>.md`. Esa convención vive en `hooks/context/stack-policy.md` (fuente única) y se inyecta en cada sesión — no la dupliques por skill.
+**Convención transversal que comparten todas**: aplican el gate del MCP `indash`, heredan la marca del `CLAUDE.md` + `brand/` del cliente, y **guardan el entregable en disco** en `exports/<tipo>/` (o `briefs/`) con nombre `<AAAA-MM-DD>_<slug>_v<N>.md`. Esa convención vive en `hooks/context/stack-policy.md` (fuente única) y se inyecta en cada sesión — no la dupliques por skill.
 
 ---
 
@@ -134,3 +134,12 @@ Chequea: JSON de config parsean y tienen campos mínimos, frontmatter de cada `S
 ## Contexto por cliente (cuando se usa, no cuando se edita)
 
 Esto aplica al **uso** del stack, no al desarrollo, pero conviene tenerlo presente: si la carpeta de trabajo de un cliente tiene su propio `CLAUDE.md`, ese es el contexto canónico del cliente (marca, tono, paleta) y **gana** sobre defaults genéricos. La política completa está en `hooks/context/stack-policy.md`.
+
+## Releases
+
+- **Un solo número de versión**: `plugin.json` y `marketplace.json` (metadata)
+  deben decir lo mismo. Al release: bump en ambos + entrada en `CHANGELOG.md`
+  + tag `v<version>` en el merge a main.
+- La convención de carpetas de cliente vive en `docs/project-structure.md`
+  (fuente canónica) y se inyecta vía `hooks/context/stack-policy.md` — si
+  cambia una, cambia la otra.

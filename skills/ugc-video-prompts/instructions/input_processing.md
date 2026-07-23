@@ -8,8 +8,8 @@ Parsear el pedido del usuario antes de cualquier otra cosa. Si falta algún camp
 
 Si la carpeta de trabajo actual es la de un cliente del stack (tiene un `CLAUDE.md` de marca y/o una carpeta `brand/`), **ese es el contexto canónico**:
 
-- Heredá marca, tono de voz, paleta (hex) y tipografía de su `CLAUDE.md` y de `brand/brand-kit.md` / `brand/brand.md`. Eso **gana** sobre los defaults genéricos de esta skill — incluido el **acento argentino default**: si el `CLAUDE.md` del cliente define un acento/mercado (ej: mexicano, español de España), ese manda.
-- Usá los assets reales del cliente cuando existan: logos en `brand/logos/`, foto de producto en `productos/referencias/` o el `productos/index.md` traído de Indash. No inventes assets que no existen.
+- Heredá marca, tono de voz, paleta (hex) y tipografía de su `CLAUDE.md` y de `assets/brand-kit/brand-kit.md` / `assets/brand-kit/brand.md`. Eso **gana** sobre los defaults genéricos de esta skill — incluido el **acento argentino default**: si el `CLAUDE.md` del cliente define un acento/mercado (ej: mexicano, español de España), ese manda.
+- Usá los assets reales del cliente cuando existan: logos en `assets/logos/`, foto de producto en `assets/products/` o el `assets/products/index.md` traído de Indash. No inventes assets que no existen.
 - **Un entregable = un cliente.** No mezcles contexto entre clientes.
 - Si **no** hay `CLAUDE.md` de cliente, la estética sale del discovery (URL + referencias adjuntas), nunca de prejuicios sobre la categoría.
 
