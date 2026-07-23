@@ -8,13 +8,13 @@ Acá entregás. Después de Concept + Prompt Generation + Self-check + **Generat
 
 La secuencia de stories **se guarda en disco además de mostrarse en el chat**, siguiendo la convención de carpetas y nomenclatura del stack (definida en la política del stack, inyectada en cada sesión):
 
-- **Dónde**: dentro de la carpeta del cliente, en `entregables/stories/`. Si trabajás dentro de una carpeta de cliente y no existe esa subcarpeta, creala. Si no hay estructura de cliente, guardá en `./entregables/stories/` del directorio actual y sugerí dar de alta el cliente con `new-client`.
+- **Dónde**: dentro de la carpeta del cliente, en `exports/stories/`. Si trabajás dentro de una carpeta de cliente y no existe esa subcarpeta, creala. Si no hay estructura de cliente, guardá en `./exports/stories/` del directorio actual y sugerí dar de alta el cliente con `new-client`.
 - **Nombre del archivo**: `<AAAA-MM-DD>_<producto-slug>_v<N>.md`
   - `<producto-slug>` = nombre del producto en kebab-case sin acentos (ej: "Solar 04" → `solar-04`).
   - `v<N>` = versión; `v1` la primera, subí el número en cada regeneración del mismo producto/día. **Nunca pises un archivo existente** — si el nombre ya existe, subí la versión.
   - A/B → sufijo `-A` / `-B` (ej: `2026-06-17_solar-04_v1-A.md`).
 - **Qué guardás**: exactamente el mismo contenido markdown que mostrás (brief + tabla story-by-story con stickers + tabla de imágenes generadas con URLs + prompts + notas).
-- **Imágenes generadas (si las bajás a disco)**: van en una subcarpeta con el **mismo nombre sin `.md`**: `entregables/stories/2026-06-17_solar-04_v1/`.
+- **Imágenes generadas (si las bajás a disco)**: van en una subcarpeta con el **mismo nombre sin `.md`**: `exports/stories/2026-06-17_solar-04_v1/`.
 - **Al entregar**: mostrás el output en el chat **y** decís en una línea la ruta donde lo guardaste.
 
 ---

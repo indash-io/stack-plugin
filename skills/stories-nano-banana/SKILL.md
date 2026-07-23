@@ -65,7 +65,7 @@ Ejecutá los pasos en este orden. No saltees pasos. No mezcles.
    Devolvé shot list (con stickers) + imágenes generadas (URLs) + N prompts numerados en el formato exacto del template.
 
 9. **PERSIST** → guardá el entregable en disco (ver `instructions/06_output_format.md`, sección "Persistencia")
-   Además de mostrarlo en el chat, **guardá** el entregable (brief + tabla story-by-story con stickers + tabla de imágenes/URLs + prompts) en `entregables/stories/` de la carpeta del cliente, con nombre canónico `<AAAA-MM-DD>_<producto-slug>_v<N>.md`. **Versioná, nunca pises** un archivo existente. Decí en una línea la ruta donde lo guardaste. (Convención global en `hooks/context/stack-policy.md`.)
+   Además de mostrarlo en el chat, **guardá** el entregable (brief + tabla story-by-story con stickers + tabla de imágenes/URLs + prompts) en `exports/stories/` de la carpeta del cliente, con nombre canónico `<AAAA-MM-DD>_<producto-slug>_v<N>.md`. **Versioná, nunca pises** un archivo existente. Decí en una línea la ruta donde lo guardaste. (Convención global en `hooks/context/stack-policy.md`.)
 
 ## Estilo
 
@@ -115,7 +115,7 @@ Ejecutá los pasos en este orden. No saltees pasos. No mezcles.
 20. **Agnóstico** por marca, vertical y categoría. No asumas estética por nicho — la estética sale del discovery, no de prejuicios sobre la categoría.
 21. **Siempre** proponés un **modo visual** explícito en Decisions: Minimalista (default), Lifestyle cinematográfico, o A+B paralelo si el user pide ambos para A/B testing. Una secuencia = un modo, sin mezclar entre stories. Los parámetros canónicos de cada modo viven en `style/visual_modes.md`.
 22. **Siempre** componés el texto on-image de forma **creativa**: variás placement entre stories (cabezal / pie / centro / desplazado / wrap / doble peso), dirigís tratamientos de imagen (blur, scrim, grade, vignette, letterbox) cuando el fondo compite con el texto, y nunca clonás placement entre las N stories de una secuencia. La sola dimensión "tercio superior central" no alcanza — eso es el punto de partida, no la respuesta. Detalles, estrategias y bad examples viven en `style/text_composition.md`.
-23. **Siempre** guardás el entregable en disco además de mostrarlo: `entregables/stories/<AAAA-MM-DD>_<producto-slug>_v<N>.md`, sin pisar versiones previas (subí `v<N>`). Detalle en `instructions/06_output_format.md`.
+23. **Siempre** guardás el entregable en disco además de mostrarlo: `exports/stories/<AAAA-MM-DD>_<producto-slug>_v<N>.md`, sin pisar versiones previas (subí `v<N>`). Detalle en `instructions/06_output_format.md`.
 
 ## Punto de entrada
 

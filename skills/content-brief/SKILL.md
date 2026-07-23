@@ -66,7 +66,7 @@ El brief no genera el contenido final — lo **planifica** y deriva a la skill c
 ## Reglas no-negociables
 
 1. **Siempre** heredás voz, reglas y paleta del `CLAUDE.md` del cliente + `brand/`. El contexto del cliente gana sobre defaults.
-2. **Siempre** aplicás el gate del MCP `indash` antes de traer productos/marca. Si no está conectado, frenás y lo pedís — no inventás productos ni claims.
+2. **Siempre** aplicás el gate del MCP `indash` antes de traer assets/products/marca. Si no está conectado, frenás y lo pedís — no inventás productos ni claims.
 3. **Siempre** confirmás el mix de piezas con el user (paso 3) antes de detallar. Una sola pregunta consolidada con defaults.
 4. **Nunca** inventás features, precios ni claims del producto. Si la marca tiene reglas (ej: "cuotas sin precio", "sin preventa"), las respetás al pie.
 5. **Siempre** cada pieza declara su **funnel** (frío / tibio / caliente) y su **formato**.

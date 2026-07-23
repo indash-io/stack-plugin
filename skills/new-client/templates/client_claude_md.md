@@ -31,8 +31,8 @@ El bloque de abajo (entre las líneas de corte) es lo que va dentro del archivo 
   - > ⚠️ Si está vacío: completar desde logo/sitio/brand kit.
 - **Tipografía:** {familia + características: serif/sans, peso, contraste — o ⚠️ PENDIENTE}
 - **Estética / mood:** {editorial / lifestyle / minimal / heritage / … — o ⚠️ PENDIENTE}
-- **Material de marca**: logos en `brand/logos/`, tipografías en `brand/typographies/`, brand kit crudo en `brand/assets/`.
-- **Más contexto**: narrativa en `brand/brand.md`, ficha técnica en `brand/brand-kit.md`.
+- **Material de marca**: logos en `assets/logos/`, tipografías en `assets/fonts/`, brand kit crudo en `assets/brand-kit/`.
+- **Más contexto**: narrativa en `assets/brand-kit/brand.md`, ficha técnica en `assets/brand-kit/brand-kit.md`.
 
 ## Links operativos
 
@@ -43,7 +43,7 @@ El bloque de abajo (entre las líneas de corte) es lo que va dentro del archivo 
 
 ## Catálogo
 
-Los productos viven en `productos/index.md` (traídos del MCP de Indash). Cada uno tiene nombre + URL + imagen de referencia — los dos inputs que piden las skills de contenido.
+Los productos viven en `assets/products/index.md` (traídos del MCP de Indash). Cada uno tiene nombre + URL + imagen de referencia — los dos inputs que piden las skills de contenido.
 
 ## Reglas del cliente
 
@@ -53,10 +53,10 @@ Los productos viven en `productos/index.md` (traídos del MCP de Indash). Cada u
 ## Cómo producir contenido para este cliente
 
 - Trabajá **dentro de esta carpeta** para heredar este contexto.
-- **Carrusel** (4:5) → skill `carrusel-nano-banana`, con la URL + imagen del producto.
+- **Carrusel** (4:5) → skill `carruseles`, con la URL + imagen del producto.
 - **Stories** (9:16) → skill `stories-nano-banana`, con la URL + imagen del producto.
 - La **paleta y tipografía de este archivo mandan** sobre cualquier default de las skills.
-- Entregables → `entregables/carruseles/` y `entregables/stories/`.
+- Entregables → `exports/carruseles/` y `exports/stories/`.
 ```
 
 ---8<--- hasta acá ---8<---

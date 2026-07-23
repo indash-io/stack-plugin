@@ -72,7 +72,7 @@ Sin esto, el modelo improvisa una trayectoria genérica.
 | `resolution` | **1080p** | 480p destruye el motion blur fino, queda jelly. |
 | `generate_audio` | **true** | FPV sin whoosh + impact sound queda muerto. |
 
-**Nota MCP**: hoy el MCP de indash NO expone `fps`, `temporal_smoothing`, `creativity_scale`, `resolution`. Hasta que se exponga (ver MCP_GAPS_PROPOSAL.md), forzar estos params verbalmente dentro del prompt: `"shot at 30fps, low temporal smoothing, heavy motion blur preserved"`. El modelo lo respeta parcialmente.
+**Nota MCP**: hoy el MCP de indash NO expone `fps`, `temporal_smoothing`, `creativity_scale`, `resolution`. Hasta que se exponga (ver la documentación del MCP de Indash), forzar estos params verbalmente dentro del prompt: `"shot at 30fps, low temporal smoothing, heavy motion blur preserved"`. El modelo lo respeta parcialmente.
 
 ---
 

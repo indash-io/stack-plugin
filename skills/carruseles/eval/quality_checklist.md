@@ -122,7 +122,7 @@ Corré este sub-check **slide por slide**:
 
 ---
 
-## Sección 6 — Reglas no-negociables (de skill.md)
+## Sección 6 — Reglas no-negociables (de SKILL.md)
 
 - [ ] Se preguntó al user **antes** de generar (paso 3 Decisions).
 - [ ] Output incluye **shot list + prompts** (no solo prompts pelados).

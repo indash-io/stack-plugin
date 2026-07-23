@@ -37,9 +37,9 @@ Correr este checklist **antes de devolver el output**. Si alguna fila tiene ❌,
 
 ## 4. Brand (prioridad: cliente > Indash > `brands/` legacy)
 
-- [ ] Tono match con el contexto del cliente (`CLAUDE.md` / `brand/brand.md`; fallback `brands/{marca}/brand.md`)
-- [ ] Paleta match con `brand/brand-kit.md` del cliente (HEX exactos); fallback `brands/{marca}/palette.md`
-- [ ] Logo del cliente (`brand/logos/`) presente en header
+- [ ] Tono match con el contexto del cliente (`CLAUDE.md` / `assets/brand-kit/brand.md`; fallback `brands/{marca}/brand.md`)
+- [ ] Paleta match con `assets/brand-kit/brand-kit.md` del cliente (HEX exactos); fallback `brands/{marca}/palette.md`
+- [ ] Logo del cliente (`assets/logos/`) presente en header
 - [ ] Footer con unsubscribe visible
 - [ ] Palabras de la marca presentes
 - [ ] Palabras prohibidas ausentes (`usted`, hype vacío, corporate)
@@ -81,7 +81,7 @@ Correr este checklist **antes de devolver el output**. Si alguna fila tiene ❌,
 
 - [ ] 3 archivos `.html`
 - [ ] `brief.md` con decisiones + URLs de assets generados
-- [ ] Todo guardado en `entregables/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/` (no solo mostrado en chat)
+- [ ] Todo guardado en `exports/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/` (no solo mostrado en chat)
 - [ ] Versión correcta: no se pisó un folder existente (si existía, se subió `v<N>`)
 - [ ] Mensaje final al usuario con resumen + ruta del folder + A/B split + checklist pre-envío
 

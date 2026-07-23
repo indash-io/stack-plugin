@@ -1,11 +1,7 @@
 ---
-name: Cinematografic Video
-description: Generate production-ready Seedance 2.0 multi-shot video prompts for B2B paid creative, demos, organic social, and brand films. Acts as a paid creative strategist with cinematographic vocabulary. Output is the prompt only — indash handles the API call.
+name: seedance-multishot
+description: Prompts multi-shot cinematográficos para Seedance 2.0 (film/paid B2B, demos, orgánico): actúa como estratega creativo senior con vocabulario cinematográfico y entrega el prompt timeline por shots — o el video generado vía el MCP de Indash si está conectado. Disparala cuando pidan "video multi-shot", "video cinematográfico", "brand film", "seedance" o equivalente.
 language: es
-role: senior paid creative strategist with cinematographic direction skills, working inside indash (B2B SaaS for content creation)
-model_target: Seedance 2.0 (only)
-input: short concept + optional visual refs (image URLs / video URLs / audio URLs)
-output: Seedance 2.0 multi-shot prompt (timeline-prompted, shot-numbered) in EN or ES
 ---
 
 # Seedance Multi-Shot Skill — Orchestrator
@@ -70,7 +66,7 @@ Read these files in order before producing anything. **Si el modo es `single_sho
 
 **Nota:** el user siempre provee producto + URL + imagen de referencia en el brief. No se corre discovery automático del workspace de indash — confiar en lo que el user pasa.
 
-**Contexto de cliente (heredá marca antes de strategize):** si la carpeta de trabajo actual es de un cliente (tiene `CLAUDE.md` de marca y/o `brand/`), ese `CLAUDE.md` es el contexto canónico — marca, tono, paleta, tipografía, do's & don'ts — y **gana** sobre cualquier default genérico de esta skill. Leelo (y `brand/brand-kit.md` / `brand/brand.md` si existen) antes de decidir lenguaje de cámara, tono del video y dirección visual. Si hay assets de marca en `brand/logos/` o `brand/typographies/` relevantes para el render, referencialos como refs. No mezcles contexto entre clientes: un video = un cliente. Si no hay `CLAUDE.md` de cliente, la estética sale del brief + imagen de referencia, nunca de prejuicios sobre la categoría.
+**Contexto de cliente (heredá marca antes de strategize):** si la carpeta de trabajo actual es de un cliente (tiene `CLAUDE.md` de marca y/o `brand/`), ese `CLAUDE.md` es el contexto canónico — marca, tono, paleta, tipografía, do's & don'ts — y **gana** sobre cualquier default genérico de esta skill. Leelo (y `assets/brand-kit/brand-kit.md` / `assets/brand-kit/brand.md` si existen) antes de decidir lenguaje de cámara, tono del video y dirección visual. Si hay assets de marca en `assets/logos/` o `assets/fonts/` relevantes para el render, referencialos como refs. No mezcles contexto entre clientes: un video = un cliente. Si no hay `CLAUDE.md` de cliente, la estética sale del brief + imagen de referencia, nunca de prejuicios sobre la categoría.
 
 ### 2. Analyze
 Apply `instructions/analysis.md` to the user input. Extract:
@@ -155,7 +151,7 @@ Para cada toma del shot list (de `strategy.md`):
 - Disparar video corto (5.2, duración por toma).
 - Polear (5.3).
 
-Después: stitching externo (el MCP no lo expone hoy — ver `MCP_GAPS_PROPOSAL.md` gap F). Si no hay stitcher disponible, entregar al user las N URLs en orden + nota de cómo concatenarlas en CapCut / Premiere / ffmpeg.
+Después: stitching externo (el MCP no lo expone hoy — ver `la documentación del MCP de Indash` gap F). Si no hay stitcher disponible, entregar al user las N URLs en orden + nota de cómo concatenarlas en CapCut / Premiere / ffmpeg.
 
 **Costo**: N veces lo de single_shot_premium. Confirmar con el user antes de ejecutar.
 
@@ -178,13 +174,13 @@ Quickly cross-check against `examples/good/` (does mine match that quality bar?)
 ### 8. Persistir el entregable (siempre, además de mostrarlo)
 El output final **se muestra en el chat Y se guarda en disco** — no es opcional. Lo que se guarda depende del modo: en `prompt_only`, el shot list / prompt; en `single_shot_premium` y `stitched_multishot`, un `.md` con la URL (o las N URLs) del video + el motion prompt + la línea de contexto.
 
-- **Dónde:** en `entregables/videos/` de la carpeta del cliente. Si la subcarpeta no existe, creala.
+- **Dónde:** en `exports/videos/` de la carpeta del cliente. Si la subcarpeta no existe, creala.
 - **Nombre del archivo (no negociable):** `<AAAA-MM-DD>_<concepto-slug>_v<N>.md`
   - `<AAAA-MM-DD>` = fecha del día.
   - `<concepto-slug>` = el concepto/producto en kebab-case, sin acentos (ej. "Solar 04 demo" → `solar-04-demo`).
   - `v<N>` = versión: `v1` la primera; **versioná, no pises** — si el nombre ya existe, subí a `v2`, `v3`… A/B → sufijo `-A` / `-B`.
-- **Assets** (frames 0 generados, videos descargados, refs auxiliares) van en una subcarpeta homónima sin `.md`: `entregables/videos/2026-06-17_solar-04-demo_v1/`.
-- Si **no** hay estructura de cliente en el directorio actual, guardá en `./entregables/videos/` del directorio de trabajo (creándolo) y avisale al user que conviene dar de alta el cliente con `new-client` para tener todo ordenado.
+- **Assets** (frames 0 generados, videos descargados, refs auxiliares) van en una subcarpeta homónima sin `.md`: `exports/videos/2026-06-17_solar-04-demo_v1/`.
+- Si **no** hay estructura de cliente en el directorio actual, guardá en `./exports/videos/` del directorio de trabajo (creándolo) y avisale al user que conviene dar de alta el cliente con `new-client` para tener todo ordenado.
 - Al entregar, decí en una línea exactamente dónde lo guardaste (la ruta).
 
 ---
@@ -241,9 +237,9 @@ Cuando se activa FPV:
 - **Ref maximization is a hard ASK**: after the gate passes, walk every anticipated shot, classify ref gaps, and ASK the user (provide / I generate via Nano Banana / skip). Do not strategize before the user resolves each gap. See `instructions/ref_maximization.md`.
 - **Polling discipline (MCP)**: nunca llamar `generate_video` dos veces para el mismo pedido. Polear con `get_video_result` cada ~30s. Si llega `error`, reportar y NO reintentar sin diagnóstico — cada render cuesta créditos.
 - **Cost awareness (MCP)**: confirmar con el user antes de gastar en modos `single_shot_premium` y especialmente `stitched_multishot`. Reusar frames 0 entre variantes cuando se hagan A/B tests (1 imagen + N videos > N imágenes + N videos).
-- **Honestidad sobre lo que el MCP NO soporta**: el MCP de indash hoy no expone multi-reference de 9 imágenes, ni `creativity_scale`, ni timeline multi-shot interno, ni 21:9/4:5. Si el brief lo pide, decírselo al user — no fingir que se entrega. Ver `MCP_GAPS_PROPOSAL.md` en la raíz del proyecto.
+- **Honestidad sobre lo que el MCP NO soporta**: el MCP de indash hoy no expone multi-reference de 9 imágenes, ni `creativity_scale`, ni timeline multi-shot interno, ni 21:9/4:5. Si el brief lo pide, decírselo al user — no fingir que se entrega. Ver `la documentación del MCP de Indash` en la raíz del proyecto.
 - **Two layers in the output**: operator-facing (strategist context + REFS A SUBIR callout) above a `---` divider, model-facing prompt (header + shots + References + Audio + api_params) below it.
-- **Persistencia (HARD)**: el entregable final (shot list o URL del video) **siempre** se guarda en disco además de mostrarse en el chat, en `entregables/videos/<AAAA-MM-DD>_<concepto-slug>_v<N>.md` de la carpeta del cliente, versionando sin pisar (ver paso 8). Assets en la subcarpeta homónima.
+- **Persistencia (HARD)**: el entregable final (shot list o URL del video) **siempre** se guarda en disco además de mostrarse en el chat, en `exports/videos/<AAAA-MM-DD>_<concepto-slug>_v<N>.md` de la carpeta del cliente, versionando sin pisar (ver paso 8). Assets en la subcarpeta homónima.
 - **Contexto de cliente (HARD)**: si hay `CLAUDE.md` de cliente y/o `brand/` en la carpeta de trabajo, heredá marca/tono/paleta de ahí — gana sobre defaults de la skill (ver paso 1). Un video = un cliente.
 - **UGC stitched consistency (HARD)**: cuando hay persona + producto en 2+ shots stitched, aplicar las 3 reglas de `reference/ugc_stitched_consistency.md` (identity lock sentence verbatim, multi-ref con portrait crop primero, product scale anchor numérico). Saltearlas = drift de cara y/o escala de producto. Ver `examples/bad/ugc_stitched_character_drift.md` por el caso real que disparó esta regla.
 

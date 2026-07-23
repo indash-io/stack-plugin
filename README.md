@@ -118,9 +118,9 @@ Pedile a Claude en lenguaje natural — las skills se disparan solas cuando el p
    - **Video** → *"Armá un UGC / video para `<producto>`"* → `ugc-video-prompts` o `seedance-multishot`.
    - **Email** → *"Armá un mail promo para `<marca>`"* → `email-marketing-ecomm`.
 
-Las skills de producto necesitan **URL de producto + imagen de referencia** (si onboardeaste con `new-client`, ya los tenés en `productos/index.md`). Si falta algo, la skill te lo pide y frena. Antes de generar te hace **una sola pregunta consolidada** con defaults; confirmás o editás, y recién ahí genera. Todo entregable se **guarda** en `entregables/<tipo>/` (o `briefs/`) con nombre `<AAAA-MM-DD>_<slug>_v<N>`.
+Las skills de producto necesitan **URL de producto + imagen de referencia** (si onboardeaste con `new-client`, ya los tenés en `assets/products/index.md`). Si falta algo, la skill te lo pide y frena. Antes de generar te hace **una sola pregunta consolidada** con defaults; confirmás o editás, y recién ahí genera. Todo entregable se **guarda** en `exports/<tipo>/` (o `briefs/`) con nombre `<AAAA-MM-DD>_<slug>_v<N>`.
 
-El output siempre es: **shot list / brief creativo** + **N prompts numerados** listos para pegar en nano banana junto a la imagen del producto. Además de mostrarlo en el chat, **se guarda en disco** dentro de la carpeta del cliente, en `entregables/carruseles/` o `entregables/stories/`, con el nombre canónico `<AAAA-MM-DD>_<producto-slug>_v<N>.md` (versiona solo, no pisa). Así queda todo ordenado y trazable sin pensar la nomenclatura cada vez.
+El output siempre es: **shot list / brief creativo** + **N prompts numerados** listos para pegar en nano banana junto a la imagen del producto. Además de mostrarlo en el chat, **se guarda en disco** dentro de la carpeta del cliente, en `exports/carruseles/` o `exports/stories/`, con el nombre canónico `<AAAA-MM-DD>_<producto-slug>_v<N>.md` (versiona solo, no pisa). Así queda todo ordenado y trazable sin pensar la nomenclatura cada vez.
 
 ---
 
@@ -134,7 +134,7 @@ Las skills funcionan igual en cualquier carpeta — lo único que cambia es el c
 clientes/
   cliente-acme/
     CLAUDE.md        ← contexto de Acme (marca, tono, paleta, links)
-    entregables/
+    exports/
   cliente-beta/
     CLAUDE.md        ← contexto de Beta
     ...

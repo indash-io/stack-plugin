@@ -14,10 +14,10 @@ Esto instala Puppeteer (Chromium headless) en ~200MB. Solo hace falta una vez.
 Desde la raíz del skill:
 
 ```bash
-node scripts/render.js entregables/emails/2026-04-23_3x2-ice-roller_v1
+node scripts/render.js exports/emails/2026-04-23_3x2-ice-roller_v1
 ```
 
-(El script toma cualquier carpeta con `.html` como argumento; los entregables viven en `entregables/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/` de la carpeta del cliente.)
+(El script toma cualquier carpeta con `.html` como argumento; los exports viven en `exports/emails/<AAAA-MM-DD>_<campaña-slug>_v<N>/` de la carpeta del cliente.)
 
 El script toma todos los `.html` de la carpeta y genera un `.png` full-page para cada uno, en la misma carpeta.
 

@@ -1,6 +1,6 @@
 # 04 — Client Context (el CLAUDE.md del cliente)
 
-Escribís el `CLAUDE.md` del cliente: **la fuente de verdad de marca** que `carrusel-nano-banana` y `stories-nano-banana` heredan al trabajar en esta carpeta. Usá `templates/client_claude_md.md` como base.
+Escribís el `CLAUDE.md` del cliente: **la fuente de verdad de marca** que `carruseles` y `stories-nano-banana` heredan al trabajar en esta carpeta. Usá `templates/client_claude_md.md` como base.
 
 ---
 
@@ -25,8 +25,8 @@ Según la política del stack, cuando la carpeta de trabajo tiene un `CLAUDE.md`
 
 En este paso también escribís los dos `.md` de marca dentro de `brand/`. Son complementos, no reemplazan al `CLAUDE.md`:
 
-- **`brand/brand.md`** — narrativa legible de la marca (qué es, posicionamiento, audiencia, tono, estética). Usá `templates/brand_md.md`.
-- **`brand/brand-kit.md`** — resumen estructurado y operativo: paleta con hex, tipografía (familia + características), do's & don'ts. Es lo que las skills consultan rápido.
+- **`assets/brand-kit/brand.md`** — narrativa legible de la marca (qué es, posicionamiento, audiencia, tono, estética). Usá `templates/brand_md.md`.
+- **`assets/brand-kit/brand-kit.md`** — resumen estructurado y operativo: paleta con hex, tipografía (familia + características), do's & don'ts. Es lo que las skills consultan rápido.
 
 El `CLAUDE.md` es el operativo (manda sobre defaults); `brand.md` es el "quién es"; `brand-kit.md` es la ficha técnica. Los tres salen del mismo brief de Discovery — no te contradigas entre ellos. Lo que no sepas, placeholder explícito en los tres.
 
@@ -40,7 +40,7 @@ El `CLAUDE.md` es el operativo (manda sobre defaults); `brand.md` es el "quién 
 - **Links operativos**: sitio, Drive, Notion, handle/ID en Indash.
 - **Catálogo**: puntero al índice de productos de la carpeta.
 - **Reglas del cliente**: claims que NO se pueden hacer, restricciones legales, do's & don'ts si los hay.
-- **Cómo producir contenido para este cliente**: recordatorio de que se usan las skills del stack (`carrusel-nano-banana`, `stories-nano-banana`) con la URL + imagen de cada producto, y que la paleta/tipografía de este archivo manda.
+- **Cómo producir contenido para este cliente**: recordatorio de que se usan las skills del stack (`carruseles`, `stories-nano-banana`) con la URL + imagen de cada producto, y que la paleta/tipografía de este archivo manda.
 
 ---
 

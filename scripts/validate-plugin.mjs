@@ -80,13 +80,23 @@ for (const skill of skills) {
   }
   const content = readFileSync(skillMd, "utf8");
 
-  // Frontmatter YAML mínimo
+  // Frontmatter YAML mínimo + name debe coincidir con la carpeta (evita el
+  // caso "Cinematografic Video" de la 0.3: nombre roto que no matchea nada).
   const fm = content.match(/^---\n([\s\S]*?)\n---/);
   if (!fm) {
     fail(`skills/${skill}/SKILL.md: falta el frontmatter (---)`);
   } else {
     if (!/^name:\s*\S/m.test(fm[1])) fail(`skills/${skill}/SKILL.md: frontmatter sin "name"`);
     if (!/^description:\s*\S/m.test(fm[1])) fail(`skills/${skill}/SKILL.md: frontmatter sin "description"`);
+    const nameMatch = fm[1].match(/^name:\s*(\S.*)$/m);
+    if (nameMatch && nameMatch[1].trim() !== skill) {
+      fail(`skills/${skill}/SKILL.md: frontmatter name "${nameMatch[1].trim()}" no coincide con la carpeta "${skill}"`);
+    }
+  }
+
+  // `skill.md` en minúscula rompe en Linux/CI (el archivo real es SKILL.md).
+  if (/`skill\.md`|\bskill\.md\b/.test(content.replaceAll("SKILL.md", ""))) {
+    fail(`skills/${skill}/SKILL.md: menciona "skill.md" en minúscula (es SKILL.md, case-sensitive)`);
   }
 
   // Referencias a archivos/carpetas INTERNAS de la skill: tokens entre backticks
@@ -110,9 +120,30 @@ for (const skill of skills) {
     if (!existsSync(target)) {
       fail(`skills/${skill}/SKILL.md → referencia rota: \`${ref}\` (no existe ${rel(target)})`);
       brokenInSkill++;
+    } else if (!caseExactExists(target)) {
+      // macOS es case-insensitive: existsSync pasa pero Linux/CI rompe.
+      fail(`skills/${skill}/SKILL.md → referencia con case incorrecto: \`${ref}\``);
+      brokenInSkill++;
     }
   }
   if (!brokenInSkill) pass(`skills/${skill}: ${refs.size} referencias verificadas, frontmatter OK`);
+}
+
+/** existsSync con case EXACTO (macOS es case-insensitive; Linux no). */
+function caseExactExists(target) {
+  const parts = rel(target).split("/").filter(Boolean);
+  let current = ROOT;
+  for (const part of parts) {
+    let entries;
+    try {
+      entries = readdirSync(current);
+    } catch {
+      return false;
+    }
+    if (!entries.includes(part)) return false;
+    current = join(current, part);
+  }
+  return true;
 }
 
 // --- 4. Hook de SessionStart apunta a un archivo real --------------------

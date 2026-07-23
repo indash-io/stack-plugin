@@ -32,7 +32,7 @@ Con el MCP `indash` conectado, traé el catálogo del cliente:
 
 > Las herramientas exactas del MCP de Indash se autodescubren al estar conectado. Usá las que correspondan para resolver cliente → productos. No asumas nombres de tools; mirá las que estén disponibles.
 
-Esto alimenta `templates/product_index.md`. **La URL + imagen de cada producto son justamente los dos inputs que después piden `carrusel-nano-banana` y `stories-nano-banana`** — por eso las capturás bien acá.
+Esto alimenta `templates/product_index.md`. **La URL + imagen de cada producto son justamente los dos inputs que después piden `carruseles` y `stories-nano-banana`** — por eso las capturás bien acá.
 
 ---
 
@@ -40,9 +40,9 @@ Esto alimenta `templates/product_index.md`. **La URL + imagen de cada producto s
 
 El objetivo es que `brand/` quede poblado con TODO el material de marca, cada cosa en su lugar fijo:
 
-- **Logos** → `brand/logos/`
-- **Tipografías** (archivos de fuente: .otf/.ttf/.woff) → `brand/typographies/`
-- **Brand kit crudo / guidelines** (PDF u otros) → `brand/assets/`
+- **Logos** → `assets/logos/`
+- **Tipografías** (archivos de fuente: .otf/.ttf/.woff) → `assets/fonts/`
+- **Brand kit crudo / guidelines** (PDF u otros) → `assets/brand-kit/`
 
 ### Orden de búsqueda
 
@@ -52,13 +52,13 @@ El objetivo es que `brand/` quede poblado con TODO el material de marca, cada co
    > La marca de **{cliente}** no está cargada en Indash. Si tenés el brand kit (un PDF), los logos o las tipografías, pasámelos y los dejo ordenados en `brand/`. Si no, dejo esos campos como pendientes.
 
    Cuando el user pase archivos:
-   - Logos → `brand/logos/`
-   - Fuentes → `brand/typographies/`
-   - PDF del brand kit / guidelines → `brand/assets/`
+   - Logos → `assets/logos/`
+   - Fuentes → `assets/fonts/`
+   - PDF del brand kit / guidelines → `assets/brand-kit/`
    - De ese material extraés paleta y tipografía para el `brand-kit.md` y el `CLAUDE.md`.
 3. **Si no hay ni Indash ni archivos**, dejá `brand/` con sus `.gitkeep` y marcá los campos de marca como `⚠️ PENDIENTE` — **no inventes** logos, fuentes ni paleta.
 
-> No descargues nada que no sea de marca acá. Las imágenes de **producto** van en `productos/referencias/`, no en `brand/`.
+> No descargues nada que no sea de marca acá. Las imágenes de **producto** van en `assets/products/`, no en `brand/`.
 
 ---
 
@@ -93,9 +93,9 @@ ESTETICA / MOOD: [una palabra o "pendiente"]
 PALETA: [colores + hex, o "pendiente"]
 TIPOGRAFIA: [familia + características, o "pendiente"]
 ASSETS DE MARCA:
-  - LOGOS: [cantidad guardada en brand/logos/ y fuente (Indash / user) o "pendiente"]
-  - TIPOGRAFIAS: [archivos en brand/typographies/ o "pendiente"]
-  - BRAND KIT: [archivo en brand/assets/ o "pendiente"]
+  - LOGOS: [cantidad guardada en assets/logos/ y fuente (Indash / user) o "pendiente"]
+  - TIPOGRAFIAS: [archivos en assets/fonts/ o "pendiente"]
+  - BRAND KIT: [archivo en assets/brand-kit/ o "pendiente"]
 PRODUCTOS (desde Indash):
   - [nombre] — [URL] — [imagen] — [categoría/precio]
   - ...
