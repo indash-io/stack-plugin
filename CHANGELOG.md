@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.0 — 2026-07-27
+
+**F4: el plugin es la fuente única de skills.** Nuevo `core/skills/` con el
+canon compartido del stack (prompt-craft con las 7 leyes + EDIT vs GENERATE +
+refs por modelo, y los formatos ig-carousel / ig-story / ig-stories-secuencia
+/ ig-post). Las `default-skills` del agente interno de la web (mkt-agents)
+pasan a ser copias GENERADAS de acá (script de sync en ese repo). Las
+aplicaciones en `skills/*/instructions/05_prompt_engineering.md` declaran que
+core gana ante conflicto. Validador cubre también `core/skills/`. Regla de
+release en `core/README.md`.
+
 ## 0.4.0 — 2026-07-23
 
 **Convención de carpetas unificada (breaking para carpetas existentes).** La
