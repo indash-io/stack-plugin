@@ -65,6 +65,33 @@ if (marketplace) {
 
 // --- 2 + 3. Skills: frontmatter + referencias ----------------------------
 const skillsDir = join(ROOT, "skills");
+// core/skills = el canon compartido (F4): mismas reglas de validación.
+const coreSkillsDir = join(ROOT, "core", "skills");
+const coreSkills = existsSync(coreSkillsDir)
+  ? readdirSync(coreSkillsDir)
+      .filter((d) => statSync(join(coreSkillsDir, d)).isDirectory())
+      .map((d) => ({ name: d, dir: join(coreSkillsDir, d), label: `core/skills/${d}` }))
+  : [];
+for (const core of coreSkills) {
+  const md = join(core.dir, "SKILL.md");
+  if (!existsSync(md)) {
+    fail(`${core.label}: falta SKILL.md`);
+    continue;
+  }
+  const content = readFileSync(md, "utf8");
+  const fm = content.match(/^---\n([\s\S]*?)\n---/);
+  if (!fm) {
+    fail(`${core.label}/SKILL.md: falta el frontmatter (---)`);
+  } else {
+    const nameMatch = fm[1].match(/^name:\s*(\S.*)$/m);
+    if (nameMatch && nameMatch[1].trim().replace(/^"|"$/g, "") !== core.name) {
+      fail(`${core.label}/SKILL.md: frontmatter name no coincide con la carpeta`);
+    } else {
+      pass(`${core.label}: canon OK`);
+    }
+  }
+}
+
 const skills = existsSync(skillsDir)
   ? readdirSync(skillsDir).filter((d) => statSync(join(skillsDir, d)).isDirectory())
   : [];

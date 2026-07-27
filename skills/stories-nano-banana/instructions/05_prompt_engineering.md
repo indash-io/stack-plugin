@@ -1,5 +1,10 @@
 # 05 — Prompt Engineering para Nano Banana
 
+> **Canon**: este archivo es la *aplicación* de las leyes de
+> `core/skills/prompt-craft/SKILL.md` (la fuente única del stack) a este
+> workflow. Ante un conflicto de fondo, core gana — actualizá acá la
+> aplicación, nunca redefinas la ley.
+
 Este archivo no repite el template. El template (`templates/prompt_template.md`) define **qué** poner en el prompt. Este archivo define **por qué** y **cómo** funcionan los prompts en nano banana, para que escribas con criterio en lugar de rellenar campos.
 
 ---

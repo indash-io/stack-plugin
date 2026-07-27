@@ -1,5 +1,10 @@
 # 05 — Prompt Engineering (nano-banana + gpt-image)
 
+> **Canon**: este archivo es la *aplicación* de las leyes de
+> `core/skills/prompt-craft/SKILL.md` (la fuente única del stack) a este
+> workflow. Ante un conflicto de fondo, core gana — actualizá acá la
+> aplicación, nunca redefinas la ley.
+
 Este archivo no repite el template. El template (`templates/prompt_template.md`) define **qué** poner en el prompt — las 9 dimensiones obligatorias en orden fijo aplican para **ambos modelos**. Este archivo define **cómo** escribir el prompt según el modelo elegido en Decisions para `instructions/07_generation.md`, porque **nano-banana y gpt-image responden a estímulos distintos**.
 
 **Regla**: el modelo se eligió en el paso 3 (Decisions). En el paso 5 escribís el prompt **aplicando las leyes del modelo elegido para ese slide**. No mezcles: un prompt nano-banana corrido en gpt-image, o al revés, degrada el resultado.
