@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.6.0 — 2026-07-28
+
+**`indash` pasa a OAuth. Se acabó el `INDASH_TOKEN`.** El conector era el
+único del stack que se autenticaba con un header `Authorization: Bearer
+${INDASH_TOKEN}`, y eso obligaba a cada usuario a generar una API key en la
+app y setear una variable de entorno antes de poder hacer nada. Ahora el
+`.mcp.json` no lleva `headers`: Claude Code recibe el 401 del server, hace el
+discovery por `/.well-known`, se registra solo y abre el browser. Instalar el
+plugin y conectarse es `/plugin install` + `/mcp`.
+
+- El token queda guardado y se refresca solo (access 1h, refresh 30d con
+  rotación). Si caduca, `/mcp` ofrece *Re-authenticate*.
+- **Migración:** nadie tiene que hacer nada. Podés borrar `INDASH_TOKEN` de tu
+  `~/.zshrc` o de tu `settings.json` — ya no se lee.
+- La API key sigue existiendo como camino **secundario** para entornos
+  headless donde no hay browser (CI efímero). Se registra el server aparte con
+  `claude mcp add --header`, nunca en el `.mcp.json` del plugin: un header
+  explícito desactiva el flujo OAuth para todo el mundo.
+
 ## 0.5.0 — 2026-07-27
 
 **F4: el plugin es la fuente única de skills.** Nuevo `core/skills/` con el

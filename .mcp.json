@@ -2,10 +2,7 @@
   "mcpServers": {
     "indash": {
       "type": "http",
-      "url": "https://www.indash.ai/api/mcp",
-      "headers": {
-        "Authorization": "Bearer ${INDASH_TOKEN}"
-      }
+      "url": "https://www.indash.ai/api/mcp"
     },
     "higgsfield": {
       "type": "http",

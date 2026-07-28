@@ -81,7 +81,7 @@ El plugin tiene tres familias de skills:
 - Toda ruta referenciada en el SKILL.md debe existir (lo verifica el validador).
 
 ### MCPs (`.mcp.json`)
-- Los tokens **nunca** se hardcodean: van por variable de entorno (`${INDASH_TOKEN}`). El resto de los conectores es OAuth (sin secreto en el repo).
+- **Los 5 conectores son OAuth y ninguno lleva `headers` en el `.mcp.json`.** No hay secretos ni variables de entorno en el repo, y tampoco hay que agregarlas: un `headers.Authorization` explícito **desactiva** el flujo OAuth (el cliente nunca recibe el 401 que dispara el discovery, y si el token es inválido el server queda `failed` en vez de caer a OAuth). Si alguna vez hace falta autenticar por API key para un entorno headless, se registra el server aparte con `claude mcp add --header`, nunca acá.
 - Si agregás/sacás un conector, actualizá la lista en **tres lugares a la vez** (ver regla de sincronización abajo).
 
 ### Política del stack (`hooks/context/stack-policy.md`)
