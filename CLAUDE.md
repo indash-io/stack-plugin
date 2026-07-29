@@ -4,6 +4,29 @@
 
 > Si estás buscando **cómo usar** el stack (instalar, generar carruseles/stories), eso está en `README.md`.
 
+### El stack cruza dos repos
+
+Este repo es **el cliente**: el plugin que se instala en Claude Code (skills, política del hook, `.mcp.json`). **El servidor está en `indash-io/mkt-agents`**: el MCP de Indash, su auth OAuth, el gate económico, la generación real y el billing. Si la respuesta que buscás no está acá, está allá:
+
+| Buscás… | Está en `indash-io/mkt-agents` |
+|---|---|
+| Estado y plan del stack completo (audit, fases F0→F4) | `docs/agents/mcp-stack-professionalization.md` — **la fuente de verdad** |
+| Mapa visual de todo el stack en una pantalla | `docs/agents/stack-map.excalidraw` |
+| Qué hace cada tool del MCP, transportes, resolución de workspace | `packages/indash-mcp/README.md` |
+| Cómo se cobran las generaciones (créditos, refunds) | `docs/agents/billing.md` |
+| Cómo se autentica el conector `indash` (OAuth 2.1, DCR, PKCE) | `apps/web/app/api/oauth/*` y `app/.well-known/oauth-*` |
+
+**Tres cosas se rompen en silencio si tocás un solo lado:**
+
+1. **`core/skills/` es la fuente única de skills.** Las copias en
+   `apps/web/lib/data/default-skills/` de mkt-agents son **generadas** — allá se
+   regeneran con `bun run scripts/sync-default-skills.ts <path-a-este-repo>`.
+   Si cambiás el canon acá, hay que correrlo y abrir PR allá.
+2. **Las tools que invocan las skills** viven allá. Si allá renombran o sacan
+   una tool, las skills de acá que la llaman quedan rotas.
+3. **El `.mcp.json` de acá decide cómo se autentica el usuario contra el server
+   de allá.** Un `headers.Authorization` acá desactiva el flujo OAuth de allá.
+
 ---
 
 ## Modelo mental: cómo funciona un plugin de Claude Code
