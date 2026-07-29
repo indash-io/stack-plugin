@@ -12,8 +12,14 @@ plugin y conectarse es `/plugin install` + `/mcp`.
 
 - El token queda guardado y se refresca solo (access 1h, refresh 30d con
   rotación). Si caduca, `/mcp` ofrece *Re-authenticate*.
-- **Migración:** nadie tiene que hacer nada. Podés borrar `INDASH_TOKEN` de tu
-  `~/.zshrc` o de tu `settings.json` — ya no se lee.
+- **Migración: un login único por máquina.** Al actualizar a 0.6.0, el
+  conector deja de mandar el header y todavía no hay token OAuth guardado,
+  así que Claude Code marca `indash` como "necesita autenticación" y te avisa
+  al arrancar: `/mcp` → `indash` → login. De ahí en adelante es automático.
+  Después podés borrar `INDASH_TOKEN` de tu `~/.zshrc` o de tu
+  `settings.json` — ya no se lee.
+- **Nada se rompe solo:** las API keys siguen siendo válidas del lado del
+  server. Quien se quede en 0.5.0 sigue funcionando igual, sin fecha de corte.
 - La API key sigue existiendo como camino **secundario** para entornos
   headless donde no hay browser (CI efímero). Se registra el server aparte con
   `claude mcp add --header`, nunca en el `.mcp.json` del plugin: un header
