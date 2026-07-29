@@ -22,25 +22,19 @@ Skills de creative performance para e-commerce, montadas sobre un set de MCPs. C
 
 Cada skill tiene su `SKILL.md` con el workflow completo: **seguilo al pie de la letra, en orden, sin saltear pasos.**
 
-### MCPs del stack — gate de autenticación (lo más importante)
+### El conector `indash` — gate de autenticación (lo más importante)
 
-El conector **`indash` es REQUERIDO**: marca, productos y TODA la generación de imagen/video de las skills pasan por él. Los demás son **opcionales según la tarea** — usalos cuando el trabajo los pida, no los exijas de antemano:
-
-| Conector | Estado | Para qué se usa |
-|---|---|---|
-| `indash` | **requerido** | Marca, productos, generación de imagen/video, drive de creatives |
-| `notion` | opcional | Briefs y bases de conocimiento de clientes (fuente de verdad de copy) |
-| `google-drive` | opcional | Archivos que el cliente comparte por Drive |
-| `apify` | opcional | Scraping robusto de URLs de producto |
-| `higgsfield` | opcional | Generación alternativa; las skills usan `indash` por default |
+El plugin trae **un solo conector: `indash`**, y es **REQUERIDO**: marca, productos y TODA la generación de imagen/video de las skills pasan por él. Se autentica por OAuth con la cuenta de Indash del usuario: en Claude Code con `/mcp` (elegir `indash` y seguir el login en el browser); en Cowork / claude.ai, desde el panel de conectores.
 
 **Regla del gate, no negociable:**
 
-1. Antes de arrancar una tarea que necesite un conector, verificá que sus herramientas estén disponibles (MCP conectado y autenticado).
-2. Si el conector que la tarea necesita **no está disponible**, **frená**. No improvises workarounds (no scrapees a mano si falta `apify`, no inventes datos si falta `indash`, etc.).
-3. Decile al usuario, en **una sola intervención clara**, exactamente qué conector tiene que conectar y por qué lo necesita esta tarea. Todos los conectores del stack son OAuth: en Claude Code se conectan con `/mcp` (elegir el conector y seguir el login en el browser); en Cowork / claude.ai, desde el panel de conectores.
+1. Antes de arrancar una tarea que necesite el conector, verificá que sus herramientas estén disponibles (MCP conectado y autenticado).
+2. Si `indash` **no está disponible**, **frená**. No improvises workarounds: no inventes productos ni datos de marca, no scrapees a mano lo que el MCP resuelve.
+3. Decile al usuario, en **una sola intervención clara**, que tiene que conectar `indash` y por qué lo necesita esta tarea.
 4. **No podés disparar el flujo OAuth por tu cuenta.** Tu rol es detectar la falta, explicarla y no avanzar hasta que el usuario conecte.
 5. Recién cuando el conector esté disponible, continuá.
+
+**Otros conectores del usuario.** Si el usuario tiene conectados MCPs propios (Notion, Google Drive, un scraper, etc.), usalos como fuentes de contexto cuando la tarea lo pida — un brief en Notion o assets en Drive son bienvenidos. Pero ninguna skill los **requiere**: el stack completo funciona con `indash` solo, y la falta de un conector extra nunca frena un entregable (a lo sumo pedís el material por otro medio, por ejemplo que el usuario pegue el link o el texto).
 
 ### Contexto por cliente
 

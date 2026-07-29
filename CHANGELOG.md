@@ -2,8 +2,32 @@
 
 ## 0.6.0 — 2026-07-28
 
-**`indash` pasa a OAuth. Se acabó el `INDASH_TOKEN`.** El conector era el
-único del stack que se autenticaba con un header `Authorization: Bearer
+**El plugin pasa a ser el producto client-facing.** Decisión de identidad:
+esto ya no es "el stack de trabajo interno de Indash" — es lo que le ofrecemos
+a los clientes para que creen el contenido de su marca ellos mismos: skills +
+el conector MCP de Indash. Dos cambios grandes:
+
+### Un solo conector: `indash`
+
+Se van del `.mcp.json` los 4 conectores opcionales (notion, google-drive,
+apify, higgsfield). Eran el workflow interno del equipo, y para un cliente
+eran puro costo: instalabas el plugin y aparecían 5 servers en `/mcp`, 4
+pidiendo OAuth a servicios de terceros que quizás ni usabas, más las tools
+de todos ellos ocupando contexto. Ninguna skill los requería (eran
+"opcionales según la tarea" desde la 0.4.0).
+
+- El stack completo funciona con `indash` solo.
+- Si el usuario tiene sus propios MCPs (Notion, Drive, etc.), las skills los
+  aprovechan como fuentes de contexto — pero nunca los exigen.
+- El equipo interno que los quiera los agrega por su cuenta, una vez por
+  máquina: `claude mcp add --transport http notion https://mcp.notion.com/mcp`
+  (ídem los demás), o desde el panel de conectores de claude.ai.
+- La política del gate ahora gatea solo `indash` y trata cualquier otro
+  conector como extra del usuario.
+
+### `indash` pasa a OAuth. Se acabó el `INDASH_TOKEN`.
+
+El conector se autenticaba con un header `Authorization: Bearer
 ${INDASH_TOKEN}`, y eso obligaba a cada usuario a generar una API key en la
 app y setear una variable de entorno antes de poder hacer nada. Ahora el
 `.mcp.json` no lleva `headers`: Claude Code recibe el 401 del server, hace el
