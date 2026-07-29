@@ -1,7 +1,7 @@
 {
   "name": "indash-stack",
   "version": "0.6.0",
-  "description": "Stack de trabajo de Indash: skills de creative performance (onboarding de cliente, brief de período, carruseles, stories, Meta ads, video UGC/cinematográfico y email marketing) sobre un set de MCPs casi obligatorios (Indash, Higgsfield, Google Drive, Notion, Apify).",
+  "description": "El stack de creación de contenido de Indash para tu marca: skills de creative performance (onboarding, brief de período, carruseles, stories, Meta ads, video UGC/cinematográfico y email marketing) + el conector MCP de Indash (tu catálogo, tu brand kit y toda la generación de imagen/video). Conectás tu cuenta con un login y creás el contenido vos mismo.",
   "author": {
     "name": "Indash",
     "url": "https://www.indash.ai"

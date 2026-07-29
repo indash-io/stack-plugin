@@ -12,7 +12,7 @@
     {
       "name": "indash-stack",
       "source": "./",
-      "description": "El stack de creative performance de Indash para Claude: 8 skills (onboarding de clientes, brief de contenido, carruseles, stories, ads, UGC video, seedance multi-shot, email ecommerce) + la conexión al MCP de Indash (marca, productos, generación de imagen/video) + la política de trabajo del stack.",
+      "description": "El stack de creación de contenido de Indash para tu marca: 8 skills (onboarding, brief de contenido, carruseles, stories, ads, UGC video, seedance multi-shot, email ecommerce) + el conector MCP de Indash (tu marca, tus productos, generación de imagen/video). OAuth con tu cuenta — sin tokens ni configuración.",
       "category": "creative",
       "keywords": [
         "indash",

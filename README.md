@@ -1,8 +1,8 @@
 # Indash Stack
 
-Plugin de Claude Code / Cowork que empaqueta el stack de creative performance de Indash: las **skills de la empresa** (carruseles y stories nano banana) montadas sobre un set de **MCPs casi obligatorios** y un **gate de autenticación** que se carga al iniciar cada sesión.
+Plugin de Claude Code / Cowork **para clientes de Indash**: el combo de skills de creative performance + el conector MCP de Indash para que crees el contenido de tu marca vos mismo — carruseles, stories, ads, video y email, con tus productos y tu identidad de marca reales.
 
-La idea: cualquier persona del equipo instala este plugin y obtiene los mismos resultados que el flujo de trabajo de referencia — mismas skills, mismos conectores, mismas reglas — sin reconfigurar nada a mano.
+La idea: instalás el plugin, conectás tu cuenta de Indash con un login, y las skills producen entregables de calidad senior usando tu catálogo y tu brand kit. Sin configurar nada más. La misma carpeta de trabajo que arma el plugin es un proyecto del **Indash Studio**, así que todo lo que generes se abre nativo en el editor.
 
 > **¿Vas a editar el plugin en vez de usarlo?** Leé [`CLAUDE.md`](./CLAUDE.md): es la guía técnica para desarrollar sobre este repo. Este README es para **usar** el stack.
 
@@ -23,23 +23,21 @@ La idea: cualquier persona del equipo instala este plugin y obtiene los mismos r
 | **seedance-multishot** | Prompts multi-shot cinematográficos Seedance 2.0 para film / paid B2B (modo prompt-only o video generado según el MCP). |
 | **email-marketing-ecomm** | Mails promo DTC: 3 variantes (HTML + PNG) brand-first, listas para Klaviyo / Mailchimp / Customer.io. |
 
-Ambas siguen un workflow estricto: intake → discovery (scraping + análisis de imagen) → **una sola pregunta consolidada de decisiones** → concepto → generación de prompts → self-check → output. Nunca generan sin confirmar con vos primero.
+Todas siguen un workflow estricto: intake → discovery (scraping + análisis de imagen) → **una sola pregunta consolidada de decisiones** → concepto → generación de prompts → self-check → output. Nunca generan sin confirmar con vos primero.
 
-### MCP servers (`.mcp.json`)
+### MCP server (`.mcp.json`)
 
-El stack depende de estos 5 conectores. Tratalos como requeridos.
+El plugin trae **un solo conector, y es todo lo que el stack necesita**:
 
 | Conector | URL | Auth | Para qué |
 |---|---|---|---|
-| `indash` | `https://www.indash.ai/api/mcp` | OAuth | Datos y operaciones de Indash |
-| `higgsfield` | `https://mcp.higgsfield.ai/mcp` | OAuth | Generación de imagen/video (nano banana, Sora, Veo, Kling, Flux) |
-| `google-drive` | `https://drivemcp.googleapis.com/mcp/v1` | OAuth | Lectura/escritura de archivos y entregables |
-| `notion` | `https://mcp.notion.com/mcp` | OAuth | Briefs y bases de conocimiento de clientes |
-| `apify` | `https://mcp.apify.com` | OAuth | Scraping robusto de URLs de producto y datos web |
+| `indash` | `https://www.indash.ai/api/mcp` | OAuth | Tu marca, tus productos, toda la generación de imagen/video y el drive de creatives |
+
+¿Usás Notion, Google Drive u otros MCPs? Las skills los aprovechan como fuentes de contexto si ya los tenés conectados (un brief en Notion, assets en Drive), pero **ninguna los requiere** — se agregan por tu cuenta con `claude mcp add` o desde el panel de conectores de claude.ai, fuera del plugin.
 
 ### Hook de SessionStart
 
-Inyecta `hooks/context/stack-policy.md` al inicio de cada sesión. Es **el mecanismo por el que la política del stack le llega al agente** cuando usás el plugin: le recuerda los MCPs requeridos, aplica el **gate de autenticación** (si falta un conector que la tarea necesita, frena y te pide que lo conectes — no improvisa workarounds) y hereda el contexto del cliente desde el `CLAUDE.md` de la carpeta de trabajo.
+Inyecta `hooks/context/stack-policy.md` al inicio de cada sesión. Es **el mecanismo por el que la política del stack le llega al agente** cuando usás el plugin: aplica el **gate de autenticación** (si `indash` no está conectado, frena y te pide que lo conectes — no improvisa workarounds ni inventa datos de marca) y hereda el contexto de la marca desde el `CLAUDE.md` de la carpeta de trabajo.
 
 ---
 
@@ -70,7 +68,8 @@ Antes de instalar, cada persona necesita:
    /plugin install indash-stack
    ```
 3. **Conectá `indash`:** abrí `/mcp`, elegí `indash` y seguí el login en el browser. Es tu cuenta de Indash de siempre — no hay ningún token que copiar ni variable de entorno que setear.
-4. **Conectá los demás MCPs** la primera vez que los uses — el agente te frena y te pide que los conectes (con `/mcp` en Claude Code, o desde el panel de conectores en Cowork / claude.ai).
+
+Listo. Eso es toda la instalación.
 
 ### Para probarlo en local (desarrollo)
 
@@ -78,12 +77,9 @@ Antes de instalar, cada persona necesita:
 claude --plugin-dir /ruta/a/este/repo
 ```
 
-### Autenticación de los conectores
+### Autenticación
 
-**Los 5 conectores son OAuth. No hay ninguna variable de entorno que configurar.**
-
-- **`indash`** → OAuth con tu cuenta de Indash. La primera vez, abrí `/mcp`, elegí `indash` y completá el login en el browser. El token queda guardado y se refresca solo; si alguna vez caduca, Claude Code te avisa y te ofrece *Re-authenticate* en el mismo panel.
-- **`higgsfield`, `google-drive`, `notion`, `apify`** → OAuth. Se autentican la primera vez que se usan: el agente te frena y pide que los conectes. No hay nada que configurar a mano.
+**OAuth con tu cuenta de Indash. No hay ninguna variable de entorno que configurar.** La primera vez, abrí `/mcp`, elegí `indash` y completá el login en el browser. El token queda guardado y se refresca solo; si alguna vez caduca, Claude Code te avisa y te ofrece *Re-authenticate* en el mismo panel.
 
 En Cowork / claude.ai la conexión se hace desde el panel de conectores en vez de `/mcp`; el resto es igual.
 

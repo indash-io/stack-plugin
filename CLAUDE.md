@@ -56,7 +56,7 @@ Un plugin es un repo con un manifiesto `.claude-plugin/plugin.json`. Claude Code
 |---|---|---|
 | `.claude-plugin/plugin.json` | Manifiesto: nombre, versión, metadata | Claude Code al instalar |
 | `.claude-plugin/marketplace.json` | Marketplace privado: lista el plugin para `/plugin install` | Claude Code al hacer `marketplace add` |
-| `.mcp.json` | Definición de los 5 MCP servers | Claude Code (autodescubierto) |
+| `.mcp.json` | Definición del MCP server `indash` (el único que trae el plugin) | Claude Code (autodescubierto) |
 | `hooks/hooks.json` | Registra el hook de SessionStart | Claude Code (autodescubierto) |
 | `hooks/context/stack-policy.md` | **Política operativa del stack** | El **agente del usuario**, cada sesión |
 | `skills/<skill>/SKILL.md` | Orquestador de cada skill | El agente, al disparar la skill |
@@ -104,7 +104,7 @@ El plugin tiene tres familias de skills:
 - Toda ruta referenciada en el SKILL.md debe existir (lo verifica el validador).
 
 ### MCPs (`.mcp.json`)
-- **Los 5 conectores son OAuth y ninguno lleva `headers` en el `.mcp.json`.** No hay secretos ni variables de entorno en el repo, y tampoco hay que agregarlas: un `headers.Authorization` explícito **desactiva** el flujo OAuth (el cliente nunca recibe el 401 que dispara el discovery, y si el token es inválido el server queda `failed` en vez de caer a OAuth). Si alguna vez hace falta autenticar por API key para un entorno headless, se registra el server aparte con `claude mcp add --header`, nunca acá.
+- **El plugin trae UN solo conector (`indash`), es OAuth y no lleva `headers` en el `.mcp.json`.** Es un producto client-facing: conectores extra (Notion, Drive, scrapers) los agrega cada usuario por su cuenta, no el plugin. No hay secretos ni variables de entorno en el repo, y tampoco hay que agregarlas: un `headers.Authorization` explícito **desactiva** el flujo OAuth (el cliente nunca recibe el 401 que dispara el discovery, y si el token es inválido el server queda `failed` en vez de caer a OAuth). Si alguna vez hace falta autenticar por API key para un entorno headless, se registra el server aparte con `claude mcp add --header`, nunca acá.
 - Si agregás/sacás un conector, actualizá la lista en **tres lugares a la vez** (ver regla de sincronización abajo).
 
 ### Política del stack (`hooks/context/stack-policy.md`)
