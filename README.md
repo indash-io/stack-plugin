@@ -31,7 +31,7 @@ El stack depende de estos 5 conectores. Tratalos como requeridos.
 
 | Conector | URL | Auth | Para qué |
 |---|---|---|---|
-| `indash` | `https://www.indash.ai/api/mcp` | Bearer `${INDASH_TOKEN}` | Datos y operaciones de Indash |
+| `indash` | `https://www.indash.ai/api/mcp` | OAuth | Datos y operaciones de Indash |
 | `higgsfield` | `https://mcp.higgsfield.ai/mcp` | OAuth | Generación de imagen/video (nano banana, Sora, Veo, Kling, Flux) |
 | `google-drive` | `https://drivemcp.googleapis.com/mcp/v1` | OAuth | Lectura/escritura de archivos y entregables |
 | `notion` | `https://mcp.notion.com/mcp` | OAuth | Briefs y bases de conocimiento de clientes |
@@ -69,8 +69,8 @@ Antes de instalar, cada persona necesita:
    ```
    /plugin install indash-stack
    ```
-3. **Configurá `INDASH_TOKEN`** como variable de entorno (ver abajo).
-4. **Conectá los MCPs OAuth** la primera vez que los uses — el agente te frena y te pide que los conectes desde el panel de conectores de Cowork.
+3. **Conectá `indash`:** abrí `/mcp`, elegí `indash` y seguí el login en el browser. Es tu cuenta de Indash de siempre — no hay ningún token que copiar ni variable de entorno que setear.
+4. **Conectá los demás MCPs** la primera vez que los uses — el agente te frena y te pide que los conectes (con `/mcp` en Claude Code, o desde el panel de conectores en Cowork / claude.ai).
 
 ### Para probarlo en local (desarrollo)
 
@@ -78,30 +78,26 @@ Antes de instalar, cada persona necesita:
 claude --plugin-dir /ruta/a/este/repo
 ```
 
-### Variables de entorno
-
-| Variable | Requerida | Qué es |
-|---|---|---|
-| `INDASH_TOKEN` | Sí | Secret key de acceso al MCP de Indash (formato `indash_sk_...`). **Se obtiene desde la app de Indash** (cada usuario ya sabe cómo generarla). No se incluye en el plugin — se configura como variable de entorno. |
-
-Cómo setearla (elegí una):
-
-- **En tu shell** (macOS/Linux — agregalo a `~/.zshrc` o `~/.bashrc` para que persista):
-  ```
-  export INDASH_TOKEN="indash_sk_xxxxxxxx"
-  ```
-  Reabrí la terminal (o `source ~/.zshrc`) y arrancá Claude desde ahí.
-- **En `settings.json` de Claude Code** (bloque `env`):
-  ```json
-  { "env": { "INDASH_TOKEN": "indash_sk_xxxxxxxx" } }
-  ```
-
-Para verificar que quedó: `echo $INDASH_TOKEN` debería imprimir el token. Si está vacío, el MCP `indash` no levanta.
-
 ### Autenticación de los conectores
 
-- **`higgsfield`, `google-drive`, `notion`, `apify`** → OAuth. Se autentican la primera vez que se usan: el agente te frena y pide que los conectes desde el panel de conectores de Cowork. No hay nada que configurar a mano.
-- **`indash`** → usa `INDASH_TOKEN` (no es OAuth). Es la única variable de entorno que tenés que configurar.
+**Los 5 conectores son OAuth. No hay ninguna variable de entorno que configurar.**
+
+- **`indash`** → OAuth con tu cuenta de Indash. La primera vez, abrí `/mcp`, elegí `indash` y completá el login en el browser. El token queda guardado y se refresca solo; si alguna vez caduca, Claude Code te avisa y te ofrece *Re-authenticate* en el mismo panel.
+- **`higgsfield`, `google-drive`, `notion`, `apify`** → OAuth. Se autentican la primera vez que se usan: el agente te frena y pide que los conectes. No hay nada que configurar a mano.
+
+En Cowork / claude.ai la conexión se hace desde el panel de conectores en vez de `/mcp`; el resto es igual.
+
+#### Sesiones headless (crons, CI, `claude -p`)
+
+Un run no interactivo no puede abrir el browser, así que no completa un OAuth por su cuenta. Dos opciones:
+
+- **Autenticar una vez desde una sesión interactiva en esa misma máquina** (`/mcp`, o `claude mcp login indash`). El token queda guardado y los runs headless posteriores lo usan.
+- **API key**, para entornos donde no hay sesión interactiva posible (un contenedor de CI efímero, por ejemplo). Se genera desde la app de Indash y se registra el server aparte, fuera del plugin:
+  ```
+  claude mcp add --transport http indash https://www.indash.ai/api/mcp \
+    --header "Authorization: Bearer indash_sk_xxxxxxxx"
+  ```
+  Es un camino **secundario y opcional**: sirve para automatizaciones, no para el uso normal del stack. Ojo que si configurás el header y el token es inválido, Claude Code reporta el server como `failed` en vez de caer al flujo OAuth.
 
 ---
 

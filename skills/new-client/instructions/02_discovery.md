@@ -10,7 +10,7 @@ Antes de traer nada, verificá que el MCP **`indash`** esté disponible (conecta
 
 - **Si `indash` NO está disponible** → frená. No scrapees a mano, no inventes productos. Decile al user, en una sola intervención:
 
-  > Para traer los productos de **{cliente}** necesito el conector **Indash** conectado. Conectalo desde el panel de conectores de Cowork (o configurá `INDASH_TOKEN`) y seguimos. Mientras tanto puedo armar la estructura de carpetas, pero el catálogo queda vacío hasta que esté.
+  > Para traer los productos de **{cliente}** necesito el conector **Indash** conectado. Conectalo con `/mcp` (o desde el panel de conectores, si estás en Cowork) y seguimos. Mientras tanto puedo armar la estructura de carpetas, pero el catálogo queda vacío hasta que esté.
 
   El user decide: esperar a conectar, o avanzar con la estructura y completar productos después.
 

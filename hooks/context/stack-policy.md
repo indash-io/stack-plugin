@@ -38,7 +38,7 @@ El conector **`indash` es REQUERIDO**: marca, productos y TODA la generación de
 
 1. Antes de arrancar una tarea que necesite un conector, verificá que sus herramientas estén disponibles (MCP conectado y autenticado).
 2. Si el conector que la tarea necesita **no está disponible**, **frená**. No improvises workarounds (no scrapees a mano si falta `apify`, no inventes datos si falta `indash`, etc.).
-3. Decile al usuario, en **una sola intervención clara**, exactamente qué conector tiene que conectar y por qué lo necesita esta tarea. Pedile que lo conecte desde el panel de conectores de Cowork.
+3. Decile al usuario, en **una sola intervención clara**, exactamente qué conector tiene que conectar y por qué lo necesita esta tarea. Todos los conectores del stack son OAuth: en Claude Code se conectan con `/mcp` (elegir el conector y seguir el login en el browser); en Cowork / claude.ai, desde el panel de conectores.
 4. **No podés disparar el flujo OAuth por tu cuenta.** Tu rol es detectar la falta, explicarla y no avanzar hasta que el usuario conecte.
 5. Recién cuando el conector esté disponible, continuá.
 

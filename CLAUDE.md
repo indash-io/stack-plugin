@@ -4,6 +4,29 @@
 
 > Si estás buscando **cómo usar** el stack (instalar, generar carruseles/stories), eso está en `README.md`.
 
+### El stack cruza dos repos
+
+Este repo es **el cliente**: el plugin que se instala en Claude Code (skills, política del hook, `.mcp.json`). **El servidor está en `indash-io/mkt-agents`**: el MCP de Indash, su auth OAuth, el gate económico, la generación real y el billing. Si la respuesta que buscás no está acá, está allá:
+
+| Buscás… | Está en `indash-io/mkt-agents` |
+|---|---|
+| Estado y plan del stack completo (audit, fases F0→F4) | `docs/agents/mcp-stack-professionalization.md` — **la fuente de verdad** |
+| Mapa visual de todo el stack en una pantalla | `docs/agents/stack-map.excalidraw` |
+| Qué hace cada tool del MCP, transportes, resolución de workspace | `packages/indash-mcp/README.md` |
+| Cómo se cobran las generaciones (créditos, refunds) | `docs/agents/billing.md` |
+| Cómo se autentica el conector `indash` (OAuth 2.1, DCR, PKCE) | `apps/web/app/api/oauth/*` y `app/.well-known/oauth-*` |
+
+**Tres cosas se rompen en silencio si tocás un solo lado:**
+
+1. **`core/skills/` es la fuente única de skills.** Las copias en
+   `apps/web/lib/data/default-skills/` de mkt-agents son **generadas** — allá se
+   regeneran con `bun run scripts/sync-default-skills.ts <path-a-este-repo>`.
+   Si cambiás el canon acá, hay que correrlo y abrir PR allá.
+2. **Las tools que invocan las skills** viven allá. Si allá renombran o sacan
+   una tool, las skills de acá que la llaman quedan rotas.
+3. **El `.mcp.json` de acá decide cómo se autentica el usuario contra el server
+   de allá.** Un `headers.Authorization` acá desactiva el flujo OAuth de allá.
+
 ---
 
 ## Modelo mental: cómo funciona un plugin de Claude Code
@@ -81,7 +104,7 @@ El plugin tiene tres familias de skills:
 - Toda ruta referenciada en el SKILL.md debe existir (lo verifica el validador).
 
 ### MCPs (`.mcp.json`)
-- Los tokens **nunca** se hardcodean: van por variable de entorno (`${INDASH_TOKEN}`). El resto de los conectores es OAuth (sin secreto en el repo).
+- **Los 5 conectores son OAuth y ninguno lleva `headers` en el `.mcp.json`.** No hay secretos ni variables de entorno en el repo, y tampoco hay que agregarlas: un `headers.Authorization` explícito **desactiva** el flujo OAuth (el cliente nunca recibe el 401 que dispara el discovery, y si el token es inválido el server queda `failed` en vez de caer a OAuth). Si alguna vez hace falta autenticar por API key para un entorno headless, se registra el server aparte con `claude mcp add --header`, nunca acá.
 - Si agregás/sacás un conector, actualizá la lista en **tres lugares a la vez** (ver regla de sincronización abajo).
 
 ### Política del stack (`hooks/context/stack-policy.md`)
