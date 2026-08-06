@@ -22,6 +22,7 @@ La idea: instalás el plugin, conectás tu cuenta de Indash con un login, y las 
 | **ugc-video-prompts** | Paquetes de video UGC (Kling 3.0 / Veo 3.1 / Seedance 2.0 + first/last frame con Nano Banana). |
 | **seedance-multishot** | Prompts multi-shot cinematográficos Seedance 2.0 para film / paid B2B (modo prompt-only o video generado según el MCP). |
 | **email-marketing-ecomm** | Mails promo DTC: 3 variantes (HTML + PNG) brand-first, listas para Klaviyo / Mailchimp / Customer.io. |
+| **stack-overview** | **Empezá por acá si es tu primera vez.** Te explica el stack: qué hace cada skill, las 25 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué referencias soporta cada modelo. Se dispara con *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"* o cualquier pregunta sobre capacidades. |
 
 Todas siguen un workflow estricto: intake → discovery (scraping + análisis de imagen) → **una sola pregunta consolidada de decisiones** → concepto → generación de prompts → self-check → output. Nunca generan sin confirmar con vos primero.
 
@@ -38,6 +39,19 @@ El plugin trae **un solo conector, y es todo lo que el stack necesita**:
 ### Hook de SessionStart
 
 Inyecta `hooks/context/stack-policy.md` al inicio de cada sesión. Es **el mecanismo por el que la política del stack le llega al agente** cuando usás el plugin: aplica el **gate de autenticación** (si `indash` no está conectado, frena y te pide que lo conectes — no improvisa workarounds ni inventa datos de marca) y hereda el contexto de la marca desde el `CLAUDE.md` de la carpeta de trabajo.
+
+### Portabilidad — no es solo Claude Code
+
+Desde la 0.7.0 el plugin se publica **en dos formatos a la vez**, sin que uno pise al otro:
+
+| Formato | Archivos | Lo lee |
+|---|---|---|
+| Claude Code | `.claude-plugin/plugin.json` + `.mcp.json` | Claude Code / Cowork |
+| [Agent Plugins 1.0.0](https://agent-plugins.org) | `plugin.json` + `mcp.json` (raíz) | Cualquier cliente conforme a la spec abierta: Cursor, Copilot, Codex, Gemini CLI… |
+
+Agent Plugins es un estándar abierto y vendor-neutral para empaquetar skills + MCP servers en un plugin portable. Las skills (`skills/<nombre>/SKILL.md`) y el conector son idénticos en los dos casos.
+
+**Una diferencia importante:** el hook de SessionStart es específico de Claude Code — la spec no define hooks. En otros clientes la política del stack **no se inyecta sola**; ahí la lleva la skill `stack-overview`, que el agente carga cuando preguntás qué hace el stack. Si usás el plugin fuera de Claude Code, arrancá con *"¿qué puedo hacer con el stack de Indash?"*.
 
 ---
 
@@ -141,11 +155,14 @@ clientes/
 ## Estructura del repo
 
 ```
-.claude-plugin/plugin.json      Manifiesto del plugin
+.claude-plugin/plugin.json      Manifiesto del plugin (formato Claude Code)
 .claude-plugin/marketplace.json Marketplace privado (lista el plugin para /plugin install)
-.mcp.json                       Definición de los MCP servers
-hooks/hooks.json                Hook de SessionStart
+.mcp.json                       Definición de los MCP servers (formato Claude Code)
+plugin.json                     Manifiesto en la spec abierta Agent Plugins 1.0.0
+mcp.json                        MCP servers en la spec abierta (streamable-http)
+hooks/hooks.json                Hook de SessionStart (solo Claude Code)
 hooks/context/stack-policy.md   Política inyectada en cada sesión (lo que recibe el end user)
+skills/stack-overview/          Qué puede hacer el stack (+ la política, para clientes sin hooks)
 skills/new-client/              Onboarding de cliente (estructura + brand/ + CLAUDE.md + productos)
 skills/content-brief/           Brief de contenido del período (orquesta las skills de ejecución)
 skills/carruseles/              Carruseles 4:5 (genera imágenes vía MCP)

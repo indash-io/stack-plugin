@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Marketplace privado de Indash. Publica el plugin del stack de creative performance. Acceso = acceso de lectura a este repo en GitHub.",
-    "version": "0.6.0"
+    "version": "0.7.0"
   },
   "plugins": [
     {
