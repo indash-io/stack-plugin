@@ -1,6 +1,6 @@
 ---
 name: stack-overview
-description: Explica qué es y qué puede hacer el stack de Indash — las 8 skills de creative performance, las 25 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen / video) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
+description: Explica qué es y qué puede hacer el stack de Indash — las 8 skills de creative performance, las 25 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen y video) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
 language: es
 ---
 
@@ -140,7 +140,7 @@ versión.
 Lo que **no** se sube queda solo en la máquina. Si la persona quiere que el
 equipo lo vea en la app, hay que subirlo — no pasa solo.
 
-## 4. Referencias: imagen sí, video no
+## 4. Referencias: imagen en todo, video solo con omni
 
 Esta es la pregunta frecuente y la respuesta tiene que ser exacta.
 
@@ -172,29 +172,46 @@ en vez de un texto-a-imagen genérico, y es lo que da fidelidad de marca.
 | `kling` (Kling v3 Pro) | 2 | 3-15s | ⚠️ Semántica distinta: imagen 1 = frame **inicial**, imagen 2 = frame **final**. NO son dos ángulos del mismo producto |
 | `seedance` (Seedance 2.0, fal) | 9 | 4-15s | Referenciar como `@Image1`, `@Image2`… en el prompt. Moderación más estricta |
 | `seedance-ark` (Seedance 2.0, ByteDance) | 9 | 4-12s | Alternativa cuando `seedance` bloquea por content policy |
-| `omni` (Gemini Omni Flash) | 3 | 4-10s | El más rápido y barato, 720p |
+| `omni` (Gemini Omni Flash) | 3 | 4-10s | El más rápido y barato, 720p. **El único que acepta video de referencia** |
 | `grok-imagine` (Grok Imagine 1.5) | 1 | 3-15s | Audio nativo, moderación más permisiva |
 
 `generate_video` **requiere al menos una imagen de referencia** — no hay
 texto-a-video puro. Con una sola imagen, esa es el frame 0.
 
-### Video de referencia — no, hoy no se puede
+### Video de referencia — sí, con `omni` (y solo con `omni`)
 
-**No hay ninguna tool que acepte un video como entrada.** No existe
-video-a-video, ni style transfer desde un clip, ni extensión o continuación de
-un video existente. El pipeline es **imagen → video**, punto.
+`generate_video` acepta **`reference_video_url`**: video-a-video. El modelo toma
+el **movimiento, el ritmo, el lenguaje de cámara y la composición** de un clip
+existente y lo vuelve a renderizar según tu prompt — style transfer, cambio de
+fondo, variaciones de un mismo anuncio.
 
-Si alguien tiene un video de referencia (un anuncio que le gustó, un UGC a
-imitar), lo que sí funciona hoy:
+**Solo el modelo `omni`** (Gemini Omni Flash) lo soporta. Cualquier otro modelo
+devuelve un error explicando cuál usar: veo, kling, seedance, seedance-ark y
+grok-imagine reciben imágenes por campos específicos de imagen y no pueden
+tomar un video.
 
-1. Sacar frames del video y usarlos como **imágenes** de referencia.
-2. Describir el movimiento, el ritmo y el lenguaje de cámara en el prompt —
-   `seedance-multishot` y `ugc-video-prompts` están hechas exactamente para eso.
-3. Usar `add_inspiration` para guardar la referencia en la marca, de modo que
-   quede como contexto para el equipo.
+Reglas prácticas:
 
-No inventes una tool de video-referencia que no existe ni prometas que "quizás
-funcione" pasando una URL de video en `reference_image_urls`. No funciona.
+- **Máximo 12 MB** — el clip viaja inline. Usá una versión corta y de baja
+  resolución; si te pasás, la tool te lo dice.
+- **No hacen falta imágenes de referencia**: con el video alcanza, porque ya
+  trae el sujeto y el movimiento. Podés combinar ambos igual.
+- **Decí en el prompt qué se MANTIENE y qué CAMBIA.** Sin eso el modelo no sabe
+  si querés el mismo movimiento con otro estilo, o al revés.
+- El output sigue siendo **máximo 10s, 720p** — los límites de omni.
+
+Ejemplo de pedido: *"tomá este anuncio, mismo movimiento de cámara y mismo
+ritmo, pero con nuestro producto y paleta de marca"*.
+
+**Lo que sigue sin existir:** editar un video (cortar, montar, subtítulos,
+música sobre un clip ya hecho) y extender o continuar un video existente. Eso no
+es video-a-video — no lo prometas.
+
+Si el clip pesa más de 12 MB o el modelo tiene que ser otro, los caminos
+alternativos siguen siendo válidos: sacar frames y pasarlos como imágenes de
+referencia, describir el movimiento en el prompt (para eso están
+`seedance-multishot` y `ugc-video-prompts`), o guardar la referencia con
+`add_inspiration`.
 
 ### El video tarda
 
@@ -234,12 +251,10 @@ descontrolados. Si aparece, no es un bug — esperá o avisá.
 
 Decilo derecho cuando corresponda:
 
-- **No acepta video de referencia** (sección 4).
+- **No edita video**: no corta, no monta, no agrega subtítulos ni música a un clip existente, y no extiende un video ya hecho. (Video de referencia sí — sección 4.)
 - **No publica** en Meta, Instagram ni en ningún ad manager. Entrega piezas y
   copy listos para que una persona los suba.
 - **No compra medios** ni lee métricas de campañas.
-- **No edita video** — no corta, no monta, no agrega subtítulos ni música a un
-  clip existente.
 - **No inventa assets de marca.** Si la marca no está cargada en Indash, los
   archivos los pasa la persona.
 - **No auto-actualiza las skills del plugin** (sección 3).
