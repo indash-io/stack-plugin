@@ -178,7 +178,7 @@ apify/higgsfield pasan a opcionales según la tarea.
 **Limpieza**:
 - Fuera los artefactos de distribución standalone (INSTALL.md, install.sh,
   READMEs con instrucciones de symlink) que contradecían el modelo plugin.
-- Fuera `brands/smud` (datos de un cliente real no viajan en el plugin).
+- Fuera el `brands/<cliente>` semilla (datos de un cliente real no viajan en el plugin).
 - `seedance-multishot`: frontmatter estándar en español (era
   "Cinematografic Video" en inglés con typo), refs rotas a
   MCP_GAPS_PROPOSAL.md eliminadas.

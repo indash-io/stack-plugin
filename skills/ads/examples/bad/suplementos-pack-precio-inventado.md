@@ -1,6 +1,6 @@
-# VITS Pack Starter — precio inventado en el ad
+# Suplementos — precio inventado en el ad
 
-**Marca**: VITS Nutrición
+**Marca**: marca de suplementos (anonimizada)
 **Categoría**: suplementos
 **Formato**: estática 4:5
 **Tipo**: ❌ bad

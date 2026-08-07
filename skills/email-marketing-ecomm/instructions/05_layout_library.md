@@ -88,7 +88,7 @@ Tape de color cruzando diagonal con texto repetido (`CYBER MONTH 🔥`).
 **HTML:** PNG pre-rotado (CSS rotate no anda en Outlook).
 
 ### B12 — Stats row
-3 celdas con número grande + label uppercase. Ejemplo Smud: `+100k clientas / 0 cuchillas / 7 zonas aptas`.
+3 celdas con número grande + label uppercase. Ejemplo (depilación): `+100k clientas / 0 cuchillas / 7 zonas aptas`.
 **Cuándo:** social proof cuantitativo validado.
 
 ---
@@ -104,7 +104,7 @@ Reloj chico recordando + CTA grande.
 **Cuándo:** mail con urgencia dura, refuerzo.
 
 ### C3 — Diagonal ribbon + close
-Ribbon decorativo cruzando + headline + CTA. En Smud: ribbon lime `#D4F564`.
+Ribbon decorativo cruzando + headline + CTA. Ejemplo real: ribbon lime `#D4F564`.
 **Cuándo:** Cyber Month / BFCM / promos high-energy.
 
 ### C4 — Heart / icon grid
@@ -117,7 +117,7 @@ Grilla decorativa de íconos (corazones, gotas, círculos lila). Headline + CTA 
 
 | Tipo de promo | V1 Hero | V2 Hero | V3 Hero |
 |---|---|---|---|
-| **% off** (este caso Smud) | H6 (lifestyle) | H3 (big number) | H7 (editorial split) |
+| **% off** (el caso de ejemplo) | H6 (lifestyle) | H3 (big number) | H7 (editorial split) |
 | BFCM / Cyber Sale | H1 (texto) | H4 (countdown) | H6 (lifestyle) |
 | Restock | H5 (collage) | H3 | H2 |
 | Lanzamiento producto | H7 | H3 | H2 |

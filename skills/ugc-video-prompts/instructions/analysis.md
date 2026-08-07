@@ -107,7 +107,7 @@ Reglas:
 
 - El **orden del array numera los `@`**: el primer elemento de `reference_video_urls` es `@Video1`. Si el orden no coincide con lo que dice el prompt, el modelo mezcla los roles.
 - **Solo `seedance` toma video y audio.** Con `veo`, `kling` o `grok-imagine` el MCP devuelve error nombrando el modelo correcto. `omni` toma 1 video (máx 12 MB) y nada de audio.
-- Las URLs tienen que ser **públicas y descargables** — el MCP las baja. Una imagen pegada en el chat no sirve (ver `examples/bad/bloss_producto_describe_only_seedance.md`).
+- Las URLs tienen que ser **públicas y descargables** — el MCP las baja. Una imagen pegada en el chat no sirve (ver `examples/bad/skincare_producto_describe_only_seedance.md`).
 - Si el user trae un video de referencia y el modelo elegido no lo soporta, hay dos salidas honestas: cambiar a `seedance`, o sacar frames del clip y pasarlos como `reference_image_urls`. No prometas que el video "va a influir igual".
 
 ---
@@ -197,4 +197,4 @@ Cuando audio nativo es **off** y hay diálogo:
    - **TTS multilingüe** — ElevenLabs (best in class), Play.ht, Murf, Speechify, Resemble.ai.
 3. La voz se aplica al video con una herramienta de lipsync: Enhancor V4, Sync.so, HeyGen, Kling Lipsync nativo, Runway Lipsync.
 
-Ver `examples/good/testimonial_mia_15s.md` y `examples/good/ad_robot_selfie_cubano_15s.md` para casos completos del flujo.
+Ver `examples/good/testimonial_faja_termica_15s.md` y `examples/good/ad_robot_selfie_cubano_15s.md` para casos completos del flujo.

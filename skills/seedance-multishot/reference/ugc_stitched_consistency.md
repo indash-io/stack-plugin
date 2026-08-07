@@ -19,7 +19,7 @@ Plantilla:
 and wardrobe as @Image1 reference — do not reinterpret features.
 ```
 
-Ejemplo (Bloss UGC):
+Ejemplo (UGC skincare):
 ```
 Mexican woman, 26, warm undertone skin with faint visible acne scars
 on cheeks, dark wavy hair half-up in claw clip with pink headband,

@@ -45,7 +45,7 @@ Correr esta lista antes de cada entrega. Si algo falla → arreglar y volver a c
 ## Fidelidad al producto (chequeo contra `examples/bad/`)
 - [ ] **Conteo correcto**: si es un bundle/pack, el número de unidades en la imagen coincide con la realidad del producto (no asumir desde la ref de Indash)
 - [ ] **Sin precios inventados**: no hay números de precio en la imagen salvo que el usuario los haya dado explícitamente
-- [ ] **Sistema de color del packaging respetado**: si la marca usa pills/colores por categoría (ej: VITS azul=esenciales, naranja=inmunidad, celeste=relajación), los labels superiores matchean el color del frasco de abajo
+- [ ] **Sistema de color del packaging respetado**: si la marca usa pills/colores por categoría (ej: en suplementos, azul=esenciales, naranja=inmunidad, celeste=relajación), los labels superiores matchean el color del frasco de abajo
 - [ ] **Sin claims inventados**: cada beneficio/feature en la imagen tiene sustento en la landing o el brief del usuario
 - [ ] **Wordmark/logo legible y sin distorsión**: el nombre del producto aparece como en el packaging real
 - [ ] He revisado `examples/bad/` filtrando por marca/categoría y no estoy repitiendo ninguno de esos errores

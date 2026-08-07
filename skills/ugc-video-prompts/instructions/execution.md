@@ -103,7 +103,7 @@ Para que el corte entre clips no se sienta rupturado:
 - **Continuidad lógica de acción** entre last frame del Clip N y first frame del Clip N+1 (ej: termina el Clip 1 con el actor sosteniendo el celular, arranca Clip 2 con el mismo actor sosteniendo ya el producto físico — el corte se entiende como "más tarde ese día").
 - **Repetir element consistency anchor** en cada prompt: "Same 30-year-old Argentine man as shown in Clip 1 reference frames".
 
-Ver `examples/good/pov_novio_mia_30s.md`.
+Ver `examples/good/pov_novio_faja_termica_30s.md`.
 
 ---
 
@@ -215,7 +215,7 @@ Constraints: 9:16 vertical, 15 seconds, 1080p. Maintain element consistency for 
 - **Video extension nativa:** si el pedido es "continuar un video existente", usar la sintaxis `Extend @video1 by Xs + [solo describir lo nuevo, no repetir el clip original]`. No reescribir el clip entero.
 - **Text rendering flojo:** evitar carteles, números o logos legibles dentro del frame. Si son no-negociables, agregarlos en post.
 - **Audio distortion ocasional:** revisar el clip exportado al recibirlo. Si hay distorsión, regenerar con menos densidad de capas de audio o mover una capa a post.
-- **Articulación expresiva sin necesidad de audio ON.** Para escenas con personas hablando donde el audio nativo está OFF (regla del framework para español regional), NO escribir `minimal conversational articulation` (el video queda muerto). Escribir: `natural full conversational articulation as if speaking, lips move continuously and expressively, full mouth movement, not minimal, not stiff. No native audio dialogue generation — voice will be added in post with lipsync`. Esto da articulación rica al lipsync de post sin alucinar audio. NO activar `generate_audio: true` pensando que ayuda al dinamismo en español — es trade-off falso, el audio en español aluciña siempre. Ver `style/writing_rules.md` regla 33 y `examples/bad/street_vox_pop_bloss_seedance_iteraciones.md` iteración 2.
+- **Articulación expresiva sin necesidad de audio ON.** Para escenas con personas hablando donde el audio nativo está OFF (regla del framework para español regional), NO escribir `minimal conversational articulation` (el video queda muerto). Escribir: `natural full conversational articulation as if speaking, lips move continuously and expressively, full mouth movement, not minimal, not stiff. No native audio dialogue generation — voice will be added in post with lipsync`. Esto da articulación rica al lipsync de post sin alucinar audio. NO activar `generate_audio: true` pensando que ayuda al dinamismo en español — es trade-off falso, el audio en español aluciña siempre. Ver `style/writing_rules.md` regla 33 y `examples/bad/street_vox_pop_skincare_seedance_iteraciones.md` iteración 2.
 - **Multi-subject = minimalismo de props.** En escenas con 2+ personas, cada prop específico (color exacto, marca visible, micro-detalle) que tiene que mantenerse consistente entre cuts es punto de falla. Minimizar a lo esencial. Si un prop "parece necesario" para leer el formato, preguntarse: ¿la narrativa se lee sin él? Si sí → sacarlo. Ver `instructions/strategy.md` sección "Minimalismo de elementos en multi-subject Seedance".
 
 ---

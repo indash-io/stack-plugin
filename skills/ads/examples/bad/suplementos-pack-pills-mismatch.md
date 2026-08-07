@@ -1,12 +1,12 @@
-# VITS Pack Starter — pills de color no alineados al producto
+# Suplementos — pills de color no alineados al producto
 
-**Marca**: VITS Nutrición
+**Marca**: marca de suplementos (anonimizada)
 **Categoría**: suplementos
 **Formato**: estática 4:5
 **Tipo**: ❌ bad
 
 ## Qué falla
-- Cada frasco VITS tiene un pill de color en la etiqueta que codifica su categoría:
+- Cada frasco de la marca tiene un pill de color en la etiqueta que codifica su categoría:
   - **Omega 3** → pill AZUL "Esenciales"
   - **Citrato de Magnesio** → pill CELESTE "Relajación"
   - **Vitamina C + Zinc** → pill NARANJA "Inmunidad"

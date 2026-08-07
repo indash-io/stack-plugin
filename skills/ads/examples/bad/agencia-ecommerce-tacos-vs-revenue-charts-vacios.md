@@ -1,6 +1,6 @@
-# Snowball — TACoS vs Revenue (charts vacíos)
+# Agencia ecommerce — TACoS vs Revenue (charts vacíos)
 
-**Marca**: Snowball Partners (agencia / growth partner ecommerce — NO ecommerce, sin producto físico)
+**Marca**: agencia / growth partner de ecommerce (anonimizada — NO es un ecommerce, no tiene producto físico)
 **Categoría**: servicio / agencia (carrusel y estáticos conceptuales)
 **Formato**: estática 4:5 (1080×1350)
 **Tipo**: ❌ bad
@@ -10,7 +10,7 @@
 - **Los "charts" son flechas de clip-art, no data-viz.** Cada gráfico es una sola flecha (roja subiendo / azul plana) dentro de una caja con grid casi vacío. Lee a PowerPoint 2010, no a dashboard premium. La marca es tech/SaaS: los datos tienen que verse como datos (línea con varios nodos, ejes, valores, glow neón fino), no como una flecha decorativa.
 - **Demasiado aire muerto.** Dos cajas enormes con grid vacío ocupan media pieza sin información. El vacío no es "minimal premium", es desbalance: ni dato, ni texto, ni gráfica que llene.
 - **Las dos cajas compiten y aplanan la jerarquía.** Al ser dos recuadros gemelos del mismo peso, el ojo no sabe qué mirar; el contraste del concepto (sube vs. no sube) se diluye en vez de golpear.
-- **El símbolo de marca está mal.** Es un círculo azul con un punto blanco, no las dos circunferencias superpuestas con la lente blanca en la intersección. (Problema general de estas piezas: el logo es interpretado por el modelo, no el asset real — ver abajo.)
+- **El símbolo de marca está mal.** El modelo lo resolvió como un círculo azul con un punto blanco; el símbolo real son dos circunferencias superpuestas con una lente blanca en la intersección. (Problema general de estas piezas: el logo es interpretado por el modelo, no el asset real — ver abajo.)
 - **El botón dibujado dentro de la imagen** ("Quiero mi diagnóstico") en un ad de Meta es redundante con el CTA nativo y ocupa espacio que podría llevar el dato.
 
 ## Qué evitar / qué hacer en su lugar

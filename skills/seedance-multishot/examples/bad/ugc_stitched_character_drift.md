@@ -1,12 +1,12 @@
 # BAD — UGC stitched routine with character + product-scale drift
 
 ## Brief received
-> "Video UGC skincare routine de una mexicana en el baño, usando varios productos más Bloss, 15 segundos, onda creadora de contenido."
+> "Video UGC skincare routine de una mexicana en el baño, usando varios productos más el del cliente (skincare), 15 segundos, onda creadora de contenido."
 
 ## What was generated
 Stitched 3 shots × 5s. Shot 1 (hook with bottle raised) and Shot 2 (cheek application) held up. **Shot 3 (mirror payoff) broke**:
 - La cara de la chica cambió notablemente respecto a shots 1 y 2 — peinado, facciones y proporciones distintas.
-- El envase de Bloss en primer plano sobre la encimera apareció con un tamaño desproporcionado (mucho más grande de lo que correspondía por escala respecto al rostro/encimera).
+- El envase del cliente en primer plano sobre la encimera apareció con un tamaño desproporcionado (mucho más grande de lo que correspondía por escala respecto al rostro/encimera).
 
 ## Why this failed (root causes)
 

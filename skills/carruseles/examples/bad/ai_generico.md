@@ -180,7 +180,7 @@ Skill: ¡Genial! Acá tenés tu carrusel de 5 slides...
 
 **Síntoma**: el carrusel tiene texto on-image en los N slides, pero **todos los textos están en la misma zona del cuadro** (típicamente "tercio superior central"). Cuando ves los N slides en secuencia, se sienten predecibles, planos y sin ritmo.
 
-**Caso real observado** (carrusel Lifestyle de Creatina VITS, primera versión):
+**Caso real observado** (carrusel Lifestyle de una creatina, primera versión):
 
 | Slide | Posición del texto | Sensación al ver el carrusel |
 |---|---|---|
@@ -221,7 +221,7 @@ Skill: ¡Genial! Acá tenés tu carrusel de 5 slides...
 >
 > Slide 3: *"...titular 'Energía y desempeño' centrado en el **centro vertical exacto** del cuadro, sobre la imagen del atleta con leve desenfoque cinematográfico que da peso al texto, en tipografía grande ocupando 1/3 del alto..."*
 >
-> Slide 4: *"...titular 'Suplementación inteligente para atletas conscientes' compacto en el **tercio superior derecho**, y la pill de CTA con 'vitsnutricion.com →' en el **tercio inferior central** ocupando una zona de máxima legibilidad..."*
+> Slide 4: *"...titular 'Suplementación inteligente para atletas conscientes' compacto en el **tercio superior derecho**, y la pill de CTA con 'marca.com →' en el **tercio inferior central** ocupando una zona de máxima legibilidad..."*
 
 **Regla rota**: principio de **variación creativa entre slides** (matriz nueva en `style/visual_modes.md`).
 

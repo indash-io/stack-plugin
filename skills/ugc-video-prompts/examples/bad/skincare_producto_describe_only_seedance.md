@@ -1,8 +1,8 @@
-# Bad example — Packaging describe-only en Nano Banana (caso bloss.)
+# Bad example — Packaging describe-only en Nano Banana (caso skincare)
 
-**Caso real ocurrido 2026-05-18.** Pedido: ad UGC 9s 9:16 del **bloss. Silicone Scar Stick** (skincare), modelo Seedance 2.0, multi-shot mixto (UGC handheld + commercial hero).
+**Caso real ocurrido 2026-05-18.** Pedido: ad UGC 9s 9:16 de un **silicone scar stick** de una marca de skincare (anonimizada), modelo Seedance 2.0, multi-shot mixto (UGC handheld + commercial hero).
 
-**El usuario subió 5 imágenes al chat** (4 referencias de cast/style + 1 imagen del producto bloss real). El framework **describió el producto a partir de la imagen vista** pero **no pudo pasarla como `reference_image_urls`** al MCP (las imágenes inline del chat de Claude no exponen bytestream).
+**El usuario subió 5 imágenes al chat** (4 referencias de cast/style + 1 imagen del producto real). El framework **describió el producto a partir de la imagen vista** pero **no pudo pasarla como `reference_image_urls`** al MCP (las imágenes inline del chat de Claude no exponen bytestream).
 
 Resultado: el packaging generado por Nano Banana fue **inconsistente con el producto real** en las 3 escenas. Producto inventado, no fiel.
 
@@ -10,13 +10,13 @@ Resultado: el packaging generado por Nano Banana fue **inconsistente con el prod
 
 ## Qué se hizo (incorrecto)
 
-Se redactó un prompt de Nano Banana describiendo el packaging del bloss con todo el detalle posible a ojo:
+Se redactó un prompt de Nano Banana describiendo el packaging del producto con todo el detalle posible a ojo:
 
 ```
 ... A minimalist nude-beige cylindrical tube, matte finish, approximately
 8cm tall and 2cm wide. The cream-beige plastic cap is removed and placed
 standing next to the base, revealing a translucent white-clear silicone
-balm cylinder at the top of the stick. The front label reads "bloss." in
+balm cylinder at the top of the stick. The front label reads the brand wordmark in
 bold black sans-serif lowercase letters, with a period after the word,
 positioned in the upper third of the tube. Below in much smaller thin
 black uppercase letters reads "SCAR SOLUTIONS · SILICONE SCAR STICK"
@@ -25,7 +25,7 @@ wrapping vertically along the side of the tube. ...
 
 Tres errores en la descripción (descubiertos al comparar con la foto real del producto):
 
-1. **Posición del lettering invertida.** El "bloss." real va **abajo** y en bold grande; "SCAR SOLUTIONS / SILICONE SCAR STICK" va **arriba** en una línea fina superior. El prompt lo describió al revés.
+1. **Posición del lettering invertida.** El wordmark real va **abajo** y en bold grande; "SCAR SOLUTIONS / SILICONE SCAR STICK" va **arriba** en una línea fina superior. El prompt lo describió al revés.
 2. **Layout del texto secundario.** Las dos líneas "SCAR SOLUTIONS" y "SILICONE SCAR STICK" están en **horizontal apiladas en la cara frontal**, no "wrapping vertically along the side".
 3. **Color del cuerpo.** No es "nude-beige" neutro. Es un **blush nude rosado pálido** (más cálido y con leve matiz rosa). El cap es del mismo color que el cuerpo, no contrastante.
 

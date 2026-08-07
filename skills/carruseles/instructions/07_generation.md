@@ -37,14 +37,14 @@ Para cada slide, llamá `mcp__indash__generate_image` con:
 - `model` → el elegido para ese slide
 - `aspect_ratio` → **`"4:5"`** (carrusel). Nunca dejes el default `1:1`.
 - `reference_image_urls` y/o `reference_images_base64` → las del paso 2
-- `output_name` → nombre claro y ordenado, ej. `"snowball_listing_slide1_hook.png"`
+- `output_name` → nombre claro y ordenado, ej. `"listing_slide1_hook.png"`
 
 Generá **en orden** (slide 1 → N). Cada llamada devuelve una **URL pública** y guarda la imagen en la galería del workspace. Guardá las URLs para el output.
 
 ### 4b. Forzar el aspect ratio real 4:5 SIN cortar contenido (post-proceso obligatorio con gpt-image)
 **`gpt-image` ignora el ratio fino y devuelve tamaños fijos**: para retrato entrega **1024×1536 (2:3)**, NO el 4:5 de Instagram. `nano-banana` respeta mejor el 4:5.
 
-**NUNCA recortes (crop) para pasar de 2:3 a 4:5.** El 4:5 es más ANCHO que el 2:3, así que recortar alto se come arriba/abajo y **corta logos, headline y CTA** (error real cometido: el wordmark "Snowball partners" quedó cortado). El crop está PROHIBIDO acá.
+**NUNCA recortes (crop) para pasar de 2:3 a 4:5.** El 4:5 es más ANCHO que el 2:3, así que recortar alto se come arriba/abajo y **corta logos, headline y CTA** (error real cometido: el wordmark del cliente quedó cortado). El crop está PROHIBIDO acá.
 
 La forma correcta es **agregar ancho (padding), sin perder un pixel**:
 
@@ -67,7 +67,7 @@ Después de generar, **mirá** cada imagen (leé la URL devuelta). Chequeá cont
 - ¿El texto on-image se renderizó **legible y sin errores de ortografía**? (el punto más frágil — ver selección de modelo).
 - ¿El producto/logo quedó **fiel** a la referencia?
 - ¿Respetó paleta, composición y aspect ratio 4:5?
-- ¿La marca cumple sus reglas (en Snowball: sin sombras/contorno/distorsión del logo, intersección blanca visible)?
+- ¿La marca cumple sus reglas (en un caso real: sin sombras/contorno/distorsión del logo, intersección blanca del símbolo visible)?
 
 Si algo falla:
 - **Texto ilegible/mal escrito** → regenerá ese slide con `gpt-image` (mejor render de texto) o reforzá la instrucción de texto.

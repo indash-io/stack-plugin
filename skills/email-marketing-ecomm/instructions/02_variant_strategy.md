@@ -12,7 +12,7 @@ Cada brief genera **siempre** estas 3 variantes. No son cosméticas — son **3 
 
 **Ángulo:** "Esto es parte de quién sos. De tu momento. De tu piel." El descuento es secundario, casi vergonzoso. El hero es un momento, no un producto.
 
-**Subject ejemplos (Smud):**
+**Subject ejemplos (marca de belleza):**
 - `Tu ritual merece esto.`
 - `Para ese momento que es solo tuyo.`
 - `Sin apuro. Sin ruido.`
@@ -28,7 +28,7 @@ Cada brief genera **siempre** estas 3 variantes. No son cosméticas — son **3 
 
 **NO usar en V1:** H3 (big number), H4 (countdown), B2 (precios), B6 (pasos), C3 (urgencia gritada).
 
-**Cuándo gana:** audiencias cálidas, VIPs, suscriptoras antiguas, marcas con identidad fuerte (Smud es caso de libro).
+**Cuándo gana:** audiencias cálidas, VIPs, suscriptoras antiguas, marcas con identidad fuerte (una marca de belleza con ritual propio es caso de libro).
 
 ---
 
@@ -39,7 +39,7 @@ Cada brief genera **siempre** estas 3 variantes. No son cosméticas — son **3 
 **Ángulo:** "20% off en todo. 48 horas." Datos duros. Sin perfume.
 
 **Subject ejemplos:**
-- `20% off en Smud. 48 horas.`
+- `20% off en {marca}. 48 horas.`
 - `3x2 en todo. Termina domingo.`
 - `Llevátelo con 20% off.`
 

@@ -1,6 +1,6 @@
-# Bad example — Street vox-pop bloss en Seedance 2.0 (3 iteraciones fallidas)
+# Bad example — Street vox-pop de skincare en Seedance 2.0 (3 iteraciones fallidas)
 
-**Caso real ocurrido 2026-05-18.** Pedido: ad UGC 15s 9:16 estilo "street vox-pop mexicano", 2 mujeres (entrevistadora + entrevistada con cicatrices de acné), entrevistadora ofrece bloss. Modelo: Seedance 2.0. Audio nativo en juego.
+**Caso real ocurrido 2026-05-18.** Pedido: ad UGC 15s 9:16 estilo "street vox-pop mexicano", 2 mujeres (entrevistadora + entrevistada con cicatrices de acné), entrevistadora ofrece el producto (skincare). Modelo: Seedance 2.0. Audio nativo en juego.
 
 Resultado: **3 iteraciones de video que fallaron por razones distintas pero relacionadas**. Cada iteración resolvió un problema y abrió otro. Documenta el cluster de errores a evitar y la lección general: **el experto soy yo, no el usuario**.
 
