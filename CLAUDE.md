@@ -57,6 +57,8 @@ Un plugin es un repo con un manifiesto `.claude-plugin/plugin.json`. Claude Code
 | `.claude-plugin/plugin.json` | Manifiesto: nombre, versión, metadata | Claude Code al instalar |
 | `.claude-plugin/marketplace.json` | Marketplace privado: lista el plugin para `/plugin install` | Claude Code al hacer `marketplace add` |
 | `.mcp.json` | Definición del MCP server `indash` (el único que trae el plugin) | Claude Code (autodescubierto) |
+| `plugin.json` (raíz) | **Mismo manifiesto en formato [Agent Plugins 1.0.0](https://agent-plugins.org)** | Clientes conformes a la spec (Cursor, Copilot, Codex, Gemini CLI…) |
+| `mcp.json` (raíz) | Mismo server `indash`, con `type: "streamable-http"` (el nombre que usa la spec) | Ídem |
 | `hooks/hooks.json` | Registra el hook de SessionStart | Claude Code (autodescubierto) |
 | `hooks/context/stack-policy.md` | **Política operativa del stack** | El **agente del usuario**, cada sesión |
 | `skills/<skill>/SKILL.md` | Orquestador de cada skill | El agente, al disparar la skill |
@@ -110,14 +112,26 @@ El plugin tiene tres familias de skills:
 ### Política del stack (`hooks/context/stack-policy.md`)
 - Es la única política que recibe el usuario. Si cambiás el gate de autenticación o la lista de MCPs, se edita acá.
 
-### Manifiesto (`.claude-plugin/plugin.json`)
+### Manifiesto — se publica en DOS formatos a la vez
 - Subí la `version` (semver) al hacer cambios con impacto.
+- El repo tiene **dos manifiestos que describen el mismo plugin**:
+  - `.claude-plugin/plugin.json` + `.mcp.json` → el formato propio de **Claude Code**.
+  - `plugin.json` + `mcp.json` en la raíz → la spec **[Agent Plugins 1.0.0](https://agent-plugins.org)** (open, vendor-neutral; TSC con Amazon, Cursor, Microsoft, OpenAI y Vercel).
+
+  Conviven sin pisarse: cada cliente lee el suyo y **ignora el del otro**. Es lo que hace que las 8 skills + el conector `indash` se puedan instalar fuera de Claude Code.
+- El `plugin.json` de la raíz usa un **schema cerrado**: los únicos campos top-level permitidos son `$schema`, `name`, `version`, `description`, `author`, `homepage`, `repository`, `license`, `keywords` y `extensions`. Cualquier otra cosa se pone bajo `extensions["ai.indash.stack"]`. El validador lo hace cumplir.
+- **Lo que NO viaja a clientes conformes:** el hook de `SessionStart` es específico de Claude Code — la spec no define hooks. En Cursor/Copilot/Codex la política **no se auto-inyecta**; el equivalente portable es la skill `stack-overview`, que la lleva adentro. Si cambiás la política, cambian **los dos**.
+- `core/skills/` no es un segundo directorio descubrible: la spec solo mira `skills/*/SKILL.md`. Sigue siendo canon consumido por referencia desde las skills de ejecución.
 
 ### Regla de sincronización (importante)
-El gate de autenticación y la lista de MCPs aparecen en **tres** archivos. Si tocás cualquiera de los dos, actualizá los tres juntos para que no se desincronicen:
-1. `hooks/context/stack-policy.md` (lo que recibe el usuario)
-2. `README.md` (la tabla de MCPs)
-3. Este `CLAUDE.md` si cambia algo conceptual del flujo
+El gate de autenticación y la lista de MCPs aparecen en **cinco** archivos. Si tocás cualquiera de los dos, actualizalos juntos para que no se desincronicen:
+1. `hooks/context/stack-policy.md` (lo que recibe el usuario en Claude Code)
+2. `skills/stack-overview/SKILL.md` (lo que reciben los clientes sin hooks)
+3. `README.md` (la tabla de MCPs)
+4. `.mcp.json` **y** `mcp.json` (los dos formatos — el validador falla si divergen)
+5. Este `CLAUDE.md` si cambia algo conceptual del flujo
+
+Ídem la versión: `plugin.json`, `.claude-plugin/plugin.json` y el `metadata.version` de `marketplace.json` tienen que ser el mismo número. El validador lo chequea.
 
 ---
 
@@ -129,7 +143,9 @@ Antes de commitear, corré el validador (sin dependencias):
 node scripts/validate-plugin.mjs
 ```
 
-Chequea: JSON de config parsean y tienen campos mínimos, frontmatter de cada `SKILL.md`, **que toda referencia de archivo dentro de los SKILL.md exista**, que el hook de SessionStart apunte a un archivo real, y que el `marketplace.json` liste plugins con un `source` que tenga su `plugin.json`. Sale con código ≠0 si algo falla. El mismo chequeo corre en CI (`.github/workflows/validate.yml`) en cada push y PR.
+Chequea: JSON de config parsean y tienen campos mínimos, frontmatter de cada `SKILL.md`, **que toda referencia de archivo dentro de los SKILL.md exista**, que el hook de SessionStart apunte a un archivo real, y que el `marketplace.json` liste plugins con un `source` que tenga su `plugin.json`.
+
+Además, **conformidad con Agent Plugins 1.0.0**: `$schema` exacto en `plugin.json` y `mcp.json`, `name` contra el patrón de la spec, schema cerrado (ningún campo top-level de más), namespaces de `extensions` en reverse-domain, transportes MCP válidos (`stdio` | `streamable-http` | `sse`) con URL https — y **anti-drift** entre los dos formatos: mismo `name`/`version`/`description` en los dos manifiestos, misma versión en `marketplace.json`, y mismos servers con mismas URLs en `.mcp.json` y `mcp.json`. Sale con código ≠0 si algo falla. El mismo chequeo corre en CI (`.github/workflows/validate.yml`) en cada push y PR.
 
 ---
 

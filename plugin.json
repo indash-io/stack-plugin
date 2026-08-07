@@ -1,4 +1,5 @@
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "indash-stack",
   "version": "0.7.0",
   "description": "El stack de creación de contenido de Indash para tu marca: skills de creative performance (onboarding, brief de período, carruseles, stories, Meta ads, video UGC/cinematográfico y email marketing) + el conector MCP de Indash (tu catálogo, tu brand kit y toda la generación de imagen/video). Conectás tu cuenta con un login y creás el contenido vos mismo.",
@@ -6,9 +7,9 @@
     "name": "Indash",
     "url": "https://www.indash.ai"
   },
-  "license": "UNLICENSED",
   "homepage": "https://github.com/indash-io/stack-plugin#readme",
   "repository": "https://github.com/indash-io/stack-plugin.git",
+  "license": "UNLICENSED",
   "keywords": [
     "indash",
     "creative",
@@ -16,5 +17,13 @@
     "carrusel",
     "stories",
     "nano-banana"
-  ]
+  ],
+  "extensions": {
+    "ai.indash.stack": {
+      "coreSkills": "./core/skills",
+      "policy": "./hooks/context/stack-policy.md",
+      "policySkill": "stack-overview",
+      "note": "El hook de SessionStart (./hooks/hooks.json) es específico de Claude Code y NO forma parte de la spec Agent Plugins: en clientes conformes la política no se auto-inyecta. La skill `stack-overview` es el equivalente portable — el agente la carga cuando el usuario pregunta qué hace el stack. `core/skills/` es el canon compartido que consumen las skills de `skills/`, no un segundo directorio de skills descubribles."
+    }
+  }
 }

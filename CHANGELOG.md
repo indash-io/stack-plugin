@@ -1,5 +1,63 @@
 # Changelog
 
+## 0.7.0 — 2026-08-06
+
+**El plugin sale de Claude Code.** Dos cambios: el paquete ahora conforma a la
+spec abierta [Agent Plugins 1.0.0](https://agent-plugins.org), y hay una skill
+nueva que explica el stack.
+
+### Conformidad con Agent Plugins 1.0.0
+
+`agent-plugins.org` es un estándar abierto y vendor-neutral para empaquetar
+skills + MCP servers en un plugin portable (TSC con Amazon, Cursor, Microsoft,
+OpenAI y Vercel). El plugin ahora se publica en **los dos formatos a la vez**:
+
+- **Nuevo** `plugin.json` en la raíz — manifiesto conforme al schema cerrado de
+  la spec. Lo específico de Indash vive bajo `extensions["ai.indash.stack"]`.
+- **Nuevo** `mcp.json` en la raíz — el mismo conector `indash`, declarado como
+  `streamable-http` (el nombre que usa la spec para lo que Claude Code llama
+  `http`).
+- `.claude-plugin/plugin.json` y `.mcp.json` **quedan intactos**: Claude Code
+  sigue leyendo los suyos. Cada cliente ignora el formato del otro.
+
+Efecto: las 8 skills y el conector `indash` se pueden instalar en cualquier
+cliente conforme (Cursor, Copilot, Codex, Gemini CLI…), no solo en Claude Code.
+`skills/*/SKILL.md` ya cumplía la spec tal cual estaba — no se movió ninguna
+skill.
+
+**Lo que no es portable:** el hook de `SessionStart` es propio de Claude Code
+(la spec no define hooks), así que en clientes conformes la política del stack
+**no se auto-inyecta**. De ahí la skill nueva.
+
+### Nueva skill: `stack-overview`
+
+Responde "¿qué puede hacer esto?" — las 8 skills con su disparador, las 25 tools
+del conector agrupadas por familia, y las preguntas que venían apareciendo
+siempre:
+
+- **Las skills del plugin NO se actualizan solas** (hace falta
+  `/plugin marketplace update indash`), a diferencia de las skills del workspace,
+  que se leen en vivo de la cuenta de Indash.
+- **Qué queda en disco vs. qué queda en Indash**, y qué hay que subir a mano.
+- **Imágenes de referencia**: sí, en todo, con la tabla de topes por modelo
+  (veo 3, kling 2 —start/end frame—, seedance 9, omni 3, grok-imagine 1).
+- **Video de referencia: no existe hoy.** No hay ninguna tool que acepte video
+  como entrada — el pipeline es imagen → video. La skill dice explícitamente que
+  no se invente lo contrario, y ofrece los caminos reales (frames del video como
+  referencia, describir el movimiento, `add_inspiration`).
+- Qué NO hace el stack: no publica en Meta, no compra medios, no edita video.
+
+Doble función: es también la política del stack para clientes que no ejecutan el
+hook.
+
+### Validador
+
+Chequea la conformidad con la spec (`$schema` exacto, patrón de `name`, schema
+cerrado, namespaces reverse-domain, transportes válidos) y sobre todo el
+**drift entre los dos formatos**: `name`/`version`/`description` iguales en los
+dos manifiestos, versión alineada con `marketplace.json`, y mismos servers con
+mismas URLs en `.mcp.json` y `mcp.json`.
+
 ## 0.6.0 — 2026-07-28
 
 **El plugin pasa a ser el producto client-facing.** Decisión de identidad:

@@ -45,9 +45,108 @@ if (manifest) {
 const mcp = readJSON(".mcp.json");
 if (mcp && !mcp.mcpServers) fail(`.mcp.json: falta la clave "mcpServers"`);
 const hooks = readJSON("hooks/hooks.json");
+const marketplace = readJSON(".claude-plugin/marketplace.json");
+
+// --- 1b. Conformidad con la spec Agent Plugins 1.0.0 ---------------------
+// El repo publica el plugin en DOS formatos a la vez:
+//   .claude-plugin/plugin.json + .mcp.json  → Claude Code (su formato propio)
+//   plugin.json + mcp.json (en la raíz)     → spec agent-plugins.org 1.0.0
+// Conviven sin pisarse, pero pueden driftear en silencio: lo de acá abajo es
+// lo único que lo impide.
+const AP_VERSION = "1.0.0";
+const AP_PLUGIN_SCHEMA = `https://agent-plugins.org/schemas/${AP_VERSION}/plugin.schema.json`;
+const AP_MCP_SCHEMA = `https://agent-plugins.org/schemas/${AP_VERSION}/mcp.schema.json`;
+// El schema de la spec es CERRADO: cualquier otro campo top-level es inválido.
+const AP_ALLOWED_FIELDS = new Set([
+  "$schema", "name", "version", "description", "author",
+  "homepage", "repository", "license", "keywords", "extensions",
+]);
+const AP_NAME_RE = /^(?!.*(?:--|\.\.))[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$/;
+
+const apManifest = readJSON("plugin.json");
+if (apManifest) {
+  if (apManifest.$schema !== AP_PLUGIN_SCHEMA) {
+    fail(`plugin.json (raíz): "$schema" debe ser exactamente "${AP_PLUGIN_SCHEMA}"`);
+  }
+  if (!apManifest.name) fail(`plugin.json (raíz): falta el campo requerido "name"`);
+  else if (!AP_NAME_RE.test(apManifest.name) || apManifest.name.length > 64) {
+    fail(`plugin.json (raíz): "name" no cumple el patrón de la spec (minúsculas, sin "--" ni "..", máx 64)`);
+  }
+  for (const field of Object.keys(apManifest)) {
+    if (!AP_ALLOWED_FIELDS.has(field)) {
+      fail(`plugin.json (raíz): campo top-level "${field}" no permitido por el schema cerrado de la spec`);
+    }
+  }
+  if (apManifest.author && typeof apManifest.author === "object") {
+    for (const k of Object.keys(apManifest.author)) {
+      if (!["name", "email", "url"].includes(k)) {
+        fail(`plugin.json (raíz): "author.${k}" no está permitido (solo name/email/url)`);
+      }
+    }
+  }
+  if (apManifest.extensions) {
+    for (const [ns, value] of Object.entries(apManifest.extensions)) {
+      if (!ns.includes(".")) fail(`plugin.json (raíz): namespace de extensión "${ns}" no es reverse-domain`);
+      if (typeof value !== "object" || value === null || Array.isArray(value)) {
+        fail(`plugin.json (raíz): extensions["${ns}"] tiene que ser un objeto`);
+      }
+    }
+  }
+  // Los dos manifiestos describen el MISMO plugin: si divergen, un cliente
+  // instala una cosa y otro cliente otra.
+  if (manifest) {
+    for (const field of ["name", "version", "description"]) {
+      if (apManifest[field] !== manifest[field]) {
+        fail(`Drift entre manifiestos: "${field}" difiere entre plugin.json (raíz) y .claude-plugin/plugin.json`);
+      }
+    }
+    if (!errors.some((e) => e.startsWith("Drift entre manifiestos"))) {
+      pass("plugin.json (raíz) y .claude-plugin/plugin.json en sync");
+    }
+  }
+  if (marketplaceVersionMismatch(apManifest.version)) {
+    fail(`Drift: marketplace.json metadata.version no coincide con la versión del plugin (${apManifest.version})`);
+  }
+}
+
+const apMcp = readJSON("mcp.json");
+if (apMcp) {
+  if (apMcp.$schema !== AP_MCP_SCHEMA) {
+    fail(`mcp.json (raíz): "$schema" debe ser exactamente "${AP_MCP_SCHEMA}"`);
+  }
+  if (!apMcp.mcpServers) fail(`mcp.json (raíz): falta la clave "mcpServers"`);
+  else {
+    for (const [name, server] of Object.entries(apMcp.mcpServers)) {
+      if (!["stdio", "streamable-http", "sse"].includes(server.type)) {
+        fail(`mcp.json (raíz): server "${name}" tiene type "${server.type}" — la spec solo define stdio | streamable-http | sse`);
+      }
+      if (server.type !== "stdio" && !/^https:\/\//.test(server.url ?? "")) {
+        fail(`mcp.json (raíz): server "${name}" necesita una URL https absoluta`);
+      }
+    }
+    // Mismo conjunto de servers y mismas URLs que el archivo de Claude Code.
+    const claudeServers = Object.keys(mcp?.mcpServers ?? {}).sort().join(",");
+    const apServers = Object.keys(apMcp.mcpServers).sort().join(",");
+    if (claudeServers !== apServers) {
+      fail(`Drift: .mcp.json declara [${claudeServers}] y mcp.json declara [${apServers}]`);
+    } else {
+      for (const [name, server] of Object.entries(apMcp.mcpServers)) {
+        if (server.url !== mcp?.mcpServers?.[name]?.url) {
+          fail(`Drift: la URL del server "${name}" difiere entre .mcp.json y mcp.json`);
+        }
+      }
+      pass(".mcp.json y mcp.json apuntan a los mismos servers");
+    }
+  }
+}
+
+/** El marketplace versiona aparte; tiene que seguir al plugin. */
+function marketplaceVersionMismatch(version) {
+  const mv = marketplace?.metadata?.version;
+  return Boolean(version && mv && mv !== version);
+}
 
 // Marketplace privado: parsea, tiene plugins, y cada source apunta a un plugin real.
-const marketplace = readJSON(".claude-plugin/marketplace.json");
 if (marketplace) {
   if (!marketplace.name) fail(`marketplace.json: falta el campo "name"`);
   if (!Array.isArray(marketplace.plugins) || !marketplace.plugins.length) {
