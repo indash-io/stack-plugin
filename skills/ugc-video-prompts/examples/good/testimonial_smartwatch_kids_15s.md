@@ -2,15 +2,15 @@
 
 **Input del usuario:**
 > "Quiero hacer en español argentino, una chica hablando mostrando el producto, de 35 años, 15 segundos, el resto hacelo por default."
-> (+ imagen de referencia del producto: Panda Watch PRO — smartwatch infantil, case rosa + correa negra, pantalla con cartoon. Landing: pandakidslab.com.ar)
+> (+ imagen de referencia del producto: smartwatch infantil, case rosa + correa negra, pantalla con cartoon. Landing: marca.com)
 
 ---
 
-# Paquete de video — Mamá argentina testimonial Panda Watch PRO (15s)
+# Paquete de video — Mamá argentina testimonial smartwatch infantil (15s)
 
 ## 1. Análisis de escena
 - **Tipo de contenido:** testimonial + micro-demo (mamá hablando a cámara, mostrando el producto)
-- **Sujeto principal:** ambos — mujer argentina 35 años (madre) + Panda Watch PRO (smartwatch infantil rosa con correa negra)
+- **Sujeto principal:** ambos — mujer argentina 35 años (madre) + el smartwatch infantil (rosa con correa negra)
 - **Plataforma:** TikTok / Reels (default)
 - **Aspect ratio:** 9:16
 - **Mood:** íntimo confesional, matutino, honesto — tono "mamá que le habla a otra mamá en la cocina"
@@ -82,7 +82,7 @@ Duration: 15s. 9:16 vertical.
 - **Idioma + acento:** Español argentino (Rioplatense) — se genera aparte con TTS. NO se pide a Kling que lo genere.
 - **Línea 1 (0.5–5s, hook):** "Che, me preguntan mil veces qué reloj le compré a Mateo…"
 - **Línea 2 (5.5–9.5s, beat features, voice-over sobre close-up):** "Mirá — GPS, videollamadas, botón de SOS, y lo bloqueo cuando está en la escuela."
-- **Línea 3 (11–14s, cierre):** "Panda Watch PRO. Dejé de estar pendiente del celu, te juro."
+- **Línea 3 (11–14s, cierre):** "<Marca>. Dejé de estar pendiente del celu, te juro."
 - **Dirección de actuación para TTS:** voz femenina argentina 35, conversacional cálido como hablándole a una amiga en la cocina. Mid-volume en hook, pace más rápido y listado en línea 2, voz más baja y confidencial en cierre. Sonrisa audible en "te juro". Sin tono publicitario.
 - **Alternativa (si el nombre "Mateo" no matchea al cliente):** "Che, me preguntan mil veces qué reloj le compré al nene…"
 

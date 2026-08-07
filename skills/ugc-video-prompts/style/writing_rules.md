@@ -213,7 +213,7 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
 
     **Casos documentados:**
     - `examples/good/lip_plumper_porteno_22s.md` (2 clips × 11s ensamble)
-    - `examples/good/panda_watch_pro_2clip_17s.md` (1 clip talking head + 1 clip b-roll)
+    - `examples/good/testimonial_smartwatch_kids_15s.md` (1 clip talking head + 1 clip b-roll)
     - `examples/good/pov_novio_faja_termica_30s.md` (2 clips × 15s — caso histórico).
 
 38. **Safety filter de Nano Banana — reformulación oblicua.**

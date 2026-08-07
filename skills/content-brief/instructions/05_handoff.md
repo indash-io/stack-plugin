@@ -14,7 +14,7 @@ Usá `templates/brief_template.md`. El brief lleva, en orden:
 Guardá el brief en la carpeta del cliente:
 
 - **Ruta**: `briefs/<AAAA-MM-DD>_<periodo-slug>_v<N>.md`
-  - `<periodo-slug>` = el período en kebab-case (ej: "Junio 2026" → `junio-2026`, "Lanzamiento Panda Watch" → `lanzamiento-panda-watch`).
+  - `<periodo-slug>` = el período en kebab-case (ej: "Junio 2026" → `junio-2026`, "Lanzamiento Smartwatch Kids" → `lanzamiento-smartwatch-kids`).
   - `v<N>` = versión; subí el número si regenerás el mismo período. **Nunca pises** un brief existente.
 - Si no hay carpeta de cliente, guardá en `./briefs/` y sugerí dar de alta el cliente con `new-client`.
 - Mostrás el brief en el chat **y** decís en una línea dónde lo guardaste.
