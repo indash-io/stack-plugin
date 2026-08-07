@@ -183,7 +183,7 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
     - (c) es lo más radical pero a veces es lo correcto. Caso documentado: bloss vox-pop iteración 3 — terminamos sacando iPhone+mic + cambiando el concept a "amiga que se acerca a otra en la calle".
 
 36. **Anchor frame propagation — si regenero un anchor, regenero todos los dependientes.**
-    - Si un frame Nano Banana es **anchor** (se usa como `reference_image_url` de otros frames) y se regenera, **TODOS los frames que lo referencian deben regenerarse también** con el nuevo anchor.
+    - Si un frame Nano Banana es **anchor** (se usa como `reference_image_urls` de otros frames) y se regenera, **TODOS los frames que lo referencian deben regenerarse también** con el nuevo anchor.
     - Aplica a:
       - **Cast anchor:** primer frame con el cast → todos los frames que usen ese cast como ref.
       - **Product anchor:** hero shot del producto → todos los frames donde aparece el producto.

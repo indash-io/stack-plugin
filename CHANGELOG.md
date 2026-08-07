@@ -1,5 +1,45 @@
 # Changelog
 
+## 0.8.0 — 2026-08-06
+
+**Las skills enseñaban un workflow que el MCP no sabía ejecutar.** Esta release
+lo cierra, en los dos sentidos.
+
+### Referencias multimodales, cableadas de verdad
+
+`ugc-video-prompts` documenta desde hace meses que Seedance 2.0 toma "hasta 9
+imágenes + 3 videos + 3 audios", y `instructions/analysis.md` enseña la sintaxis
+completa (`@video1 as camera movement reference`, `@audio1 as background music
+reference`), incluido el consejo de que subir un `@video` de UGC real handheld
+es la vía más rápida de pelearle al default commercial.
+
+El MCP solo mandaba imágenes. Ahora acepta `reference_video_urls` (hasta 3 con
+seedance, 1 con omni) y `reference_audio_urls` (hasta 3, solo seedance) — ver
+mkt-agents#232.
+
+- **Bug corregido**: el call spec de `seedance-multishot` decía
+  `reference_image_url` (singular). Ese param no existe: es
+  `reference_image_urls`, un array. La llamada fallaba. Normalizado también en
+  la prosa de examples y checklists, para que el nombre equivocado no siga
+  circulando en el contexto del agente.
+- `analysis.md` gana la tabla `@Image1/@Video1/@Audio1` → param del MCP, con la
+  regla de que **el orden del array numera los `@`**.
+- `seedance-multishot` 5.2 pasa a listar los tres params.
+
+### `stack-overview` al día
+
+- Tabla de modelos con columnas separadas de **Img / Video / Audio**.
+- **veo: 4, 6 u 8 segundos** — no 4-12. Y 8 obligatorio con 2+ imágenes. (La
+  skill `ugc-video-prompts` ya lo decía bien: "8s es hard cap". El código estaba
+  mal, no la skill.)
+- **Último frame** (`last_frame_image_url`) para veo y kling.
+- Video de referencia deja de ser "solo omni": **seedance es el mejor** (3 clips
+  + 3 audios).
+- **Extensión de clip**: seedance la hace nativa por prompt (`Extend @Video1 by
+  5s`) ahora que se pueden mandar videos. Sin verificar punta a punta — se
+  ofrece como algo a probar, no como garantía.
+- "No edita video" queda acotado a lo que de verdad no hace: post-producción.
+
 ## 0.7.0 — 2026-08-06
 
 **El plugin sale de Claude Code.** Dos cambios: el paquete ahora conforma a la

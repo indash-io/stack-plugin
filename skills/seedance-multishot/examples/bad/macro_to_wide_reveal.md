@@ -11,7 +11,7 @@ Render `omega_apple_b_macro_to_wide_15s.mp4`. Los primeros 3 segundos del macro 
 ## Why this failed (root causes)
 
 ### 1. El producto no estaba en el frame-0
-El frame-0 (`omega_apple_b_macro_caps.png`) era un macro puro de 3-4 cápsulas doradas sobre fondo blanco. **La botella no aparecía en ningún píxel del input visual.** El prompt pasaba la foto real de la botella como `reference_image_url` único, pero el ref único de Seedance se interpreta como **frame-0**, no como "imagen de la cosa que tiene que aparecer cuando hagas zoom-out".
+El frame-0 (`omega_apple_b_macro_caps.png`) era un macro puro de 3-4 cápsulas doradas sobre fondo blanco. **La botella no aparecía en ningún píxel del input visual.** El prompt pasaba la foto real de la botella como `reference_image_urls` único, pero el ref único de Seedance se interpreta como **frame-0**, no como "imagen de la cosa que tiene que aparecer cuando hagas zoom-out".
 
 Cuando Seedance llega al beat de revelar la botella, no tiene anclaje visual de cómo es. Cae en su prior genérico de "botella de suplemento" y la inventa.
 

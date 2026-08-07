@@ -22,7 +22,7 @@ La idea: instalás el plugin, conectás tu cuenta de Indash con un login, y las 
 | **ugc-video-prompts** | Paquetes de video UGC (Kling 3.0 / Veo 3.1 / Seedance 2.0 + first/last frame con Nano Banana). |
 | **seedance-multishot** | Prompts multi-shot cinematográficos Seedance 2.0 para film / paid B2B (modo prompt-only o video generado según el MCP). |
 | **email-marketing-ecomm** | Mails promo DTC: 3 variantes (HTML + PNG) brand-first, listas para Klaviyo / Mailchimp / Customer.io. |
-| **stack-overview** | **Empezá por acá si es tu primera vez.** Te explica el stack: qué hace cada skill, las 25 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué referencias soporta cada modelo (imagen y video). Se dispara con *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"* o cualquier pregunta sobre capacidades. |
+| **stack-overview** | **Empezá por acá si es tu primera vez.** Te explica el stack: qué hace cada skill, las 25 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué referencias soporta cada modelo (imagen, video y audio). Se dispara con *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"* o cualquier pregunta sobre capacidades. |
 
 Todas siguen un workflow estricto: intake → discovery (scraping + análisis de imagen) → **una sola pregunta consolidada de decisiones** → concepto → generación de prompts → self-check → output. Nunca generan sin confirmar con vos primero.
 

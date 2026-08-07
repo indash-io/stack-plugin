@@ -2,7 +2,7 @@
 
 **Caso real ocurrido 2026-05-18.** Pedido: ad UGC 9s 9:16 del **bloss. Silicone Scar Stick** (skincare), modelo Seedance 2.0, multi-shot mixto (UGC handheld + commercial hero).
 
-**El usuario subió 5 imágenes al chat** (4 referencias de cast/style + 1 imagen del producto bloss real). El framework **describió el producto a partir de la imagen vista** pero **no pudo pasarla como `reference_image_url`** al MCP (las imágenes inline del chat de Claude no exponen bytestream).
+**El usuario subió 5 imágenes al chat** (4 referencias de cast/style + 1 imagen del producto bloss real). El framework **describió el producto a partir de la imagen vista** pero **no pudo pasarla como `reference_image_urls`** al MCP (las imágenes inline del chat de Claude no exponen bytestream).
 
 Resultado: el packaging generado por Nano Banana fue **inconsistente con el producto real** en las 3 escenas. Producto inventado, no fiel.
 
@@ -45,7 +45,7 @@ Nano Banana puede leer "minimalist skincare tube with black sans-serif label" co
 
 **Opción A — la correcta:** cargar el producto al workspace de Indash (con `list_products` / la UI) y traer las imágenes con `get_product_images`. Pasarlas como `reference_image_urls` a Nano Banana y Seedance.
 
-**Opción B — workaround:** que el usuario suba la foto del producto a un host público (Drive público, Imgur, Dropbox público) y pase la URL en el chat. Pasarla como `reference_image_url`.
+**Opción B — workaround:** que el usuario suba la foto del producto a un host público (Drive público, Imgur, Dropbox público) y pase la URL en el chat. Pasarla como `reference_image_urls`.
 
 **Opción C — solo si A y B son imposibles:** generar **una sola** Nano Banana del producto como packshot hero con descripción quirúrgica + iterar hasta que salga fiel + usar **esa Nano Banana** como reference image en los demás frames y en el Seedance final. Sigue siendo inferior a A/B pero al menos ancla la deriva entre frames.
 
@@ -55,7 +55,7 @@ Nano Banana puede leer "minimalist skincare tube with black sans-serif label" co
 
 → Ver `eval/quality_checklist.md` sección D, ítem "imagen real del producto".
 
-**Regla dura:** Si el pedido involucra un producto con packaging específico (tipografía, color, layout, logo), **NO se entrega sin imagen real del producto como `reference_image_url`**. Avisar al usuario ANTES de generar y resolver con Opción A o B. Si solo Opción C es viable, marcar el riesgo en §8 antes de generar.
+**Regla dura:** Si el pedido involucra un producto con packaging específico (tipografía, color, layout, logo), **NO se entrega sin imagen real del producto como `reference_image_urls`**. Avisar al usuario ANTES de generar y resolver con Opción A o B. Si solo Opción C es viable, marcar el riesgo en §8 antes de generar.
 
 ---
 

@@ -93,6 +93,23 @@ Las referencias que no entran se describen en texto plano dentro del prompt.
 - **Foto del producto real** > prompt textual del producto. Si el usuario tiene la imagen del producto, usarla siempre como `@image` con rol explícito.
 - **Para look UGC con Seedance:** subir un `@video` de un UGC real handheld como `camera movement and aesthetic reference`. Es la vía más rápida de pelearle al default commercial.
 
+### Cómo se mandan por el MCP de Indash
+
+Esto **ya no es solo para copy-paste a Seedance externo**: `generate_video` acepta las referencias multimodales directo.
+
+| En el prompt | Param de `generate_video` | Tope |
+|---|---|---|
+| `@Image1`, `@Image2`… | `reference_image_urls` | 9 (seedance) |
+| `@Video1`, `@Video2`… | `reference_video_urls` | **3** (seedance) / 1 (omni) |
+| `@Audio1`, `@Audio2`… | `reference_audio_urls` | **3** (solo seedance) |
+
+Reglas:
+
+- El **orden del array numera los `@`**: el primer elemento de `reference_video_urls` es `@Video1`. Si el orden no coincide con lo que dice el prompt, el modelo mezcla los roles.
+- **Solo `seedance` toma video y audio.** Con `veo`, `kling` o `grok-imagine` el MCP devuelve error nombrando el modelo correcto. `omni` toma 1 video (máx 12 MB) y nada de audio.
+- Las URLs tienen que ser **públicas y descargables** — el MCP las baja. Una imagen pegada en el chat no sirve (ver `examples/bad/bloss_producto_describe_only_seedance.md`).
+- Si el user trae un video de referencia y el modelo elegido no lo soporta, hay dos salidas honestas: cambiar a `seedance`, o sacar frames del clip y pasarlos como `reference_image_urls`. No prometas que el video "va a influir igual".
+
 ---
 
 ## 2. ¿First frame solo, o First + Last frame?
