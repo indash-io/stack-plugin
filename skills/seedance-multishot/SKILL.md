@@ -131,8 +131,10 @@ Tres llamadas a tools del MCP, en secuencia:
 
 **5.2 — Disparar el video** con `mcp__indash__generate_video`:
 - `prompt`: motion prompt 30–60 palabras siguiendo `reference/motion_prompts.md`.
-- `reference_image_url`: la URL del frame 0 generado en 5.1.
-- `model`: `"seedance"` (a menos que el user pida otro).
+- `reference_image_urls`: **array**, con la URL del frame 0 generado en 5.1.
+- `reference_video_urls`: **array, hasta 3** — clips de referencia de cámara, grading o acción. Referencialos en el prompt como `@Video1`, `@Video2` con rol explícito. Si el user trae un video que "le gustó", va acá.
+- `reference_audio_urls`: **array, hasta 3** — música, tono de voiceover o ambiente. Referencialos como `@Audio1`, `@Audio2` con rol explícito.
+- `model`: `"seedance"` (a menos que el user pida otro). Es el único modelo que toma video Y audio de referencia.
 - `aspect_ratio`: 9:16 o 16:9.
 - `duration_seconds`: 4–15.
 - `generate_audio`: true por default.

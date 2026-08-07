@@ -37,7 +37,7 @@ Formato: ✅ pasa / ❌ falla. Si ❌, nota qué corregir.
 - [ ] Style: dispositivo o film stock específico
 - [ ] **Textura realista marcada**: si humano → "natural skin texture with visible pores"; si no-humano → adaptación al material ("matte polymer with faint scratches", "fabric weave with visible threads", etc.). Ver `style/writing_rules.md` regla 9.
 - [ ] Cero palabras prohibidas: beautiful / professional / nice / amazing / cinematic (sueltas)
-- [ ] **Imagen real del producto como `reference_image_url` (regla dura, no negociable).** Si el pedido involucra un producto con packaging específico (tipografía, color, layout, logo), **NO se entrega sin la foto real** del producto pasada como reference image al Nano Banana (y al Seedance si aplica). Describir-only del packaging falla sistemáticamente — Nano Banana captura el concepto pero inventa tipografía, layout y matiz de color. Si el usuario no tiene la foto accesible al MCP, resolverlo ANTES de generar: (a) cargar el producto al workspace de Indash y usar `get_product_images`; (b) pedir URL pública (Drive, Imgur, Dropbox); (c) en último caso, generar UN packshot hero anchor con descripción quirúrgica + iterar + usar como reference en el resto, marcando el riesgo en §8. Ver `examples/bad/bloss_producto_describe_only_seedance.md`.
+- [ ] **Imagen real del producto como `reference_image_urls` (regla dura, no negociable).** Si el pedido involucra un producto con packaging específico (tipografía, color, layout, logo), **NO se entrega sin la foto real** del producto pasada como reference image al Nano Banana (y al Seedance si aplica). Describir-only del packaging falla sistemáticamente — Nano Banana captura el concepto pero inventa tipografía, layout y matiz de color. Si el usuario no tiene la foto accesible al MCP, resolverlo ANTES de generar: (a) cargar el producto al workspace de Indash y usar `get_product_images`; (b) pedir URL pública (Drive, Imgur, Dropbox); (c) en último caso, generar UN packshot hero anchor con descripción quirúrgica + iterar + usar como reference en el resto, marcando el riesgo en §8. Ver `examples/bad/bloss_producto_describe_only_seedance.md`.
 
 ## E. Prompt de Nano Banana (last frame, si aplica)
 - [ ] Mantiene idénticos: sujeto, wardrobe, lighting, setting, framing
@@ -106,7 +106,7 @@ Formato: ✅ pasa / ❌ falla. Si ❌, nota qué corregir.
 - [ ] Si sujeto no-humano y la generación necesita varios intentos → §9 menciona regenerar el first frame hasta que la grip/articulación sea creíble antes de pasar a video
 
 ## M. Anchor frame propagation (si hay regeneraciones)
-- [ ] **Si regeneré un frame que es anchor de otros** (usado como `reference_image_url` por otros frames del paquete), **regeneré también TODOS los frames dependientes** con el nuevo anchor.
+- [ ] **Si regeneré un frame que es anchor de otros** (usado como `reference_image_urls` por otros frames del paquete), **regeneré también TODOS los frames dependientes** con el nuevo anchor.
 - [ ] Verifiqué que el cast en todos los frames de un mismo personaje matchea identidad (cara, pelo, outfit) — si algún frame se generó con un anchor distinto al actual, hay que regenerarlo.
 - [ ] Verifiqué que el producto en todos los frames donde aparece matchea la imagen del producto real (idealmente la del workspace de Indash o URL pública del usuario).
 - [ ] Verifiqué que el setting en frames de la misma escena matchea (color palette, lighting, props del entorno).

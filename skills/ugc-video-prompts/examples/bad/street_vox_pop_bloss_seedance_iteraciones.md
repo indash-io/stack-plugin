@@ -48,7 +48,7 @@ Resultado: **3 iteraciones de video que fallaron por razones distintas pero rela
 
 **Causa raíz adicional descubierta:** **el usuario me marcó algo que yo debí haber visto.** No apliqué quality checklist a los frames antes de mostrárselos. Le delegué la validación crítica a él en lugar de hacerla yo como Senior Creative Director.
 
-**Segundo problema descubierto:** regeneré Shot 1 v3 pero NO regeneré Shot 2 (que usaba el Shot 1 original como `reference_image_url`). Resultado: el cast de la entrevistada en Shot 2 NO matchea con Shot 1 v3 y Shot 3 v3. Lo marcó el usuario, otra vez en lugar de yo.
+**Segundo problema descubierto:** regeneré Shot 1 v3 pero NO regeneré Shot 2 (que usaba el Shot 1 original como `reference_image_urls`). Resultado: el cast de la entrevistada en Shot 2 NO matchea con Shot 1 v3 y Shot 3 v3. Lo marcó el usuario, otra vez en lugar de yo.
 
 ---
 
@@ -85,8 +85,8 @@ Resultado: **3 iteraciones de video que fallaron por razones distintas pero rela
 ### 4. Anchor frame propagation — si regenero un anchor, regenero los dependientes
 
 - Regeneré Shot 1 v3 (anchor del cast).
-- Shot 2 v3 dependía del Shot 1 original como `reference_image_url`. NO lo regeneré → cast desincronizado entre Shot 1 v3 y Shot 2.
-- **Regla:** si regenero un frame que es anchor de otros (vía `reference_image_url`), TODOS los frames dependientes deben regenerarse con el nuevo anchor.
+- Shot 2 v3 dependía del Shot 1 original como `reference_image_urls`. NO lo regeneré → cast desincronizado entre Shot 1 v3 y Shot 2.
+- **Regla:** si regenero un frame que es anchor de otros (vía `reference_image_urls`), TODOS los frames dependientes deben regenerarse con el nuevo anchor.
 - Aplica a cast anchors, product anchors, setting anchors.
 
 → Codificado en `style/writing_rules.md` regla 36 y `eval/quality_checklist.md` sección M.

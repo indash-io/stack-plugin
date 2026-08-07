@@ -11,7 +11,7 @@ El motion prompt es un género distinto al shot list multi-shot. Su trabajo: des
 - **Budget**: 30–60 palabras óptimo. Más de 80 baja la coherencia.
 - **Sin timestamps** (`[Xs]`) — el MCP no usa Seedance multi-shot interno. Un motion prompt = una toma continua.
 - **Sin `Camera:` blocks formales** — el vocabulario sigue siendo cinematográfico pero en prosa, no en estructura.
-- **Sin `References:` block** — los roles de refs se manejan vía la API (`reference_image_url`).
+- **Sin `References:` block** — los roles de refs se manejan vía la API (`reference_image_urls`).
 - **Sin `Audio:` block** — el audio se controla con `generate_audio: bool` (o `audio_direction` si el MCP lo expone).
 
 ---
