@@ -1,7 +1,7 @@
 # Ejemplo GOOD — Ad crash test dummy selfie cubano 15s (Kling 3.0 Pro, voz aparte)
 
 **Input del usuario:**
-> "Hacer un UGC de un robot filmándose en modo selfie, en una oficina, super realista, después el guion en español-cubano de 15 segundos. Marca: 1-800-NoFault (1-800nofault.com)."
+> "Hacer un UGC de un robot filmándose en modo selfie, en una oficina, super realista, después el guion en español-cubano de 15 segundos. Marca: estudio jurídico de accidentes, marca telefónica tipo 1-800 (marca.com)."
 > (+ imágenes de referencia del dummy: maniquí crash-test gris con traje azul marino y corbata celeste)
 
 **Qué hace este ejemplo interesante:**
@@ -13,11 +13,11 @@
 
 ---
 
-# Paquete de video — Crash test dummy selfie 1-800-NoFault (15s, cubano)
+# Paquete de video — Crash test dummy selfie — estudio jurídico (15s, cubano)
 
 ## 1. Análisis de escena
 - **Tipo de contenido:** ad testimonial con humor deadpan + CTA telefónico
-- **Sujeto principal:** ambos — crash test dummy en traje navy con corbata teal + iPhone selfie en mano (CTA es la marca 1-800-NoFault)
+- **Sujeto principal:** ambos — crash test dummy en traje navy con corbata teal + iPhone selfie en mano (el CTA es la marca telefónica del estudio)
 - **Plataforma:** TikTok / Reels / YouTube Shorts
 - **Aspect ratio:** 9:16
 - **Mood:** deadpan corporativo con humor cubano callejero — el dummy habla "tranqui" desde una oficina legit
@@ -101,7 +101,7 @@ Duration: 15s. 9:16 vertical.
 - **Idioma + acento:** Español cubano (Caribeño, Miami-Cuban) — se genera aparte con TTS (ElevenLabs, voz masculina 35-45, energética pero con pausas).
 - **Línea 1 (0.5–3s, hook):** "Asere, ¿qué bolá? Escucha esto."
 - **Línea 2 (3.5–7.5s, beat principal):** "Yo me doy piñazos todo el día pa' que tú, si te chocan, no sueltes ni un kilo."
-- **Línea 3 (8–12s, CTA):** "Llámame al 1-800-NoFault. 18 años defendiendo al que no tiene la culpa."
+- **Línea 3 (8–12s, CTA):** "Llamame al <1-800-MARCA>. 18 años defendiendo al que no tiene la culpa."
 - **Línea 4 (12.5–14.5s, cierre):** "Cero billete, completo. Dale, confía."
 - **Dirección de actuación para TTS:** voz masculina cubana confiada y relajada, ritmo rápido caribeño con aspiración de "s" final ("e'cucha", "piñazo'"), entonación ascendente al final de frase con caída rápida, sonrisa audible en "asere" y "dale", medio tono más grave en el CTA para gravitas legal, una respiración natural entre línea 2 y 3. Cero lectura "locutor" — conversacional.
 - **Alternativa línea 2 (si "ni un kilo" no amplía bien fuera de Cuba):** "…no sueltes ni un peso."

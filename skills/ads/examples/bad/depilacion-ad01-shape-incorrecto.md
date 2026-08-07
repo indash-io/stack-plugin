@@ -1,20 +1,20 @@
 ---
-brand: smud
+brand: depilacion (marca anonimizada)
 category: belleza / depilación
 fecha: 2026-06-30
 modelo_usado: nano-banana
 modelo_correcto: nano-banana con refs reales + workflow híbrido para texto
 ---
 
-# Smud AD 01 — Producto con forma INCORRECTA + referencia ignorada
+# Depilación AD 01 — Producto con forma INCORRECTA + referencia ignorada
 
 ## Qué salió mal
 
-1. **Forma del producto inventada**: rendericé el "Borrador de Vello Smud" como un **rectángulo redondeado tipo barra de jabón**. La forma real es un **pebble oval/almendrado/asimétrico** (más ancho de un lado, curvo, ergonómico para sostener en mano).
+1. **Forma del producto inventada**: rendericé el borrador de vello (pebble de silicona) como un **rectángulo redondeado tipo barra de jabón**. La forma real es un **pebble oval/almendrado/asimétrico** (más ancho de un lado, curvo, ergonómico para sostener en mano).
 
 2. **Referencia visual ignorada**: el brief mandaba "La imagen tiene que ser similar a la referencia" (lime green ad con "Regalar Mal Debería Ser Delito → 40% OFF → + Packaging De Regalo → SOLO POR HOY" como pill button). Yo armé un layout totalmente distinto.
 
-3. **Tipografía del wordmark inventada**: pasé "smud" como texto a renderizar dentro del prompt. nano-banana lo dibujó como una letra estándar bold. La tipografía real de "smud" es una marca custom con curvas suaves específicas.
+3. **Tipografía del wordmark inventada**: pasé el wordmark de la marca como texto a renderizar dentro del prompt. nano-banana lo dibujó como una letra estándar bold. La tipografía real del wordmark es custom, con curvas suaves específicas.
 
 4. **Color Pink y Teal inventados sin packshot**: nano-banana adivinó cómo se verían las 4 versiones. Riesgo bajo solo si la forma estuviera bien.
 
@@ -33,9 +33,9 @@ modelo_correcto: nano-banana con refs reales + workflow híbrido para texto
 
 ## Brief original
 
-> AD 01 · 1080×1350 vertical · Smud Purple/Black/Pink/Teal · Conversión Oferta · Bottom of Funnel
+> AD 01 · 1080×1350 vertical · Purple/Black/Pink/Teal · Conversión Oferta · Bottom of Funnel
 > "La imagen tiene que ser similar a la referencia, pero adaptada a la oferta actual"
-> Texto: "Smuds x $29.990" / "Nunca estuvieron tan baratas" / CTA "ÚLTIMAS UNIDADES"
+> Texto: "<Producto> x $29.990" / "Nunca estuvieron tan baratas" / CTA "ÚLTIMAS UNIDADES"
 
 ## Línea roja
 

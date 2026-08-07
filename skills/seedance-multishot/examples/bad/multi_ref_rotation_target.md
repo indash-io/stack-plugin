@@ -3,7 +3,7 @@
 ## Brief received
 > "Generes un video de 15 segundos medio hyper motion zoom in a todos los productos y a sus partes del otro lado, para que arranque a mostrar cada uno con tomas más de cerca de ambos productos."
 
-Producto: **Smud Colors** — 3 silicone pebbles (pink, purple, mint), cada uno con su foto del frente y su foto del underside subidas a indash. El frente tiene un wordmark embossed "smud"; el underside es liso con un punto de inyección visible.
+Producto (marca de depilación, anonimizada): **3 silicone pebbles de color** (pink, purple, mint), cada uno con su foto del frente y su foto del underside subidas a indash. El frente tiene el wordmark de la marca embossed; el underside es liso con un punto de inyección visible.
 
 ## What was generated
 3 renders Seedance × 5s (uno por color). Cada render se disparó así:
@@ -11,7 +11,7 @@ Producto: **Smud Colors** — 3 silicone pebbles (pink, purple, mint), cada uno 
 - `@Image2` = underside del producto
 - Motion prompt: "extreme macro close-up of the front → 180-degree natural spin revealing its underside, which must match @Image2 exactly — same shape, same color, same surface detail."
 
-Los 3 renders fallaron de la misma manera: Seedance hizo el flip pero **inventó la underside** — el color quedó parecido pero la forma del molde, el punto de inyección y la superficie no matchean la `@Image2` real. El producto deja de ser "el Smud rosa" y pasa a ser "un objeto rosa parecido al Smud que Seedance imaginó".
+Los 3 renders fallaron de la misma manera: Seedance hizo el flip pero **inventó la underside** — el color quedó parecido pero la forma del molde, el punto de inyección y la superficie no matchean la `@Image2` real. El producto deja de ser "el pebble rosa real" y pasa a ser "un objeto rosa parecido que Seedance imaginó".
 
 ## Why this failed (root causes)
 
@@ -50,9 +50,9 @@ Para una rotación 180° con label fidelity perfecta en ambas caras, opciones:
 Si igual se intenta single-shot, hacer **un render piloto de 3s** primero con un solo color como prueba. Si la underside no matchea, no quemar los otros 2 colores. Ahorra 2/3 del costo.
 
 ## Output bug a documentar
-- `smud_tour_pink.mp4` → underside hallucinada (forma simétrica perfecta, sin el punto de inyección real)
-- `smud_tour_purple.mp4` → underside con color correcto pero textura inventada
-- `smud_tour_mint.mp4` → underside con un wordmark fantasma que NO está en la foto real del underside
+- `pebble_tour_pink.mp4` → underside hallucinada (forma simétrica perfecta, sin el punto de inyección real)
+- `pebble_tour_purple.mp4` → underside con color correcto pero textura inventada
+- `pebble_tour_mint.mp4` → underside con un wordmark fantasma que NO está en la foto real del underside
 
 ## Lección clave
 **Multi-ref en Seedance es soft conditioning, no timeline anchoring.** Si necesitás que el frame N matchee una imagen específica, generá ese frame N como frame-0 de su propio shot. No hay shortcut.

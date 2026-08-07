@@ -10,7 +10,7 @@
 
 ### Ejemplos buenos
 - `Tu ritual merece esto.` (emocional)
-- `20% off en Smud. 72 horas.` (racional)
+- `20% off en {marca}. 72 horas.` (racional)
 - `La piel que querés, en 4 semanas.` (aspiracional)
 
 ### Malos
@@ -49,7 +49,7 @@ Mal → Bien:
 - "Ver más" → "Ver todos los productos"
 - "Click aquí" → eliminar, jamás existe
 
-### Por variante (Smud-style)
+### Por variante (estilo marca de belleza / ritual)
 - V1 Emocional: `Armá tu ritual`, `Empezá tu ritual`, `Descubrí tu momento`
 - V2 Racional: `Llevátelo con 20% off`, `Comprá en 3x2`, `Aprovechá ahora`
 - V3 Aspiracional: `Empezá hoy`, `Vení a verte distinta`, `Quiero mis resultados`

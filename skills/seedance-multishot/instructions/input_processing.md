@@ -97,10 +97,10 @@ Cross-reference with `reference/refs_strategy.md` decision matrix. For each elem
 Do NOT generate the prompt. Instead, return one short message in the user's language:
 
 EN example:
-> "Stopping before generating. This brief shows a specific product (Lumy Mia heating belt). Without a product reference image, Seedance will invent a generic device and the wordmark will not render. Please attach: 1 product hero photo. Optionally: 1 lifestyle photo with the talent. I'll generate as soon as you share them."
+> "Stopping before generating. This brief shows a specific product (a branded heating belt). Without a product reference image, Seedance will invent a generic device and the wordmark will not render. Please attach: 1 product hero photo. Optionally: 1 lifestyle photo with the talent. I'll generate as soon as you share them."
 
 ES example:
-> "Freno antes de generar. Este brief muestra un producto específico (cinturón Lumy Mia). Sin foto de referencia del producto, Seedance va a inventar un dispositivo genérico y el wordmark no va a renderizar. Mandame: 1 foto hero del producto. Opcional: 1 lifestyle con la modelo. Genero apenas las pases."
+> "Freno antes de generar. Este brief muestra un producto específico (una faja térmica de marca). Sin foto de referencia del producto, Seedance va a inventar un dispositivo genérico y el wordmark no va a renderizar. Mandame: 1 foto hero del producto. Opcional: 1 lifestyle con la modelo. Genero apenas las pases."
 
 Do NOT proceed silently with `T2V` and a hallucinated product. The gate is non-negotiable for `ad_performance` and `brand_film` use cases when a specific product/person is in the brief.
 

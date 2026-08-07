@@ -1,13 +1,13 @@
-# VITS Pack Starter — 4 frascos en vez de 3
+# Suplementos — pack de inicio con 4 frascos en vez de 3
 
-**Marca**: VITS Nutrición
+**Marca**: marca de suplementos (anonimizada)
 **Categoría**: suplementos
 **Formato**: estática 4:5
 **Tipo**: ❌ bad
 
 ## Qué falla
-- El Pack Starter de VITS contiene **3 productos** (Omega 3, Citrato de Magnesio, Vitamina C+Zinc). El modelo generó **4 frascos** porque la imagen de referencia de Indash tenía un Omega 3 duplicado en la composición original y lo repliqué literal sin filtrar.
-- Esto rompe la verdad del producto: cualquier cliente que conozca el pack lo detecta al instante y pierde credibilidad.
+- El pack de inicio contiene **3 productos** (Omega 3, Citrato de Magnesio, Vitamina C+Zinc). El modelo generó **4 frascos** porque la imagen de referencia de Indash tenía un Omega 3 duplicado en la composición original y lo repliqué literal sin filtrar.
+- Esto rompe la verdad del producto: cualquier persona que conozca el pack lo detecta al instante y pierde credibilidad.
 - También desbalancea la composición — el cuarto frasco no aporta nada visual ni informativo.
 
 ## Qué evitar
@@ -16,5 +16,5 @@
 - Si la ref de Indash muestra una cantidad distinta a la real → aclarar explícitamente que se ignore esa cantidad y se respete el conteo correcto.
 
 ## Notas adicionales
-- Modelo: gpt-image. Ref: imagen del Pack Esenciales del workspace.
+- Modelo: gpt-image. Ref: imagen de otro pack del mismo catálogo en el workspace.
 - Corrección aplicada en regeneración: agregar "EXACTLY THREE" + "NO fourth bottle, NO duplicate bottles" en NEGATIVE.

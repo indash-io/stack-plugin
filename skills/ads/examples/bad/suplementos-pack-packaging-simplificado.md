@@ -1,22 +1,22 @@
-# VITS Pack Starter — packaging simplificado / no fiel al producto real
+# Suplementos — packaging simplificado / no fiel al producto real
 
-**Marca**: VITS Nutrición
+**Marca**: marca de suplementos (anonimizada)
 **Categoría**: suplementos
 **Formato**: estática 4:5
 **Tipo**: ❌ bad
 
-Aplica a las 3 imágenes: `vits-pack-starter-packaging-simplificado-v1.png`, `-v2.png`, `-v3.png`.
+Aplica a las 3 imágenes: `suplementos-pack-packaging-simplificado-v1.png`, `-v2.png`, `-v3.png`.
 
 ## Qué falla
 El modelo (gpt-image) reprodujo los frascos con la silueta y los colores correctos, pero **simplificó el packaging real** omitiendo elementos críticos:
 
 - ❌ Falta el conteo de cápsulas: el frasco real dice "60 Cápsulas Blandas" (Omega 3) o "120 Cápsulas" (Magnesio, Vit C+Zinc).
 - ❌ Falta el subtítulo de composición: "OMEGA 3 + VITAMINA E" en Omega 3, "MÁXIMA ABSORCIÓN" en Magnesio.
-- ❌ Falta la curva decorativa (la semi-esfera oscura) que cruza los labels de los frascos VITS — es un elemento de marca recurrente.
+- ❌ Falta la curva decorativa (la semi-esfera oscura) que cruza los labels de los frascos de esta marca — es un elemento de marca recurrente.
 - ❌ Falta la fine print inferior ("Suplemento dietario a base de…").
 - ❌ El pill de categoría a veces se renderiza sin acento ("RELAJACION" en vez de "RELAJACIÓN").
 
-Resultado: parecen "frascos VITS-like" pero no son los frascos reales. Un cliente que conoce la marca lo nota al instante → pérdida de confianza + el ad se siente "fake".
+Resultado: parecen "frascos parecidos a los de la marca" pero no son los frascos reales. Alguien que conoce la marca lo nota al instante → pérdida de confianza + el ad se siente "fake".
 
 ## Por qué pasa
 - **gpt-image** es excelente para texto on-image (headlines, badges, tablas), pero **inventa el packaging** cuando los detalles del producto son densos (texto secundario, fine print, gráficos del label).

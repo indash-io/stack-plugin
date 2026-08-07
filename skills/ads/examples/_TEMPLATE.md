@@ -1,6 +1,6 @@
 # [Nombre del ejemplo]
 
-**Marca**: [VITS / Suma / Hongo / etc.]
+**Marca**: [anonimizada — nunca el nombre del cliente. Describila por categoría: "marca de suplementos", "marca de bebidas", etc.]
 **Categoría**: [suplementos / mobiliario / comida / etc.]
 **Formato**: [estática 4:5 / carrusel / 1:1 / 9:16]
 **Tipo**: [✅ good / ❌ bad]

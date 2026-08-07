@@ -228,7 +228,7 @@ gpt-image **respeta colores hex** mucho mejor que la mayoría. Aprovechá:
 - *"El fondo es un magenta saturado plano #E91E63, sin gradientes, sin texturas, sin sombras."*
 - *"Render the text in #FFD500 (bright yellow), the secondary text in #FFFFFF."*
 
-Si el slide es **flat design / brand-driven** (como Panda Kids con sus bloques pink + sky blue + amarillo), gpt-image es la elección correcta porque lo respeta hex por hex.
+Si el slide es **flat design / brand-driven** (por ejemplo una marca infantil con bloques de color planos: pink + sky blue + amarillo), gpt-image es la elección correcta porque lo respeta hex por hex.
 
 ### Ley 6 — Personas: sigue las 7 disciplinas, especificá fotorrealismo
 gpt-image tiende a **estilizar más** que nano-banana. Si querés persona fotorrealista, especificalo explícito:

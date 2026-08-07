@@ -67,7 +67,7 @@ Multi-subject consistency es **debilidad oficial admitida** de Seedance 2.0. Cua
 
 ### Caso real del framework
 
-**Street vox-pop bloss** — iteré 3 versiones del mismo video. El clip-on mic rosa específico costó tanto tracking del modelo que el iPhone+mic derivaba entre cuts. Sacarlo + reemplazar el concept por "amiga que se acerca a otra en la calle" (sin iPhone, sin mic) resolvió en una iteración lo que las anteriores no pudieron. Ver `examples/bad/street_vox_pop_bloss_seedance_iteraciones.md`.
+**Street vox-pop de skincare** — iteré 3 versiones del mismo video. El clip-on mic rosa específico costó tanto tracking del modelo que el iPhone+mic derivaba entre cuts. Sacarlo + reemplazar el concept por "amiga que se acerca a otra en la calle" (sin iPhone, sin mic) resolvió en una iteración lo que las anteriores no pudieron. Ver `examples/bad/street_vox_pop_skincare_seedance_iteraciones.md`.
 
 ### Si el formato "exige" un prop específico para leer
 

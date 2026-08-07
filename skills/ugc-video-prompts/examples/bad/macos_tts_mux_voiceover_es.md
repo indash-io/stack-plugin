@@ -1,7 +1,7 @@
 # MALO — Voz con TTS de macOS (`say`) muxeada con ffmpeg para diálogo en español
 
 ## Contexto
-UGC testimonial 10s, 9:16, seller mexicano hablando a cámara. Cliente: Snowball Partners. Requisito: **audio en español mexicano sí o sí**.
+UGC testimonial 10s, 9:16, seller mexicano hablando a cámara. Cliente: agencia de e-commerce (anonimizada). Requisito: **audio en español mexicano sí o sí**.
 
 Veo (que haría voz nativa regional con lip-sync) estaba bloqueado en el pipeline de Indash (rechaza la imagen de referencia: `inlineData isn't supported`). Para "garantizar" el audio mexicano se tomó este atajo:
 
@@ -24,4 +24,4 @@ Veo (que haría voz nativa regional con lip-sync) estaba bloqueado en el pipelin
   3. **Voz humana real** o **ElevenLabs (voz MX)** + **lipsync dedicado** (Sync.so/Enhancor).
 - Si ninguna opción de calidad está disponible, **decirlo y no entregar un placeholder robótico como si fuera final.**
 
-Ver también `street_vox_pop_bloss_seedance_iteraciones.md` y la tabla de audio en `instructions/analysis.md`.
+Ver también `street_vox_pop_skincare_seedance_iteraciones.md` y la tabla de audio en `instructions/analysis.md`.

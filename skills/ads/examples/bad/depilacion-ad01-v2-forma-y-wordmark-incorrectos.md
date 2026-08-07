@@ -1,12 +1,12 @@
 ---
-brand: smud
+brand: depilacion (marca anonimizada)
 category: belleza / depilación
 fecha: 2026-06-30
 modelo_usado: gpt-image
 modelo_correcto: gpt-image (correcto) — error fue en uso de refs, no en modelo
 ---
 
-# Smud AD 01 v2 — Producto sigue mal: forma simétrica y wordmark genérico
+# Depilación AD 01 v2 — Producto sigue mal: forma simétrica y wordmark genérico
 
 ## Qué salió mal (segunda iteración, todavía mal)
 
@@ -16,15 +16,15 @@ Errores concretos en V2:
 
 1. **Forma del pebble incorrecta (otra vez)**: el producto real tiene una asimetría clara — una curva amplia en la parte de arriba y un perfil más afilado/aplanado abajo. Es una silueta de **gota o pétalo en perspectiva**, NO un huevo simétrico ni una almendra balanceada. V2 tiene pebbles redondeados uniformes.
 
-2. **Wordmark "smud" con tipografía genérica**: el wordmark real es lowercase con un estilo rounded soft custom (curvas suaves específicas en la `s`, `m`, `u`, `d`). V2 lo renderizó como un sans bold genérico, perdiendo la personalidad de marca.
+2. **Wordmark de la marca con tipografía genérica**: el wordmark real es lowercase con un estilo rounded soft custom (curvas suaves específicas en cada letra). V2 lo renderizó como un sans bold genérico, perdiendo la personalidad de marca.
 
-3. **Falta el detalle del patrón Hexa-Glide**: el lado de uso del producto tiene un patrón hexagonal de nano-cristales (visible en p4, p5, p6 del workspace de Indash). Aunque para AD 01 se ve el lado del wordmark (no el de uso), entender este detalle informa la perspectiva 3D del pebble.
+3. **Falta el patrón hexagonal del lado de uso**: el lado de uso del producto tiene un patrón hexagonal de nano-cristales (visible en p4, p5, p6 del workspace de Indash). Aunque para AD 01 se ve el lado del wordmark (no el de uso), entender este detalle informa la perspectiva 3D del pebble.
 
 4. **Pink y Teal renderizados sin packshot real**: Pink y Teal NO existen como SKUs separados en el workspace de Indash; solo están Purple y Black. Yo asumí que el usuario los tenía y los recoloreé desde la silueta inventada — error doble.
 
 ## Causa raíz
 
-- **No leí TODAS las imágenes del producto en Indash antes de armar el prompt**. El SKU "Borrador de Vello Smud" tiene 8 imágenes; solo miré 2-3. Las otras (p0 viral con "smud" wordmark grande, p4 modo de uso, p6 con caja) muestran la forma asimétrica REAL y la tipografía del wordmark con claridad.
+- **No leí TODAS las imágenes del producto en Indash antes de armar el prompt**. El SKU del borrador de vello tiene 8 imágenes; solo miré 2-3. Las otras (p0 viral con el wordmark grande, p4 modo de uso, p6 con caja) muestran la forma asimétrica REAL y la tipografía del wordmark con claridad.
 - **Confié en una sola pasada de descripción verbal** ("oval/almond pebble") en vez de pasar 4-5 ángulos del producto como refs y dejar que gpt-image absorba la silueta.
 - **No verifiqué la existencia de Pink y Teal en el workspace** antes de generar.
 
@@ -40,7 +40,7 @@ Errores concretos en V2:
 
 ## Brief original (mismo que V1)
 
-> AD 01 · 1080×1350 vertical · Smud Purple/Black/Pink/Teal · Conversión Oferta · "La imagen tiene que ser similar a la referencia, pero adaptada a la oferta actual" · Texto: "Smuds x $29.990" / "Nunca estuvieron tan baratas" / CTA "ÚLTIMAS UNIDADES"
+> AD 01 · 1080×1350 vertical · Purple/Black/Pink/Teal · Conversión Oferta · "La imagen tiene que ser similar a la referencia, pero adaptada a la oferta actual" · Texto: "<Producto> x $29.990" / "Nunca estuvieron tan baratas" / CTA "ÚLTIMAS UNIDADES"
 
 ## Línea roja
 

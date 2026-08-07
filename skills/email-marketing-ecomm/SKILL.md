@@ -138,7 +138,7 @@ Y en el mensaje al usuario:
 
 La marca primaria viene del **contexto del cliente** (`CLAUDE.md` + `brand/`), que la skill `new-client` arma al onboardear. Para una marca nueva, lo normal es onboardearla con `new-client`, no agregar archivos acá.
 
-`brands/{slug}/` es solo el **banco de marcas semilla / fallback** (ej: `smud`). Si querés sumar una marca al fallback legacy:
+`brands/{slug}/` es solo el **banco de marcas semilla / fallback** (ej: `marca-demo`). Si querés sumar una marca al fallback legacy:
 1. Crear `brands/{nueva-marca}/brand.md`
 2. Crear `brands/{nueva-marca}/palette.md`
 3. (Opcional) `brands/{nueva-marca}/tone_override.md`
@@ -149,5 +149,5 @@ Esto solo se usa cuando no hay contexto de cliente ni datos en Indash. El resto 
 
 | Skill | Para qué | Tono | CTAs típicos |
 |---|---|---|---|
-| **`promo-mail-ecom`** (este) | Mails ecom B2C: Smud, Mouthe, Vits, etc. → su audiencia final | Brand-led, ritual / energético / aspiracional según marca | "Comprá en 3x2", "Llevalo con 20% off", "Armá tu ritual" |
+| **`promo-mail-ecom`** (este) | Mails ecom B2C (belleza, cosmética, suplementos, etc.) → su audiencia final | Brand-led, ritual / energético / aspiracional según marca | "Comprá en 3x2", "Llevalo con 20% off", "Armá tu ritual" |
 | **`una futura skill B2B (no existe aún)`** | Mails B2B de **Indash mismo** → founders / heads of growth / media buyers de ecom | Founder-to-founder, directo, anti-jargon | "Agendá 15 min", "Probalo gratis", "Activá en tu cuenta" |

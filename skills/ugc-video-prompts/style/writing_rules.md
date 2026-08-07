@@ -116,7 +116,7 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
     - Si la narrativa depende de un before/after visible de piel (acne, manchas, hinchazón, ojeras, glow), no pedir "noticeably faded" o "slightly improved" en el frame final. Seedance interpola y suaviza el cambio entre cuts — lo que en el frame parece "sutilmente mejorado" termina sin diferencia en el video.
     - Pedir: `skin in the final state is clearly cleared, acne scars significantly reduced, surface smoother with a visible healthy glow, the change should be obvious compared to the initial frame`.
     - Mismo principio para hinchazón → "visibly reduced", ojeras → "noticeably brighter under-eye area", etc.
-    - Caso real documentado en `examples/bad/bloss_producto_describe_only_seedance.md`.
+    - Caso real documentado en `examples/bad/skincare_producto_describe_only_seedance.md`.
 
 32. **Producto con packaging específico = imagen real obligatoria como reference.**
     - No alcanza con describir tipografía, layout y color del packaging por texto, por más detallado que sea el prompt. Nano Banana captura el "concepto" del producto (skincare beige minimalista, tubo dorado de cosmética, etc.) pero inventa tipografía, posición del lettering y matiz exacto de color.
@@ -130,9 +130,9 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
 
     | Variante | Seedance 2.0 native audio | Kling 3.0 native audio | Notas |
     |---|---|---|---|
-    | Porteño (AR) | **ON OK** | OFF | Funcionó en MOUTHÉ + RestoHost ES con receta abajo |
-    | Mexicano / chilango | **ON OK** | OFF | Funcionó en Snowball Partners + Snowprofit campaign con receta `older-brother conversational` (ver abajo) |
-    | Neutro LATAM | **ON OK** | OFF | Funcionó en RestoHost ES |
+    | Porteño (AR) | **ON OK** | OFF | Funcionó en un caso de cosmética labial + uno de SaaS ES, con la receta de abajo |
+    | Mexicano / chilango | **ON OK** | OFF | Funcionó en 2 campañas de una agencia de e-commerce, con receta `older-brother conversational` (ver abajo) |
+    | Neutro LATAM | **ON OK** | OFF | Funcionó en un caso de SaaS ES |
     | Español de España | **ON OK** | OFF | Receta similar a neutro pero con `"vosotros" + "z/c" interdental + cadencia castellana confiada` |
     | Cubano (Miami-Cuban) | OFF (default conservador) | OFF | Sin caso validado |
     | Chileno | OFF (default conservador) | OFF | Sin caso validado |
@@ -163,15 +163,15 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
     **Cuando va OFF**, mantener la receta histórica: `natural full conversational articulation as if speaking, lips move continuously and expressively. No native audio dialogue generation — voice will be added in post with lipsync`. NO escribir `minimal articulation` (lee muerto).
 
     Casos documentados:
-    - **ON exitoso:** `examples/good/mouthe_lip_plumper_porteno_22s.md`
-    - **OFF necesario:** `examples/bad/street_vox_pop_bloss_seedance_iteraciones.md` iteración 2 (diálogo largo derivó incluso con receta correcta).
+    - **ON exitoso:** `examples/good/lip_plumper_porteno_22s.md`
+    - **OFF necesario:** `examples/bad/street_vox_pop_skincare_seedance_iteraciones.md` iteración 2 (diálogo largo derivó incluso con receta correcta).
 
 34. **Minimalismo de props en escenas multi-subject de Seedance 2.0.**
     - Multi-subject consistency es debilidad oficial de Seedance 2.0. **Cada prop específico que tiene que mantenerse idéntico entre cuts es un punto de falla.**
     - **Regla:** en escenas con 2+ personas, minimizar props a lo esencial. Si un prop tiene color específico (rosa, dorado), marca visible (logo iPhone), o micro-detalles (clip-on mic con espuma), considerarlo de alto riesgo.
     - Si el concept "parece" necesitar un prop específico, primero preguntarse: **¿la narrativa se lee sin él?** Si sí → sacarlo. Si no → simplificar el prop a su versión más genérica posible (mic de mano corto genérico, no clip-on rosa específico).
     - Cada prop sacado libera capacidad del modelo para mantener cast + escena + producto consistentes.
-    - Caso documentado en `examples/bad/street_vox_pop_bloss_seedance_iteraciones.md` iteración 2.
+    - Caso documentado en `examples/bad/street_vox_pop_skincare_seedance_iteraciones.md` iteración 2.
 
 35. **Si cambio un elemento del concept visual, re-validar la narrativa.**
     - Sacar o reemplazar un elemento clave del concept (ej: un prop) puede romper la lectura de la escena aunque resuelva otro problema (ej: derivación).
@@ -180,7 +180,7 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
       - (a) **Simplificar el elemento** (versión más genérica del prop)
       - (b) **Reemplazarlo** por otro que cumpla la misma función narrativa
       - (c) **Sacarlo + adaptar el resto del concept** para que la narrativa funcione sin él
-    - (c) es lo más radical pero a veces es lo correcto. Caso documentado: bloss vox-pop iteración 3 — terminamos sacando iPhone+mic + cambiando el concept a "amiga que se acerca a otra en la calle".
+    - (c) es lo más radical pero a veces es lo correcto. Caso documentado: el vox-pop de skincare, iteración 3 — terminamos sacando iPhone+mic + cambiando el concept a "amiga que se acerca a otra en la calle".
 
 36. **Anchor frame propagation — si regenero un anchor, regenero todos los dependientes.**
     - Si un frame Nano Banana es **anchor** (se usa como `reference_image_urls` de otros frames) y se regenera, **TODOS los frames que lo referencian deben regenerarse también** con el nuevo anchor.
@@ -189,7 +189,7 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
       - **Product anchor:** hero shot del producto → todos los frames donde aparece el producto.
       - **Setting anchor:** frame establishing del setting → todos los frames del mismo setting.
     - Saltarse este paso = inconsistencia visible entre cuts (cast cambia de cara, producto cambia de packaging, setting cambia de lugar) — y el usuario lo va a notar antes que vos.
-    - Caso documentado en `examples/bad/street_vox_pop_bloss_seedance_iteraciones.md` iteración 3 (regeneré Shot 1 v3 pero NO Shot 2 → cast desincronizado).
+    - Caso documentado en `examples/bad/street_vox_pop_skincare_seedance_iteraciones.md` iteración 3 (regeneré Shot 1 v3 pero NO Shot 2 → cast desincronizado).
 
 37. **Videos >15s = split en N clips de hasta 15s + ensamble en CapCut.**
 
@@ -212,9 +212,9 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
     - Excepción: si los dos clips son ambos talking head del mismo setting, cut seco simple sin flash.
 
     **Casos documentados:**
-    - `examples/good/mouthe_lip_plumper_porteno_22s.md` (2 clips × 11s ensamble)
-    - `examples/good/panda_watch_pro_2clip_17s.md` (1 clip talking head + 1 clip b-roll)
-    - `examples/good/pov_novio_mia_30s.md` (2 clips × 15s — caso histórico).
+    - `examples/good/lip_plumper_porteno_22s.md` (2 clips × 11s ensamble)
+    - `examples/good/testimonial_smartwatch_kids_15s.md` (1 clip talking head + 1 clip b-roll)
+    - `examples/good/pov_novio_faja_termica_30s.md` (2 clips × 15s — caso histórico).
 
 38. **Safety filter de Nano Banana — reformulación oblicua.**
 
@@ -227,15 +227,15 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
     - En vez de `placing a nipple cover under her tank top` → `palms flat over the front of the tank top fabric at chest level, as if smoothing or pressing the fabric gently from outside`. La acción se entiende por contexto narrativo + framing.
     - En vez de `lifting the hem to access` → `hands at chest level, fabric remains fully covering throughout`.
     - En vez de `silicone nipple cover` → `round silicone breast petal` o `silicone adhesive disc` (más clínico, menos sugerente).
-    - Mantener la palabra del producto si el catálogo del cliente la usa (ej: "pezonera"), pero usarla en contexto comercial (`product reference`) no en contexto de acción corporal.
+    - Mantener la palabra del producto si el catálogo del cliente la usa (aunque sea anatómica), pero usarla en contexto comercial (`product reference`) no en contexto de acción corporal.
 
     **Cuándo activar este modo:** cuando el primer intento devuelve `Gateway returned no image` y el prompt menciona alguno de los triggers. Reformular sin pedir permiso al usuario, lanzar otra vez, mostrar resultado.
 
-    Caso documentado: `examples/bad/pezonera_safety_filter_nano_banana.md`.
+    Caso documentado: `examples/bad/producto_intimo_safety_filter_nano_banana.md`.
 
 39. **Marcas no-dominantes + text rendering = imagen real como reference obligatoria.**
 
-    Seedance 2.0 (y todos los modelos de video actuales) tienen text rendering en pantalla flojo. Para marcas dominantes (Coca-Cola, Apple, Nike) el wordmark suele salir bien por presencia en dataset. Para marcas chicas, regionales o sin presencia (Volaris, Bloss, MOUTHÉ, RestoHost, etc.), el wordmark **se inventa** y deriva a variantes raras ("volants" en vez de "volaris", "MOUTHIE" en vez de "MOUTHÉ").
+    Seedance 2.0 (y todos los modelos de video actuales) tienen text rendering en pantalla flojo. Para marcas dominantes (Coca-Cola, Apple, Nike) el wordmark suele salir bien por presencia en dataset. Para marcas chicas, regionales o sin presencia (aerolíneas regionales, skincare local, cosmética independiente, SaaS chico), el wordmark **se inventa** y deriva a variantes raras: una letra cambiada, una sílaba de más, o una palabra parecida que no existe.
 
     **Workflow obligatorio para marcas no-dominantes con wordmark visible en frame:**
     1. **Conseguir foto real** del producto/marca:
@@ -243,10 +243,10 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
        - Marca sin producto cargado → buscar en Wikimedia Commons (search WebSearch + descarga directa con curl).
        - Si no hay foto en internet → pedirla al usuario antes de redactar el prompt.
     2. **Pasarla como `@image_brand`** explícito en la lista de references del render.
-    3. **Cláusula anti-derivación en el prompt:** `DO NOT spell it [variantes erradas comunes]. Spell V-O-L-A-R-I-S exactly`. Listar las variantes que el modelo tiende a inventar (las que viste en intentos previos).
+    3. **Cláusula anti-derivación en el prompt:** `DO NOT spell it [variantes erradas que ya viste]. Spell <B-R-A-N-D> exactly`, deletreado letra por letra. Listar las variantes que el modelo tiende a inventar (las que viste en intentos previos).
     4. **Si después de 2 intentos el wordmark sigue derivado:** plan B = generar el shot crítico como still aparte con Nano Banana usando la foto real como reference + intercalar en CapCut como freeze frame de 1.5-2s.
 
-    Caso documentado: `examples/bad/volaris_wordmark_text_rendering.md`.
+    Caso documentado: `examples/bad/aerolinea_wordmark_text_rendering.md`.
 
 40. **Plan B Ken Burns — cuando la cola de Seedance se atasca.**
 
@@ -267,7 +267,7 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
 
     **Cuándo NO usar Plan B:** cuando el video específicamente necesita movimiento físico legible (ej: aplicación del producto en piel, gesto específico de cara, walk-cycle). En esos casos esperar Seedance o relanzar con menos references.
 
-    Caso documentado: `examples/bad/pezonera_seedance_atascado_plan_b.md`.
+    Caso documentado: `examples/bad/producto_intimo_safety_filter_nano_banana.md` (mismo run: Seedance atascado → Plan B con stills).
 
 41. **Cutaways de motion graphics fuera de Seedance.**
 
@@ -293,7 +293,7 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
 
     **Excepción:** si el cutaway es de un objeto físico que se podría filmar (un celular vibrando sobre una mesa, una hand-held shot de pantalla mirando un mapa real desde fuera), eso sí lo hace Seedance porque es footage. Pedirle siempre así, no como "graphic".
 
-    Caso documentado: `examples/bad/snowball_cutaways_cgi_chilango.md`.
+    Caso documentado: `examples/bad/agencia_ecommerce_cutaways_cgi_chilango.md`.
 
 42. **Líneas de diálogo ≤8 palabras + registro conversacional.**
 
@@ -313,7 +313,7 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
 
     4. **No empaquetar el script tal como llega del cliente.** Parte del trabajo del director es reescribirlo en cláusulas que el modelo pueda articular. Esto va en la sección 7 del output (Diálogo) — mostrar líneas originales del cliente + líneas adaptadas al medio, y explicar por qué.
 
-    Caso documentado: `examples/bad/snowball_cutaways_cgi_chilango.md` (líneas largas corporate sonaron a locutor).
+    Caso documentado: `examples/bad/agencia_ecommerce_cutaways_cgi_chilango.md` (líneas largas corporate sonaron a locutor).
 
 43. **DEFAULT operativo: una persona hablando a cámara. Punto.**
 
@@ -352,8 +352,8 @@ No son sugerencias. Si un prompt viola alguna, no pasa el eval.
     - Textos overlay, animaciones, logos: agregados después en CapCut.
 
     Casos documentados:
-    - **Default talking head exitoso:** Snowball TACoS 15s, Snowball Partners 30s, Snowprofit campaign 4 videos (12 clips).
-    - **Desvío del default que falló:** `examples/bad/snowball_cutaways_cgi_chilango.md` (cutaways CGI tiraron el video abajo).
+    - **Default talking head exitoso:** los 3 sets de la agencia de e-commerce (15s, 30s y una campaña de 4 videos / 12 clips).
+    - **Desvío del default que falló:** `examples/bad/agencia_ecommerce_cutaways_cgi_chilango.md` (cutaways CGI tiraron el video abajo).
 
 ---
 

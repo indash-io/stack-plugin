@@ -10,7 +10,7 @@ El brief puede venir en cualquier formato. Tu trabajo es extraer estos campos.
 |---|---|---|
 | `brand` | la del cliente de la carpeta de trabajo | Tomar del contexto del cliente (`CLAUDE.md` + `brand/`). Si no hay cliente ni la marca en Indash, caer al fallback `brands/{slug}/` y, si tampoco, preguntar |
 | `promo_type` | `20% off`, `3x2`, `restock`, `lanzamiento`, `BFCM`, `2x1`, `bundle` | Preguntar |
-| `featured_product` | "Borrador de Vello Smud", "Ice Roller", "Smud Black" | Preguntar |
+| `featured_product` | "Borrador de Vello", "Ice Roller", "Serum Noche" | Preguntar |
 | `deadline` | "hasta domingo 23:59", "48hs", "fin de mes" | Asumir 48-72hs y avisar |
 
 ### Campos opcionales (inferir o usar default)
@@ -58,10 +58,10 @@ Si el usuario dice "dale, decidí vos", asumir defaults y avisar en `brief.md`.
 Formato canónico: `<AAAA-MM-DD>_<campaña-slug>_v<N>` (kebab-case, sin acentos). Se guarda dentro de `exports/emails/` de la carpeta del cliente (ver SKILL.md → "Output final"). Versiona, no pisa.
 
 Ejemplos:
-- `2026-05-05_20off-smud_v1`
+- `2026-05-05_20off-marca_v1`
 - `2026-04-30_3x2-ice-roller_v1`
 - `2026-04-30_restock-favoritos_v2`
-- `2026-11-28_bfcm-smud_v1`
+- `2026-11-28_bfcm-marca_v1`
 
 ## Señales del brief que cambian decisiones
 

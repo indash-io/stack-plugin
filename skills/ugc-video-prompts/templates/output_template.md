@@ -2,7 +2,7 @@
 
 Usar LITERAL. No cambiar orden. No agregar secciones. No omitir secciones (si algo no aplica, escribir "N/A" con razón breve).
 
-Si el video es **multi-clip** (>15s, partido en N clips Kling pegados en post), las secciones 4 y 5 se repiten una vez por clip. Ver `examples/good/pov_novio_mia_30s.md`.
+Si el video es **multi-clip** (>15s, partido en N clips Kling pegados en post), las secciones 4 y 5 se repiten una vez por clip. Ver `examples/good/pov_novio_faja_termica_30s.md`.
 
 ---
 

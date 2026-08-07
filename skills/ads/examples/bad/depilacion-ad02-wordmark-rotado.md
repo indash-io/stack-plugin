@@ -1,16 +1,16 @@
 ---
-brand: smud
+brand: depilacion (marca anonimizada)
 category: belleza / depilación
 fecha: 2026-06-30
 modelo_usado: nano-banana
 modelo_correcto: gpt-image (chips + UI) + nano-banana solo para el packshot
 ---
 
-# Smud AD 02 — Wordmark del producto sale rotado / espejado
+# Depilación AD 02 — Wordmark del producto sale rotado / espejado
 
 ## Qué salió mal
 
-1. **Wordmark "smud" rotado 90° o espejado** sobre el pebble: en Pink salió girado, en Teal salió "pnus" (espejo), en AD 03 igual, en AD 05 también ("pnus").
+1. **Wordmark de la marca rotado 90° o espejado** sobre el pebble: en Pink salió girado, en Teal salió espejado (ilegible), en AD 03 igual, en AD 05 también.
 2. **Forma del pebble inconsistente**: el Pink salió rectangular redondeado (mismo error de shape que AD 01), el Teal salió oval pero distinto.
 3. **Chips de beneficios renderizados por nano-banana**: pasable pero no excelente. Iconos genéricos, jerarquía visual sin la limpieza de un layout dirigido.
 
@@ -28,7 +28,7 @@ modelo_correcto: gpt-image (chips + UI) + nano-banana solo para el packshot
 |---|---|
 | Chips circulares con icono + texto | **gpt-image** (nativo en UI) |
 | Hero del pebble centrado fiel | **nano-banana** (con ref del packshot del color real) |
-| Tipografía del headline "SMUD PINK" | **gpt-image** |
+| Tipografía del headline (nombre de marca + color) | **gpt-image** |
 
 → Workflow correcto: **híbrido en 2 pasos**.
 1. Paso 1 — nano-banana: generar el pebble en el color correcto, sin texto on-image, sin chips. Solo el producto sobre fondo limpio, wordmark legible.
@@ -37,11 +37,11 @@ modelo_correcto: gpt-image (chips + UI) + nano-banana solo para el packshot
 ### Si lo hacés en un solo paso (no recomendado)
 
 - Usar `gpt-image` directamente y aceptar que el producto va a ser menos fiel.
-- Pasar el packshot real como ref + instrucción explícita: "wordmark 'smud' must appear correctly oriented, lowercase, left-to-right, never rotated or mirrored. If you cannot render the wordmark correctly, leave the product surface clean without text."
+- Pasar el packshot real como ref + instrucción explícita: "the brand wordmark must appear correctly oriented, lowercase, left-to-right, never rotated or mirrored. If you cannot render the wordmark correctly, leave the product surface clean without text."
 
 ## Síntomas que indican el error a tiempo
 
-- Wordmark del producto sale como "pnus", "snud", invertido, rotado, o emborronado → mal modelo. Regenerar con el otro, no insistir.
+- Wordmark del producto sale espejado, invertido, rotado, mal deletreado o emborronado → mal modelo. Regenerar con el otro, no insistir.
 - Chips o badges con texto roto o iconos torcidos → era gpt-image.
 - Producto cambia de forma entre slides → faltó pasar el packshot del color correcto + instrucción de "preserve shape".
 

@@ -3,10 +3,10 @@
 ## Brief received
 > "Apple-style launch hypermotion 15s del Omega 3. Arrancar en macro de cápsulas y hacer un snap zoom-out que revele la botella en hero composition."
 
-Producto: **Omega 3 VITS** — botella plástica blanca con label específico, cápsulas blandas doradas.
+Producto (marca de suplementos, anonimizada): **Omega 3** — botella plástica blanca con label específico, cápsulas blandas doradas.
 
 ## What was generated
-Render `omega_apple_b_macro_to_wide_15s.mp4`. Los primeros 3 segundos del macro de cápsulas se ven bien — golden glossy, motion blur, premium feel. **El snap zoom-out se rompió:** cuando la cámara pulls back para revelar la botella, Seedance inventa un envase genérico que NO matchea el Omega 3 VITS real. El label, la forma, los colores — todo alucinado. El shot completo termina siendo "una botella cualquiera con cápsulas alrededor", no el producto del cliente.
+Render `omega_apple_b_macro_to_wide_15s.mp4`. Los primeros 3 segundos del macro de cápsulas se ven bien — golden glossy, motion blur, premium feel. **El snap zoom-out se rompió:** cuando la cámara pulls back para revelar la botella, Seedance inventa un envase genérico que NO matchea el Omega 3 real. El label, la forma, los colores — todo alucinado. El shot completo termina siendo "una botella cualquiera con cápsulas alrededor", no el producto del cliente.
 
 ## Why this failed (root causes)
 

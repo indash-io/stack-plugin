@@ -1,7 +1,7 @@
-# Snowball Partners — cutaways CGI + chilango = alucinación
+# Agencia ecommerce — cutaways CGI + chilango = alucinación
 
 **Setup:**
-- Brief: 2 ads × 15s cada uno para Snowball Partners (agencia de e-commerce México/USA/Europa).
+- Brief: 2 ads × 15s cada uno para una agencia de e-commerce (México/USA/Europa), anonimizada.
 - Talent: hombre mexicano 33, chilango, navy crewneck, oficina warm daylight.
 - Idioma: español chilango con audio nativo Seedance ON.
 - Modelo: Seedance 2.0 ambos clips.
@@ -36,7 +36,7 @@ fully pronounced "s", "ll"/"y" as [ʝ] (NOT porteño "sh"), "tú" never "vos",
 melodic central-Mexican intonation, mid-30s confident expert tone.
 ```
 
-Resultado: la voz salió **menos creíble que el porteño del caso MOUTHÉ**. Posibles causas:
+Resultado: la voz salió **menos creíble que el porteño del caso de lip plumper**. Posibles causas:
 - El descriptor fonético del chilango no es tan distintivo en el dataset como el del porteño.
 - "Mid-30s confident expert tone" salió más plano / locutor genérico que natural mexicano hablando.
 - Las líneas formales ("socio de crecimiento") arrastraron la voz a registro corporate, no UGC.
@@ -98,7 +98,7 @@ Si ese mini-test sale bien → escalar a producción. Si no → quedarse con TTS
 
 ## Cómo se hubiera hecho bien
 
-Re-rendering del mismo brief Snowball aplicando las reglas:
+Re-rendering del mismo brief aplicando las reglas:
 
 - **Clip A**:
   - Shot 1 (0–5s) talking head — "Más de 300 marcas." (6 palabras, corto, claim limpio)
@@ -112,7 +112,7 @@ Re-rendering del mismo brief Snowball aplicando las reglas:
 Voz: **OFF + lipsync en post** con TTS mexicano (ElevenLabs voz "Dario" o "Mateo"). Tono casual UGC editado por el cliente.
 
 **Motion graphics en CapCut, no en Seedance:**
-- Logo Snowball animado como overlay PNG.
+- Logo del cliente animado como overlay PNG.
 - Texto en pantalla animado por shot.
 - Mapa de servicios → ilustración estática en Nano Banana + animación de fade-in secuencial en CapCut.
 
@@ -120,9 +120,9 @@ Voz: **OFF + lipsync en post** con TTS mexicano (ElevenLabs voz "Dario" o "Mateo
 
 ## Casos relacionados
 
-- `examples/bad/volaris_wordmark_text_rendering.md` — text rendering flojo de marcas no-dominantes (lección complementaria: si el cutaway necesita branding específico, hacerlo fuera de Seedance).
-- `examples/good/mouthe_lip_plumper_porteno_22s.md` — caso donde audio nativo Seedance + porteño rindió bien (el extremo opuesto).
-- `examples/good/restohost_es_neutro_15s.md` (por documentar) — caso donde audio nativo Seedance + neutro LATAM rindió bien.
+- `examples/bad/aerolinea_wordmark_text_rendering.md` — text rendering flojo de marcas no-dominantes (lección complementaria: si el cutaway necesita branding específico, hacerlo fuera de Seedance).
+- `examples/good/lip_plumper_porteno_22s.md` — caso donde audio nativo Seedance + porteño rindió bien (el extremo opuesto).
+- `examples/good/es_neutro_15s.md` (por documentar) — caso donde audio nativo Seedance + neutro LATAM rindió bien.
 
 ---
 

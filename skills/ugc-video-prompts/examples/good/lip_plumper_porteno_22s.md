@@ -1,9 +1,9 @@
-# MOUTHÉ Lip Plumper — multi-clip Seedance 2.0 con audio nativo porteño
+# Lip plumper — multi-clip Seedance 2.0 con audio nativo porteño
 
 **Setup:**
 - Brief: REEL #1 "Parece que me hice algo" — UGC prueba real / espejo.
 - Talent: Mujer Argentina 24, fair olive skin, freckles, pelo castaño ondulado, tank cream ribbed.
-- Producto: MOUTHÉ Lip Plumper (tubo glossy black, wordmark vertical "mouthé" en blanco).
+- Producto: lip plumper de una marca de cosmética labial, anonimizada (tubo glossy black, wordmark vertical en blanco).
 - Duración total: 22 segundos.
 - Split: Clip A (10s, hook + producto + intro aplicación) + Clip B (12s, aplicación + resultado + 2x1).
 - Modelo: Seedance 2.0 ambos clips.
@@ -23,19 +23,19 @@ Vertical 9:16 hyperrealistic UGC video, 10s. Raw iPhone 15 Pro front-camera docu
 
 NATIVE AUDIO: ON. Female voice in DISTINCT Buenos Aires PORTEÑO Argentine Spanish accent — "sh" sound on "ll"/"y", "vos" usage, sing-song intonation, mid-20s confident influencer tone. SFX: subtle bathroom ambient, soft acoustic guitar music bed at low volume.
 
-@Image1 = EXACT product: slim cylindrical MOUTHÉ lip plumper applicator, GLOSSY BLACK, lowercase "mouthé" wordmark printed VERTICALLY in WHITE down the side, small rounded cap.
+@Image1 = EXACT product: slim cylindrical lip plumper applicator, GLOSSY BLACK, lowercase brand wordmark printed VERTICALLY in WHITE down the side, small rounded cap.
 
 @Image2 = EXACT talent: 24-year-old Argentine woman, fair olive skin, freckles, long wavy chestnut brown hair with highlights, almond eyes, cream ribbed tank top, gold layered necklaces. LIPS visibly FULLER + GLOSSY + plumped throughout this clip.
 
 SHOT 1 (0–3s) LIPS HERO: Extreme close-up of her plumped glossy lips, soft pucker into small smile, gloss catching daylight, freckles around lips visible. Lips NOT speaking (mouth closed in soft pucker). VOICEOVER in porteño: "Me preguntaron si me había hecho algo en los labios… y no." Slow handheld push-in. Warm bathroom daylight.
 
-SHOT 2 (3–7s) PRODUCT IN HAND: Talent (@Image2) holds the MOUTHÉ plumper from @Image1 upright between thumb and finger at chest level, close to her face, soft knowing smile, plumped lips visible, "mouthé" wordmark crisp and readable on the wand. SHE SAYS in porteño with lip-sync: "Literal solo me puse el plumper de MOUTHÉ." Slow handheld micro-rotation around the product.
+SHOT 2 (3–7s) PRODUCT IN HAND: Talent (@Image2) holds the plumper from @Image1 upright between thumb and finger at chest level, close to her face, soft knowing smile, plumped lips visible, brand wordmark crisp and readable on the wand. SHE SAYS in porteño with lip-sync: "Literal solo me puse este plumper." Slow handheld micro-rotation around the product.
 
-SHOT 3 (7–10s) APPLYING INTRO: Talent (@Image2) unscrews the cap of the MOUTHÉ tube and starts to bring the doe-foot applicator toward her lips. VOICEOVER continues in porteño: "Yo tengo los labios bastante normales, pero cuando me lo pongo..." Steady handheld POV.
+SHOT 3 (7–10s) APPLYING INTRO: Talent (@Image2) unscrews the cap of the tube and starts to bring the doe-foot applicator toward her lips. VOICEOVER continues in porteño: "Yo tengo los labios bastante normales, pero cuando me lo pongo..." Steady handheld POV.
 
 REALISM: visible skin pores, freckles, lip gloss reflections, eye catchlights, breath shake, accurate fingers.
 
-PRODUCT LOCK: lip plumper MUST match @Image1 — glossy black slim wand, vertical white "mouthé" wordmark. DO NOT replace.
+PRODUCT LOCK: lip plumper MUST match @Image1 — glossy black slim wand, vertical white brand wordmark. DO NOT replace.
 
 VOICE: female, mid-20s, Buenos Aires porteño Spanish, warm confident relatable.
 ```
@@ -70,5 +70,5 @@ VOICE: female, mid-20s, Buenos Aires porteño Spanish, warm confident relatable.
 
 - Regla 33 (audio nativo porteño = ON con receta correcta)
 - Regla 37 (multi-clip >15s con consistency entre clips)
-- Regla 39 (producto MOUTHÉ con foto real como reference)
+- Regla 39 (producto con foto real como reference)
 - Regla 32 (packaging real obligatorio)

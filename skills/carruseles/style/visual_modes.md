@@ -52,7 +52,7 @@ La skill ofrece **dos modos visuales** para cada carrusel. La skill **siempre pr
 **Estilo visual típico**:
 - editorial premium, minimal, clinical, heritage moderno, industrial honesto, escultórico
 
-**Ejemplo en la skill**: el carrusel de Creatina VITS que generamos previamente (4 slides técnicos sobre fondo negro / acero / Purity).
+**Ejemplo en la skill**: el carrusel de una creatina que generamos previamente (4 slides técnicos sobre fondo negro / acero / Purity).
 
 ---
 
@@ -109,7 +109,7 @@ La skill ofrece **dos modos visuales** para cada carrusel. La skill **siempre pr
 **Estilo visual típico**:
 - documental cinematográfico, lifestyle editorial, oficio en acción, brand digital moderno
 
-**Ejemplo en la skill**: las refs de VITS sobre energía/hábitos que el user pasó (mujer con pelo al viento en azotea + hombre fatigado en gym + mujer haciendo yoga junto a ventana, todas con texto blanco grande, pills, brand mark asterisco/logo).
+**Ejemplo en la skill**: las refs de una marca de suplementos sobre energía/hábitos que el user pasó (mujer con pelo al viento en azotea + hombre fatigado en gym + mujer haciendo yoga junto a ventana, todas con texto blanco grande, pills, brand mark asterisco/logo).
 
 ---
 
