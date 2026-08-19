@@ -56,7 +56,7 @@ mano.
 | `ads` | 3-5 Meta ads (FB/IG): imagen final + copy completo (Primary Text, Headline, Description, CTA) | *"hacé 3 ads para \<producto\>"* |
 | `ugc-video-prompts` | Paquete de video UGC (Kling / Veo / Seedance + first/last frame con Nano Banana) | *"armá un UGC para \<producto\>"* |
 | `ugc-generator` | Producción end-to-end de videos UGC: guiones → frames → clips generados y verificados, con 2 gates de aprobación | *"hacele 2 videos de 10s a \<cliente\> con \<producto\>"* |
-| `seedance-multishot` | Prompts multi-shot cinematográficos Seedance 2.0 para film / paid B2B | *"un video cinematográfico de marca"* |
+| `all-videos` | Videos de marketing multi-shot con selección de modelo por shot (Seedance 2.0, Omni, Veo, Kling) | *"un video cinematográfico de marca"* |
 | `email-marketing-ecomm` | 3 variantes de mail promo DTC (HTML + PNG) listas para Klaviyo / Mailchimp | *"armá un mail promo"* |
 
 Todas siguen el mismo workflow estricto: **intake → discovery en silencio
@@ -231,7 +231,7 @@ soporta; nuestra tool todavía no la ofrece).
 Si el clip pesa más de 12 MB o el modelo tiene que ser otro, los caminos
 alternativos siguen siendo válidos: sacar frames y pasarlos como imágenes de
 referencia, describir el movimiento en el prompt (para eso están
-`seedance-multishot` y `ugc-video-prompts`), o guardar la referencia con
+`all-videos` y `ugc-video-prompts`), o guardar la referencia con
 `add_inspiration`.
 
 ### El video tarda

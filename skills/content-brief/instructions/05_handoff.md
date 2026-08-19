@@ -27,7 +27,7 @@ Cerrá mapeando cada bloque a su skill, en el orden sugerido de producción:
 > - **Ads** → skill `ads` (te genera imagen + copy de Meta por variación).
 > - **Carruseles** → skill `carruseles` (genera las imágenes 4:5).
 > - **Stories** → skill `stories-nano-banana`.
-> - **Videos** → skill `ugc-video-prompts` (UGC) o `seedance-multishot` (film B2B).
+> - **Videos** → skill `ugc-video-prompts` (UGC) o `all-videos` (film B2B).
 > - **Emails** → skill `email-marketing-ecomm`.
 >
 > Decime por cuál arrancamos y ejecuto pieza por pieza.

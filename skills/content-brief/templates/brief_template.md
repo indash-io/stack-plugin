@@ -19,7 +19,7 @@ Estructura exacta del brief final. Se guarda en `briefs/<AAAA-MM-DD>_<periodo-sl
 | Anuncios estáticos (Meta) | {N} | frío/tibio | `ads` |
 | Carruseles | {N} | tibio | `carruseles` |
 | Stories | {N} | tibio/caliente | `stories-nano-banana` |
-| Videos UGC / film | {N} | frío/tibio | `ugc-video-prompts` / `seedance-multishot` |
+| Videos UGC / film | {N} | frío/tibio | `ugc-video-prompts` / `all-videos` |
 | Emails | {N} | caliente | `email-marketing-ecomm` |
 | Cambios de catálogo | {N} | — | (manual / catálogo) |
 

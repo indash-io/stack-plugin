@@ -230,7 +230,7 @@ for (const skill of skills) {
   // primer segmento sea una carpeta estándar de skill. Las rutas de salida en la
   // carpeta del cliente (brand/, productos/, entregables/…) son runtime, no archivos
   // del repo — no se chequean.
-  const SKILL_DIRS = new Set(["instructions", "style", "templates", "examples", "eval"]);
+  const SKILL_DIRS = new Set(["instructions", "style", "templates", "examples", "eval", "reference"]);
   const refs = new Set();
   for (const m of content.matchAll(/`([\w./-]+)`/g)) {
     const token = m[1];
