@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.9.0 — 2026-08-19
+
+**Skill nueva: `ugc-generator`** — el proceso de producción end-to-end de
+videos UGC (antes "indash-production", usado internamente): del pedido en
+cualquier formato a los clips generados vía MCP y verificados en carpeta, con
+2 gates de aprobación (scripts y frames), QA de producto bloqueante, ficha de
+marca por cliente y registro por video en `SCRIPTS.md`.
+
+- Importada casi como venía; se renombró a `ugc-generator` y se adaptó a la
+  convención del repo (frontmatter con `language: es`, biblioteca de guiones
+  en `style/guiones.md`, "Punto de entrada" al final).
+- **Las fichas de clientes reales NO viajan**: la skill traía `fichas/` con
+  workspace IDs, dominios y datos comerciales de clientes — quedó solo el
+  template (`templates/ficha-marca-template.md`) y la ficha vive en la carpeta
+  local de cada cliente. Se anonimizaron también las marcas mencionadas en el
+  cuerpo y en los ejemplos de guiones, con el mismo criterio del barrido de
+  0.7.x (categoría genérica, aprendizajes técnicos intactos).
+- Sincronizados los cinco lugares que listan skills: `stack-policy.md`,
+  `stack-overview` (8 → 9 skills), `README.md`, `marketplace.json` y
+  `CLAUDE.md`.
+
 ## 0.8.0 — 2026-08-06
 
 **Las skills enseñaban un workflow que el MCP no sabía ejecutar.** Esta release

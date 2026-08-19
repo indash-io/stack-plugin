@@ -91,7 +91,7 @@ El plugin tiene tres familias de skills:
 
 - **Onboarding / planificación**: `new-client` (crea la estructura del cliente, baja marca + productos del MCP de Indash, escribe el `CLAUDE.md` de marca) y `content-brief` (arma el brief del período y orquesta a las de ejecución). No tienen `style/` de prompts; sus templates son de scaffolding/brief.
 - **Contenido visual de Instagram**: `carruseles` (genera las imágenes vía MCP, elige modelo por slide) y `stories-nano-banana`. Comparten el esqueleto intake → discovery → decisions → concept → prompts → output. Al tocar una, fijate si aplica a la otra.
-- **Otras piezas de performance**: `ads` (Meta), `ugc-video-prompts` y `seedance-multishot` (video), `email-marketing-ecomm`. Varias se importaron de skills externas y se alinearon a la convención del stack (gate, persistencia en `exports/<tipo>/`, herencia de marca del cliente).
+- **Otras piezas de performance**: `ads` (Meta), `ugc-video-prompts`, `ugc-generator` y `seedance-multishot` (video), `email-marketing-ecomm`. Varias se importaron de skills externas y se alinearon a la convención del stack (gate, persistencia en `exports/<tipo>/`, herencia de marca del cliente). `ugc-generator` es la excepción de persistencia: es el proceso de producción end-to-end de UGC y guarda en su propia estructura por video (`<Cliente>/V<N>-<Producto>/` con `SCRIPTS.md`), no en `exports/videos/`.
 
 **Convención transversal que comparten todas**: aplican el gate del MCP `indash`, heredan la marca del `CLAUDE.md` + `brand/` del cliente, y **guardan el entregable en disco** en `exports/<tipo>/` (o `briefs/`) con nombre `<AAAA-MM-DD>_<slug>_v<N>.md`. Esa convención vive en `hooks/context/stack-policy.md` (fuente única) y se inyecta en cada sesión — no la dupliques por skill.
 
@@ -118,7 +118,7 @@ El plugin tiene tres familias de skills:
   - `.claude-plugin/plugin.json` + `.mcp.json` → el formato propio de **Claude Code**.
   - `plugin.json` + `mcp.json` en la raíz → la spec **[Agent Plugins 1.0.0](https://agent-plugins.org)** (open, vendor-neutral; TSC con Amazon, Cursor, Microsoft, OpenAI y Vercel).
 
-  Conviven sin pisarse: cada cliente lee el suyo y **ignora el del otro**. Es lo que hace que las 8 skills + el conector `indash` se puedan instalar fuera de Claude Code.
+  Conviven sin pisarse: cada cliente lee el suyo y **ignora el del otro**. Es lo que hace que las 9 skills + el conector `indash` se puedan instalar fuera de Claude Code.
 - El `plugin.json` de la raíz usa un **schema cerrado**: los únicos campos top-level permitidos son `$schema`, `name`, `version`, `description`, `author`, `homepage`, `repository`, `license`, `keywords` y `extensions`. Cualquier otra cosa se pone bajo `extensions["ai.indash.stack"]`. El validador lo hace cumplir.
 - **Lo que NO viaja a clientes conformes:** el hook de `SessionStart` es específico de Claude Code — la spec no define hooks. En Cursor/Copilot/Codex la política **no se auto-inyecta**; el equivalente portable es la skill `stack-overview`, que la lleva adentro. Si cambiás la política, cambian **los dos**.
 - `core/skills/` no es un segundo directorio descubrible: la spec solo mira `skills/*/SKILL.md`. Sigue siendo canon consumido por referencia desde las skills de ejecución.
