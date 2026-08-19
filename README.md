@@ -21,7 +21,7 @@ La idea: instalás el plugin, conectás tu cuenta de Indash con un login, y las 
 | **ads** | Meta ads (FB/IG) para DTC e-commerce: 3-5 variaciones con imagen final (vía MCP) + copy de Meta completo (Primary Text, Headline, Description, CTA). |
 | **ugc-video-prompts** | Paquetes de video UGC (Kling 3.0 / Veo 3.1 / Seedance 2.0 + first/last frame con Nano Banana). |
 | **ugc-generator** | **Producción end-to-end de videos UGC**: del pedido (una frase, un sheet, un brief) a los clips generados vía MCP y verificados en carpeta — guiones, frames, QA de producto y 2 gates de aprobación. Se dispara con *"hacele 2 videos de 10s a `<cliente>` con `<producto>`"*. |
-| **seedance-multishot** | Prompts multi-shot cinematográficos Seedance 2.0 para film / paid B2B (modo prompt-only o video generado según el MCP). |
+| **all-videos** | Videos de marketing multi-shot (ads, demos, brand films, hypermotion) con selección de modelo por shot — Seedance 2.0, Omni, Veo, Kling — en modo prompt-only o video generado según el MCP. |
 | **email-marketing-ecomm** | Mails promo DTC: 3 variantes (HTML + PNG) brand-first, listas para Klaviyo / Mailchimp / Customer.io. |
 | **stack-overview** | **Empezá por acá si es tu primera vez.** Te explica el stack: qué hace cada skill, las 25 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué referencias soporta cada modelo (imagen, video y audio). Se dispara con *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"* o cualquier pregunta sobre capacidades. |
 
@@ -122,7 +122,7 @@ Pedile a Claude en lenguaje natural — las skills se disparan solas cuando el p
    - **Carrusel** → *"Armá un carrusel para `<URL>`"* + imagen → `carruseles` (genera las imágenes).
    - **Stories** → *"Necesito stories para `<URL>`"* + imagen → `stories-nano-banana`.
    - **Meta ads** → *"Hacé 3 ads para `<producto>`"* → `ads`.
-   - **Video (prompts)** → *"Armá un UGC / video para `<producto>`"* → `ugc-video-prompts` o `seedance-multishot`.
+   - **Video (prompts)** → *"Armá un UGC / video para `<producto>`"* → `ugc-video-prompts` o `all-videos`.
    - **Video (producción completa)** → *"Hacele 2 videos de 10s a `<cliente>` con `<producto>`"* → `ugc-generator` (genera y verifica los clips).
    - **Email** → *"Armá un mail promo para `<marca>`"* → `email-marketing-ecomm`.
 
@@ -172,7 +172,7 @@ skills/stories-nano-banana/     Stories 9:16
 skills/ads/                     Meta ads DTC (imagen + copy)
 skills/ugc-video-prompts/       Paquetes de video UGC (Kling/Veo/Seedance)
 skills/ugc-generator/           Producción end-to-end de videos UGC (pedido → clips verificados)
-skills/seedance-multishot/      Prompts multi-shot cinematográficos Seedance 2.0
+skills/all-videos/      Videos de marketing multi-shot, multi-modelo (Seedance/Omni/Veo/Kling)
 skills/email-marketing-ecomm/   Mails promo DTC (HTML + PNG)
 scripts/validate-plugin.mjs     Validador de integridad (JSON + refs de SKILL.md)
 .github/workflows/validate.yml  CI que corre el validador en cada push/PR

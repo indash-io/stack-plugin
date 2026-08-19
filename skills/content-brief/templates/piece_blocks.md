@@ -47,7 +47,7 @@ N. Copy: "{...}" · Sticker: {...}
 **Hook (primer 1.5s):** {...}
 **Beats / guion:** {3-5 beats o líneas de guion}
 **Modelo sugerido:** {Kling / Veo / Seedance} — {por qué}
-**Nota:** el detalle fino lo resuelve `ugc-video-prompts` / `seedance-multishot`.
+**Nota:** el detalle fino lo resuelve `ugc-video-prompts` / `all-videos`.
 ```
 
 ## Email

@@ -60,7 +60,7 @@ El brief no genera el contenido final — lo **planifica** y deriva a la skill c
 | Anuncios estáticos (Meta) | `ads` |
 | Carruseles | `carruseles` |
 | Stories | `stories-nano-banana` |
-| Videos UGC / film | `ugc-video-prompts` / `seedance-multishot` |
+| Videos UGC / film | `ugc-video-prompts` / `all-videos` |
 | Emails | `email-marketing-ecomm` |
 
 ## Reglas no-negociables

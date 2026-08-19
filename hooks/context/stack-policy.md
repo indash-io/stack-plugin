@@ -21,7 +21,7 @@ Skills de creative performance para e-commerce, montadas sobre un set de MCPs. C
 - **`ads`** → Meta ads (FB/IG) para DTC e-commerce: 3-5 variaciones con imagen final (vía MCP) + copy de Meta completo.
 - **`ugc-video-prompts`** → paquetes de video UGC (Kling/Veo/Seedance + first/last frame con Nano Banana).
 - **`ugc-generator`** → **produce** los videos UGC de un cliente end-to-end: pedido en cualquier formato → guiones → frames → clips generados con el MCP y verificados, con 2 gates de aprobación (scripts y frames) y ficha de marca por cliente. Se dispara con *"hacele 2 videos de 10s a \<cliente\> con \<producto\>"* o cualquier pedido de producir video terminado para un cliente.
-- **`seedance-multishot`** → prompts multi-shot cinematográficos Seedance 2.0 para film/paid B2B (modo prompt-only o video generado según el MCP).
+- **`all-videos`** → videos de marketing multi-shot (ads, demos, brand films, hypermotion) con selección de modelo por shot — Seedance 2.0, Omni, Veo, Kling — en modo prompt-only o video generado según el MCP.
 - **`email-marketing-ecomm`** → mails promo DTC: 3 variantes (HTML + PNG) brand-first, listas para Klaviyo/Mailchimp.
 
 Cada skill tiene su `SKILL.md` con el workflow completo: **seguilo al pie de la letra, en orden, sin saltear pasos.**
@@ -71,7 +71,7 @@ Esta convención es **global**: igual para todos los clientes, en toda sesión. 
     carruseles/              Salida de carruseles
     stories/                 Salida de stories-nano-banana
     ads/                     Salida de ads (Meta)
-    videos/                  Salida de ugc-video-prompts y seedance-multishot
+    videos/                  Salida de ugc-video-prompts y all-videos
     emails/                  Salida de email-marketing-ecomm
   briefs/                    Briefs del período (content-brief) y notas del cliente
   versions/                  Snapshots de creatives (los maneja el Studio)

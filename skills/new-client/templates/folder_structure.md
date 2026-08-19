@@ -18,7 +18,7 @@ Esta es la estructura estándar que crea la skill. `{slug}` es el nombre del cli
     carruseles/              Output de carruseles. Archivos: <AAAA-MM-DD>_<slug>_v<N>.md
     stories/                 Output de stories-nano-banana. Misma nomenclatura.
     ads/                     Output de ads.
-    videos/                  Output de ugc-video-prompts y seedance-multishot.
+    videos/                  Output de ugc-video-prompts y all-videos.
     emails/                  Output de email-marketing-ecomm.
   briefs/                    Briefs, pedidos y notas del cliente. .gitkeep.
 ```

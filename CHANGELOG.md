@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.10.0 — 2026-08-19
+
+**`seedance-multishot` evoluciona a `all-videos`** — la skill de video deja de
+ser Seedance-only y pasa a ser la skill general de videos de marketing, con
+selección de modelo por shot. Se integró desde un zip externo (`all-videos`)
+que era un fork de `seedance-multishot`: se tomó lo nuevo del fork sobre la
+base ya alineada del repo (persistencia, herencia de marca, gate, params
+multimodales de 0.8.0), en vez de copiarlo verbatim.
+
+- **Nuevo `reference/model_selection.md`**: roster de los 6 modelos del MCP
+  (seedance, seedance-ark, omni, veo, kling, grok-imagine), decision tree por
+  shot, workflow draft-en-Omni → final-en-Seedance, y best practices por
+  modelo.
+- **SKILL.md**: la hard rule "One model, one purpose" se reemplaza por
+  "Model selection is strategist work"; se suman al multi-ref discipline los
+  aprendizajes validados (refs = soft conditioning, single-take multi-ref con
+  producto estático, stop-motion discreto para transformaciones,
+  negative-space choreography, constraints por motion prompt); y se agrega la
+  sección "Generalist intake" para briefs que no matchean los 4 templates.
+- **Anonimización**: el fork traía marcas de clientes (casos reales) que acá
+  se reemplazaron por categoría genérica, con el criterio del barrido de
+  0.7.x. Las versiones del fork de los archivos compartidos NO se copiaron:
+  eran anteriores a la anonimización y al cableado multimodal de 0.8.0.
+- Sincronizados los lugares que listan skills: `stack-policy.md`,
+  `stack-overview`, `README.md`, `marketplace.json`, `CLAUDE.md`, y las
+  referencias cruzadas en `content-brief` y `new-client`.
+
 ## 0.9.0 — 2026-08-19
 
 **Skill nueva: `ugc-generator`** — el proceso de producción end-to-end de
