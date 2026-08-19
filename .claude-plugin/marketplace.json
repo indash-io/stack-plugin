@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "Marketplace privado de Indash. Publica el plugin del stack de creative performance. Acceso = acceso de lectura a este repo en GitHub.",
-    "version": "0.8.0"
+    "version": "0.9.0"
   },
   "plugins": [
     {
       "name": "indash-stack",
       "source": "./",
-      "description": "El stack de creación de contenido de Indash para tu marca: 8 skills (onboarding, brief de contenido, carruseles, stories, ads, UGC video, seedance multi-shot, email ecommerce) + el conector MCP de Indash (tu marca, tus productos, generación de imagen/video). OAuth con tu cuenta — sin tokens ni configuración.",
+      "description": "El stack de creación de contenido de Indash para tu marca: 9 skills (onboarding, brief de contenido, carruseles, stories, ads, UGC video, producción UGC end-to-end, seedance multi-shot, email ecommerce) + el conector MCP de Indash (tu marca, tus productos, generación de imagen/video). OAuth con tu cuenta — sin tokens ni configuración.",
       "category": "creative",
       "keywords": [
         "indash",

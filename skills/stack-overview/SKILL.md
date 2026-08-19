@@ -1,6 +1,6 @@
 ---
 name: stack-overview
-description: Explica qué es y qué puede hacer el stack de Indash — las 8 skills de creative performance, las 25 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
+description: Explica qué es y qué puede hacer el stack de Indash — las 9 skills de creative performance, las 25 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
 language: es
 ---
 
@@ -23,7 +23,7 @@ del gate de autenticación y de guardado que están más abajo son las que valen
 
 Adaptá el nivel al pedido — no vuelques todo el documento cada vez:
 
-- **"¿Qué puedo hacer?" / tour general** → el mapa de las 8 skills + las 5
+- **"¿Qué puedo hacer?" / tour general** → el mapa de las 9 skills + las 5
   familias de capacidades del MCP, en no más de una pantalla. Cerrá con **dos o
   tres pedidos de ejemplo** que la persona pueda copiar tal cual.
 - **Pregunta puntual** (video de referencia, dónde se guarda, actualizaciones) →
@@ -35,7 +35,7 @@ Antes de listar capacidades de generación, chequeá si el conector `indash` est
 conectado (ver *Gate de autenticación*). Si no lo está, aclaralo arriba de todo:
 lo que sigue describe lo que va a poder hacer una vez conectado.
 
-## 1. Las 8 skills
+## 1. Las 9 skills
 
 Cada una se dispara sola cuando el pedido coincide — la persona no invoca nada a
 mano.
@@ -55,6 +55,7 @@ mano.
 | `stories-nano-banana` | Secuencia de Stories 9:16 (1080×1920) con sticker de engagement y texto en zona segura | *"necesito stories para \<URL\>"* |
 | `ads` | 3-5 Meta ads (FB/IG): imagen final + copy completo (Primary Text, Headline, Description, CTA) | *"hacé 3 ads para \<producto\>"* |
 | `ugc-video-prompts` | Paquete de video UGC (Kling / Veo / Seedance + first/last frame con Nano Banana) | *"armá un UGC para \<producto\>"* |
+| `ugc-generator` | Producción end-to-end de videos UGC: guiones → frames → clips generados y verificados, con 2 gates de aprobación | *"hacele 2 videos de 10s a \<cliente\> con \<producto\>"* |
 | `seedance-multishot` | Prompts multi-shot cinematográficos Seedance 2.0 para film / paid B2B | *"un video cinematográfico de marca"* |
 | `email-marketing-ecomm` | 3 variantes de mail promo DTC (HTML + PNG) listas para Klaviyo / Mailchimp | *"armá un mail promo"* |
 
@@ -97,13 +98,13 @@ Las skills que viven **en la cuenta de Indash** de la marca, no en el plugin.
 Hay **dos** conjuntos de skills, y se actualizan distinto. Es la confusión más
 común:
 
-| | Skills del plugin (las 8 de arriba) | Skills del workspace |
+| | Skills del plugin (las 9 de arriba) | Skills del workspace |
 |---|---|---|
 | Dónde viven | En este repo, instaladas en la máquina | En la cuenta de Indash de la marca |
 | Cómo se leen | Las carga el cliente al iniciar sesión | `list_skills` / `get_skill`, en vivo |
 | Cómo se actualizan | **Manual**: `/plugin marketplace update indash` y reiniciar la sesión | **Solas** — se editan en la app y el próximo llamado ya trae lo nuevo |
 
-Es decir: **las 8 skills del plugin NO se actualizan solas.** Si el equipo de
+Es decir: **las 9 skills del plugin NO se actualizan solas.** Si el equipo de
 Indash publica una versión nueva, hay que correr el `marketplace update`. Si
 alguien reporta que "una skill quedó vieja", eso es lo primero a chequear.
 
