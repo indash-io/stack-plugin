@@ -2,6 +2,9 @@
 name: prompt-craft
 description: "Conocimiento universal de prompt engineering para generación y edición de imágenes con cualquier modelo (Gemini multimodal, gpt-image, Imagen). Se carga siempre que la tarea involucre escribir o ajustar un prompt para generate_image. Cubre: leyes del prompting cinematográfico, cómo anclar referencias por modelo, edit vs generate, personas, errores comunes."
 language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-25
 ---
 
 # Prompt Craft

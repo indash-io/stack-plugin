@@ -2,6 +2,9 @@
 name: stories-nano-banana
 description: Genera secuencias de Instagram Stories 9:16 (1080x1920) a partir de una URL de producto + imagen de referencia (o brand kit). Crea las imágenes directamente con el MCP de Indash, eligiendo el mejor modelo por story (nano-banana para producto/foto/logo, gpt-image para texto/infografía), respetando la zona segura de UI. Output: shot list creativo con sugerencias de stickers + imágenes generadas + prompts.
 language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-25
 ---
 
 # Stories Nano Banana

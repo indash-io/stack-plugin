@@ -2,6 +2,9 @@
 name: ads
 description: Create Meta (Facebook/Instagram) ads for DTC e-commerce brands — generates 3-5 ad variations per run, each with a final image (via Indash MCP) plus complete Meta copy (Primary Text, Headline, Description, CTA). Trigger when the user asks for Meta ads, Facebook ads, Instagram ads, "ads para mi producto", "anuncios", "creatividades", A/B testing variations, retargeting ads, abandoned cart ads, or static/carousel ads for an e-commerce product. Spanish output by default. Requires the Indash MCP server to be connected.
 language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-25
 ---
 
 # Ads — Meta Ads Creator

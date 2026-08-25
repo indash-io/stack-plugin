@@ -2,7 +2,8 @@
 // Validador de integridad del plugin Indash Stack.
 // Chequea, sin dependencias externas:
 //   1. Que los JSON de config parseen y tengan los campos mínimos.
-//   2. Que cada SKILL.md tenga frontmatter válido (name + description).
+//   2. Que cada SKILL.md tenga frontmatter válido (name + description) y la
+//      metadata de mantenimiento del hub (owner + status + reviewed).
 //   3. Que TODA referencia a un archivo/carpeta dentro de un SKILL.md exista.
 //   4. Que el hook de SessionStart apunte a un archivo real.
 // Uso: node scripts/validate-plugin.mjs   (sale con código 1 si algo falla)
@@ -163,6 +164,43 @@ if (marketplace) {
 }
 
 // --- 2 + 3. Skills: frontmatter + referencias ----------------------------
+
+// Metadata de mantenimiento del frontmatter (la lee el skills hub, no Claude
+// Code): quién es el dueño, en qué estado está y cuándo se revisó por última
+// vez. Sin esto el hub no puede auditar el inventario.
+const SKILL_STATUSES = new Set(["published", "draft", "deprecated"]);
+
+/** Chequea owner / status / reviewed en el frontmatter de un SKILL.md. */
+function checkSkillMetadata(fmBody, label) {
+  const owner = fmBody.match(/^owner:\s*(\S.*)$/m);
+  if (!owner) fail(`${label}: frontmatter sin "owner" (login de GitHub del dueño de la skill)`);
+
+  const status = fmBody.match(/^status:\s*(\S.*)$/m);
+  if (!status) {
+    fail(`${label}: frontmatter sin "status" (published | draft | deprecated)`);
+  } else {
+    const value = status[1].trim().replace(/^"|"$/g, "");
+    if (!SKILL_STATUSES.has(value)) {
+      fail(`${label}: "status" es "${value}" — tiene que ser published | draft | deprecated`);
+    }
+  }
+
+  const reviewed = fmBody.match(/^reviewed:\s*(\S.*)$/m);
+  if (!reviewed) {
+    fail(`${label}: frontmatter sin "reviewed" (fecha de la última revisión humana, YYYY-MM-DD)`);
+  } else {
+    const value = reviewed[1].trim().replace(/^"|"$/g, "");
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      fail(`${label}: "reviewed" es "${value}" — el formato es YYYY-MM-DD`);
+    } else {
+      const d = new Date(`${value}T00:00:00Z`);
+      if (Number.isNaN(d.getTime()) || d.toISOString().slice(0, 10) !== value) {
+        fail(`${label}: "reviewed" es "${value}" — no es una fecha válida del calendario`);
+      }
+    }
+  }
+}
+
 const skillsDir = join(ROOT, "skills");
 // core/skills = el canon compartido (F4): mismas reglas de validación.
 const coreSkillsDir = join(ROOT, "core", "skills");
@@ -188,6 +226,7 @@ for (const core of coreSkills) {
     } else {
       pass(`${core.label}: canon OK`);
     }
+    checkSkillMetadata(fm[1], `${core.label}/SKILL.md`);
   }
 }
 
@@ -218,6 +257,7 @@ for (const skill of skills) {
     if (nameMatch && nameMatch[1].trim() !== skill) {
       fail(`skills/${skill}/SKILL.md: frontmatter name "${nameMatch[1].trim()}" no coincide con la carpeta "${skill}"`);
     }
+    checkSkillMetadata(fm[1], `skills/${skill}/SKILL.md`);
   }
 
   // `skill.md` en minúscula rompe en Linux/CI (el archivo real es SKILL.md).

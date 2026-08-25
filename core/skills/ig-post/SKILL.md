@@ -2,6 +2,9 @@
 name: ig-post
 description: "Reglas de formato para post único de Instagram feed (una sola imagen, 1:1 o 4:5). Se carga cuando la pieza es UN post (no carrusel, no story). También cubre el caso 'imagen suelta libre' (web, blog, banner) cuando no es para Instagram."
 language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-25
 ---
 
 # Format — Instagram Post (single image)

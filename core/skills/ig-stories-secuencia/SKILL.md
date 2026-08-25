@@ -2,6 +2,9 @@
 name: ig-stories-secuencia
 description: "Reglas de formato para una secuencia de N stories de Instagram (9:16) con narrativa cross-story (hook → desarrollo → CTA). Se carga cuando la pieza es múltiples stories que cuentan algo juntas. Para una sola story, ver ig-story."
 language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-25
 ---
 
 # Format — Instagram Stories Secuencia (N stories)

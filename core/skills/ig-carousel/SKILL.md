@@ -2,6 +2,9 @@
 name: ig-carousel
 description: "Reglas de formato para carruseles de Instagram (4:5, N slides con narrativa cross-slide). Se carga cuando la pieza es un carrusel. Cubre: aspect ratio, narrativa hook→desarrollo→CTA, arquetipos, consistencia entre slides."
 language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-25
 ---
 
 # Format — Instagram Carousel

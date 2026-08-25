@@ -2,6 +2,9 @@
 name: content-brief
 description: Arma el brief de contenido de un período para una marca DTC e-commerce — define el mix de piezas (anuncios estáticos de Meta, carruseles, stories, videos UGC, emails, cambios de catálogo) con copy + brief de imagen por pieza, y orquesta las skills de ejecución del stack. Disparala cuando el user pida "armá el brief del mes/período", "plan de contenido", "calendario de piezas", "brief de social media" o equivalente.
 language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-25
 ---
 
 # Content Brief — Plan de contenido del período

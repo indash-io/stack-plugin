@@ -2,6 +2,9 @@
 name: ugc-video-prompts
 description: Genera paquetes completos de prompts para crear videos UGC con Kling 3.0, Veo 3.1 y Seedance 2.0, incluyendo imágenes de referencia first-frame/last-frame con Nano Banana. Usá esta skill cada vez que el usuario pida armar un video, generar un prompt de video, planificar una escena, crear un ad/testimonial/demo con IA, o mencione Kling, Veo, Seedance, Nano Banana, first frame, last frame, image-to-video, o cualquier flujo de generación de video con IA. También usala cuando el usuario hable de UGC con IA aunque no nombre los modelos explícitamente, o cuando describa una idea visual que quiera convertir en video.
 language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-25
 ---
 
 # UGC Video Prompt Director

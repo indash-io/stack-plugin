@@ -2,6 +2,9 @@
 name: new-client
 description: Da de alta un cliente nuevo del stack de Indash. Crea la estructura de carpetas estándar, trae los productos del cliente desde el MCP de Indash y genera el CLAUDE.md de contexto de marca que las skills de carrusel y stories heredan. Disparala cuando el user diga "nuevo cliente", "new client", "onboardear un cliente", "armar la carpeta de un cliente" o equivalente.
 language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-25
 ---
 
 # New Client

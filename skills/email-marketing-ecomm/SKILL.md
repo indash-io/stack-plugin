@@ -2,6 +2,9 @@
 name: email-marketing-ecomm
 description: Genera 3 variantes de mail promocional ecom B2C (descuentos, restock, 3x2, BFCM, lanzamientos, fechas especiales) para marcas DTC. Brand-first — hereda paleta, tono y producto del contexto del cliente (CLAUDE.md + brand/) y los complementa con el MCP de Indash. Output — 3 HTML email-safe + 3 PNG renderizados, listos para Klaviyo / Mailchimp / Customer.io. Imágenes generadas con nano-banana / gpt-image vía MCP de Indash.
 language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-25
 ---
 
 # Email Marketing Ecomm — Skill (MCP-powered)
