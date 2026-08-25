@@ -58,19 +58,9 @@ Agent Plugins es un estándar abierto y vendor-neutral para empaquetar skills + 
 
 ## Instalación
 
-El plugin se distribuye **vía marketplace** (no es un archivo que se baja a mano). El repo es **privado**: el control de acceso es el acceso al repo en GitHub.
+El plugin se distribuye **vía marketplace** (no es un archivo que se baja a mano). El repo es **público**: no hace falta pedir acceso ni estar autenticado en GitHub para instalarlo.
 
-### Requisito previo (importante para repo privado)
-
-Antes de instalar, cada persona necesita:
-
-1. **Acceso de lectura al repo** `indash-io/stack-plugin` en GitHub (te lo da el admin como colaborador o vía team de la org).
-2. **GitHub autenticado localmente** — porque el `marketplace add` clona el repo privado con tus credenciales git. Verificá una de las dos:
-   ```
-   gh auth status          # si usás GitHub CLI
-   ssh -T git@github.com    # si usás SSH
-   ```
-   Si no tenés acceso o no estás autenticado, el `marketplace add` falla con un error de clone.
+Lo público es el plugin, no lo que generás: las skills son instrucciones, y tu catálogo, tu brand kit y tus entregables viven en tu cuenta de Indash y en tu disco. El acceso a eso lo sigue dando el login del conector `indash`, no el repo.
 
 ### Como usuario del equipo
 
@@ -158,7 +148,7 @@ clientes/
 
 ```
 .claude-plugin/plugin.json      Manifiesto del plugin (formato Claude Code)
-.claude-plugin/marketplace.json Marketplace privado (lista el plugin para /plugin install)
+.claude-plugin/marketplace.json Marketplace de Indash (lista el plugin para /plugin install)
 .mcp.json                       Definición de los MCP servers (formato Claude Code)
 plugin.json                     Manifiesto en la spec abierta Agent Plugins 1.0.0
 mcp.json                        MCP servers en la spec abierta (streamable-http)
