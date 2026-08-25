@@ -27,6 +27,18 @@ La idea: instalás el plugin, conectás tu cuenta de Indash con un login, y las 
 
 Todas siguen un workflow estricto: intake → discovery (scraping + análisis de imagen) → **una sola pregunta consolidada de decisiones** → concepto → generación de prompts → self-check → output. Nunca generan sin confirmar con vos primero.
 
+### Commands
+
+Las skills se disparan solas; los **commands** los invocás vos a mano, escribiendo `/` en el chat.
+
+| Command | Qué hace |
+|---|---|
+| **`/save-learnings`** | Cierra la sesión guardando lo aprendido. Revisa qué skills usaste, separa los **learnings del cliente** (DOs, DON'Ts y cómo se llegó a un buen resultado → van al `LEARNINGS.md` del workspace de esa marca en Indash) de los **learnings de la skill** (universales y anonimizados → van a un issue privado del equipo de Indash, que los usa para mejorar el plugin). Te muestra el borrador completo y **no manda nada sin tu confirmación**. |
+
+Instalado desde el marketplace el nombre completo es `/indash-stack:save-learnings`; el autocompletado de `/` te lo encuentra escribiendo `save-learnings`.
+
+**Por qué te conviene usarlo:** el `LEARNINGS.md` de tu marca es lo que hace que la próxima sesión no repita los mismos errores, y los learnings de skill son los que hacen que el plugin mejore versión a versión. Nada de tu marca viaja al equipo: los learnings de skill van sin nombre de marca, producto, personas, URLs ni números de negocio.
+
 ### MCP server (`.mcp.json`)
 
 El plugin trae **un solo conector, y es todo lo que el stack necesita**:
@@ -174,7 +186,8 @@ skills/ugc-video-prompts/       Paquetes de video UGC (Kling/Veo/Seedance)
 skills/ugc-generator/           Producción end-to-end de videos UGC (pedido → clips verificados)
 skills/all-videos/      Videos de marketing multi-shot, multi-modelo (Seedance/Omni/Veo/Kling)
 skills/email-marketing-ecomm/   Mails promo DTC (HTML + PNG)
-scripts/validate-plugin.mjs     Validador de integridad (JSON + refs de SKILL.md)
+commands/save-learnings.md      Slash command /save-learnings (guarda los learnings de la sesión)
+scripts/validate-plugin.mjs     Validador de integridad (JSON + refs de SKILL.md + frontmatter de commands/)
 .github/workflows/validate.yml  CI que corre el validador en cada push/PR
 CLAUDE.md                       Guía técnica para desarrollar el plugin (solo en-repo)
 README.md                       Este archivo — cómo usar el stack
