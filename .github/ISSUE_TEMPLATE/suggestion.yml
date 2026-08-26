@@ -1,0 +1,57 @@
+name: Sugerencia para una skill
+description: Proponé un cambio a una skill que ya existe (algo que te pidió mal, algo que le falta, algo que sale flojo).
+title: "[suggestion] "
+labels: ["suggestion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Contá qué te pasó usando la skill. No hace falta que sepas cómo se arregla:
+        con el caso concreto alcanza. **No pongas datos de clientes** (marca, producto,
+        personas, números de negocio) — describilo en genérico.
+
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Skill
+      description: ¿A cuál de las skills del stack le pega este cambio?
+      options:
+        - ads
+        - all-videos
+        - carruseles
+        - content-brief
+        - email-marketing-ecomm
+        - new-client
+        - stack-overview
+        - stories-nano-banana
+        - ugc-generator
+        - ugc-video-prompts
+    validations:
+      required: true
+
+  - type: textarea
+    id: cambio
+    attributes:
+      label: Qué habría que cambiar
+      description: En una o dos frases, el cambio concreto que proponés.
+      placeholder: Que pregunte el objetivo de la campaña antes de pedir el CTA.
+    validations:
+      required: true
+
+  - type: textarea
+    id: porque
+    attributes:
+      label: Por qué
+      description: Qué pasa hoy sin ese cambio — el problema que estás viendo en el resultado.
+      placeholder: Como pide el CTA primero, termina proponiendo CTAs que no aplican al objetivo y hay que rehacer las variantes.
+    validations:
+      required: true
+
+  - type: textarea
+    id: ejemplo
+    attributes:
+      label: Ejemplo (si tenés)
+      description: Pegá el fragmento de la sesión, el prompt o el output que muestra el problema. Anonimizado.
+      render: markdown
+    validations:
+      required: false

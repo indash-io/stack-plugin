@@ -2,6 +2,9 @@
 name: ig-story
 description: "Reglas de formato para UNA story de Instagram (vertical 9:16). Se carga cuando la pieza es una sola story. Para múltiples stories con narrativa, ver ig-stories-secuencia."
 language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-25
 ---
 
 # Format — Instagram Story (single)

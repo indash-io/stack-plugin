@@ -55,16 +55,20 @@ Un plugin es un repo con un manifiesto `.claude-plugin/plugin.json`. Claude Code
 | Archivo / carpeta | Rol | Lo lee… |
 |---|---|---|
 | `.claude-plugin/plugin.json` | Manifiesto: nombre, versión, metadata | Claude Code al instalar |
-| `.claude-plugin/marketplace.json` | Marketplace privado: lista el plugin para `/plugin install` | Claude Code al hacer `marketplace add` |
+| `.claude-plugin/marketplace.json` | Marketplace de Indash: lista el plugin para `/plugin install` | Claude Code al hacer `marketplace add` |
 | `.mcp.json` | Definición del MCP server `indash` (el único que trae el plugin) | Claude Code (autodescubierto) |
 | `plugin.json` (raíz) | **Mismo manifiesto en formato [Agent Plugins 1.0.0](https://agent-plugins.org)** | Clientes conformes a la spec (Cursor, Copilot, Codex, Gemini CLI…) |
 | `mcp.json` (raíz) | Mismo server `indash`, con `type: "streamable-http"` (el nombre que usa la spec) | Ídem |
 | `hooks/hooks.json` | Registra el hook de SessionStart | Claude Code (autodescubierto) |
 | `hooks/context/stack-policy.md` | **Política operativa del stack** | El **agente del usuario**, cada sesión |
+| `commands/*.md` | **Slash commands** del plugin (markdown plano con frontmatter). Hoy: `save-learnings.md` | El agente del usuario, cuando escribe `/save-learnings` |
 | `skills/<skill>/SKILL.md` | Orquestador de cada skill | El agente, al disparar la skill |
 | `skills/<skill>/{instructions,style,templates,examples,eval}/` | Detalle de cada skill | El SKILL.md las referencia |
 | `scripts/validate-plugin.mjs` | Validador de integridad | Vos / CI |
+| `scripts/setup-github.sh` | Setup de GitHub: labels (`suggestion`, `new-skill`, `skill:<name>`) + branch protection de `main`. **Lo corre un humano con admin, a mano** — nadie lo dispara automáticamente | Un humano, cuando cambian los labels o la protección |
 | `.github/workflows/validate.yml` | CI que corre el validador | GitHub Actions |
+| `.github/CODEOWNERS` | Dueños del repo: todo PR a `main` pide su review | GitHub, en cada PR |
+| `.github/ISSUE_TEMPLATE/` | Templates de issue (`suggestion.yml` para cambios a una skill, `new-skill.yml` para una skill nueva) + `config.yml` que apaga los issues en blanco | Quien abre un issue (y el skills hub, que publica ahí) |
 | `CLAUDE.md` (este) | Guía técnica de desarrollo | Vos, editando el repo |
 | `README.md` | Cómo usar e instalar | Humanos que miran el repo |
 
@@ -76,7 +80,7 @@ Cada skill es una carpeta en `skills/` con esta estructura. El `SKILL.md` es el 
 
 ```
 skills/<skill>/
-  SKILL.md              Frontmatter (name, description, language) + workflow en pasos + reglas
+  SKILL.md              Frontmatter (name, description, language, owner, status, reviewed) + workflow en pasos + reglas
   instructions/         Un .md por paso del workflow (01_intake … 06_output_format)
   style/                Tono, reglas de escritura, modos visuales, composición de texto
   templates/            Plantillas de shot list, prompt, arquetipos
@@ -91,7 +95,7 @@ El plugin tiene tres familias de skills:
 
 - **Onboarding / planificación**: `new-client` (crea la estructura del cliente, baja marca + productos del MCP de Indash, escribe el `CLAUDE.md` de marca) y `content-brief` (arma el brief del período y orquesta a las de ejecución). No tienen `style/` de prompts; sus templates son de scaffolding/brief.
 - **Contenido visual de Instagram**: `carruseles` (genera las imágenes vía MCP, elige modelo por slide) y `stories-nano-banana`. Comparten el esqueleto intake → discovery → decisions → concept → prompts → output. Al tocar una, fijate si aplica a la otra.
-- **Otras piezas de performance**: `ads` (Meta), `ugc-video-prompts`, `ugc-generator` y `all-videos` (video), `email-marketing-ecomm`. Varias se importaron de skills externas y se alinearon a la convención del stack (gate, persistencia en `exports/<tipo>/`, herencia de marca del cliente). `ugc-generator` es la excepción de persistencia: es el proceso de producción end-to-end de UGC y guarda en su propia estructura por video (`<Cliente>/V<N>-<Producto>/` con `SCRIPTS.md`), no en `exports/videos/`.
+- **Otras piezas de performance**: `ads` (Meta), `ugc-video-prompts`, `ugc-generator` y `all-videos` (video), `hyperframes` (post-producción: edición y armado de la pieza final con HyperFrames — es *prompt-only*, no usa tools del MCP y renderiza local con Node 22+ y FFmpeg), `email-marketing-ecomm`. Varias se importaron de skills externas y se alinearon a la convención del stack (gate, persistencia en `exports/<tipo>/`, herencia de marca del cliente). `ugc-generator` es la excepción de persistencia: es el proceso de producción end-to-end de UGC y guarda en su propia estructura por video (`<Cliente>/V<N>-<Producto>/` con `SCRIPTS.md`), no en `exports/videos/`.
 
 **Convención transversal que comparten todas**: aplican el gate del MCP `indash`, heredan la marca del `CLAUDE.md` + `brand/` del cliente, y **guardan el entregable en disco** en `exports/<tipo>/` (o `briefs/`) con nombre `<AAAA-MM-DD>_<slug>_v<N>.md`. Esa convención vive en `hooks/context/stack-policy.md` (fuente única) y se inyecta en cada sesión — no la dupliques por skill.
 
@@ -101,9 +105,46 @@ El plugin tiene tres familias de skills:
 
 ### Skills
 - Idioma: **español rioplatense (voseo)**. Mantené el registro al editar.
-- El `SKILL.md` arranca con frontmatter (`name`, `description`, `language: es`) y termina con un "Punto de entrada" que manda al paso 1.
+- El `SKILL.md` arranca con frontmatter y termina con un "Punto de entrada" que manda al paso 1.
 - Reglas no-negociables explícitas y numeradas. Si agregás una regla, numerala en la misma lista.
 - Toda ruta referenciada en el SKILL.md debe existir (lo verifica el validador).
+
+**Frontmatter — seis campos, en este orden.** Los tres primeros los lee Claude
+Code; los tres últimos son **metadata de mantenimiento** que lee el skills hub
+(el panel interno que audita el inventario de skills). El validador exige los
+seis.
+
+```yaml
+---
+name: ads                    # tiene que coincidir con el nombre de la carpeta
+description: …               # cuándo dispararla — es lo que ve el agente
+language: es
+owner: manuel-soria          # login de GitHub del dueño: quien revisa los PRs que la tocan
+status: published            # published | draft | deprecated
+reviewed: 2026-08-25         # última vez que un humano leyó y validó el contenido
+---
+```
+
+- **`owner`** — no es "el que la escribió", es **el que la mantiene**. Si te
+  hacés cargo de una skill, cambiá el campo.
+- **`status`** — `published` es lo que ve el usuario; `draft` es una skill que
+  está en el repo pero todavía no se anuncia; `deprecated` es **el primer paso
+  de la baja**: se oculta del README y del marketplace pero sigue en el repo, y
+  recién en el bump siguiente se borra la carpeta. Nunca borres una skill de
+  una: marcala `deprecated` primero, así nadie se queda sin ella de un release
+  al otro.
+- **`reviewed`** — la fecha de la última revisión **humana** del contenido, no
+  la del último commit. Tocarle una typo no la actualiza; releerla entera y
+  darla por buena, sí. El hub usa este campo para marcar las skills que están
+  quedando viejas.
+
+### Commands (`commands/*.md`)
+- Un command es **markdown plano** con frontmatter `description` (obligatorio) y, opcional, `argument-hint`, `disable-model-invocation`, `allowed-tools`. El cuerpo es el prompt que recibe el agente al invocarlo.
+- Se autodescubren en `commands/` (raíz del plugin, **nunca** dentro de `.claude-plugin/`). Quedan namespaced: `/indash-stack:<nombre>`.
+- Diferencia con una skill: la skill la **dispara el modelo** cuando el pedido coincide; el command lo **invoca la persona**. Si el flujo no debería arrancar solo (porque manda datos afuera, por ejemplo), va como command con `disable-model-invocation: true`.
+- Mismo registro que las skills: **voseo**, reglas no-negociables numeradas, y "Punto de entrada" al final.
+- `${CLAUDE_PLUGIN_ROOT}` se sustituye en el cuerpo de un command de plugin igual que en una skill — sirve para leer archivos del propio plugin (ej: la `version` del manifiesto). Fuera de Claude Code no se sustituye: el command tiene que tener un fallback explícito.
+- Si un command habla de la política del stack o de las skills, entra en la **regla de sincronización** de abajo.
 
 ### MCPs (`.mcp.json`)
 - **El plugin trae UN solo conector (`indash`), es OAuth y no lleva `headers` en el `.mcp.json`.** Es un producto client-facing: conectores extra (Notion, Drive, scrapers) los agrega cada usuario por su cuenta, no el plugin. No hay secretos ni variables de entorno en el repo, y tampoco hay que agregarlas: un `headers.Authorization` explícito **desactiva** el flujo OAuth (el cliente nunca recibe el 401 que dispara el discovery, y si el token es inválido el server queda `failed` en vez de caer a OAuth). Si alguna vez hace falta autenticar por API key para un entorno headless, se registra el server aparte con `claude mcp add --header`, nunca acá.
@@ -118,7 +159,7 @@ El plugin tiene tres familias de skills:
   - `.claude-plugin/plugin.json` + `.mcp.json` → el formato propio de **Claude Code**.
   - `plugin.json` + `mcp.json` en la raíz → la spec **[Agent Plugins 1.0.0](https://agent-plugins.org)** (open, vendor-neutral; TSC con Amazon, Cursor, Microsoft, OpenAI y Vercel).
 
-  Conviven sin pisarse: cada cliente lee el suyo y **ignora el del otro**. Es lo que hace que las 9 skills + el conector `indash` se puedan instalar fuera de Claude Code.
+  Conviven sin pisarse: cada cliente lee el suyo y **ignora el del otro**. Es lo que hace que las 10 skills + el conector `indash` se puedan instalar fuera de Claude Code.
 - El `plugin.json` de la raíz usa un **schema cerrado**: los únicos campos top-level permitidos son `$schema`, `name`, `version`, `description`, `author`, `homepage`, `repository`, `license`, `keywords` y `extensions`. Cualquier otra cosa se pone bajo `extensions["ai.indash.stack"]`. El validador lo hace cumplir.
 - **Lo que NO viaja a clientes conformes:** el hook de `SessionStart` es específico de Claude Code — la spec no define hooks. En Cursor/Copilot/Codex la política **no se auto-inyecta**; el equivalente portable es la skill `stack-overview`, que la lleva adentro. Si cambiás la política, cambian **los dos**.
 - `core/skills/` no es un segundo directorio descubrible: la spec solo mira `skills/*/SKILL.md`. Sigue siendo canon consumido por referencia desde las skills de ejecución.
@@ -130,6 +171,8 @@ El gate de autenticación y la lista de MCPs aparecen en **cinco** archivos. Si 
 3. `README.md` (la tabla de MCPs)
 4. `.mcp.json` **y** `mcp.json` (los dos formatos — el validador falla si divergen)
 5. Este `CLAUDE.md` si cambia algo conceptual del flujo
+
+Lo mismo vale para los **commands**: si agregás, sacás o cambiás el propósito de un command, tiene que quedar reflejado en `hooks/context/stack-policy.md` (1), `skills/stack-overview/SKILL.md` (2) y `README.md` (3) — son las tres superficies donde el usuario se entera de que existe.
 
 Ídem la versión: `plugin.json`, `.claude-plugin/plugin.json` y el `metadata.version` de `marketplace.json` tienen que ser el mismo número. El validador lo chequea.
 
@@ -143,7 +186,7 @@ Antes de commitear, corré el validador (sin dependencias):
 node scripts/validate-plugin.mjs
 ```
 
-Chequea: JSON de config parsean y tienen campos mínimos, frontmatter de cada `SKILL.md`, **que toda referencia de archivo dentro de los SKILL.md exista**, que el hook de SessionStart apunte a un archivo real, y que el `marketplace.json` liste plugins con un `source` que tenga su `plugin.json`.
+Chequea: JSON de config parsean y tienen campos mínimos, frontmatter de cada `SKILL.md` (los seis campos, con `status` en el enum y `reviewed` como fecha válida), **que toda referencia de archivo dentro de los SKILL.md exista**, que cada `commands/*.md` tenga frontmatter con `description`, que el hook de SessionStart apunte a un archivo real, y que el `marketplace.json` liste plugins con un `source` que tenga su `plugin.json`.
 
 Además, **conformidad con Agent Plugins 1.0.0**: `$schema` exacto en `plugin.json` y `mcp.json`, `name` contra el patrón de la spec, schema cerrado (ningún campo top-level de más), namespaces de `extensions` en reverse-domain, transportes MCP válidos (`stdio` | `streamable-http` | `sse`) con URL https — y **anti-drift** entre los dos formatos: mismo `name`/`version`/`description` en los dos manifiestos, misma versión en `marketplace.json`, y mismos servers con mismas URLs en `.mcp.json` y `mcp.json`. Sale con código ≠0 si algo falla. El mismo chequeo corre en CI (`.github/workflows/validate.yml`) en cada push y PR.
 
@@ -152,10 +195,16 @@ Además, **conformidad con Agent Plugins 1.0.0**: `$schema` exacto en `plugin.js
 ## Cómo extender
 
 **Agregar una skill nueva:**
-1. Creá `skills/<nombre>/SKILL.md` con frontmatter + workflow + reglas.
+1. Creá `skills/<nombre>/SKILL.md` con frontmatter (los seis campos: `name`, `description`, `language`, `owner`, `status`, `reviewed`) + workflow + reglas.
 2. Armá las subcarpetas (`instructions/`, `style/`, `templates/`, `examples/`, `eval/`) y referencialas desde el SKILL.md.
 3. Corré el validador para confirmar que no hay refs rotas.
 4. Mantené el registro rioplatense y la estructura orquestador/detalle.
+
+**Agregar un command:**
+1. Creá `commands/<nombre>.md` con frontmatter (`description` como mínimo) + cuerpo con workflow en pasos y reglas numeradas.
+2. Si no debería dispararse solo, poné `disable-model-invocation: true`.
+3. Anunciálo en `stack-policy.md`, `stack-overview/SKILL.md` y `README.md` (regla de sincronización).
+4. Corré el validador.
 
 **Agregar un MCP:**
 1. Definilo en `.mcp.json` (token por env var si aplica).

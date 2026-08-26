@@ -2,6 +2,9 @@
 name: all-videos
 description: Genera y ejecuta videos de marketing (ads, demos, organic social, brand films, product launches, unboxings, hypermotion) con Seedance 2.0, Google Omni, Veo, Kling y Nano Banana vía el MCP de Indash — o entrega el prompt timeline por shots si el MCP no está conectado. Actúa como paid creative strategist + director de fotografía: ref audit, identity lock, regla de las 3 fidelidades, selección de modelo por shot y coreografía de negative space para overlays. Disparala cuando pidan armar un video, generar prompts de video, planificar tomas/escenas, un ad/demo/lanzamiento, o mencionen Seedance, Omni, Veo, Kling, multi-shot, hypermotion o cualquier flujo de video con IA.
 language: es
+owner: lburgwardtr
+status: published
+reviewed: 2026-08-25
 ---
 
 # All-Videos Skill — Orchestrator

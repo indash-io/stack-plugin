@@ -9,7 +9,7 @@ Estás operando dentro del stack de creative performance de Indash. Tu trabajo e
 Skills de creative performance para e-commerce, montadas sobre un set de MCPs. Cada una se dispara sola cuando el pedido del usuario coincide:
 
 **Orientación**
-- **`stack-overview`** → explica qué puede hacer el stack: las skills con su disparador, las 25 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash vs. en disco, y qué referencias soporta cada modelo (imágenes en todo; **video de referencia con `seedance` —hasta 3— y `omni` —1—; audio de referencia solo con `seedance`**). Disparala ante cualquier pregunta de capacidades — *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"*, *"¿se actualizan solas las skills?"* — en vez de improvisar la respuesta.
+- **`stack-overview`** → explica qué puede hacer el stack: las skills con su disparador, las 26 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash vs. en disco, y qué referencias soporta cada modelo (imágenes en todo; **video de referencia con `seedance` —hasta 3— y `omni` —1—; audio de referencia solo con `seedance`**). Disparala ante cualquier pregunta de capacidades — *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"*, *"¿se actualizan solas las skills?"* — en vez de improvisar la respuesta.
 
 **Onboarding y planificación**
 - **`new-client`** → da de alta un cliente nuevo: crea la estructura de carpetas estándar, baja la marca y los productos desde el MCP de Indash y genera el `CLAUDE.md` de contexto de marca que las demás skills heredan.
@@ -22,9 +22,13 @@ Skills de creative performance para e-commerce, montadas sobre un set de MCPs. C
 - **`ugc-video-prompts`** → paquetes de video UGC (Kling/Veo/Seedance + first/last frame con Nano Banana).
 - **`ugc-generator`** → **produce** los videos UGC de un cliente end-to-end: pedido en cualquier formato → guiones → frames → clips generados con el MCP y verificados, con 2 gates de aprobación (scripts y frames) y ficha de marca por cliente. Se dispara con *"hacele 2 videos de 10s a \<cliente\> con \<producto\>"* o cualquier pedido de producir video terminado para un cliente.
 - **`all-videos`** → videos de marketing multi-shot (ads, demos, brand films, hypermotion) con selección de modelo por shot — Seedance 2.0, Omni, Veo, Kling — en modo prompt-only o video generado según el MCP.
+- **`hyperframes`** → **post-producción de video**: edita y ensambla los clips e imágenes ya generados en la pieza final — cortes, transiciones, captions en zona segura, música y VO — en 9:16 / 4:5 / 1:1 / 16:9, con [HyperFrames](https://github.com/heygen-com/hyperframes). Entrega plan de edición por segundos + composición + comando de render; el render corre **local** (Node 22+ y FFmpeg), no por el MCP. Se dispara con *"editame un reel con los clips de \<producto\>"*.
 - **`email-marketing-ecomm`** → mails promo DTC: 3 variantes (HTML + PNG) brand-first, listas para Klaviyo/Mailchimp.
 
 Cada skill tiene su `SKILL.md` con el workflow completo: **seguilo al pie de la letra, en orden, sin saltear pasos.**
+
+**Commands (los invoca el usuario, no se disparan solos)**
+- **`/save-learnings`** → al cerrar la sesión, guarda lo aprendido: separa los learnings **del cliente** (van al `LEARNINGS.md` de su workspace en Indash) de los **de la skill** (universales, anonimizados, van a un issue privado del equipo), muestra el borrador y pide confirmación antes de mandar nada. **Al terminar una entrega, si usaste alguna skill del stack, sugerí `/save-learnings` en una línea al final del handoff** — sugerilo, no lo ejecutes vos.
 
 ### El conector `indash` — gate de autenticación (lo más importante)
 
@@ -71,7 +75,7 @@ Esta convención es **global**: igual para todos los clientes, en toda sesión. 
     carruseles/              Salida de carruseles
     stories/                 Salida de stories-nano-banana
     ads/                     Salida de ads (Meta)
-    videos/                  Salida de ugc-video-prompts y all-videos
+    videos/                  Salida de ugc-video-prompts, all-videos y hyperframes
     emails/                  Salida de email-marketing-ecomm
   briefs/                    Briefs del período (content-brief) y notas del cliente
   versions/                  Snapshots de creatives (los maneja el Studio)
@@ -89,7 +93,7 @@ Assets de marca: se **descargan del MCP de Indash** (la brand cargada en la app)
   - `v<N>` = versión; `v1` la primera, subí el número en cada regeneración del mismo slug/día.
   - A/B → sufijo `-A` / `-B` (ej: `2026-06-17_solar-04_v1-A.md`).
 - Los assets generados de ese set (imágenes, frames, clips, HTML/PNG) van en una subcarpeta con el **mismo nombre sin `.md`**: `exports/carruseles/2026-06-17_solar-04_v1/`.
-- Mapa de tipo → carpeta: carruseles → `exports/carruseles/`, stories → `exports/stories/`, ads → `exports/ads/`, videos (UGC y seedance) → `exports/videos/`, emails → `exports/emails/`, brief de período → `briefs/`.
+- Mapa de tipo → carpeta: carruseles → `exports/carruseles/`, stories → `exports/stories/`, ads → `exports/ads/`, videos (UGC, seedance y las piezas editadas con hyperframes) → `exports/videos/`, emails → `exports/emails/`, brief de período → `briefs/`.
 
 **Reglas de guardado:**
 

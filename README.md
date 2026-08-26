@@ -22,10 +22,23 @@ La idea: instalás el plugin, conectás tu cuenta de Indash con un login, y las 
 | **ugc-video-prompts** | Paquetes de video UGC (Kling 3.0 / Veo 3.1 / Seedance 2.0 + first/last frame con Nano Banana). |
 | **ugc-generator** | **Producción end-to-end de videos UGC**: del pedido (una frase, un sheet, un brief) a los clips generados vía MCP y verificados en carpeta — guiones, frames, QA de producto y 2 gates de aprobación. Se dispara con *"hacele 2 videos de 10s a `<cliente>` con `<producto>`"*. |
 | **all-videos** | Videos de marketing multi-shot (ads, demos, brand films, hypermotion) con selección de modelo por shot — Seedance 2.0, Omni, Veo, Kling — en modo prompt-only o video generado según el MCP. |
+| **hyperframes** | **Post-producción de video**: edita y ensambla los clips e imágenes que ya generaste en la pieza final con [HyperFrames](https://github.com/heygen-com/hyperframes) — cortes, transiciones, captions en zona segura, música y VO, en 9:16 / 4:5 / 1:1 / 16:9. Entrega el plan de edición por segundos + la composición + el comando de render. Se dispara con *"editame un reel con los clips de `<producto>`"*. |
 | **email-marketing-ecomm** | Mails promo DTC: 3 variantes (HTML + PNG) brand-first, listas para Klaviyo / Mailchimp / Customer.io. |
-| **stack-overview** | **Empezá por acá si es tu primera vez.** Te explica el stack: qué hace cada skill, las 25 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué referencias soporta cada modelo (imagen, video y audio). Se dispara con *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"* o cualquier pregunta sobre capacidades. |
+| **stack-overview** | **Empezá por acá si es tu primera vez.** Te explica el stack: qué hace cada skill, las 26 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué referencias soporta cada modelo (imagen, video y audio). Se dispara con *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"* o cualquier pregunta sobre capacidades. |
 
 Todas siguen un workflow estricto: intake → discovery (scraping + análisis de imagen) → **una sola pregunta consolidada de decisiones** → concepto → generación de prompts → self-check → output. Nunca generan sin confirmar con vos primero.
+
+### Commands
+
+Las skills se disparan solas; los **commands** los invocás vos a mano, escribiendo `/` en el chat.
+
+| Command | Qué hace |
+|---|---|
+| **`/save-learnings`** | Cierra la sesión guardando lo aprendido. Revisa qué skills usaste, separa los **learnings del cliente** (DOs, DON'Ts y cómo se llegó a un buen resultado → van al `LEARNINGS.md` del workspace de esa marca en Indash) de los **learnings de la skill** (universales y anonimizados → van a un issue privado del equipo de Indash, que los usa para mejorar el plugin). Te muestra el borrador completo y **no manda nada sin tu confirmación**. |
+
+Instalado desde el marketplace el nombre completo es `/indash-stack:save-learnings`; el autocompletado de `/` te lo encuentra escribiendo `save-learnings`.
+
+**Por qué te conviene usarlo:** el `LEARNINGS.md` de tu marca es lo que hace que la próxima sesión no repita los mismos errores, y los learnings de skill son los que hacen que el plugin mejore versión a versión. Nada de tu marca viaja al equipo: los learnings de skill van sin nombre de marca, producto, personas, URLs ni números de negocio.
 
 ### MCP server (`.mcp.json`)
 
@@ -58,19 +71,9 @@ Agent Plugins es un estándar abierto y vendor-neutral para empaquetar skills + 
 
 ## Instalación
 
-El plugin se distribuye **vía marketplace** (no es un archivo que se baja a mano). El repo es **privado**: el control de acceso es el acceso al repo en GitHub.
+El plugin se distribuye **vía marketplace** (no es un archivo que se baja a mano). El repo es **público**: no hace falta pedir acceso ni estar autenticado en GitHub para instalarlo.
 
-### Requisito previo (importante para repo privado)
-
-Antes de instalar, cada persona necesita:
-
-1. **Acceso de lectura al repo** `indash-io/stack-plugin` en GitHub (te lo da el admin como colaborador o vía team de la org).
-2. **GitHub autenticado localmente** — porque el `marketplace add` clona el repo privado con tus credenciales git. Verificá una de las dos:
-   ```
-   gh auth status          # si usás GitHub CLI
-   ssh -T git@github.com    # si usás SSH
-   ```
-   Si no tenés acceso o no estás autenticado, el `marketplace add` falla con un error de clone.
+Lo público es el plugin, no lo que generás: las skills son instrucciones, y tu catálogo, tu brand kit y tus entregables viven en tu cuenta de Indash y en tu disco. El acceso a eso lo sigue dando el login del conector `indash`, no el repo.
 
 ### Como usuario del equipo
 
@@ -124,6 +127,7 @@ Pedile a Claude en lenguaje natural — las skills se disparan solas cuando el p
    - **Meta ads** → *"Hacé 3 ads para `<producto>`"* → `ads`.
    - **Video (prompts)** → *"Armá un UGC / video para `<producto>`"* → `ugc-video-prompts` o `all-videos`.
    - **Video (producción completa)** → *"Hacele 2 videos de 10s a `<cliente>` con `<producto>`"* → `ugc-generator` (genera y verifica los clips).
+   - **Video (edición final)** → *"Editame un reel con los clips de `<producto>`"* → `hyperframes` (arma el corte, los captions y el MP4 final).
    - **Email** → *"Armá un mail promo para `<marca>`"* → `email-marketing-ecomm`.
 
 Las skills de producto necesitan **URL de producto + imagen de referencia** (si onboardeaste con `new-client`, ya los tenés en `assets/products/index.md`). Si falta algo, la skill te lo pide y frena. Antes de generar te hace **una sola pregunta consolidada** con defaults; confirmás o editás, y recién ahí genera. Todo entregable se **guarda** en `exports/<tipo>/` (o `briefs/`) con nombre `<AAAA-MM-DD>_<slug>_v<N>`.
@@ -158,7 +162,7 @@ clientes/
 
 ```
 .claude-plugin/plugin.json      Manifiesto del plugin (formato Claude Code)
-.claude-plugin/marketplace.json Marketplace privado (lista el plugin para /plugin install)
+.claude-plugin/marketplace.json Marketplace de Indash (lista el plugin para /plugin install)
 .mcp.json                       Definición de los MCP servers (formato Claude Code)
 plugin.json                     Manifiesto en la spec abierta Agent Plugins 1.0.0
 mcp.json                        MCP servers en la spec abierta (streamable-http)
@@ -174,7 +178,8 @@ skills/ugc-video-prompts/       Paquetes de video UGC (Kling/Veo/Seedance)
 skills/ugc-generator/           Producción end-to-end de videos UGC (pedido → clips verificados)
 skills/all-videos/      Videos de marketing multi-shot, multi-modelo (Seedance/Omni/Veo/Kling)
 skills/email-marketing-ecomm/   Mails promo DTC (HTML + PNG)
-scripts/validate-plugin.mjs     Validador de integridad (JSON + refs de SKILL.md)
+commands/save-learnings.md      Slash command /save-learnings (guarda los learnings de la sesión)
+scripts/validate-plugin.mjs     Validador de integridad (JSON + refs de SKILL.md + frontmatter de commands/)
 .github/workflows/validate.yml  CI que corre el validador en cada push/PR
 CLAUDE.md                       Guía técnica para desarrollar el plugin (solo en-repo)
 README.md                       Este archivo — cómo usar el stack

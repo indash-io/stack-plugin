@@ -1,7 +1,10 @@
 ---
 name: stack-overview
-description: Explica qué es y qué puede hacer el stack de Indash — las 9 skills de creative performance, las 25 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
+description: Explica qué es y qué puede hacer el stack de Indash — las 10 skills de creative performance, las 26 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "qué es /save-learnings", "cómo se guarda lo que aprendimos", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
 language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-25
 ---
 
 # Stack Overview — qué es y qué puede hacer el stack de Indash
@@ -23,7 +26,7 @@ del gate de autenticación y de guardado que están más abajo son las que valen
 
 Adaptá el nivel al pedido — no vuelques todo el documento cada vez:
 
-- **"¿Qué puedo hacer?" / tour general** → el mapa de las 9 skills + las 5
+- **"¿Qué puedo hacer?" / tour general** → el mapa de las 10 skills + las 5
   familias de capacidades del MCP, en no más de una pantalla. Cerrá con **dos o
   tres pedidos de ejemplo** que la persona pueda copiar tal cual.
 - **Pregunta puntual** (video de referencia, dónde se guarda, actualizaciones) →
@@ -35,7 +38,7 @@ Antes de listar capacidades de generación, chequeá si el conector `indash` est
 conectado (ver *Gate de autenticación*). Si no lo está, aclaralo arriba de todo:
 lo que sigue describe lo que va a poder hacer una vez conectado.
 
-## 1. Las 9 skills
+## 1. Las 10 skills
 
 Cada una se dispara sola cuando el pedido coincide — la persona no invoca nada a
 mano.
@@ -57,13 +60,35 @@ mano.
 | `ugc-video-prompts` | Paquete de video UGC (Kling / Veo / Seedance + first/last frame con Nano Banana) | *"armá un UGC para \<producto\>"* |
 | `ugc-generator` | Producción end-to-end de videos UGC: guiones → frames → clips generados y verificados, con 2 gates de aprobación | *"hacele 2 videos de 10s a \<cliente\> con \<producto\>"* |
 | `all-videos` | Videos de marketing multi-shot con selección de modelo por shot (Seedance 2.0, Omni, Veo, Kling) | *"un video cinematográfico de marca"* |
+| `hyperframes` | **Post-producción**: edita y ensambla los clips e imágenes ya generados en la pieza final (cortes, transiciones, captions en zona segura, música/VO) con HyperFrames, en 9:16 / 4:5 / 1:1 / 16:9 | *"editame un reel con los clips de \<producto\>"* |
 | `email-marketing-ecomm` | 3 variantes de mail promo DTC (HTML + PNG) listas para Klaviyo / Mailchimp | *"armá un mail promo"* |
 
 Todas siguen el mismo workflow estricto: **intake → discovery en silencio
 (scraping + análisis de imagen) → una sola pregunta consolidada de decisiones →
 concepto → prompts → self-check → output**. Ninguna genera sin confirmar antes.
 
-## 2. Las 25 tools del conector `indash`
+### Y un command: `/save-learnings`
+
+Las 9 skills se disparan solas. **`/save-learnings` no**: lo escribe la persona
+en el chat, al cerrar la sesión, y sirve para que lo aprendido no se pierda.
+
+Hace tres cosas, en este orden:
+
+1. **Separa** los learnings **del cliente** (DOs, DON'Ts y cómo se llegó a un
+   buen resultado con **esta** marca) de los **de la skill** (lo que estaría mal
+   o faltaría en la skill **para cualquier marca**).
+2. **Anonimiza** los de skill — sin marca, producto, personas, URLs ni números de
+   negocio — y **muestra el borrador completo**. No manda nada sin confirmación
+   explícita; la persona puede editar o sacar ítems.
+3. **Guarda**: los del cliente van al `LEARNINGS.md` de su workspace en Indash
+   (append-only, al lado del brand kit); los de skill van a un issue privado del
+   equipo de Indash, que es de donde salen las mejoras del plugin.
+
+Es el **canal por el que el stack mejora**: sin eso, cada sesión arranca de cero
+y las skills nunca se enteran de lo que no funcionó. Sugerilo vos al terminar
+una entrega, en una línea — pero **no lo ejecutes por tu cuenta**.
+
+## 2. Las 26 tools del conector `indash`
 
 Cinco familias. Las skills las usan solas; la persona no las llama a mano.
 
@@ -91,6 +116,8 @@ Kanban de briefs (`backlog` / `todo` / `in_progress` / `done`) y comentarios
 sobre creatives o briefs, compartidos con el equipo en la app.
 
 **Skills del workspace (2)** — `list_skills`, `get_skill`
+
+**Learnings (1)** — `save_learnings`: guarda los learnings del cliente en el `LEARNINGS.md` de su workspace y los de skill (anonimizados) en un issue privado del equipo. Gratis. La llama el command `/save-learnings`, nunca el modelo por su cuenta.
 Las skills que viven **en la cuenta de Indash** de la marca, no en el plugin.
 
 ## 3. Actualizaciones y dónde vive cada cosa
@@ -98,15 +125,20 @@ Las skills que viven **en la cuenta de Indash** de la marca, no en el plugin.
 Hay **dos** conjuntos de skills, y se actualizan distinto. Es la confusión más
 común:
 
-| | Skills del plugin (las 9 de arriba) | Skills del workspace |
+| | Skills del plugin (las 10 de arriba) | Skills del workspace |
 |---|---|---|
 | Dónde viven | En este repo, instaladas en la máquina | En la cuenta de Indash de la marca |
 | Cómo se leen | Las carga el cliente al iniciar sesión | `list_skills` / `get_skill`, en vivo |
 | Cómo se actualizan | **Manual**: `/plugin marketplace update indash` y reiniciar la sesión | **Solas** — se editan en la app y el próximo llamado ya trae lo nuevo |
 
-Es decir: **las 9 skills del plugin NO se actualizan solas.** Si el equipo de
+Es decir: **las 10 skills del plugin NO se actualizan solas.** Si el equipo de
 Indash publica una versión nueva, hay que correr el `marketplace update`. Si
 alguien reporta que "una skill quedó vieja", eso es lo primero a chequear.
+
+**De dónde salen esas versiones nuevas:** en buena medida, de `/save-learnings`.
+Los learnings de skill que la persona confirma abren un issue privado; el equipo
+los tría, los convierte en cambios del plugin y salen en el próximo release. Por
+eso vale la pena correrlo al cerrar una entrega.
 
 `core/skills/` (dentro del plugin) es el **canon compartido** — las leyes de
 prompting y los formatos de IG que consumen las skills de ejecución. No es una
@@ -223,10 +255,16 @@ pasás el clip en `reference_video_urls` y pedís *"Extend @Video1 by 5s"*
 describiendo solo lo nuevo. No está verificado punta a punta, así que ofrecelo
 como algo a probar, no como garantía.
 
-**Lo que sigue sin existir:** editar un video en el sentido de post-producción
-—cortar, montar, poner subtítulos o música sobre un clip ya hecho—. El MCP
-genera, no edita. Tampoco está expuesta la extensión de `veo` (su API la
-soporta; nuestra tool todavía no la ofrece).
+**Post-producción — el MCP no edita, la skill `hyperframes` sí.** Cortar,
+montar, poner subtítulos, texto on-screen o música sobre clips ya hechos **no
+pasa por el MCP**: el MCP genera, no edita. Eso lo resuelve la skill
+`hyperframes`, que arma la composición y renderiza el corte final **localmente**
+con [HyperFrames](https://github.com/heygen-com/hyperframes) (requiere Node 22+
+y FFmpeg en la máquina; no consume créditos de Indash). Si alguien pregunta
+*"¿puedo editar el video?"*, la respuesta es sí — por ahí.
+
+**Lo que sigue sin existir:** la extensión de `veo` (su API la soporta; nuestra
+tool todavía no la ofrece).
 
 Si el clip pesa más de 12 MB o el modelo tiene que ser otro, los caminos
 alternativos siguen siendo válidos: sacar frames y pasarlos como imágenes de

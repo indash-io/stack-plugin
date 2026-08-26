@@ -2,6 +2,9 @@
 name: ugc-generator
 description: Proceso estándar end-to-end para producir videos UGC para un cliente — desde el pedido hasta los clips verificados en carpeta, generando con el MCP de Indash. Usá esta skill SIEMPRE que haya que producir contenido de video para un cliente, sin importar cómo llegue el pedido — una frase por chat ("hacele un UGC a <cliente> con este producto"), un sheet/template de pedidos, un brief, un audio transcripto, o "seguí con los videos de X". También para onboardear un cliente nuevo de UGC, cargar sus productos al workspace, o crear/actualizar su ficha de marca. Si el usuario menciona avatares, clips, guiones de video, videos de 10 o 20 segundos, o un cliente + producto + video en la misma frase, es esta skill. Para la redacción fina de prompts de modelos (Kling/Veo/Seedance/Nano Banana) usa ugc-video-prompts; esta skill es el proceso que la contiene.
 language: es
+owner: lburgwardtr
+status: published
+reviewed: 2026-08-25
 ---
 
 # UGC Generator — Estándar de producción

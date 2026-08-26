@@ -1,0 +1,68 @@
+name: Skill nueva
+description: Proponé una skill que hoy no existe en el stack.
+title: "[new-skill] "
+labels: ["new-skill"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Esto es una **propuesta**: la skill después la arma alguien del equipo técnico
+        en Claude Code. Cuanto más concreto seas con el proceso que hacés hoy a mano,
+        más rápido sale. **No pongas datos de clientes** — describilo en genérico.
+
+  - type: input
+    id: nombre
+    attributes:
+      label: Nombre propuesto
+      description: En minúsculas y con guiones, como las que ya están (`ads`, `ugc-generator`).
+      placeholder: landing-copy
+    validations:
+      required: true
+
+  - type: textarea
+    id: que-hace
+    attributes:
+      label: Qué hace
+      description: Qué recibe, qué devuelve y en qué formato queda el entregable.
+      placeholder: |
+        Recibe la URL de un producto y el objetivo de la campaña.
+        Devuelve el copy completo de una landing (hero, beneficios, FAQ, CTA) en un .md.
+    validations:
+      required: true
+
+  - type: textarea
+    id: para-quien
+    attributes:
+      label: Para quién y cuándo se usa
+      description: Quién la va a disparar y en qué momento del laburo. Si es algo que hoy hacés a mano, contá cómo lo hacés.
+    validations:
+      required: true
+
+  - type: textarea
+    id: referencias
+    attributes:
+      label: Links a docs o referencias
+      description: Docs del modelo, guías de estilo, ejemplos buenos y malos, o cualquier material que la skill tenga que conocer.
+      render: markdown
+    validations:
+      required: false
+
+  - type: dropdown
+    id: tools-nuevas
+    attributes:
+      label: ¿Necesita tools nuevas del MCP?
+      description: Si la skill tiene que leer o generar algo que hoy el conector `indash` no sabe hacer, es un cambio del server (otro repo) y suma tiempo.
+      options:
+        - "No — le alcanza con las tools que ya existen"
+        - "Sí — hace falta al menos una tool nueva"
+        - "No sé"
+    validations:
+      required: true
+
+  - type: textarea
+    id: tools-detalle
+    attributes:
+      label: Qué tool nueva haría falta
+      description: Solo si contestaste "sí" o "no sé". Qué necesitaría traer o hacer.
+    validations:
+      required: false

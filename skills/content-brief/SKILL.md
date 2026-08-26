@@ -2,6 +2,9 @@
 name: content-brief
 description: Arma el brief de contenido de un período para una marca DTC e-commerce — define el mix de piezas (anuncios estáticos de Meta, carruseles, stories, videos UGC, emails, cambios de catálogo) con copy + brief de imagen por pieza, y orquesta las skills de ejecución del stack. Disparala cuando el user pida "armá el brief del mes/período", "plan de contenido", "calendario de piezas", "brief de social media" o equivalente.
 language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-25
 ---
 
 # Content Brief — Plan de contenido del período
@@ -61,7 +64,13 @@ El brief no genera el contenido final — lo **planifica** y deriva a la skill c
 | Carruseles | `carruseles` |
 | Stories | `stories-nano-banana` |
 | Videos UGC / film | `ugc-video-prompts` / `all-videos` |
+| Post-producción de video (corte final, captions, música, formatos) | `hyperframes` |
 | Emails | `email-marketing-ecomm` |
+
+**El video suele necesitar dos pasos.** `all-videos` / `ugc-generator` producen
+los clips; `hyperframes` los corta, titula y musicaliza en la pieza final. Si un
+bloque del brief pide un reel terminado (no clips sueltos), nombralos a los dos
+en el handoff, en ese orden.
 
 ## Reglas no-negociables
 

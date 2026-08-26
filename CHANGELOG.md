@@ -1,5 +1,71 @@
 # Changelog
 
+## 0.11.0 — 2026-08-25
+
+**El plugin pasa a tener mantenimiento de verdad.** Esta release trae la
+primera skill de post-producción (`hyperframes`), el lado cliente del feedback
+loop de learnings (`/save-learnings`) y la metadata que necesita el skills hub
+interno de Indash para auditar el inventario.
+
+### Command nuevo: `/save-learnings`
+
+- Al cerrar una sesión, revisa qué skills se usaron, separa los learnings **del
+  cliente** (DOs/DON'Ts y contexto → `LEARNINGS.md` del workspace en Indash, vía
+  la tool nueva `save_learnings` del conector) de los **de la skill**
+  (universales, anonimizados → issue privado del equipo). Muestra el borrador y
+  **no manda nada sin confirmación**. `disable-model-invocation: true`: lo
+  dispara la persona, nunca el modelo.
+- `stack-policy.md` y `stack-overview` lo explican; al terminar una entrega el
+  agente lo sugiere en una línea.
+- El conector pasa de 25 a **26 tools** (`save_learnings`, gratis).
+
+### Metadata de mantenimiento en cada skill
+
+- Frontmatter con tres campos nuevos y obligatorios: `owner` (login de GitHub
+  de quien la mantiene), `status` (`published | draft | deprecated` —
+  `deprecated` es el primer paso de la baja) y `reviewed` (última revisión
+  humana, `YYYY-MM-DD`). El validador los exige, en `skills/` y en
+  `core/skills/`.
+
+### Higiene del repo
+
+- El repo es **público**: README y marketplace ya no dicen "privado".
+- `.github/CODEOWNERS`, templates de issue (`suggestion`, `new-skill`) y
+  `scripts/setup-github.sh` (labels + branch protection, lo corre un humano).
+- Tags `v0.9.0` y `v0.10.0` que faltaban.
+
+
+**Skill nueva: `hyperframes`** — el paso de **post-producción** que le faltaba
+al stack. Agarra los clips, frames e imágenes que ya generaron `all-videos`,
+`ugc-generator` y `carruseles`, y los ensambla en la pieza final con
+[HyperFrames](https://github.com/heygen-com/hyperframes), el framework open
+source de HeyGen (Apache 2.0) que renderiza video determinístico a partir de
+HTML/CSS + media + animaciones seekables.
+
+- **Es `prompt-only`**: no agrega ninguna tool al MCP de Indash ni consume
+  créditos. El render corre **local** con la CLI de HyperFrames (requiere
+  Node.js 22+ y FFmpeg), con un mode switcher `full_render` / `plan_only`
+  según lo que banque la máquina.
+- **Workflow del stack**: intake → discovery (inventario de `exports/`,
+  duraciones medidas con `ffprobe`, marca) → una sola pregunta consolidada →
+  plan de edición por segundos con hook en 1-3s → composición HyperFrames +
+  comando de render → self-check → escalera de gates (`lint` → `check` →
+  `draft` → aprobación del user → `high`) → guardado en `exports/videos/`
+  con la nomenclatura canónica.
+- **`reference/hyperframes.md`**: todo lo verificado en fuentes primarias
+  (README del repo y docs oficiales, 2026-08-25), separando **confirmado** /
+  **inferido** / **verificar**. Es la única fuente de sintaxis que la skill
+  puede citar; `examples/bad/api_inventada.md` documenta los diez atributos y
+  flags que un agente inventa por analogía y que **no existen**.
+- **`style/safe_zones.md`** extiende a Reels/TikTok/ads la convención de zona
+  segura que ya usaba `stories-nano-banana` (14%–85% vertical), incluyendo el
+  rail de acciones lateral en 9:16.
+- Sincronizados los lugares que listan skills: `stack-policy.md`,
+  `stack-overview` (9 → 10 skills, y se corrigió la sección que decía que la
+  post-producción "sigue sin existir"), `README.md`, los dos `plugin.json`,
+  `marketplace.json`, `CLAUDE.md`, y las referencias cruzadas en
+  `content-brief` y `new-client`.
+
 ## 0.10.0 — 2026-08-19
 
 **`seedance-multishot` evoluciona a `all-videos`** — la skill de video deja de
