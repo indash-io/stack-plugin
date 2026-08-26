@@ -88,7 +88,7 @@ Es el **canal por el que el stack mejora**: sin eso, cada sesión arranca de cer
 y las skills nunca se enteran de lo que no funcionó. Sugerilo vos al terminar
 una entrega, en una línea — pero **no lo ejecutes por tu cuenta**.
 
-## 2. Las 25 tools del conector `indash`
+## 2. Las 26 tools del conector `indash`
 
 Cinco familias. Las skills las usan solas; la persona no las llama a mano.
 
@@ -116,6 +116,8 @@ Kanban de briefs (`backlog` / `todo` / `in_progress` / `done`) y comentarios
 sobre creatives o briefs, compartidos con el equipo en la app.
 
 **Skills del workspace (2)** — `list_skills`, `get_skill`
+
+**Learnings (1)** — `save_learnings`: guarda los learnings del cliente en el `LEARNINGS.md` de su workspace y los de skill (anonimizados) en un issue privado del equipo. Gratis. La llama el command `/save-learnings`, nunca el modelo por su cuenta.
 Las skills que viven **en la cuenta de Indash** de la marca, no en el plugin.
 
 ## 3. Actualizaciones y dónde vive cada cosa

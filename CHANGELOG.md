@@ -1,6 +1,39 @@
 # Changelog
 
-## Sin publicar
+## 0.11.0 — 2026-08-25
+
+**El plugin pasa a tener mantenimiento de verdad.** Esta release trae la
+primera skill de post-producción (`hyperframes`), el lado cliente del feedback
+loop de learnings (`/save-learnings`) y la metadata que necesita el skills hub
+interno de Indash para auditar el inventario.
+
+### Command nuevo: `/save-learnings`
+
+- Al cerrar una sesión, revisa qué skills se usaron, separa los learnings **del
+  cliente** (DOs/DON'Ts y contexto → `LEARNINGS.md` del workspace en Indash, vía
+  la tool nueva `save_learnings` del conector) de los **de la skill**
+  (universales, anonimizados → issue privado del equipo). Muestra el borrador y
+  **no manda nada sin confirmación**. `disable-model-invocation: true`: lo
+  dispara la persona, nunca el modelo.
+- `stack-policy.md` y `stack-overview` lo explican; al terminar una entrega el
+  agente lo sugiere en una línea.
+- El conector pasa de 25 a **26 tools** (`save_learnings`, gratis).
+
+### Metadata de mantenimiento en cada skill
+
+- Frontmatter con tres campos nuevos y obligatorios: `owner` (login de GitHub
+  de quien la mantiene), `status` (`published | draft | deprecated` —
+  `deprecated` es el primer paso de la baja) y `reviewed` (última revisión
+  humana, `YYYY-MM-DD`). El validador los exige, en `skills/` y en
+  `core/skills/`.
+
+### Higiene del repo
+
+- El repo es **público**: README y marketplace ya no dicen "privado".
+- `.github/CODEOWNERS`, templates de issue (`suggestion`, `new-skill`) y
+  `scripts/setup-github.sh` (labels + branch protection, lo corre un humano).
+- Tags `v0.9.0` y `v0.10.0` que faltaban.
+
 
 **Skill nueva: `hyperframes`** — el paso de **post-producción** que le faltaba
 al stack. Agarra los clips, frames e imágenes que ya generaron `all-videos`,

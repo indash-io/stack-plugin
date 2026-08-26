@@ -5,8 +5,8 @@
     "url": "https://www.indash.ai"
   },
   "metadata": {
-    "description": "Marketplace privado de Indash. Publica el plugin del stack de creative performance. Acceso = acceso de lectura a este repo en GitHub.",
-    "version": "0.10.0"
+    "description": "Marketplace de Indash. Publica el plugin del stack de creative performance. El repo es público: lo que queda detrás del login es tu catálogo, tu brand kit y tus entregables, no las skills.",
+    "version": "0.11.0"
   },
   "plugins": [
     {
