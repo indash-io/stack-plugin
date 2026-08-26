@@ -64,13 +64,16 @@ El brief no genera el contenido final — lo **planifica** y deriva a la skill c
 | Carruseles | `carruseles` |
 | Stories | `stories-nano-banana` |
 | Videos UGC / film | `ugc-video-prompts` / `all-videos` |
-| Post-producción de video (corte final, captions, música, formatos) | `hyperframes` |
+| Post-producción creativa (corte final, transiciones, música, formatos) | `hyperframes` |
+| Montaje de UGC de avatar (silencios, morphs, subtítulos, placa) | `edicion-ugc` |
 | Emails | `email-marketing-ecomm` |
 
 **El video suele necesitar dos pasos.** `all-videos` / `ugc-generator` producen
-los clips; `hyperframes` los corta, titula y musicaliza en la pieza final. Si un
-bloque del brief pide un reel terminado (no clips sueltos), nombralos a los dos
-en el handoff, en ese orden.
+los clips; la post-producción los convierte en la pieza final. Si un bloque del
+brief pide un reel terminado (no clips sueltos), nombrá a los dos en el handoff,
+en ese orden — y elegí bien cuál de las dos skills de post: clips de avatar
+hablando → `edicion-ugc` (determinístico, reglas medidas); una pieza armada con
+assets varios, captions con estilo o placa animada → `hyperframes` (creativa).
 
 ## Reglas no-negociables
 

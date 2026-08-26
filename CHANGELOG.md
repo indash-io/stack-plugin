@@ -1,5 +1,71 @@
 # Changelog
 
+## Sin publicar
+
+**Skill nueva: `edicion-ugc`** — el **montaje determinístico** de clips de
+avatar/UGC. Es la segunda skill de post-producción del stack y la primera con
+**código ejecutable**: `scripts/editar.py` (FFmpeg + whisper-cpp + Pillow) y
+`scripts/setup.sh`.
+
+- **Todo lo que hace sale de medir 21 ediciones manuales reales** (n=10 y n=11
+  en dos marcas), validadas después en 4 marcas: recorta silencios de cabeza y
+  cola siempre, comprime pausas internas de más de 0.50s a 0.45s, entra a cada
+  clip 3 frames antes de la voz para no repetir la pose del still en el empalme,
+  detecta morphs y los tapa con un bloque único de B-roll que termina al 72% del
+  diálogo, quema subtítulos de 2-4 palabras en Montserrat SemiBold 32 (y=1027) y
+  pega la placa final (1.50s si es imagen; entera si es video). Export 720×1280,
+  24fps, ~6 Mbps. La procedencia de cada número, con su tamaño de muestra, está
+  en el `SKILL.md`: la placa sale de 21 casos y el largo del B-roll de 4 — no
+  valen lo mismo y la skill lo dice.
+- **Dos modos**: `revisar` mide y reporta morphs con timestamp sin renderizar
+  nada (paso obligatorio), `montar` hace la edición completa.
+- **Límites explícitos, no tapados**: el detector de morph es ciego a las
+  derivas graduales (`morph 0.000` significa "sin saltos secos", no "clip
+  limpio"), un pico de score no siempre es un morph, Whisper escribe mal los
+  nombres de marca, y nadie escucha el audio.
+- **Gate del conector `indash`: condicional**, como en `hyperframes`. Edita
+  material que ya está en disco, así que no lo necesita — salvo que haya que
+  generar un B-roll para tapar un morph sobre voz, y ahí sí frena y lo pide.
+  No consume créditos.
+- **Config y placa por cliente, no en el plugin.** Reemplaza los perfiles por
+  marca que traía la skill original por la convención del stack: busca
+  `brand/edicion-ugc.json` y `brand/placa.*` en la carpeta del cliente (también
+  en `assets/brand-kit/` y `assets/logos/`), además de la detección que ya tenía
+  (`Placa/`, `Logos/`, nombre con `placa|outro|cierre|endcard`). El plugin es
+  público: no lleva datos, placas ni perfiles de ningún cliente. Formato
+  documentado en `templates/brand-edicion-ugc.example.json`.
+- **Salida por convención del stack**: sin `salida` explícita, el MP4 va a
+  `exports/videos/<AAAA-MM-DD>_<slug>_v<N>.mp4` de la carpeta del cliente, y
+  **nunca pisa** — sube la versión.
+- **Requisitos, dichos arriba de todo**: macOS + Homebrew, ffmpeg, whisper-cpp,
+  el modelo `ggml-large-v3-turbo` (1.5 GB) y Montserrat. Los instala
+  `scripts/setup.sh`, que es idempotente. Si falta algo, `editar.py` frena con
+  la lista de lo que falta y manda a correr el setup, en vez de tirar un
+  traceback.
+- **El venv vive fuera del plugin**, en `~/.indash/edicion-ugc/venv`: la carpeta
+  del plugin es una cache que se pisa entera en cada auto-update del
+  marketplace. El modelo de whisper sigue en `~/.cache/whisper-cpp/`.
+
+**`edicion-ugc` vs. `hyperframes`** — las dos son post-producción y ahora ambas
+lo aclaran: `edicion-ugc` es el pipeline determinístico para montar clips de
+avatar (análisis + reglas medidas + render FFmpeg); `hyperframes` es composición
+creativa. *"Montame estos clips de avatar"* → `edicion-ugc`; *"armame una pieza
+con estos assets / captions con estilo / placa animada"* → `hyperframes`. **Está
+planificado** que `edicion-ugc` emita un plan de edición que `hyperframes`
+renderice (v2); **hoy no lo hace**, y las dos skills lo dicen para que nadie
+prometa un handoff que no existe.
+
+**Convenciones nuevas del repo**
+
+- Una skill puede traer `scripts/`. Regla dura documentada en `CLAUDE.md`: nada
+  mutable adentro de la carpeta del plugin, y `${CLAUDE_PLUGIN_ROOT}` siempre
+  con fallback explícito.
+- `brand/` vuelve a la estructura del cliente como carpeta **opcional** de config
+  de skills locales (`brand/placa.*`, `brand/edicion-ugc.json`). No la crea
+  `new-client`: aparece cuando hace falta.
+
+El stack pasa de 10 a **11 skills**.
+
 ## 0.11.0 — 2026-08-25
 
 **El plugin pasa a tener mantenimiento de verdad.** Esta release trae la

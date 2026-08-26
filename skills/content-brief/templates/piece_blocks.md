@@ -49,7 +49,8 @@ N. Copy: "{...}" · Sticker: {...}
 **Modelo sugerido:** {Kling / Veo / Seedance} — {por qué}
 **Nota:** el detalle fino lo resuelve `ugc-video-prompts` / `all-videos`. Si la pieza
 se entrega editada (cortes, captions, música, formato de plataforma), el corte
-final lo arma `hyperframes` a partir de esos clips.
+final lo arma `hyperframes` a partir de esos clips — o `edicion-ugc` si son
+clips de avatar hablando y alcanza con el montaje estándar.
 ```
 
 ## Email

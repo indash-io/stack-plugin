@@ -252,6 +252,24 @@ homónima sin `.md`. **Versioná, nunca pises.** Decí la ruta en una línea.
 Si el user pide **generar** un clip nuevo, esa no es esta skill: es
 `all-videos` o `ugc-generator`. Derivá y volvé cuando el material exista.
 
+### `edicion-ugc` — la otra post-producción
+
+`edicion-ugc` es el **pipeline determinístico** para montar clips de avatar/UGC:
+análisis del material + reglas medidas contra 21 ediciones manuales + render
+FFmpeg. No decide nada estético. `hyperframes` (esta skill) es **composición
+creativa**: ritmo, transiciones, captions con estilo, formatos.
+
+Cómo se reparten:
+
+- *"montame estos clips de avatar"*, *"editá este UGC"*, *"revisá si hay morph"*
+  → **`edicion-ugc`**. Derivá y no la dupliques.
+- *"armame una pieza con estos assets"*, *"captions con estilo"*, *"placa
+  animada"*, *"adaptalo a 4:5"* → **esta skill**.
+
+**Está planificado** que `edicion-ugc` emita un plan de edición que `hyperframes`
+renderice (v2). **Hoy no lo hace**: son dos caminos separados. No le prometas al
+user un handoff que todavía no existe.
+
 ---
 
 ## Punto de entrada
