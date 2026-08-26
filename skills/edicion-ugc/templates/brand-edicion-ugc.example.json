@@ -1,0 +1,22 @@
+{
+  "_comentario": "Config POR CLIENTE de la skill edicion-ugc. Va en `brand/edicion-ugc.json` de la carpeta del cliente (también se lee de `assets/brand-kit/edicion-ugc.json`). Es opcional: una marca nueva funciona sin esto, solo con la placa en brand/placa.png. Existe para no repetir en cada trabajo las mismas correcciones de Whisper. NUNCA va al repo del plugin: el plugin es público.",
+
+  "marca": "Marca Ejemplo",
+  "_marca": "Nombre de la marca. Solo se usa para el log y como fallback del slug del archivo de salida.",
+
+  "placa": "placa.png",
+  "_placa": "Ruta a la placa final, relativa a ESTE archivo o absoluta. Ya armada a pantalla completa 720x1280 — la skill la usa tal cual, no compone ni recolorea. Puede ser imagen fija (dura 1.50s) o video (va entero, con su duración). Si la dejás afuera, la skill busca `brand/placa.*` igual.",
+
+  "marcas_whisper": {
+    "marca lynda": "Marcalinda",
+    "marcalinda": "Marcalinda",
+    "marca linda": "Marcalinda"
+  },
+  "_marcas_whisper": "Correcciones de nombres propios. Se aplican POR FRASE y case-insensitive, así que sirven para nombres que Whisper parte en dos. Las claves de varias palabras ganan sobre las de una. Ampliá la lista cuando aparezca una variante nueva: Whisper escribe mal el mismo nombre de forma distinta en cada video.",
+
+  "producto": ["el producto", "la crema"],
+  "_producto": "Opcional. Palabras que marcan la mención del producto. Solo se reporta como referencia en el log — NO mueve el B-roll (medido: la mención no es un buen ancla).",
+
+  "nota": "Placa medida sobre N ediciones. Whisper viene escribiendo mal el nombre; ampliar marcas_whisper cuando salga una variante nueva.",
+  "_nota": "Texto libre para el próximo que abra esta carpeta. No lo lee el script."
+}
