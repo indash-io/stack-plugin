@@ -1,6 +1,6 @@
 # Changelog
 
-## Sin publicar
+## 0.12.0 — 2026-08-26
 
 **Skill nueva: `edicion-ugc`** — el **montaje determinístico** de clips de
 avatar/UGC. Es la segunda skill de post-producción del stack y la primera con
