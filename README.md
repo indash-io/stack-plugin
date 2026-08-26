@@ -22,6 +22,7 @@ La idea: instalás el plugin, conectás tu cuenta de Indash con un login, y las 
 | **ugc-video-prompts** | Paquetes de video UGC (Kling 3.0 / Veo 3.1 / Seedance 2.0 + first/last frame con Nano Banana). |
 | **ugc-generator** | **Producción end-to-end de videos UGC**: del pedido (una frase, un sheet, un brief) a los clips generados vía MCP y verificados en carpeta — guiones, frames, QA de producto y 2 gates de aprobación. Se dispara con *"hacele 2 videos de 10s a `<cliente>` con `<producto>`"*. |
 | **all-videos** | Videos de marketing multi-shot (ads, demos, brand films, hypermotion) con selección de modelo por shot — Seedance 2.0, Omni, Veo, Kling — en modo prompt-only o video generado según el MCP. |
+| **hyperframes** | **Post-producción de video**: edita y ensambla los clips e imágenes que ya generaste en la pieza final con [HyperFrames](https://github.com/heygen-com/hyperframes) — cortes, transiciones, captions en zona segura, música y VO, en 9:16 / 4:5 / 1:1 / 16:9. Entrega el plan de edición por segundos + la composición + el comando de render. Se dispara con *"editame un reel con los clips de `<producto>`"*. |
 | **email-marketing-ecomm** | Mails promo DTC: 3 variantes (HTML + PNG) brand-first, listas para Klaviyo / Mailchimp / Customer.io. |
 | **stack-overview** | **Empezá por acá si es tu primera vez.** Te explica el stack: qué hace cada skill, las 25 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué referencias soporta cada modelo (imagen, video y audio). Se dispara con *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"* o cualquier pregunta sobre capacidades. |
 
@@ -126,6 +127,7 @@ Pedile a Claude en lenguaje natural — las skills se disparan solas cuando el p
    - **Meta ads** → *"Hacé 3 ads para `<producto>`"* → `ads`.
    - **Video (prompts)** → *"Armá un UGC / video para `<producto>`"* → `ugc-video-prompts` o `all-videos`.
    - **Video (producción completa)** → *"Hacele 2 videos de 10s a `<cliente>` con `<producto>`"* → `ugc-generator` (genera y verifica los clips).
+   - **Video (edición final)** → *"Editame un reel con los clips de `<producto>`"* → `hyperframes` (arma el corte, los captions y el MP4 final).
    - **Email** → *"Armá un mail promo para `<marca>`"* → `email-marketing-ecomm`.
 
 Las skills de producto necesitan **URL de producto + imagen de referencia** (si onboardeaste con `new-client`, ya los tenés en `assets/products/index.md`). Si falta algo, la skill te lo pide y frena. Antes de generar te hace **una sola pregunta consolidada** con defaults; confirmás o editás, y recién ahí genera. Todo entregable se **guarda** en `exports/<tipo>/` (o `briefs/`) con nombre `<AAAA-MM-DD>_<slug>_v<N>`.

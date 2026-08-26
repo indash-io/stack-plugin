@@ -47,7 +47,9 @@ N. Copy: "{...}" · Sticker: {...}
 **Hook (primer 1.5s):** {...}
 **Beats / guion:** {3-5 beats o líneas de guion}
 **Modelo sugerido:** {Kling / Veo / Seedance} — {por qué}
-**Nota:** el detalle fino lo resuelve `ugc-video-prompts` / `all-videos`.
+**Nota:** el detalle fino lo resuelve `ugc-video-prompts` / `all-videos`. Si la pieza
+se entrega editada (cortes, captions, música, formato de plataforma), el corte
+final lo arma `hyperframes` a partir de esos clips.
 ```
 
 ## Email
