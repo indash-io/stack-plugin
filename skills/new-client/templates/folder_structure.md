@@ -22,6 +22,13 @@ Esta es la estructura estándar que crea la skill. `{slug}` es el nombre del cli
                              (proyectos de edición + MP4 renderizados).
     emails/                  Output de email-marketing-ecomm.
   briefs/                    Briefs, pedidos y notas del cliente. .gitkeep.
+
+  brand/                     OPCIONAL. Config por cliente de las skills locales.
+                             NO la crees vacía: aparece cuando hace falta.
+    placa.png                OPCIONAL. Placa final de la marca a pantalla completa
+                             (720×1280), imagen o video. La usa `edicion-ugc`.
+    edicion-ugc.json         OPCIONAL. Perfil de `edicion-ugc`: marca, placa,
+                             marcas_whisper (correcciones de Whisper), producto, nota.
 ```
 
 ## Notas
@@ -37,5 +44,10 @@ Esta es la estructura estándar que crea la skill. `{slug}` es el nombre del cli
 - **De dónde salen los assets**: primero se intentan **descargar desde el MCP de Indash**. Si la marca no está en Indash, el user pasa los archivos a mano y se ordenan en `assets/`. Ver `instructions/02_discovery.md`.
 - **`assets/products/index.md`** es el puente con el MCP de Indash: nombre + URL + imagen de cada producto, inputs de las skills de contenido.
 - Las carpetas que arrancan vacías llevan un `.gitkeep` para quedar versionables.
+- **`brand/` es opcional y no se crea en el onboarding.** Es config por cliente de
+  las skills que corren local: hoy, `edicion-ugc` busca ahí su `edicion-ugc.json` y
+  la `placa.*` de la marca (y también en `assets/brand-kit/` y `assets/logos/`
+  respectivamente, por si la placa ya vino con el brand kit). Si el cliente no hace
+  UGC de avatar, esa carpeta nunca existe.
 - **Nomenclatura de entregables**: `<AAAA-MM-DD>_<producto-slug>_v<N>.md` dentro de `exports/<tipo>/` (convención global del stack, vive en `stack-policy.md`). No la redefinas por cliente.
 - Si la carpeta `{slug}/` ya existe, la skill frena y pregunta antes de tocar nada (no pisa).

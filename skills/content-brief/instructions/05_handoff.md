@@ -28,7 +28,7 @@ Cerrá mapeando cada bloque a su skill, en el orden sugerido de producción:
 > - **Carruseles** → skill `carruseles` (genera las imágenes 4:5).
 > - **Stories** → skill `stories-nano-banana`.
 > - **Videos** → skill `ugc-video-prompts` (UGC) o `all-videos` (film B2B).
-> - **Corte final de video** → skill `hyperframes`, después de que existan los clips.
+> - **Corte final de video** → skill `hyperframes` (pieza creativa) o `edicion-ugc` (montaje de clips de avatar), después de que existan los clips.
 > - **Emails** → skill `email-marketing-ecomm`.
 >
 > Decime por cuál arrancamos y ejecuto pieza por pieza.

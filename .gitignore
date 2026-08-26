@@ -10,3 +10,7 @@ node_modules/
 # OS
 .DS_Store
 Thumbs.db
+
+# Python (el repo tiene scripts de skill; el venv vive fuera, en ~/.indash/)
+__pycache__/
+*.pyc

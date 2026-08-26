@@ -1,6 +1,6 @@
 ---
 name: stack-overview
-description: Explica qué es y qué puede hacer el stack de Indash — las 10 skills de creative performance, las 26 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "qué es /save-learnings", "cómo se guarda lo que aprendimos", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
+description: Explica qué es y qué puede hacer el stack de Indash — las 11 skills de creative performance, las 26 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "qué es /save-learnings", "cómo se guarda lo que aprendimos", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
 language: es
 owner: manuel-soria
 status: published
@@ -26,7 +26,7 @@ del gate de autenticación y de guardado que están más abajo son las que valen
 
 Adaptá el nivel al pedido — no vuelques todo el documento cada vez:
 
-- **"¿Qué puedo hacer?" / tour general** → el mapa de las 10 skills + las 5
+- **"¿Qué puedo hacer?" / tour general** → el mapa de las 11 skills + las 5
   familias de capacidades del MCP, en no más de una pantalla. Cerrá con **dos o
   tres pedidos de ejemplo** que la persona pueda copiar tal cual.
 - **Pregunta puntual** (video de referencia, dónde se guarda, actualizaciones) →
@@ -38,7 +38,7 @@ Antes de listar capacidades de generación, chequeá si el conector `indash` est
 conectado (ver *Gate de autenticación*). Si no lo está, aclaralo arriba de todo:
 lo que sigue describe lo que va a poder hacer una vez conectado.
 
-## 1. Las 10 skills
+## 1. Las 11 skills
 
 Cada una se dispara sola cuando el pedido coincide — la persona no invoca nada a
 mano.
@@ -60,7 +60,8 @@ mano.
 | `ugc-video-prompts` | Paquete de video UGC (Kling / Veo / Seedance + first/last frame con Nano Banana) | *"armá un UGC para \<producto\>"* |
 | `ugc-generator` | Producción end-to-end de videos UGC: guiones → frames → clips generados y verificados, con 2 gates de aprobación | *"hacele 2 videos de 10s a \<cliente\> con \<producto\>"* |
 | `all-videos` | Videos de marketing multi-shot con selección de modelo por shot (Seedance 2.0, Omni, Veo, Kling) | *"un video cinematográfico de marca"* |
-| `hyperframes` | **Post-producción**: edita y ensambla los clips e imágenes ya generados en la pieza final (cortes, transiciones, captions en zona segura, música/VO) con HyperFrames, en 9:16 / 4:5 / 1:1 / 16:9 | *"editame un reel con los clips de \<producto\>"* |
+| `hyperframes` | **Post-producción creativa**: edita y ensambla los clips e imágenes ya generados en la pieza final (cortes, transiciones, captions en zona segura, música/VO) con HyperFrames, en 9:16 / 4:5 / 1:1 / 16:9 | *"editame un reel con los clips de \<producto\>"* |
+| `edicion-ugc` | **Montaje determinístico de UGC de avatar**: recorta silencios, detecta y tapa morphs con B-roll, quema subtítulos y pega la placa de la marca, con reglas medidas contra 21 ediciones manuales. Corre local (macOS + ffmpeg + whisper-cpp), sin créditos | *"editá estos clips de UGC"*, *"revisá si hay morph"* |
 | `email-marketing-ecomm` | 3 variantes de mail promo DTC (HTML + PNG) listas para Klaviyo / Mailchimp | *"armá un mail promo"* |
 
 Todas siguen el mismo workflow estricto: **intake → discovery en silencio
@@ -69,7 +70,7 @@ concepto → prompts → self-check → output**. Ninguna genera sin confirmar a
 
 ### Y un command: `/save-learnings`
 
-Las 9 skills se disparan solas. **`/save-learnings` no**: lo escribe la persona
+Las 11 skills se disparan solas. **`/save-learnings` no**: lo escribe la persona
 en el chat, al cerrar la sesión, y sirve para que lo aprendido no se pierda.
 
 Hace tres cosas, en este orden:
@@ -125,13 +126,13 @@ Las skills que viven **en la cuenta de Indash** de la marca, no en el plugin.
 Hay **dos** conjuntos de skills, y se actualizan distinto. Es la confusión más
 común:
 
-| | Skills del plugin (las 10 de arriba) | Skills del workspace |
+| | Skills del plugin (las 11 de arriba) | Skills del workspace |
 |---|---|---|
 | Dónde viven | En este repo, instaladas en la máquina | En la cuenta de Indash de la marca |
 | Cómo se leen | Las carga el cliente al iniciar sesión | `list_skills` / `get_skill`, en vivo |
 | Cómo se actualizan | **Manual**: `/plugin marketplace update indash` y reiniciar la sesión | **Solas** — se editan en la app y el próximo llamado ya trae lo nuevo |
 
-Es decir: **las 10 skills del plugin NO se actualizan solas.** Si el equipo de
+Es decir: **las 11 skills del plugin NO se actualizan solas.** Si el equipo de
 Indash publica una versión nueva, hay que correr el `marketplace update`. Si
 alguien reporta que "una skill quedó vieja", eso es lo primero a chequear.
 
@@ -255,13 +256,23 @@ pasás el clip en `reference_video_urls` y pedís *"Extend @Video1 by 5s"*
 describiendo solo lo nuevo. No está verificado punta a punta, así que ofrecelo
 como algo a probar, no como garantía.
 
-**Post-producción — el MCP no edita, la skill `hyperframes` sí.** Cortar,
-montar, poner subtítulos, texto on-screen o música sobre clips ya hechos **no
-pasa por el MCP**: el MCP genera, no edita. Eso lo resuelve la skill
-`hyperframes`, que arma la composición y renderiza el corte final **localmente**
-con [HyperFrames](https://github.com/heygen-com/hyperframes) (requiere Node 22+
-y FFmpeg en la máquina; no consume créditos de Indash). Si alguien pregunta
-*"¿puedo editar el video?"*, la respuesta es sí — por ahí.
+**Post-producción — el MCP no edita, dos skills sí.** Cortar, montar, poner
+subtítulos, texto on-screen o música sobre clips ya hechos **no pasa por el
+MCP**: el MCP genera, no edita. Lo resuelven dos skills, las dos **locales** y
+sin consumir créditos de Indash:
+
+- **`hyperframes`** — composición creativa: arma la composición y renderiza el
+  corte final con [HyperFrames](https://github.com/heygen-com/hyperframes).
+  Requiere Node 22+ y FFmpeg.
+- **`edicion-ugc`** — montaje determinístico de clips de avatar/UGC: silencios,
+  morphs, subtítulos y placa, con reglas medidas contra 21 ediciones manuales.
+  Requiere macOS + Homebrew, ffmpeg, whisper-cpp, un modelo de 1.5 GB y
+  Montserrat (los instala su `setup.sh`).
+
+Si alguien pregunta *"¿puedo editar el video?"*, la respuesta es sí — por ahí.
+Clips de avatar hablando → `edicion-ugc`; una pieza armada con assets varios,
+captions con estilo o placa animada → `hyperframes`. Está planificado que la
+primera emita un plan que la segunda renderice; hoy no lo hace.
 
 **Lo que sigue sin existir:** la extensión de `veo` (su API la soporta; nuestra
 tool todavía no la ofrece).
@@ -310,7 +321,7 @@ descontrolados. Si aparece, no es un bug — esperá o avisá.
 
 Decilo derecho cuando corresponda:
 
-- **No edita video**: no corta, no monta, no agrega subtítulos ni música a un clip existente. Genera, no post-produce. (Video y audio de **referencia** sí — sección 4.)
+- **El MCP no edita video**: no corta, no monta, no agrega subtítulos ni música a un clip existente. Genera, no post-produce. (Video y audio de **referencia** sí — sección 4.) La edición la resuelven `hyperframes` y `edicion-ugc`, **local** en la máquina de la persona y con dependencias propias — si no las tiene instaladas, no hay edición.
 - **No publica** en Meta, Instagram ni en ningún ad manager. Entrega piezas y
   copy listos para que una persona los suba.
 - **No compra medios** ni lee métricas de campañas.
