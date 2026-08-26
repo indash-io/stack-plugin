@@ -1,6 +1,6 @@
 ---
 name: stack-overview
-description: Explica qué es y qué puede hacer el stack de Indash — las 9 skills de creative performance, las 25 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
+description: Explica qué es y qué puede hacer el stack de Indash — las 9 skills de creative performance, las 25 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "qué es /save-learnings", "cómo se guarda lo que aprendimos", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
 language: es
 owner: manuel-soria
 status: published
@@ -66,6 +66,27 @@ Todas siguen el mismo workflow estricto: **intake → discovery en silencio
 (scraping + análisis de imagen) → una sola pregunta consolidada de decisiones →
 concepto → prompts → self-check → output**. Ninguna genera sin confirmar antes.
 
+### Y un command: `/save-learnings`
+
+Las 9 skills se disparan solas. **`/save-learnings` no**: lo escribe la persona
+en el chat, al cerrar la sesión, y sirve para que lo aprendido no se pierda.
+
+Hace tres cosas, en este orden:
+
+1. **Separa** los learnings **del cliente** (DOs, DON'Ts y cómo se llegó a un
+   buen resultado con **esta** marca) de los **de la skill** (lo que estaría mal
+   o faltaría en la skill **para cualquier marca**).
+2. **Anonimiza** los de skill — sin marca, producto, personas, URLs ni números de
+   negocio — y **muestra el borrador completo**. No manda nada sin confirmación
+   explícita; la persona puede editar o sacar ítems.
+3. **Guarda**: los del cliente van al `LEARNINGS.md` de su workspace en Indash
+   (append-only, al lado del brand kit); los de skill van a un issue privado del
+   equipo de Indash, que es de donde salen las mejoras del plugin.
+
+Es el **canal por el que el stack mejora**: sin eso, cada sesión arranca de cero
+y las skills nunca se enteran de lo que no funcionó. Sugerilo vos al terminar
+una entrega, en una línea — pero **no lo ejecutes por tu cuenta**.
+
 ## 2. Las 25 tools del conector `indash`
 
 Cinco familias. Las skills las usan solas; la persona no las llama a mano.
@@ -110,6 +131,11 @@ común:
 Es decir: **las 9 skills del plugin NO se actualizan solas.** Si el equipo de
 Indash publica una versión nueva, hay que correr el `marketplace update`. Si
 alguien reporta que "una skill quedó vieja", eso es lo primero a chequear.
+
+**De dónde salen esas versiones nuevas:** en buena medida, de `/save-learnings`.
+Los learnings de skill que la persona confirma abren un issue privado; el equipo
+los tría, los convierte en cambios del plugin y salen en el próximo release. Por
+eso vale la pena correrlo al cerrar una entrega.
 
 `core/skills/` (dentro del plugin) es el **canon compartido** — las leyes de
 prompting y los formatos de IG que consumen las skills de ejecución. No es una

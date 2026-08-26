@@ -26,6 +26,9 @@ Skills de creative performance para e-commerce, montadas sobre un set de MCPs. C
 
 Cada skill tiene su `SKILL.md` con el workflow completo: **seguilo al pie de la letra, en orden, sin saltear pasos.**
 
+**Commands (los invoca el usuario, no se disparan solos)**
+- **`/save-learnings`** → al cerrar la sesión, guarda lo aprendido: separa los learnings **del cliente** (van al `LEARNINGS.md` de su workspace en Indash) de los **de la skill** (universales, anonimizados, van a un issue privado del equipo), muestra el borrador y pide confirmación antes de mandar nada. **Al terminar una entrega, si usaste alguna skill del stack, sugerí `/save-learnings` en una línea al final del handoff** — sugerilo, no lo ejecutes vos.
+
 ### El conector `indash` — gate de autenticación (lo más importante)
 
 El plugin trae **un solo conector: `indash`**, y es **REQUERIDO**: marca, productos y TODA la generación de imagen/video de las skills pasan por él. Se autentica por OAuth con la cuenta de Indash del usuario: en Claude Code con `/mcp` (elegir `indash` y seguir el login en el browser); en Cowork / claude.ai, desde el panel de conectores.

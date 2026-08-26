@@ -6,6 +6,7 @@
 //      metadata de mantenimiento del hub (owner + status + reviewed).
 //   3. Que TODA referencia a un archivo/carpeta dentro de un SKILL.md exista.
 //   4. Que el hook de SessionStart apunte a un archivo real.
+//   5. Que cada command de commands/ tenga frontmatter con "description".
 // Uso: node scripts/validate-plugin.mjs   (sale con código 1 si algo falla)
 
 import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
@@ -323,6 +324,29 @@ if (hooks?.SessionStart) {
         else fail(`hook SessionStart → archivo inexistente: ${m[1]}`);
       }
     }
+  }
+}
+
+// --- 5. Commands: frontmatter con description ---------------------------
+// Los slash commands del plugin son markdown plano en commands/. Sin
+// "description" en el frontmatter no aparecen bien en el menú de /, así que el
+// command queda invisible en silencio.
+const commandsDir = join(ROOT, "commands");
+if (existsSync(commandsDir)) {
+  const commandFiles = readdirSync(commandsDir).filter((f) => f.endsWith(".md"));
+  if (!commandFiles.length) fail("commands/: la carpeta existe pero no tiene ningún .md");
+  for (const file of commandFiles) {
+    const content = readFileSync(join(commandsDir, file), "utf8");
+    const fm = content.match(/^---\n([\s\S]*?)\n---/);
+    if (!fm) {
+      fail(`commands/${file}: falta el frontmatter (---)`);
+      continue;
+    }
+    if (!/^description:\s*\S/m.test(fm[1])) {
+      fail(`commands/${file}: frontmatter sin "description"`);
+      continue;
+    }
+    pass(`commands/${file}: frontmatter OK`);
   }
 }
 

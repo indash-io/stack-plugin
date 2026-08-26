@@ -61,6 +61,7 @@ Un plugin es un repo con un manifiesto `.claude-plugin/plugin.json`. Claude Code
 | `mcp.json` (raíz) | Mismo server `indash`, con `type: "streamable-http"` (el nombre que usa la spec) | Ídem |
 | `hooks/hooks.json` | Registra el hook de SessionStart | Claude Code (autodescubierto) |
 | `hooks/context/stack-policy.md` | **Política operativa del stack** | El **agente del usuario**, cada sesión |
+| `commands/*.md` | **Slash commands** del plugin (markdown plano con frontmatter). Hoy: `save-learnings.md` | El agente del usuario, cuando escribe `/save-learnings` |
 | `skills/<skill>/SKILL.md` | Orquestador de cada skill | El agente, al disparar la skill |
 | `skills/<skill>/{instructions,style,templates,examples,eval}/` | Detalle de cada skill | El SKILL.md las referencia |
 | `scripts/validate-plugin.mjs` | Validador de integridad | Vos / CI |
@@ -137,6 +138,14 @@ reviewed: 2026-08-25         # última vez que un humano leyó y validó el cont
   darla por buena, sí. El hub usa este campo para marcar las skills que están
   quedando viejas.
 
+### Commands (`commands/*.md`)
+- Un command es **markdown plano** con frontmatter `description` (obligatorio) y, opcional, `argument-hint`, `disable-model-invocation`, `allowed-tools`. El cuerpo es el prompt que recibe el agente al invocarlo.
+- Se autodescubren en `commands/` (raíz del plugin, **nunca** dentro de `.claude-plugin/`). Quedan namespaced: `/indash-stack:<nombre>`.
+- Diferencia con una skill: la skill la **dispara el modelo** cuando el pedido coincide; el command lo **invoca la persona**. Si el flujo no debería arrancar solo (porque manda datos afuera, por ejemplo), va como command con `disable-model-invocation: true`.
+- Mismo registro que las skills: **voseo**, reglas no-negociables numeradas, y "Punto de entrada" al final.
+- `${CLAUDE_PLUGIN_ROOT}` se sustituye en el cuerpo de un command de plugin igual que en una skill — sirve para leer archivos del propio plugin (ej: la `version` del manifiesto). Fuera de Claude Code no se sustituye: el command tiene que tener un fallback explícito.
+- Si un command habla de la política del stack o de las skills, entra en la **regla de sincronización** de abajo.
+
 ### MCPs (`.mcp.json`)
 - **El plugin trae UN solo conector (`indash`), es OAuth y no lleva `headers` en el `.mcp.json`.** Es un producto client-facing: conectores extra (Notion, Drive, scrapers) los agrega cada usuario por su cuenta, no el plugin. No hay secretos ni variables de entorno en el repo, y tampoco hay que agregarlas: un `headers.Authorization` explícito **desactiva** el flujo OAuth (el cliente nunca recibe el 401 que dispara el discovery, y si el token es inválido el server queda `failed` en vez de caer a OAuth). Si alguna vez hace falta autenticar por API key para un entorno headless, se registra el server aparte con `claude mcp add --header`, nunca acá.
 - Si agregás/sacás un conector, actualizá la lista en **tres lugares a la vez** (ver regla de sincronización abajo).
@@ -163,6 +172,8 @@ El gate de autenticación y la lista de MCPs aparecen en **cinco** archivos. Si 
 4. `.mcp.json` **y** `mcp.json` (los dos formatos — el validador falla si divergen)
 5. Este `CLAUDE.md` si cambia algo conceptual del flujo
 
+Lo mismo vale para los **commands**: si agregás, sacás o cambiás el propósito de un command, tiene que quedar reflejado en `hooks/context/stack-policy.md` (1), `skills/stack-overview/SKILL.md` (2) y `README.md` (3) — son las tres superficies donde el usuario se entera de que existe.
+
 Ídem la versión: `plugin.json`, `.claude-plugin/plugin.json` y el `metadata.version` de `marketplace.json` tienen que ser el mismo número. El validador lo chequea.
 
 ---
@@ -175,7 +186,7 @@ Antes de commitear, corré el validador (sin dependencias):
 node scripts/validate-plugin.mjs
 ```
 
-Chequea: JSON de config parsean y tienen campos mínimos, frontmatter de cada `SKILL.md` (los seis campos, con `status` en el enum y `reviewed` como fecha válida), **que toda referencia de archivo dentro de los SKILL.md exista**, que el hook de SessionStart apunte a un archivo real, y que el `marketplace.json` liste plugins con un `source` que tenga su `plugin.json`.
+Chequea: JSON de config parsean y tienen campos mínimos, frontmatter de cada `SKILL.md` (los seis campos, con `status` en el enum y `reviewed` como fecha válida), **que toda referencia de archivo dentro de los SKILL.md exista**, que cada `commands/*.md` tenga frontmatter con `description`, que el hook de SessionStart apunte a un archivo real, y que el `marketplace.json` liste plugins con un `source` que tenga su `plugin.json`.
 
 Además, **conformidad con Agent Plugins 1.0.0**: `$schema` exacto en `plugin.json` y `mcp.json`, `name` contra el patrón de la spec, schema cerrado (ningún campo top-level de más), namespaces de `extensions` en reverse-domain, transportes MCP válidos (`stdio` | `streamable-http` | `sse`) con URL https — y **anti-drift** entre los dos formatos: mismo `name`/`version`/`description` en los dos manifiestos, misma versión en `marketplace.json`, y mismos servers con mismas URLs en `.mcp.json` y `mcp.json`. Sale con código ≠0 si algo falla. El mismo chequeo corre en CI (`.github/workflows/validate.yml`) en cada push y PR.
 
@@ -188,6 +199,12 @@ Además, **conformidad con Agent Plugins 1.0.0**: `$schema` exacto en `plugin.js
 2. Armá las subcarpetas (`instructions/`, `style/`, `templates/`, `examples/`, `eval/`) y referencialas desde el SKILL.md.
 3. Corré el validador para confirmar que no hay refs rotas.
 4. Mantené el registro rioplatense y la estructura orquestador/detalle.
+
+**Agregar un command:**
+1. Creá `commands/<nombre>.md` con frontmatter (`description` como mínimo) + cuerpo con workflow en pasos y reglas numeradas.
+2. Si no debería dispararse solo, poné `disable-model-invocation: true`.
+3. Anunciálo en `stack-policy.md`, `stack-overview/SKILL.md` y `README.md` (regla de sincronización).
+4. Corré el validador.
 
 **Agregar un MCP:**
 1. Definilo en `.mcp.json` (token por env var si aplica).
