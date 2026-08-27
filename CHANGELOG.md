@@ -1,6 +1,6 @@
 # Changelog
 
-## Sin publicar
+## 0.13.0 — 2026-08-27
 
 **`/save-learnings` ahora entrevista antes de redactar.** El feedback de la
 daily del 2026-08-26: el challenge está en quien corre el comando, no en quien
