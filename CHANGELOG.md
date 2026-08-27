@@ -1,5 +1,36 @@
 # Changelog
 
+## Sin publicar
+
+**`/save-learnings` ahora entrevista antes de redactar.** El feedback de la
+daily del 2026-08-26: el challenge está en quien corre el comando, no en quien
+lee el issue. Hasta ahora el agente armaba el borrador solo y el "por qué" salía
+de su inferencia — que es justo el dato que hace triageable un learning.
+
+- **Paso nuevo de entrevista**, después de detectar las skills y antes de
+  clasificar: **una sola pregunta consolidada** (la convención del stack, no una
+  batería de preguntas sueltas) con qué hiciste (el agente lo pre-llena desde el
+  contexto y la persona confirma), dónde se trabó, qué cambiarías concretamente
+  y **por qué**. Si la persona invocó el comando con una nota, esa nota es la
+  primera respuesta y solo se pide lo que falte.
+- **El "por qué" lo escribe la persona.** Regla no negociable: si no lo contesta,
+  el agente lo pide una vez más y, si sigue sin venir, **el learning queda
+  afuera** — lo dice en el borrador. Nunca lo inventa ni lo rellena con una
+  inferencia.
+- **Formato antes / propongo / por qué** para cada learning de skill: `skill`,
+  `before`, `after`, `why` y `example?` (reemplaza a `text` + `suggested_change`
+  en el payload de `save_learnings`). Cada learning es **un cambio concreto y
+  acotado** — nunca "reescribir la skill" ni cuatro cambios en un ítem — y el
+  comando trae ejemplos buenos y malos para calibrarlo. La anonimización se
+  aplica a los cuatro campos, no solo al primero.
+- **Se corre a conciencia**, no como cierre automático de cada entrega: llenar el
+  inbox de ruido es peor que no reportar. `stack-policy.md` y `stack-overview`
+  ahora dicen que el agente lo sugiera **solo si en la sesión hubo fricción con
+  una skill** (se pidió rehacer algo, se corrigió a la skill, algo no sirvió).
+- Los learnings **del cliente** (`brand_learnings`) no cambian de formato.
+- De paso: el paso 1 del comando listaba 10 skills: ahora lista las 12, con
+  `hyperframes` y `edicion-ugc`.
+
 ## 0.12.0 — 2026-08-26
 
 **Skill nueva: `edicion-ugc`** — el **montaje determinístico** de clips de

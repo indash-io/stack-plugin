@@ -35,7 +35,7 @@ Las skills se disparan solas; los **commands** los invocás vos a mano, escribie
 
 | Command | Qué hace |
 |---|---|
-| **`/save-learnings`** | Cierra la sesión guardando lo aprendido. Revisa qué skills usaste, separa los **learnings del cliente** (DOs, DON'Ts y cómo se llegó a un buen resultado → van al `LEARNINGS.md` del workspace de esa marca en Indash) de los **learnings de la skill** (universales y anonimizados → van a un issue privado del equipo de Indash, que los usa para mejorar el plugin). Te muestra el borrador completo y **no manda nada sin tu confirmación**. |
+| **`/save-learnings`** | Guarda lo aprendido de una sesión en la que algo no funcionó. Te hace **una sola pregunta consolidada** (qué hiciste, dónde se trabó, qué cambiarías y **por qué** — el por qué lo escribís vos, no lo inventa el agente) y separa los **learnings del cliente** (DOs, DON'Ts y cómo se llegó a un buen resultado → van al `LEARNINGS.md` del workspace de esa marca en Indash) de los **learnings de la skill** (universales, anonimizados y en formato *antes / propongo / por qué* → van a un issue privado del equipo de Indash, que los usa para mejorar el plugin). Te muestra el borrador completo y **no manda nada sin tu confirmación**. Corrélo **a conciencia**, cuando sabés que tenés algo para guardar: no es el cierre de todas las entregas. |
 
 Instalado desde el marketplace el nombre completo es `/indash-stack:save-learnings`; el autocompletado de `/` te lo encuentra escribiendo `save-learnings`.
 
