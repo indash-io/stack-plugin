@@ -71,23 +71,32 @@ concepto → prompts → self-check → output**. Ninguna genera sin confirmar a
 ### Y un command: `/save-learnings`
 
 Las 11 skills se disparan solas. **`/save-learnings` no**: lo escribe la persona
-en el chat, al cerrar la sesión, y sirve para que lo aprendido no se pierda.
+en el chat, **a conciencia**, cuando sabe que la sesión dejó algo para guardar —
+no como cierre automático de cada entrega.
 
-Hace tres cosas, en este orden:
+Hace cuatro cosas, en este orden:
 
-1. **Separa** los learnings **del cliente** (DOs, DON'Ts y cómo se llegó a un
+1. **Entrevista** en **una sola pregunta consolidada**: qué hiciste (eso lo
+   pre-llena el agente y la persona confirma), dónde se trabó o qué le molestó de
+   la skill, qué cambiaría concretamente y **por qué**. El "por qué" **lo escribe
+   la persona**: el agente no lo infiere, y si no viene, ese learning no se manda.
+2. **Separa** los learnings **del cliente** (DOs, DON'Ts y cómo se llegó a un
    buen resultado con **esta** marca) de los **de la skill** (lo que estaría mal
    o faltaría en la skill **para cualquier marca**).
-2. **Anonimiza** los de skill — sin marca, producto, personas, URLs ni números de
-   negocio — y **muestra el borrador completo**. No manda nada sin confirmación
-   explícita; la persona puede editar o sacar ítems.
-3. **Guarda**: los del cliente van al `LEARNINGS.md` de su workspace en Indash
+3. **Redacta y anonimiza** los de skill: cada uno es **un cambio concreto y
+   acotado** en formato **antes / propongo / por qué** (nunca "reescribir la
+   skill"), sin marca, producto, personas, URLs ni números de negocio. Después
+   **muestra el borrador completo**: no manda nada sin confirmación explícita, y
+   la persona puede editar o sacar ítems.
+4. **Guarda**: los del cliente van al `LEARNINGS.md` de su workspace en Indash
    (append-only, al lado del brand kit); los de skill van a un issue privado del
    equipo de Indash, que es de donde salen las mejoras del plugin.
 
 Es el **canal por el que el stack mejora**: sin eso, cada sesión arranca de cero
-y las skills nunca se enteran de lo que no funcionó. Sugerilo vos al terminar
-una entrega, en una línea — pero **no lo ejecutes por tu cuenta**.
+y las skills nunca se enteran de lo que no funcionó. **Sugerilo solo si en la
+sesión hubo fricción con una skill** — la persona pidió rehacer algo, corrigió a
+la skill o dijo que algo no le sirvió — en una línea al final del handoff. Si la
+entrega salió derecho, no lo menciones. Y **no lo ejecutes por tu cuenta**.
 
 ## 2. Las 26 tools del conector `indash`
 
