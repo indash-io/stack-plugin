@@ -1,7 +1,12 @@
 ---
-description: Guarda lo aprendido de una sesión en la que algo no funcionó como esperabas. Te hace una entrevista corta (qué hiciste, dónde se trabó, qué cambiarías y por qué), separa los learnings del cliente (van al LEARNINGS.md de su workspace en Indash) de los learnings de la skill (universales, anonimizados y en formato antes/propongo/por qué, van a un issue privado del equipo), te muestra el borrador completo y pide confirmación explícita antes de mandar nada. Corrélo a conciencia, cuando sabés que tenés algo para guardar.
-argument-hint: "[opcional: qué se trabó, qué cambiarías y por qué — te ahorra parte de la entrevista]"
+name: save-learnings
+description: "Guarda lo aprendido de una sesión en la que algo no funcionó como esperabas. Te hace una entrevista corta (qué hiciste, dónde se trabó, qué cambiarías y por qué), separa los learnings del cliente (van al LEARNINGS.md de su workspace en Indash) de los learnings de la skill (universales, anonimizados y en formato antes/propongo/por qué, van a un issue privado del equipo), te muestra el borrador completo y pide confirmación explícita antes de mandar nada. Corrélo a conciencia, cuando sabés que tenés algo para guardar."
+language: es
+owner: manuel-soria
+status: published
+reviewed: 2026-08-28
 disable-model-invocation: true
+argument-hint: "[opcional: qué se trabó, qué cambiarías y por qué — te ahorra parte de la entrevista]"
 ---
 
 # /save-learnings — guardar lo aprendido, a conciencia
@@ -148,7 +153,7 @@ La pregunta que decide todo, una por learning:
 | De qué habla | De **esta** marca: su voz, sus reglas, sus productos, qué le funcionó | Del **workflow, los templates, las reglas y los ejemplos** de la skill |
 | Dónde va | `LEARNINGS.md` del workspace en Indash | Issue privado del equipo de Indash |
 | Puede nombrar | Todo: marca, producto, personas, precios | **Nada** de eso — va anonimizado |
-| Ejemplos | *"no usar la palabra 'oferta': la marca la lee como descuento"* · *"el slide 1 sin texto rindió mejor que con headline"* · *"el mejor resultado salió arrancando por el objetivo y dejando el CTA para el final"* | *"la skill pide el CTA antes de saber el objetivo de campaña"* · *"al template de shot list le falta un slot para el disclaimer legal"* · *"la regla 4 contradice a la 7 sobre cuándo versionar"* · *"el ejemplo de `examples/good/` usa un modelo de imagen que ya no es el default"* |
+| Ejemplos | *"no usar la palabra 'oferta': la marca la lee como descuento"* · *"el slide 1 sin texto rindió mejor que con headline"* · *"el mejor resultado salió arrancando por el objetivo y dejando el CTA para el final"* | *"la skill pide el CTA antes de saber el objetivo de campaña"* · *"al template de shot list le falta un slot para el disclaimer legal"* · *"la regla 4 contradice a la 7 sobre cuándo versionar"* · *"el ejemplo bueno de la skill usa un modelo de imagen que ya no es el default"* |
 
 Los tres `kind` de un learning de cliente:
 

@@ -28,7 +28,7 @@ Skills de creative performance para e-commerce, montadas sobre un set de MCPs. C
 
 Cada skill tiene su `SKILL.md` con el workflow completo: **seguilo al pie de la letra, en orden, sin saltear pasos.**
 
-**Commands (los invoca el usuario, no se disparan solos)**
+**Skills que invoca el usuario (no se disparan solas)**
 - **`/save-learnings`** → guarda lo aprendido de una sesión en la que algo no funcionó: hace una **entrevista corta** (qué hiciste, dónde se trabó, qué cambiarías y **por qué** — el por qué lo escribe la persona, nunca el agente), separa los learnings **del cliente** (van al `LEARNINGS.md` de su workspace en Indash) de los **de la skill** (universales, anonimizados, en formato *antes / propongo / por qué*, van a un issue privado del equipo), muestra el borrador y pide confirmación antes de mandar nada. **Se corre a conciencia, no en cada entrega.** Sugerilo en una línea **solo si en esta sesión hubo fricción con una skill**: la persona pidió rehacer algo, te corrigió una regla o un paso de la skill, o dijo que algo no le sirvió. Si la entrega salió derecho, no lo menciones. Y sugerilo, no lo ejecutes vos.
 
 ### El conector `indash` — gate de autenticación (lo más importante)

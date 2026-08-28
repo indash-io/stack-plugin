@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.14.0 — 2026-08-28
+
+**Tres bugs de carga que no se veían en el repo y sí en la máquina de cada
+uno.** El validador ahora los atrapa.
+
+- **El plugin no cargaba en Claude Code ≥ 2.1.25x**: `hooks/hooks.json` usaba el
+  formato viejo (`SessionStart` en el top-level). El formato oficial es
+  `{ "hooks": { "SessionStart": [...] } }`; sin eso Claude Code rechaza el
+  plugin entero ("Hook load failed") y no carga ni una skill.
+- **Tres skills desaparecían en Claude Desktop** (`all-videos`, `carruseles`,
+  `stories-nano-banana`): la `description` tenía `: ` adentro y el parser YAML
+  real la rechazaba — el plugin mostraba 11 skills de 12. Van entre comillas y
+  el validador falla si un valor plano tiene `: ` o ` #`.
+- **`/save-learnings` pasa de `commands/` a `skills/save-learnings/`** con
+  `disable-model-invocation: true`: Claude Desktop y Cowork no listan los
+  commands de un plugin, y la doc oficial recomienda `skills/`. Se invoca
+  `/save-learnings` en todos los clientes; el modelo sigue sin poder dispararla.
+
 ## 0.13.0 — 2026-08-27
 
 **`/save-learnings` ahora entrevista antes de redactar.** El feedback de la
