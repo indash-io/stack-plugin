@@ -6,7 +6,8 @@
 //      metadata de mantenimiento del hub (owner + status + reviewed).
 //   3. Que TODA referencia a un archivo/carpeta dentro de un SKILL.md exista.
 //   4. Que el hook de SessionStart apunte a un archivo real.
-//   5. Que cada command de commands/ tenga frontmatter con "description".
+//   5. Que cada command de commands/ (si existe) tenga frontmatter con "description".
+//      Las skills invocables a mano van en skills/ con disable-model-invocation.
 // Uso: node scripts/validate-plugin.mjs   (sale con código 1 si algo falla)
 
 import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
@@ -172,7 +173,23 @@ if (marketplace) {
 const SKILL_STATUSES = new Set(["published", "draft", "deprecated"]);
 
 /** Chequea owner / status / reviewed en el frontmatter de un SKILL.md. */
+// El frontmatter lo lee un parser YAML de verdad (Claude Code / Desktop): un
+// valor sin comillas con ": " o " #" adentro es un error de parseo y la skill
+// desaparece en silencio del plugin. Acá lo detectamos antes.
+function checkYamlScalars(fmBody, label) {
+  for (const line of fmBody.split("\n")) {
+    const m = line.match(/^([A-Za-z_-]+):\s*(.*)$/);
+    if (!m) continue;
+    const value = m[2].trim();
+    if (!value || /^["']/.test(value)) continue;
+    if (value.includes(": ") || value.includes(" #") || /^[\[\{*&!|>%@`]/.test(value)) {
+      fail(`${label}: el valor de "${m[1]}" tiene ": ", " #" o arranca con un carácter especial — va entre comillas dobles (YAML lo parsea mal y la skill desaparece del plugin)`);
+    }
+  }
+}
+
 function checkSkillMetadata(fmBody, label) {
+  checkYamlScalars(fmBody, label);
   const owner = fmBody.match(/^owner:\s*(\S.*)$/m);
   if (!owner) fail(`${label}: frontmatter sin "owner" (login de GitHub del dueño de la skill)`);
 
@@ -314,8 +331,15 @@ function caseExactExists(target) {
 }
 
 // --- 4. Hook de SessionStart apunta a un archivo real --------------------
-if (hooks?.SessionStart) {
-  for (const entry of hooks.SessionStart) {
+// Formato oficial: { "hooks": { "SessionStart": [...] } }. El formato viejo
+// (SessionStart en el top-level) hace que Claude Code >= 2.1.25x rechace el
+// plugin entero: "hooks.json must have `hooks` or `modules`".
+if (hooks && !hooks.hooks && !hooks.modules) {
+  fail('hooks/hooks.json: falta la clave "hooks" (formato { "hooks": { "SessionStart": [...] } }) — Claude Code rechaza el plugin entero');
+}
+const sessionStart = hooks?.hooks?.SessionStart;
+if (sessionStart) {
+  for (const entry of sessionStart) {
     for (const h of entry.hooks ?? []) {
       const m = (h.command ?? "").match(/CLAUDE_PLUGIN_ROOT\}\/([\w./-]+)/);
       if (m) {

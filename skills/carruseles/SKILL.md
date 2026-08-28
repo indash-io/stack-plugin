@@ -1,6 +1,6 @@
 ---
 name: carruseles
-description: Genera carruseles 4:5 de Instagram a partir de una URL/producto + imagen de referencia (o brand kit). Crea las imágenes directamente con el MCP de Indash, eligiendo el mejor modelo por slide (nano-banana para producto/foto/logo, gpt-image para texto/infografía). Output: shot list creativo + imágenes generadas + prompts.
+description: "Genera carruseles 4:5 de Instagram a partir de una URL/producto + imagen de referencia (o brand kit). Crea las imágenes directamente con el MCP de Indash, eligiendo el mejor modelo por slide (nano-banana para producto/foto/logo, gpt-image para texto/infografía). Output: shot list creativo + imágenes generadas + prompts."
 language: es
 owner: manuel-soria
 status: published

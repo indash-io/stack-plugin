@@ -29,15 +29,15 @@ La idea: instalás el plugin, conectás tu cuenta de Indash con un login, y las 
 
 Todas siguen un workflow estricto: intake → discovery (scraping + análisis de imagen) → **una sola pregunta consolidada de decisiones** → concepto → generación de prompts → self-check → output. Nunca generan sin confirmar con vos primero.
 
-### Commands
+### Skills que invocás vos
 
-Las skills se disparan solas; los **commands** los invocás vos a mano, escribiendo `/` en el chat.
+La mayoría de las skills se disparan solas. Esta la invocás **vos**, escribiendo `/` en el chat — el modelo nunca la corre por su cuenta.
 
-| Command | Qué hace |
+| Skill | Qué hace |
 |---|---|
 | **`/save-learnings`** | Guarda lo aprendido de una sesión en la que algo no funcionó. Te hace **una sola pregunta consolidada** (qué hiciste, dónde se trabó, qué cambiarías y **por qué** — el por qué lo escribís vos, no lo inventa el agente) y separa los **learnings del cliente** (DOs, DON'Ts y cómo se llegó a un buen resultado → van al `LEARNINGS.md` del workspace de esa marca en Indash) de los **learnings de la skill** (universales, anonimizados y en formato *antes / propongo / por qué* → van a un issue privado del equipo de Indash, que los usa para mejorar el plugin). Te muestra el borrador completo y **no manda nada sin tu confirmación**. Corrélo **a conciencia**, cuando sabés que tenés algo para guardar: no es el cierre de todas las entregas. |
 
-Instalado desde el marketplace el nombre completo es `/indash-stack:save-learnings`; el autocompletado de `/` te lo encuentra escribiendo `save-learnings`.
+Instalado desde el marketplace el nombre completo es `/save-learnings`; el autocompletado de `/` te lo encuentra escribiendo `save-learnings`.
 
 **Por qué te conviene usarlo:** el `LEARNINGS.md` de tu marca es lo que hace que la próxima sesión no repita los mismos errores, y los learnings de skill son los que hacen que el plugin mejore versión a versión. Nada de tu marca viaja al equipo: los learnings de skill van sin nombre de marca, producto, personas, URLs ni números de negocio.
 
@@ -182,8 +182,8 @@ skills/all-videos/              Videos de marketing multi-shot, multi-modelo (Se
 skills/hyperframes/             Post-producción creativa (composición HyperFrames → MP4)
 skills/edicion-ugc/             Montaje determinístico de UGC de avatar (FFmpeg + whisper-cpp, local)
 skills/email-marketing-ecomm/   Mails promo DTC (HTML + PNG)
-commands/save-learnings.md      Slash command /save-learnings (guarda los learnings de la sesión)
-scripts/validate-plugin.mjs     Validador de integridad (JSON + refs de SKILL.md + frontmatter de commands/)
+skills/save-learnings/SKILL.md      /save-learnings — la invocás vos; guarda los learnings de la sesión
+scripts/validate-plugin.mjs     Validador de integridad (JSON + refs + frontmatter de cada SKILL.md + hooks)
 .github/workflows/validate.yml  CI que corre el validador en cada push/PR
 CLAUDE.md                       Guía técnica para desarrollar el plugin (solo en-repo)
 README.md                       Este archivo — cómo usar el stack

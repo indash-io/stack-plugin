@@ -68,7 +68,7 @@ Todas siguen el mismo workflow estricto: **intake → discovery en silencio
 (scraping + análisis de imagen) → una sola pregunta consolidada de decisiones →
 concepto → prompts → self-check → output**. Ninguna genera sin confirmar antes.
 
-### Y un command: `/save-learnings`
+### Y una skill que invocás vos: `/save-learnings`
 
 Las 11 skills se disparan solas. **`/save-learnings` no**: lo escribe la persona
 en el chat, **a conciencia**, cuando sabe que la sesión dejó algo para guardar —
