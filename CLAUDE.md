@@ -1,5 +1,12 @@
 # CLAUDE.md — Guía técnica del plugin Indash Stack
 
+> **⚠️ Si estás en la branch `studio`**: `skills/` contiene los dos sets nuevos
+> (6 de **ejecución** para Indash Studio + 6 de **ideación** para el armador de
+> briefs hosteado) — ver el `README.md` de la branch. Lo que sigue describe el
+> mundo plugin de `main`; en `studio` siguen valiendo las convenciones de
+> frontmatter (6 campos), el registro rioplatense y el validador, pero no la
+> lista de skills ni la regla de sincronización con `stack-policy.md`.
+
 **Alcance de este archivo.** Esto es la guía para **desarrollar el plugin** (no para usarlo). Solo se carga como contexto cuando abrís *este repo* como directorio de trabajo. **No viaja con la instalación**: cuando alguien instala el plugin y lo usa en la carpeta de su cliente, este `CLAUDE.md` no se carga (lo dice la doc oficial de plugins). La política que recibe el *usuario* del stack vive en `hooks/context/stack-policy.md`, inyectada por el hook de SessionStart.
 
 > Si estás buscando **cómo usar** el stack (instalar, generar carruseles/stories), eso está en `README.md`.

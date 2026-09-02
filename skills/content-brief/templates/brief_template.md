@@ -1,6 +1,7 @@
 # Template — Brief del período
 
-Estructura exacta del brief final. Se guarda en `briefs/<AAAA-MM-DD>_<periodo-slug>_v<N>.md`. El bloque de abajo es lo que va dentro del archivo.
+Estructura exacta del brief final. Los bloques por pieza siguen el contrato de
+`bloque_por_pieza.md` — este template es el envoltorio que los ordena.
 
 ---8<--- copiar desde acá ---8<---
 
@@ -10,38 +11,41 @@ Estructura exacta del brief final. Se guarda en `briefs/<AAAA-MM-DD>_<periodo-sl
 **Objetivo:** {vender / lanzar / promo / fecha / awareness}
 **Fecha:** {AAAA-MM-DD}
 **Voz:** {una línea — ej: cercana, voseo, eje tranquilidad}
-**Reglas:** {reglas duras separadas por · — ej: cuotas sin precio · sin preventa · humor suave · cero invención}
+**Reglas duras:** {separadas por · — ej: cuotas sin precio · sin preventa · humor suave · cero invención}
 
 ## Mix del período
 
-| Tipo | Cantidad | Funnel | Skill de ejecución |
-|---|---|---|---|
-| Anuncios estáticos (Meta) | {N} | frío/tibio | `ads` |
-| Carruseles | {N} | tibio | `carruseles` |
-| Stories | {N} | tibio/caliente | `stories-nano-banana` |
-| Videos UGC / film | {N} | frío/tibio | `ugc-video-prompts` / `all-videos` (+ `hyperframes` o `edicion-ugc` si va corte final) |
-| Emails | {N} | caliente | `email-marketing-ecomm` |
-| Cambios de catálogo | {N} | — | (manual / catálogo) |
+| Grupo | Tipo | Formato | Cantidad | Funnel |
+|---|---|---|---|---|
+| `ads` | Anuncios de Meta | feed 4:5 / stories 9:16 | {N} | frío/tibio |
+| `carruseles` | Carruseles | feed 4:5 | {N grupos} | tibio |
+| `stories` | Stories | stories 9:16 | {N secuencias} | tibio/caliente |
+| `video-{n}` | Video UGC | reels 9:16 · {seconds}s | {N videos} | frío/tibio |
+| — | Emails | (no pasa por el Studio) | {N} | caliente |
+
+## Bloqueos declarados
+{si aplica — ej: "⚠️ {producto} sin fotos utilizables en el workspace: las piezas que lo usan quedan bloqueadas hasta cargar fotos"}
 
 ---
 
-## 1. Anuncios estáticos (Meta)
-{bloques de cada ad — ver piece_blocks.md}
+## 1. Anuncios de Meta
+{bloques de cada ad — formato del contrato}
 
 ## 2. Carruseles
-{bloques de cada carrusel}
+{bloques de cada grupo de carrusel, con sub-bloque por slide}
 
 ## 3. Stories
-{bloques de cada secuencia}
+{bloques de cada secuencia, con sticker por story}
 
-## 4. Videos UGC / film
-{bloques de cada video}
+## 4. Videos
+{bloques de cada grupo kind: video, con guion por clip}
 
 ## 5. Emails
-{bloques de cada email}
-
-## 6. Cambios de catálogo
-{si aplica}
+{bloques de cada campaña — se entregan a quien ejecuta el mail}
 ```
 
 ---8<--- hasta acá ---8<---
+
+**Handoff que cierra la entrega** (fuera del archivo, en el chat): este brief lo
+ejecuta el Studio — `new-brief` lo vuelca a `plan.json` y la producción corre
+con `creative-execution` / `video-execution`.

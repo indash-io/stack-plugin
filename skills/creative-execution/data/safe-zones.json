@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "note": "Safe zones por formato: margen en px donde NO puede caer texto/logo. Fuente única — la consumen los formats/*.md de creative-execution. Números según la zona segura UNIFICADA de Meta (marzo 2026: top 14%, sides 6%, bottom 20% Stories / 35% Reels) y el crop 3:4 de la grilla de perfil de Instagram (fines de 2025).",
+  "formats": {
+    "story": {
+      "width": 1080,
+      "height": 1920,
+      "margins": { "top": 270, "bottom": 380, "left": 65, "right": 65 },
+      "reason": "zona unificada Meta 9:16 — avatar/nombre/Sponsored arriba (14%); reply bar + CTA abajo (20%); 6% por lado"
+    },
+    "reels": {
+      "width": 1080,
+      "height": 1920,
+      "margins": { "top": 270, "bottom": 670, "left": 65, "right": 120 },
+      "reason": "zona unificada Meta 9:16 con bottom de Reels (35%): caption + audio + CTA abajo; rail de like/comment/share a la derecha"
+    },
+    "feed-4x5": {
+      "width": 1080,
+      "height": 1350,
+      "margins": { "top": 64, "bottom": 64, "left": 100, "right": 100 },
+      "reason": "sin UI encima; la grilla de perfil recorta a 3:4 (~34px por lado de un 4:5) + respiración mínima"
+    },
+    "square": {
+      "width": 1080,
+      "height": 1080,
+      "margins": { "top": 64, "bottom": 64, "left": 140, "right": 140 },
+      "reason": "sin UI encima; la grilla de perfil recorta a 3:4 (~135px por lado de un 1:1)"
+    }
+  }
+}

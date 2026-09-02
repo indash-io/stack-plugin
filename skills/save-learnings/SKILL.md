@@ -1,10 +1,10 @@
 ---
 name: save-learnings
-description: "Guarda lo aprendido de una sesión en la que algo no funcionó como esperabas. Te hace una entrevista corta (qué hiciste, dónde se trabó, qué cambiarías y por qué), separa los learnings del cliente (van al LEARNINGS.md de su workspace en Indash) de los learnings de la skill (universales, anonimizados y en formato antes/propongo/por qué, van a un issue privado del equipo), te muestra el borrador completo y pide confirmación explícita antes de mandar nada. Corrélo a conciencia, cuando sabés que tenés algo para guardar."
+description: "Guarda lo aprendido de una sesión del Studio en la que algo no funcionó como esperabas. Te hace una entrevista corta (qué hiciste, dónde se trabó, qué cambiarías y por qué), separa los learnings del cliente (van al LEARNINGS.md de su workspace en indash.ai) de los learnings de la skill (universales, anonimizados y en formato antes/propongo/por qué, van a un issue privado del equipo), te muestra el borrador completo y pide confirmación explícita antes de mandar nada. Corrélo a conciencia, cuando sabés que tenés algo para guardar."
 language: es
-owner: manuel-soria
-status: published
-reviewed: 2026-08-28
+owner: lburgwardtr
+status: draft
+reviewed: 2026-09-02
 disable-model-invocation: true
 argument-hint: "[opcional: qué se trabó, qué cambiarías y por qué — te ahorra parte de la entrevista]"
 ---
@@ -30,7 +30,7 @@ nunca:
 
 - **Learnings del cliente** → los DOs, los DON'Ts y el contexto de cómo se llegó
   a un buen resultado **con esta marca**. Van al `LEARNINGS.md` de su workspace
-  en Indash. Son específicos y pueden nombrar todo.
+  en indash.ai. Son específicos y pueden nombrar todo.
 - **Learnings de la skill** → lo que estaría mal (o faltaría) en la skill **para
   cualquier marca**. Van a un issue privado del equipo de Indash. Van
   **anonimizados**, sin excepción.
@@ -49,24 +49,28 @@ pedí solo lo que falte (siempre el "por qué", si no vino): $ARGUMENTS
    **antes / propongo / por qué**.
 3. Un reporte de una pantalla: qué se guardó, dónde, y el link del issue.
 
-Las dos primeras las hace **la tool `save_learnings` del MCP `indash`**, nunca vos
-a mano.
+Las dos primeras las hace **la tool `mcp__indash__save_learnings`** del MCP del
+Studio, nunca vos a mano.
 
 ---
 
 ## Workflow (orden estricto)
 
-### Paso 0 — Gate del conector `indash`
+### Paso 0 — Gate de la tool `save_learnings`
 
-1. Verificá que el MCP `indash` esté conectado y que la tool
-   `mcp__indash__save_learnings` esté disponible.
-2. Si **no** está: **frená**. En **una sola intervención clara** decile que para
-   guardar learnings necesita conectar `indash` (en Claude Code con `/mcp` →
-   `indash` → login en el browser; en Cowork / claude.ai desde el panel de
-   conectores), y que vos no podés disparar el OAuth por tu cuenta.
-3. Si el MCP está conectado pero **la tool `save_learnings` no existe**, el
-   servidor todavía no la expone: decilo y frená igual. No busques un plan B.
-4. **Nunca** improvises el guardado: no escribas un `LEARNINGS.md` a mano en el
+1. Verificá que la tool `mcp__indash__save_learnings` esté disponible. Como toda
+   tool remota del Studio, necesita **el proyecto conectado a un workspace de
+   indash.ai** y **la app logueada**.
+2. Si el proyecto **no está conectado** a un workspace: **frená**. En **una sola
+   intervención clara** decile al humano que lo conecte desde la pantalla de
+   proyectos ("Connect workspace…") — sin workspace no hay `LEARNINGS.md` donde
+   guardar.
+3. Si la app **no está logueada** a indash.ai: frená igual y pedile que se
+   loguee ("Sign in with indash.ai" en Settings) o configure su API key. Vos no
+   podés loguearte por él.
+4. Si el MCP está pero **la tool `save_learnings` no existe**, la app todavía no
+   la expone (versión vieja del Studio): decilo y frená. No busques un plan B.
+5. **Nunca** improvises el guardado: no escribas un `LEARNINGS.md` a mano en el
    disco, no abras un issue con `gh`, no mandes los learnings por otro medio.
    Sin la tool, no hay entrega — hay un pedido de conectar.
 
@@ -74,21 +78,18 @@ a mano.
 
 Trabajo silencioso: releé la conversación de punta a punta antes de hablar.
 
-1. **Qué skills del stack se usaron.** Anotá los nombres **exactos** (los de las
-   carpetas de `skills/`): `ads`, `all-videos`, `carruseles`, `content-brief`,
-   `edicion-ugc`, `email-marketing-ecomm`, `hyperframes`, `new-client`,
-   `stack-overview`, `stories-nano-banana`, `ugc-generator`,
-   `ugc-video-prompts`. Contá solo las que **se ejecutaron** en esta sesión, no
-   las que se mencionaron al pasar.
-2. **Qué versión del plugin es.** Leé el campo `version` de
-   `"${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json"`. Si esa ruta no se
-   resolvió (el cliente no expande `CLAUDE_PLUGIN_ROOT` — pasa fuera de Claude
-   Code) o el archivo no se puede leer: **decilo en una línea** en el borrador y
-   mandá `"unknown"`. **Nunca** inventes ni adivines un número de versión.
-3. **Sobre qué marca se trabajó.** La tool resuelve el workspace sola, pero si
-   en la sesión se tocó **más de un cliente**, frená y preguntá para cuál querés
-   guardar. Un `LEARNINGS.md` = un cliente; si hay dos, se corre el comando dos
-   veces.
+1. **Qué skills del stack se usaron.** Anotá los nombres **exactos**:
+   `new-workspace`, `new-brief`, `creative-execution`, `video-execution`,
+   `export-creatives`, `save-learnings`, `content-brief`,
+   `ideacion-carruseles`, `ideacion-stories`, `ideacion-ads`,
+   `ideacion-video`, `ideacion-emails`. Contá solo las que **se ejecutaron**
+   en esta sesión, no las que se mencionaron al pasar.
+2. **La versión NO la buscás vos.** La inyecta la app del Studio en la llamada a
+   la tool — no la pidas, no la adivines, no la incluyas en el payload.
+3. **Sobre qué marca se trabajó.** En el Studio, **un proyecto = un cliente = un
+   workspace**: los learnings van al workspace de ESTE proyecto, sin
+   ambigüedad. Si en la sesión apareció material de otra marca (raro), avisá en
+   el borrador que solo se guarda lo de la marca de este proyecto.
 4. Si **no se usó ninguna skill del stack** y no hay nada aprendido sobre la
    marca, decilo en una línea (*"esta sesión no dejó learnings para guardar"*) y
    **terminá acá**.
@@ -97,8 +98,8 @@ Trabajo silencioso: releé la conversación de punta a punta antes de hablar.
 
 El challenge está en quien corrió la sesión, no en vos: **el "por qué" de un
 learning lo tiene la persona en la cabeza, no está en el transcript.** Antes de
-clasificar nada, preguntale — **una sola vez y todo junto**, como en el paso de
-Decisions de las skills. Nada de una batería de preguntas sueltas.
+clasificar nada, preguntale — **una sola vez y todo junto**, como el paso de
+decisiones de las skills. Nada de una batería de preguntas sueltas.
 
 Estructura exacta:
 
@@ -106,7 +107,7 @@ Estructura exacta:
 Antes de redactar nada necesito lo tuyo. Esto es lo que reconstruí:
 
 **Qué hiciste**: [1-2 líneas, ya pre-llenadas desde el contexto de la sesión]
-**Skills que se usaron**: [ads, carruseles]
+**Skills que se usaron**: [creative-execution, video-execution]
 
 Contestame las cuatro juntas, en el formato que te salga:
 
@@ -115,7 +116,7 @@ Contestame las cuatro juntas, en el formato que te salga:
    te pidió en un orden que no servía, qué no te sirvió. Si la fricción no fue
    con ninguna skill, decilo y guardamos solo lo del cliente.
 3. **¿Qué cambiarías, concretamente?** Un cambio puntual y acotado por cosa
-   (mover un paso, agregar un campo al template, sacar una regla), no
+   (mover un paso, agregar un campo al formato, sacar una regla), no
    "mejorarla en general".
 4. **¿Por qué?** Qué te costó eso en la práctica: cuántas veces te pasó, qué
    tuviste que rehacer, qué salió mal. **Esto lo escribís vos — yo no lo puedo
@@ -150,10 +151,10 @@ La pregunta que decide todo, una por learning:
 
 | | Del cliente (`brand_learnings`) | De la skill (`skill_learnings`) |
 |---|---|---|
-| De qué habla | De **esta** marca: su voz, sus reglas, sus productos, qué le funcionó | Del **workflow, los templates, las reglas y los ejemplos** de la skill |
-| Dónde va | `LEARNINGS.md` del workspace en Indash | Issue privado del equipo de Indash |
+| De qué habla | De **esta** marca: su voz, sus reglas, sus productos, qué le funcionó | Del **workflow, los formatos, las reglas y los ejemplos** de la skill |
+| Dónde va | `LEARNINGS.md` del workspace en indash.ai | Issue privado del equipo de Indash |
 | Puede nombrar | Todo: marca, producto, personas, precios | **Nada** de eso — va anonimizado |
-| Ejemplos | *"no usar la palabra 'oferta': la marca la lee como descuento"* · *"el slide 1 sin texto rindió mejor que con headline"* · *"el mejor resultado salió arrancando por el objetivo y dejando el CTA para el final"* | *"la skill pide el CTA antes de saber el objetivo de campaña"* · *"al template de shot list le falta un slot para el disclaimer legal"* · *"la regla 4 contradice a la 7 sobre cuándo versionar"* · *"el ejemplo bueno de la skill usa un modelo de imagen que ya no es el default"* |
+| Ejemplos | *"no usar la palabra 'oferta': la marca la lee como descuento"* · *"el slide 1 sin texto rindió mejor que con headline"* · *"el packshot lateral es la única foto que no deforma el producto"* | *"la skill pide el guion después del still"* · *"al formato de story le falta un slot para el disclaimer legal"* · *"la regla 4 contradice a la 7 sobre cuándo versionar"* · *"la escalera de modelos manda a pro antes de probar 4K"* |
 
 Los tres `kind` de un learning de cliente:
 
@@ -164,19 +165,18 @@ Los tres `kind` de un learning de cliente:
 
 Casos borde (los que más se confunden):
 
-1. **Parece de skill pero es de marca.** *"Nano Banana me rompió el wordmark, hubo
-   que ir a gpt-image"* → si es porque **este** wordmark es finito y se degrada,
-   es del **cliente** (`dont` o `context`). Si es porque la matriz de decisión de
-   la skill manda al modelo equivocado **para cualquier wordmark**, es de la
-   **skill**.
-2. **Parece de marca pero es de skill.** *"Tuve que pedirle tres veces la URL del
-   producto"* → si el intake de la skill no la pide explícitamente, es de la
+1. **Parece de skill pero es de marca.** *"nano-banana-2 me rompió el wordmark,
+   hubo que subir a 4K"* → si es porque **este** wordmark es finito y se degrada,
+   es del **cliente** (`dont` o `context`). Si es porque la escalera de modelos
+   de la skill manda mal **para cualquier wordmark**, es de la **skill**.
+2. **Parece de marca pero es de skill.** *"Tuve que pedirle tres veces la vista
+   del producto"* → si el intake de la skill no la pide explícitamente, es de la
    **skill**.
 3. **Es las dos cosas.** Partilo: la parte universal, anonimizada, a
    `skill_learnings`; la parte específica, completa, a `brand_learnings`. No
    mandes el mismo texto a los dos lados.
-4. **No es ninguna de las dos.** Errores del MCP, créditos agotados, rate limits,
-   una imagen que tardó, un archivo que no estaba cargado en Indash: son hechos
+4. **No es ninguna de las dos.** Errores del server, créditos agotados, rate
+   limits, un render que tardó, un producto sin fotos cargadas: son hechos
    operativos, **no** learnings. No los guardes. Si te parece un bug, decíselo a
    la persona en el chat para que lo reporte por su cuenta.
 5. **Una preferencia dicha al pasar no es un learning** hasta que se aplicó y
@@ -199,17 +199,17 @@ campos (más un ejemplo opcional):
 
 Bueno:
 
-> **Antes:** la skill pide el CTA antes del objetivo de campaña.
-> **Propongo:** pedir el objetivo primero y derivar el CTA de ahí.
-> **Por qué:** en 3 sesiones tuve que rehacer el CTA después de definir el objetivo.
+> **Antes:** la skill pide el gesto del still antes de cerrar el guion.
+> **Propongo:** cerrar el guion primero y derivar el gesto del hook.
+> **Por qué:** en 3 videos hubo que regenerar el still después de tocar el guion.
 
 Malo, y por qué:
 
 | Malo | Qué tiene mal |
 |---|---|
-| *"la skill de ads podría ser mejor en general"* | No es un cambio: nadie sabe qué tocar |
+| *"la skill de video podría ser mejor en general"* | No es un cambio: nadie sabe qué tocar |
 | *"Propongo: reescribir la skill"* / *"rehacer el intake"* | No es acotado. Partilo en los cambios puntuales que lo componen |
-| *"Antes: el intake pide mal las cosas. Propongo: pedir la URL, agregar un campo de disclaimer, mover el CTA y sacar la regla 7"* | Son cuatro learnings disfrazados de uno. Uno por ítem |
+| *"Antes: el intake pide mal las cosas. Propongo: pedir la vista, agregar un campo de disclaimer, mover el CTA y sacar la regla 7"* | Son cuatro learnings disfrazados de uno. Uno por ítem |
 | *"Por qué: mejoraría el flujo"* | No es un por qué, es un adjetivo — y si lo escribiste vos, no va |
 | *"Antes: tuve que repetir el brief"*, sin `after` | Es una queja, no una propuesta: falta el cambio |
 
@@ -219,9 +219,9 @@ Reglas de este paso:
    "y además", son dos learnings. Partilos.
 2. **El `why` sale del paso 2**, textual o parafraseado sin agregarle nada. Si no
    lo dijo la persona, el learning no se manda (paso 2, regla 2).
-3. **El `after` apunta a algo del repo**: un paso del workflow, una regla numerada,
-   un template, un ejemplo. Si no podés nombrar qué archivo tocarías, está
-   demasiado vago para mandarlo.
+3. **El `after` apunta a algo concreto de la skill**: un paso del workflow, una
+   regla numerada, un formato de `formats/`, un template, un ejemplo. Si no
+   podés nombrar qué archivo tocarías, está demasiado vago para mandarlo.
 4. Si el learning lleva `example`, va **anonimizado igual que el resto** (paso 5).
 5. Los `brand_learnings` **no cambian de formato**: siguen siendo `kind` + `text`.
 
@@ -250,13 +250,13 @@ categoría, sacala.
 
 Ejemplo:
 
-- Crudo: *"Para Acme Foods, el carrusel del Multivitamínico X a $18.900 quedó mal
-  porque el paso 3 pidió el CTA antes del objetivo, y Sofi me lo hizo rehacer dos
+- Crudo: *"Para Acme Foods, el clip del Multivitamínico X a $18.900 quedó mal
+  porque el paso 2 pidió el still antes del guion, y Sofi me lo hizo rehacer dos
   veces."*
 - Anonimizado:
-  - **Antes:** la skill pide el CTA en el paso 3, antes de definir el objetivo de campaña.
-  - **Propongo:** mover el CTA al paso de Decisions, después del objetivo.
-  - **Por qué:** hubo que rehacer el copy dos veces en la misma entrega.
+  - **Antes:** la skill pide el still en el paso 2, antes de cerrar el guion.
+  - **Propongo:** mover el still después de la aprobación de guiones.
+  - **Por qué:** hubo que regenerar el still dos veces en la misma entrega.
 
 Antes de mostrar el borrador, **pasada final**: releé **campo por campo**
 (`before`, `after`, `why`, `example`) cada `skill_learnings`, y también el
@@ -270,27 +270,27 @@ dos bloques numerados. Nada de resúmenes ni de "y algunas cosas más".
 
 ```
 📋 Borrador — nada se mandó todavía
-Plugin 0.12.0 · Skills usadas: ads, carruseles · Workspace: <marca>
+Skills usadas: creative-execution, video-execution · Workspace: <marca> (el de este proyecto)
 
 ── CLIENTE → LEARNINGS.md del workspace (queda con nombre y apellido) ──
-1. [DON'T · ads] No usar la palabra "oferta": la marca la lee como descuento.
-2. [DO · carruseles] El slide 1 sin texto rindió mejor que con headline.
-3. [Contexto] El mejor resultado salió arrancando por el objetivo y dejando el CTA para el final.
+1. [DON'T · video-execution] No levantar el producto en cámara: la tipografía del label se degrada en movimiento.
+2. [DO · creative-execution] El packshot lateral como ref principal rindió mejor que el frontal.
+3. [Contexto] El mejor resultado salió componiendo con el cutout de la foto real, no generando.
 
 ── SKILL → issue privado del equipo (anonimizado) ──
-1. [ads]
-   Antes: la skill pide el CTA en el paso 3, antes de definir el objetivo de campaña.
-   Propongo: mover el CTA al paso de Decisions, después del objetivo.
-   Por qué: en 3 sesiones hubo que rehacer el copy después de definir el objetivo.
-2. [carruseles]
-   Antes: el template de shot list no tiene dónde poner el disclaimer legal.
-   Propongo: agregarle al template una fila fija de disclaimer.
+1. [video-execution]
+   Antes: la skill pide el still en el paso 2, antes de cerrar el guion.
+   Propongo: mover el still después de la aprobación de guiones.
+   Por qué: hubo que regenerar el still dos veces en la misma entrega.
+2. [creative-execution]
+   Antes: el formato de story no tiene dónde poner el disclaimer legal.
+   Propongo: agregarle al formato una fila fija de disclaimer.
    Por qué: se agregó a mano en las últimas dos entregas y una salió sin él.
 
-Queda afuera: [ads] "el intake se hace largo" — no me diste el por qué, y sin eso no se manda.
+Queda afuera: [creative-execution] "el intake se hace largo" — no me diste el por qué, y sin eso no se manda.
 
 Resumen de sesión (anonimizado, va al issue):
-Se produjeron ads y un carrusel para una marca DTC; el ida y vuelta más caro fue el orden de las preguntas del intake.
+Se produjeron stories y un video UGC para una marca DTC; el ida y vuelta más caro fue el orden guion/still.
 ```
 
 Y cerrá con **una sola pregunta consolidada**:
@@ -313,19 +313,19 @@ Reglas de este paso:
 
 ### Paso 7 — Llamar a `save_learnings`
 
-Recién ahora. El input, con los tipos exactos:
+Recién ahora. El input, con los tipos exactos (la **versión de la app la agrega
+el Studio solo** — no va en tu payload):
 
 ```ts
 {
-  plugin_version: string;            // "0.12.0" del manifiesto, o "unknown"
-  skills_used: string[];             // ["ads", "carruseles"] — nombres exactos de carpeta
+  skills_used: string[];             // ["creative-execution", "video-execution"] — nombres exactos
   brand_learnings: Array<{
     skill?: string;                  // la skill donde surgió; omitilo si no aplica
     kind: "do" | "dont" | "context";
     text: string;
   }>;
   skill_learnings: Array<{
-    skill: string;                   // obligatorio, nombre exacto de carpeta
+    skill: string;                   // obligatorio, nombre exacto de skill
     before: string;                  // "Antes": qué hace hoy la skill — YA anonimizado
     after: string;                   // "Propongo": el cambio, concreto y acotado
     why: string;                     // "Por qué": la razón, en palabras de la persona
@@ -340,8 +340,8 @@ Recién ahora. El input, con los tipos exactos:
 2. En `brand_learnings`, `skill` es opcional: si no aplica, **omitilo** — no
    mandes `""` ni `null`.
 3. En `skill_learnings`, `skill` es **obligatorio** y tiene que ser el nombre
-   exacto de una carpeta de `skills/`. Si un learning no pertenece a ninguna
-   skill concreta, no es un learning de skill.
+   exacto de una de las 12 skills del stack (paso 1). Si un learning no
+   pertenece a ninguna skill concreta, no es un learning de skill.
 4. En `skill_learnings`, `before`, `after` y `why` son **los tres obligatorios** y
    ninguno va vacío. Van **sin** los prefijos "Antes:" / "Propongo:" / "Por qué:"
    — eso lo formatea la tool. `example` se omite si no hay: no mandes `""`.
@@ -393,20 +393,20 @@ Después del reporte, **cerrá**. No preguntes *"¿algo más?"*.
    termina.
 5. **Nunca** escribís el `LEARNINGS.md` a mano ni abrís un issue por otro medio.
    Todo pasa por la tool; sin tool, no hay guardado.
-6. **Siempre** aplicás el gate del MCP `indash` en el paso 0 antes de cualquier
-   otra cosa.
+6. **Siempre** aplicás el gate del paso 0 antes de cualquier otra cosa: proyecto
+   conectado a un workspace + app logueada + la tool disponible.
 7. **Siempre** hacés la entrevista del paso 2 antes de redactar, en **una sola
    pregunta consolidada** — no una batería de preguntas sueltas, y nunca después
    de haber armado el borrador.
 8. **Siempre** un learning de skill es **un cambio concreto y acotado** en formato
    antes / propongo / por qué. Nunca "reescribir la skill" ni cuatro cambios en
    un ítem.
-9. **Siempre** la `plugin_version` sale del manifiesto o es `"unknown"`. Nunca
-   adivinada.
-10. **Siempre** los nombres de skill son los **exactos** de las carpetas de
-    `skills/`.
-11. **Siempre** una corrida = un cliente. Si la sesión tocó dos marcas, preguntás
-    cuál y se corre de nuevo para la otra.
+9. **Nunca** mandás una versión en el payload: la inyecta la app del Studio.
+   Tampoco la adivines para el borrador.
+10. **Siempre** los nombres de skill son los **exactos** de las 12 skills del
+    stack (paso 1).
+11. **Siempre** una corrida = el cliente de este proyecto (un proyecto = un
+    workspace). Material de otra marca no se guarda desde acá.
 12. **Siempre** mostrás el borrador **completo** — el texto exacto que se manda,
     no un resumen.
 13. **Agnóstico** por marca, vertical y categoría: un learning de skill que solo
@@ -414,4 +414,5 @@ Después del reporte, **cerrá**. No preguntes *"¿algo más?"*.
 
 ## Punto de entrada
 
-Arrancá por el **paso 0 (gate del conector `indash`)**. Todo lo demás va después.
+Arrancá por el **paso 0 (gate de la tool `save_learnings`)**. Todo lo demás va
+después.
