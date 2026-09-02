@@ -81,7 +81,7 @@ Trabajo silencioso: releé la conversación de punta a punta antes de hablar.
 
 1. **Qué skills del stack se usaron.** Anotá los nombres **exactos**:
    `new-workspace`, `new-brief`, `creative-execution`, `video-execution`,
-   `export-creatives`, `save-learnings`, `content-brief`,
+   `hyperframes`, `export-creatives`, `save-learnings`, `content-brief`,
    `ideacion-carruseles`, `ideacion-stories`, `ideacion-ads`,
    `ideacion-video`, `ideacion-emails`. Contá solo las que **se ejecutaron**
    en esta sesión, no las que se mencionaron al pasar.
@@ -341,7 +341,7 @@ el Studio solo** — no va en tu payload):
 2. En `brand_learnings`, `skill` es opcional: si no aplica, **omitilo** — no
    mandes `""` ni `null`.
 3. En `skill_learnings`, `skill` es **obligatorio** y tiene que ser el nombre
-   exacto de una de las 12 skills del stack (paso 1). Si un learning no
+   exacto de una de las 13 skills del stack (paso 1). Si un learning no
    pertenece a ninguna skill concreta, no es un learning de skill.
 4. En `skill_learnings`, `before`, `after` y `why` son **los tres obligatorios** y
    ninguno va vacío. Van **sin** los prefijos "Antes:" / "Propongo:" / "Por qué:"
@@ -404,7 +404,7 @@ Después del reporte, **cerrá**. No preguntes *"¿algo más?"*.
    un ítem.
 9. **Nunca** mandás una versión en el payload: la inyecta la app del Studio.
    Tampoco la adivines para el borrador.
-10. **Siempre** los nombres de skill son los **exactos** de las 12 skills del
+10. **Siempre** los nombres de skill son los **exactos** de las 13 skills del
     stack (paso 1).
 11. **Siempre** una corrida = el cliente de este proyecto (un proyecto = un
     workspace). Material de otra marca no se guarda desde acá.

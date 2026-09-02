@@ -17,7 +17,7 @@ un formato de decisión escrita que la ideación produce y `new-brief` vuelca a
 - Contrato canónico: [`skills/content-brief/templates/bloque_por_pieza.md`](./skills/content-brief/templates/bloque_por_pieza.md)
 - Espejo (para el set de ejecución, que se siembra standalone): [`skills/new-brief/reference/bloque-por-pieza.md`](./skills/new-brief/reference/bloque-por-pieza.md)
 
-## SET EJECUCIÓN — 6 skills (destino: Indash Studio)
+## SET EJECUCIÓN — 7 skills (destino: Indash Studio)
 
 Se siembran **standalone** (cada carpeta se copia entera a `~/.claude/skills/` de
 la máquina del usuario; el Studio gestiona el ciclo de vida). Ninguna referencia
@@ -31,6 +31,7 @@ append-only, guard) vive en el `CLAUDE.md` que el Studio siembra en cada proyect
 | `creative-execution` | Producir piezas estáticas | + las 7 leyes de prompting (mundo capas), recetas de composición de texto, dispositivos de diseño, **zonas seguras 2026** (Meta unificado marzo 2026 + grilla 3:4) |
 | `video-execution` | Producir un video UGC | + referencia de modelos (omni/seedance/veo/kling), regla de las 3 fidelidades, disciplina de frame-0 |
 | `export-creatives` | Entregar | (igual a la del Studio) |
+| `hyperframes` | Ensamblar el video final | Portada del mundo plugin: monta los clips de un grupo video (cortes, captions, música, VO) con [HyperFrames](https://github.com/heygen-com/hyperframes), render local (Node 22+ y FFmpeg). **Destino provisorio: `~/Downloads`** hasta que el contrato de disco defina dónde vive el MP4 ensamblado |
 | `save-learnings` | Guardar lo aprendido | Adaptada al Studio: usa la tool `mcp__indash__save_learnings` del MCP in-process (requiere workspace conectado + login) |
 
 ## SET IDEACIÓN — 6 skills (destino: el armador de briefs hosteado)
@@ -74,7 +75,8 @@ Una pieza 9:16 que va a Stories **y** Reels se compone contra la zona de Reels.
 | `content-brief` | Reorientada como orquestadora de ideación |
 | `save-learnings` | Adaptada al Studio |
 | `core/` (prompt-craft + formatos IG) | Repartido: leyes → `creative-execution/reference/`; specs → `formats/`; narrativa → ideación |
-| `stack-overview`, `hyperframes`, `edicion-ugc` | Quedan en `main` (mundo plugin); post-producción sin destino en Studio todavía |
+| `hyperframes` | Portada al set de ejecución (destino provisorio `~/Downloads` hasta definir dónde vive el video ensamblado) |
+| `stack-overview`, `edicion-ugc` | Quedan en `main` (mundo plugin); el criterio de montaje de `edicion-ugc` se cosechó parcialmente en `hyperframes` |
 
 ## Estado
 
