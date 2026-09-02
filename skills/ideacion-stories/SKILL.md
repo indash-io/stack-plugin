@@ -2,6 +2,7 @@
 name: ideacion-stories
 description: "Idea una secuencia de Instagram Stories para e-commerce y la entrega como bloque plan-ready: arquetipo de secuencia, copy on-image cortísimo por story, sticker de engagement por story y concepto visual. NO genera imágenes — es una skill de estratega para el armado de briefs. Disparala cuando content-brief derive un bloque de stories, o cuando pidan 'ideame stories', 'secuencia de stories para <producto>', 'qué stories subimos'."
 language: es
+tags: ideation
 owner: lburgwardtr
 status: draft
 reviewed: 2026-09-02

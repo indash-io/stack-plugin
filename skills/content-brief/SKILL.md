@@ -2,6 +2,7 @@
 name: content-brief
 description: "Arma el brief de contenido de un período para una marca DTC — define el mix de piezas (ads, carruseles, stories, videos UGC, emails) y produce un bloque por pieza plan-ready, orquestando las skills de ideación (ideacion-carruseles, ideacion-stories, ideacion-ads, ideacion-video, ideacion-emails). No genera imágenes ni videos: el brief que entrega lo ejecuta el Studio. Disparala cuando pidan armar el brief del mes/período, plan de contenido, calendario de piezas o brief de social media."
 language: es
+tags: ideation
 owner: lburgwardtr
 status: draft
 reviewed: 2026-09-02

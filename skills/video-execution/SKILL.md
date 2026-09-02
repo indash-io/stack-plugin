@@ -2,6 +2,7 @@
 name: video-execution
 description: "Cómo se produce un VIDEO UGC en un proyecto de Indash Studio (cwd con .indash/) — el proceso completo por video: guion primero, still después, render al final, con una sola aprobación humana en el medio. Un video es un GRUPO del plan y cada creativo adentro es un clip de ~10s. Usala SIEMPRE que haya que escribir, generar o re-renderizar los clips de un grupo `kind: video`. Para piezas estáticas compuestas por capas es creative-execution, no esta."
 language: es
+tags: execution
 owner: lburgwardtr
 status: draft
 reviewed: 2026-09-02

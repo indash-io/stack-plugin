@@ -2,6 +2,7 @@
 name: new-brief
 description: "Armado de un brief en un proyecto de Indash Studio (cwd con .indash/) — del insight crudo al Board listo para disparar producción: conseguir el material del humano (PDF, Word, texto), guardarlo como source, preparar los productos (fotos + product.json), proponer el plan con decisiones escritas por pieza, y scaffoldear los manifiestos. Usala cuando el humano la invoque en el chat de un brief o pida \"armá el brief / el plan del mes\". No genera imágenes: eso es creative-execution."
 language: es
+tags: execution
 owner: lburgwardtr
 status: draft
 reviewed: 2026-09-02

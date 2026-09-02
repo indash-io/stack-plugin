@@ -2,6 +2,7 @@
 name: ideacion-carruseles
 description: "Idea un carrusel de Instagram para e-commerce y lo entrega como bloque plan-ready: arquetipo, narrativa hook→desarrollo→CTA, cantidad de slides, modo visual y copy on-image exacto por slide. NO genera imágenes — es una skill de estratega para el armado de briefs. Disparala cuando content-brief derive un bloque de carrusel, o cuando pidan 'ideame un carrusel', 'concepto de carrusel', 'qué carrusel hacemos para <producto>'."
 language: es
+tags: ideation
 owner: lburgwardtr
 status: draft
 reviewed: 2026-09-02

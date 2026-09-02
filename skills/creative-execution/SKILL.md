@@ -2,6 +2,7 @@
 name: creative-execution
 description: "Cómo se produce cada pieza en un proyecto de Indash Studio (cwd con .indash/ y manifiestos .indash) — el proceso completo por creativo: conocer el producto con sus fotos reales, elegir refs, componer por capas, generar candidatos versionados, verificarse con view_creative y commitear. Usala SIEMPRE que haya que generar/regenerar la imagen de un creativo de Studio, sea trabajo directo o despachado como subagent. Las decisiones de QUÉ producir (arquetipo, copy, componer/generar) vienen escritas del brief; esta skill es el CÓMO."
 language: es
+tags: execution
 owner: lburgwardtr
 status: draft
 reviewed: 2026-09-02

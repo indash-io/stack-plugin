@@ -2,6 +2,7 @@
 name: ideacion-ads
 description: "Idea ads de Meta (FB/IG) para DTC e-commerce y los entrega como bloques plan-ready: 3-5 variaciones que son ángulos DISTINTOS, formato (estática vs carrusel) justificado, concepto visual por variación y el copy de Meta completo (Primary Text, Headline, Description, CTA) con caracteres contados. NO genera imágenes — es una skill de estratega para el armado de briefs. Disparala cuando content-brief derive un bloque de ads, o cuando pidan 'ideame ads', 'conceptos de anuncios', 'ángulos para pauta de <producto>'."
 language: es
+tags: ideation
 owner: lburgwardtr
 status: draft
 reviewed: 2026-09-02

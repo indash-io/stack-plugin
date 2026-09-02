@@ -2,6 +2,7 @@
 name: ideacion-video
 description: "Ideación de video para el brief: convierte un pedido u objetivo en bloques de grupo video plan-ready — formato (corto/largo), seconds, guion por clip con registro y gesto del still, para UGC (default) o video de marca multi-shot. Disparala cuando el brief pida videos, UGC, reels con avatar, un film de marca o una demo — o cuando content-brief derive un bloque de video. NO genera stills ni clips ni escribe prompts de modelos: eso es video-execution, en el Studio."
 language: es
+tags: ideation
 owner: lburgwardtr
 status: draft
 reviewed: 2026-09-02

@@ -2,6 +2,7 @@
 name: save-learnings
 description: "Guarda lo aprendido de una sesión del Studio en la que algo no funcionó como esperabas. Te hace una entrevista corta (qué hiciste, dónde se trabó, qué cambiarías y por qué), separa los learnings del cliente (van al LEARNINGS.md de su workspace en indash.ai) de los learnings de la skill (universales, anonimizados y en formato antes/propongo/por qué, van a un issue privado del equipo), te muestra el borrador completo y pide confirmación explícita antes de mandar nada. Corrélo a conciencia, cuando sabés que tenés algo para guardar."
 language: es
+tags: execution
 owner: lburgwardtr
 status: draft
 reviewed: 2026-09-02

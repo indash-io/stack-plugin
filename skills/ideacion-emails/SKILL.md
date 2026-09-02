@@ -2,6 +2,7 @@
 name: ideacion-emails
 description: "Ideación de email marketing para el brief: convierte una promo (descuento, 3x2, restock, BFCM, lanzamiento, fecha especial) en el bloque de email del brief — 3 variantes A/B testables de verdad (emocional / racional / aspiracional) con subject, preheader, hipótesis, copy y CTA por variante. Disparala cuando el brief incluya mails o cuando content-brief derive un bloque de email. NO produce HTML ni imágenes: la ejecución del mail no pasa por el Studio — el bloque se entrega a quien ejecute."
 language: es
+tags: ideation
 owner: lburgwardtr
 status: draft
 reviewed: 2026-09-02

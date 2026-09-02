@@ -2,6 +2,7 @@
 name: new-workspace
 description: "Alta de una marca/cliente nuevo en Indash Studio — configurar el workspace desde cero: brand kit (paleta, tipografías, logos), productos con fotos reales, y referencias de estilo, dejando el proyecto listo para su primer brief. Usala cuando el humano diga \"cliente nuevo\", \"demos de alta a X\", \"configurá la marca\". En proyectos conectados a indash.ai puebla la fuente de verdad con las tools de escritura mcp__indash__*; en proyectos locales puebla library/."
 language: es
+tags: execution
 owner: lburgwardtr
 status: draft
 reviewed: 2026-09-02

@@ -2,6 +2,7 @@
 name: export-creatives
 description: "Entregar los creativos de un proyecto de Indash Studio — exportar una ronda, un grupo o el brief completo en los formatos que pide el destino (PNG/JPG escala web, PSD editable), con estructura y nombres consistentes. Usala cuando el humano pida \"exportame\", \"pasame los finales\", \"prepará la entrega\". Hoy el destino es la carpeta Descargas; cuando exista el drive de indash, esta skill entrega ahí."
 language: es
+tags: execution
 owner: lburgwardtr
 status: draft
 reviewed: 2026-09-02
