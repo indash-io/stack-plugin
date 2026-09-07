@@ -59,7 +59,7 @@ mano.
 | `ads` | 3-5 Meta ads (FB/IG): imagen final + copy completo (Primary Text, Headline, Description, CTA) | *"hacé 3 ads para \<producto\>"* |
 | `ugc-video-prompts` | Paquete de video UGC (Kling / Veo / Seedance + first/last frame con Nano Banana) | *"armá un UGC para \<producto\>"* |
 | `ugc-generator` | Producción end-to-end de videos UGC: guiones → frames → clips generados y verificados, con 2 gates de aprobación | *"hacele 2 videos de 10s a \<cliente\> con \<producto\>"* |
-| `all-videos` | Videos de marketing multi-shot con selección de modelo por shot (Seedance 2.0, Omni, Veo, Kling) | *"un video cinematográfico de marca"* |
+| `all-videos` | Videos de marketing multi-shot con selección de modelo por shot (Seedance 2.0/2.5, Omni, Veo, Kling) | *"un video cinematográfico de marca"* |
 | `hyperframes` | **Post-producción creativa**: edita y ensambla los clips e imágenes ya generados en la pieza final (cortes, transiciones, captions en zona segura, música/VO) con HyperFrames, en 9:16 / 4:5 / 1:1 / 16:9 | *"editame un reel con los clips de \<producto\>"* |
 | `edicion-ugc` | **Montaje determinístico de UGC de avatar**: recorta silencios, detecta y tapa morphs con B-roll, quema subtítulos y pega la placa de la marca, con reglas medidas contra 21 ediciones manuales. Corre local (macOS + ffmpeg + whisper-cpp), sin créditos | *"editá estos clips de UGC"*, *"revisá si hay morph"* |
 | `email-marketing-ecomm` | 3 variantes de mail promo DTC (HTML + PNG) listas para Klaviyo / Mailchimp | *"armá un mail promo"* |
@@ -203,26 +203,44 @@ en vez de un texto-a-imagen genérico, y es lo que da fidelidad de marca.
 | Modelo | Qué es | Resoluciones |
 |---|---|---|
 | `nano-banana-2` | Gemini 3.1 Flash Image — **default**, mejor balance calidad/precio | 1k / 2k / 4k |
+| `nano-banana-2-lite` | Gemini 3.1 Flash-Lite Image — la mitad de créditos que `nano-banana-2` y el más rápido. **El tier para draftear**: iterá composición acá y hacé el final en `nano-banana-2` o `-pro` | solo 1k |
 | `nano-banana-pro` | Gemini 3 Pro Image — máxima calidad, más caro y lento | 1k / 2k / 4k |
 | `nano-banana` | Gemini 2.5 Flash Image — el más barato | solo 1k |
 | `gpt-image` | OpenAI | 1k |
 
 **Modelos de video** — cada uno acepta un set distinto de referencias:
 
-| Modelo | Img | Video | Audio | Duración | Nota |
-|---|---|---|---|---|---|
-| `veo` (Veo 3.1) | 3 | — | — | **4, 6 u 8s** | Default. Audio nativo siempre. Acepta **último frame**. Con 2+ imágenes la duración es 8s sí o sí |
-| `kling` (Kling v3 Pro) | 2 | — | — | 3-15s | Acepta **último frame**. Ojo la forma vieja: imagen 2 = frame final, NO otro ángulo del producto |
-| `seedance` (Seedance 2.0, fal) | 9 | **3** | **3** | 4-15s | **El más multimodal.** Referenciá todo como `@Image1`, `@Video1`, `@Audio1` con rol explícito. Moderación más estricta |
-| `seedance-ark` (Seedance 2.0, ByteDance) | 9 | — | — | 4-12s | Alternativa cuando `seedance` bloquea por content policy |
-| `omni` (Gemini Omni Flash) | 3 | **1** | — | 4-10s | El más rápido y barato, 720p. Video de referencia hasta 12 MB |
-| `grok-imagine` (Grok Imagine 1.5) | 1 | — | — | 3-15s | Audio nativo, moderación más permisiva |
+| Modelo | Img | Video | Audio | Duración | Resoluciones | Nota |
+|---|---|---|---|---|---|---|
+| `veo` (Veo 3.1) | 3 | — | — | **4, 6 u 8s** | 720p | Default. Audio nativo siempre. Acepta **último frame**. Con 2+ imágenes la duración es 8s sí o sí. El único que acepta **negative prompt** |
+| `kling` (Kling O3 Pro) | 2 | — | — | 3-15s | 720p | Acepta **último frame**. Ojo la forma vieja: imagen 2 = frame final, NO otro ángulo del producto. Ya **no** acepta negative prompt |
+| `seedance` (Seedance 2.0, fal) | 9 | **3** | **3** | 4-15s | 480p / 720p / 1080p | Muy multimodal. Referenciá todo como `@Image1`, `@Video1`, `@Audio1` con rol explícito. Moderación más estricta |
+| `seedance-2.5` (Seedance 2.5, fal) | **10** | **10** | **10** | **4-30s** | 480p / 720p / 1080p | **El único que hace 30s en una sola toma.** El mejor control de referencias, acepta último frame y renderiza sin referencias. ~1.55x el costo de 2.0 |
+| `seedance-ark` (Seedance 2.0, ByteDance) | 9 | — | — | 4-12s | 480p / 720p / 1080p | **Mitad de créditos que `seedance`.** Alternativa cuando `seedance` bloquea por content policy |
+| `seedance-2.5-ark` (Seedance 2.5, ByteDance) | 10 | — | — | 4-12s | 480p / 720p / 1080p | **Mitad de créditos que `seedance-2.5`**, misma moderación permisiva |
+| `omni` (Gemini Omni Flash 1.1) | **10** | **3** | — | 3-10s | **360p** / 720p | El más rápido. Su **360p sale un tercio del 720p** = el modelo para draftear. Acepta último frame y renderiza sin referencias. Video de referencia hasta 12 MB y 3s cada uno |
+| `grok-imagine` (Grok Imagine 1.5) | 1 | — | — | 3-15s | 720p | Audio nativo, moderación más permisiva |
+| `minimax-h3-max` (MiniMax H3 Max) | 0-1 | — | — | 5-15s | 768p | Text-to-video real. Sin audio ni negative prompt |
 
-`generate_video` **requiere al menos una referencia** — no hay texto-a-video
-puro. Con una sola imagen, esa es el frame 0; con un video de referencia, las
-imágenes son opcionales.
+**Texto-a-video puro:** lo hacen `seedance-2.5`, `omni` y `minimax-h3-max`. El
+resto **requiere al menos una referencia**: con una sola imagen, esa es el
+frame 0; con un video de referencia, las imágenes son opcionales.
 
-### Último frame — `veo` y `kling`
+### La resolución mueve el precio
+
+En la familia seedance y en omni el cobro es **por píxeles**: 1080p sale ~2.25x
+lo que sale 720p, y el 360p de omni sale un tercio de su 720p. El parámetro
+`resolution` no es solo calidad, es plata:
+
+- **Drafteá barato:** omni a 360p, o seedance a 480p.
+- **Entregá en 720p** salvo que la pieza justifique 1080p.
+- Los demás modelos renderizan un solo tier y lo ignoran.
+
+Y la otra palanca: **las rutas `-ark` son el mismo modelo a la mitad de
+créditos** que sus gemelas de fal. Si el shot no necesita refs de video/audio ni
+más de 12s, empezá por ahí.
+
+### Último frame — `veo`, `kling`, `seedance-2.5`, `omni` y `minimax-h3-max`
 
 `last_frame_image_url` hace que el clip **interpole del primer frame al
 último**: morphs, before/after, product reveals. Distinto de una referencia de
@@ -237,8 +255,11 @@ ambiente** del audio, y lo re-renderiza según tu prompt.
 
 | | Quién lo soporta | Tope |
 |---|---|---|
-| Video de referencia | **`seedance`** (el mejor) y `omni` | 3 / 1 |
-| Audio de referencia | **`seedance`**, y solo seedance | 3 |
+| Video de referencia | **`seedance-2.5`** (el mejor), `seedance` y `omni` | 10 / 3 / 3 |
+| Audio de referencia | **`seedance-2.5`** y `seedance` | 10 / 3 |
+
+Las rutas `-ark` toman **solo imágenes** — es un límite de la superficie que
+llamamos, no del modelo.
 
 Cualquier otro modelo devuelve un error diciéndote cuál usar.
 
@@ -249,8 +270,8 @@ Reglas prácticas:
   *"@Video1 as camera movement reference, copy the push-in pacing"*,
   *"@Audio1 as background music reference, cut on strong beats"*. Sin rol, el
   modelo infiere y el output deriva.
-- **Con `omni`, máximo 12 MB** — el clip viaja inline. Usá una versión corta y
-  de baja resolución; si te pasás, la tool te lo dice.
+- **Con `omni`, máximo 12 MB y 3 segundos por clip** — el clip viaja inline.
+  Usá una versión corta y de baja resolución; si te pasás, la tool te lo dice.
 - **No hacen falta imágenes de referencia** si hay video: ya trae sujeto y
   movimiento. Podés combinar igual.
 - **Decí qué se MANTIENE y qué CAMBIA.** Sin eso el modelo no sabe si querés el
@@ -260,10 +281,11 @@ Reglas prácticas:
 Ejemplo de pedido: *"tomá este anuncio, mismo movimiento de cámara y mismo
 ritmo, pero con nuestro producto y paleta de marca"*.
 
-**Extender un clip:** Seedance lo hace nativo **por prompt**, no por param —
-pasás el clip en `reference_video_urls` y pedís *"Extend @Video1 by 5s"*
-describiendo solo lo nuevo. No está verificado punta a punta, así que ofrecelo
-como algo a probar, no como garantía.
+**Clips largos:** si necesitás más de 15s en una sola toma, el modelo es
+`seedance-2.5` (hasta 30s nativos). Para extender un clip existente, Seedance lo
+hace **por prompt**, no por param — pasás el clip en `reference_video_urls` y
+pedís *"Extend @Video1 by 5s"* describiendo solo lo nuevo. No está verificado
+punta a punta, así que ofrecelo como algo a probar, no como garantía.
 
 **Post-producción — el MCP no edita, dos skills sí.** Cortar, montar, poner
 subtítulos, texto on-screen o música sobre clips ya hechos **no pasa por el

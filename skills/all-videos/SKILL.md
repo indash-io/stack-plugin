@@ -20,7 +20,7 @@ Antes de cualquier otra cosa, decidí en qué **modo** va a correr la skill esta
 | Mode | Cuándo | Output final |
 |---|---|---|
 | `prompt_only` | El MCP de indash NO está conectado, o el user pidió "solo el prompt" / "para copy-paste a Seedance externo" | Shot list multi-shot timestampeado en texto (output canónico original de la skill) |
-| `single_shot_premium` | El MCP de indash está conectado (`mcp__indash__*` disponibles) y el user quiere el video aparezca acá en el chat. **Default cuando hay MCP.** | URL del video generado (1 toma, 4–15s, frame 0 generado con Nano Banana → animado con `generate_video`) |
+| `single_shot_premium` | El MCP de indash está conectado (`mcp__indash__*` disponibles) y el user quiere el video aparezca acá en el chat. **Default cuando hay MCP.** | URL del video generado (1 toma, 4–15s con `seedance`, hasta 30s con `seedance-2.5`; frame 0 generado con Nano Banana → animado con `generate_video`) |
 | `stitched_multishot` | El user explícitamente pide multi-shot real **con MCP conectado** (ej. "armame las 6 tomas de verdad") y aceptó el costo extra | URL de un video stitched a partir de N videos cortos (cada uno con su frame 0). Requiere stitching externo si el MCP no lo expone aún. |
 
 Detección automática:
@@ -75,9 +75,9 @@ Read these files in order before producing anything. **Si el modo es `single_sho
 ### 2. Analyze
 Apply `instructions/analysis.md` to the user input. Extract:
 - Use case: `ad_performance` | `product_demo` | `organic_social` | `brand_film`
-- Format: aspect ratio + duration (clamp to Seedance 2.0 limits: 4–15s)
+- Format: aspect ratio + duration (clamp to the chosen model: `seedance` 4–15s, `seedance-2.5` 4–30s, las rutas `-ark` 4–12s)
 - Audience + insight + hook angle
-- Refs available (count of images/videos/audio — Seedance 2.0 caps at 9 img + 3 vid + 3 audio)
+- Refs available (count of images/videos/audio — `seedance` caps at 9 img + 3 vid + 3 audio; `seedance-2.5` at 10 + 10 + 10)
 
 ### 3. Ref audit (HARD GATE)
 Run the audit defined in `instructions/input_processing.md` (which uses `reference/refs_strategy.md`):
@@ -236,7 +236,8 @@ Cuando se activa FPV:
 ---
 
 ## Hard rules
-- **Model selection is strategist work**: default Seedance 2.0, pero elegir modelo POR SHOT usando `reference/model_selection.md` (decision tree completo). Omni = drafts baratos e iteración de coreografía; seedance-ark = escenas con personas (moderación permisiva); Kling = close-ups emocionales y fallback de cola muerta; grok = último recurso permisivo. Para briefs caros: draft en Omni → validar coreografía → final en Seedance.
+- **Model selection is strategist work**: default Seedance 2.0, pero elegir modelo POR SHOT usando `reference/model_selection.md` (decision tree completo). Omni a 360p = drafts baratos e iteración de coreografía; las rutas `-ark` = escenas con personas (moderación permisiva) **y la mitad de créditos por el mismo modelo**; `seedance-2.5` = la única opción cuando el shot pide más de 15s en una sola toma; Kling = close-ups emocionales y fallback de cola muerta; grok = último recurso permisivo. Para briefs caros: draft en Omni 360p → validar coreografía → final en Seedance (ruta ark si alcanza).
+- **La resolución es plata**: seedance y omni cobran por píxeles. 1080p sale ~2.25x lo que sale 720p. Drafteá en 360p/480p y entregá en 720p salvo que la pieza justifique más.
 - **Output the prompt only**: do not invent UI copy, voiceovers, or scripts unless the user explicitly asks. Audio descriptions inside the prompt (for `generate_audio: true`) are part of the prompt, not a separate deliverable.
 - **Language is configurable**: default to EN unless the user writes the brief in ES or asks explicitly for ES output.
 - **No fluff before or after the prompt**: a sentence of context is fine; do not write essays. The user wants the prompt.
