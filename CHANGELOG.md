@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.15.0 — 2026-09-07
+
+**El roster de modelos del MCP cambió, y con él las decisiones de costo.** Las
+skills decían "máx 15s" y recomendaban 1080p por defecto; las dos cosas ya no
+son ciertas. Acompaña a indash-io/mkt-agents#281.
+
+- **Seedance 2.5** (`seedance-2.5` y `seedance-2.5-ark`): 4-30s en UN render
+  — nada más en el roster llega a 30 — con 10 referencias de imagen, video y
+  audio, last frame y text-to-video. `reference/model_selection.md` y
+  `reference/seedance_2_params.md` cubren 2.0 y 2.5.
+- **Omni Flash 1.1** (`omni`): pasa a la API nativa de Google. 10 refs de
+  imagen, 3 clips de video de hasta 3s, last frame, text-to-video, y un tier
+  de **360p que sale un tercio de 720p** — el modelo para draftear.
+- **Kling O3 Pro** (`kling`): más nuevo y más barato. **Perdió el negative
+  prompt**; `veo` es el único que queda con ese campo, y las skills lo dicen.
+- **Nano Banana 2 Lite** (`nano-banana-2-lite`): tier de imagen para draftear,
+  mitad de créditos que `nano-banana-2`.
+- **La resolución ahora es una decisión de costo, no de calidad.** La familia
+  seedance y omni cobran por píxeles: 1080p sale ~2.25x lo que sale 720p. Las
+  skills pasan a recomendar 720p por defecto (antes `seedance_2_params.md`
+  decía 1080p) y a draftear en 360p/480p.
+- **Las rutas `-ark` cuestan la mitad** que sus gemelas de fal por el mismo
+  modelo. Estaba disponible desde julio y ninguna skill lo decía.
+- `seedance_2_params.md` aclara además qué parámetros del archivo **no viajan**
+  por `generate_video` (`fps`, `creativity_scale`, `temporal_smoothing` no
+  tienen campo en la tool).
+
 ## 0.14.0 — 2026-08-28
 
 **Tres bugs de carga que no se veían en el repo y sí en la máquina de cada
