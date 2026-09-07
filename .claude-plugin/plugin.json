@@ -1,6 +1,6 @@
 {
   "name": "indash-stack",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "El stack de creación de contenido de Indash para tu marca: skills de creative performance (onboarding, brief de período, carruseles, stories, Meta ads, video UGC/cinematográfico, post-producción —montaje determinístico de UGC de avatar y armado de la pieza final con HyperFrames—, y email marketing) + el conector MCP de Indash (tu catálogo, tu brand kit y toda la generación de imagen/video). Conectás tu cuenta con un login y creás el contenido vos mismo.",
   "author": {
     "name": "Indash",
