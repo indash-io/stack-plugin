@@ -24,9 +24,10 @@ En este orden, leyendo — no adivinando:
    - `meta.video.script` → lo que dice ese clip (la fuente de los captions).
    - `meta.status` → un clip `approved` se puede leer tranquilo; uno en
      `changes` probablemente se re-renderice — marcalo.
-3. Stills útiles como planos fijos: `layers/<layerId>/<active>.png` de los
-   manifiestos (el cierre con packshot casi siempre sale de acá o de
-   `library/products/`).
+3. Stills útiles como planos fijos: el archivo al que apunta el `active` de la
+   capa still en cada manifiesto (`layers/<layerId>/v3.jpg`; un `active` pelado
+   como `v3` es `v3.png`). El cierre con packshot casi siempre sale de acá o de
+   `library/products/`.
 
 ### Otras fuentes de material
 

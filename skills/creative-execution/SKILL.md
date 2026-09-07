@@ -41,7 +41,7 @@ componer/generar), no una jerarquía fija:
   con alpha) como capa `image` sobre un `rect`/gradient de marca: cero
   alucinación, fidelidad perfecta.
 - La foto real (cruda o procesada) también puede SER el candidato de la capa
-  ai-gen: copiala como `vN.png` + sidecar anotando el origen
+  ai-gen: copiala como `vN.<ext>` (su formato original) + sidecar anotando el origen
   (`"source": "library-photo"`, sin `model`).
 - Lifestyle, contexto, escena → se genera (con las fotos reales de `refs`,
   como siempre).
@@ -119,8 +119,11 @@ pierde detalles del label → mejores refs + 4K antes que otro modelo.
 ### 5 · Generá al candidato, versionado completo
 
 - `out_dir: "<carpeta-del-creativo>/layers/<layerId>"`, `name: "vN"` donde
-  vN = máximo existente + 1 (nunca pises un vN: son append-only y el guard
-  te va a frenar).
+  vN = máximo existente + 1 contando cualquier extensión (nunca pises un vN:
+  son append-only y el guard te va a frenar).
+- La tool guarda en el formato que devuelve el modelo (casi siempre `vN.jpg`)
+  y te devuelve el path exacto. **Nunca lo conviertas a PNG**: son los mismos
+  píxeles a 5–10× el peso. Guardá ese nombre para el commit.
 - Sidecar `vN.json` INMEDIATAMENTE después de generar — no al final, no
   "después lo escribo": modelo, prompt, refs, `by`, `createdAt`. **Un
   candidato sin sidecar no existe**: es una generación imposible de auditar
@@ -147,7 +150,10 @@ probaste y qué falla (el humano decide), no aflojes.
 ### 7 · Verificate MIRANDO, contra el checklist del formato
 
 `mcp__indash__view_creative { creative: "<carpeta>" }` después de CADA
-candidato — la imagen compilada te llega en el resultado. Chequeá contra
+candidato — la imagen compilada te llega en el resultado. **No uses `Read`
+sobre los `vN.<ext>`**: son imágenes de 4096² que entran enteras al transcript
+y no muestran la composición; view_creative ya te da la
+pieza compilada al tamaño justo. Chequeá contra
 `formats/<formato>.md` de esta skill (y sus safe zones en
 `data/safe-zones.json`):
 
@@ -162,7 +168,8 @@ gastan candidato.
 
 ### 8 · Commit
 
-Una sola edición final del manifiesto: `active: "vN"`, `meta.status:
+Una sola edición final del manifiesto: `active` = el nombre del archivo que
+guardó la tool (`"vN.jpg"`; `"vN"` a secas significa `vN.png`), `meta.status:
 "review"`, `meta.generating: false`, `meta.updatedAt`. Después una línea en
 `history.jsonl`. El orden candidatos-PRIMERO / manifiesto-AL-FINAL no es
 opcional: el manifiesto es el commit point que dispara el Board.
@@ -241,8 +248,10 @@ pieza. Además del proceso de arriba:
 4. **Siempre** la escalera de modelos se sube, nunca se baja: nano-banana-2 →
    gpt-image-2 → nano-banana-pro, y `4K` para detalle fino. Reintentar
    soltando refs o bajando de modelo está prohibido.
-5. **Siempre** candidato `vN` = máximo + 1 (append-only) y sidecar `vN.json`
-   inmediato. Un candidato sin sidecar no existe.
+5. **Siempre** candidato `vN` = máximo + 1 contando cualquier extensión
+   (append-only), guardado en el formato que devolvió la tool — nunca
+   convertido a PNG — y sidecar `vN.json` inmediato. Un candidato sin sidecar
+   no existe.
 6. **Siempre** candidatos y sidecars PRIMERO, manifiesto AL FINAL. El
    manifiesto es el commit point.
 7. **Siempre** verificás MIRANDO con `view_creative` después de cada

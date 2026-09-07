@@ -83,7 +83,7 @@ cuentan una historia y no repiten el hook?", y eso solo se ve leyendo seguido.
 
 Un still por clip, **misma escena, distinto ángulo de cámara**. Cada still es
 la capa `ai-gen` única del manifiesto del clip, versionada como cualquier
-candidato (`layers/still/vN.png`).
+candidato (`layers/still/vN.<ext>`, en el formato que devolvió la tool).
 
 - **Racord:** todo objeto visible existe en los clips vecinos en la misma
   posición. Si en el clip 2 el producto está en la mano, en el clip 1 ya está
