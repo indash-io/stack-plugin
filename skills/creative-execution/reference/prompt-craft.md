@@ -129,8 +129,8 @@ completa (con las 7 leyes).
 Tenés un candidato bueno al que hay que cambiarle UNA cosa (el fondo, la luz
 de una zona, un elemento). Reglas duras:
 
-1. **El candidato base va PRIMERO en `refs`** (`creatives/.../layers/img/v2.png`),
-   las demás refs después.
+1. **El candidato base va PRIMERO en `refs`** (`creatives/.../layers/img/v2.jpg`,
+   o el archivo que sea el `active`), las demás refs después.
 2. **El prompt describe SOLO el delta**, no la imagen entera:
    - ❌ *"Un frasco sobre mármol con luz cálida… ahora con fondo más oscuro."*
    - ✅ *"Tomá la imagen base y oscurecé el fondo: de mármol claro a piedra

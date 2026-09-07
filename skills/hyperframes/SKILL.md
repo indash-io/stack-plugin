@@ -66,7 +66,7 @@ importa a vos:
 |---|---|---|
 | **Clips de un grupo video** | `creatives/<brief>/<grupo>/<id>/clips/<vN>.mp4` | El vigente es el `meta.video.render.version` del manifiesto `<id>.indash` de cada clip. El **orden de concatenación** es el orden del array `creatives` del grupo en `briefs/<brief>/plan.json` |
 | **Guiones** (para captions) | `meta.video.script` de cada manifiesto | Es lo que la persona dice en ese clip |
-| **Stills / candidatos** (planos fijos, cierres) | `creatives/.../layers/<layerId>/<vN>.png` | El `active` de la capa en el manifiesto |
+| **Stills / candidatos** (planos fijos, cierres) | `creatives/.../layers/<layerId>/<active>` | El `active` de la capa en el manifiesto es el nombre del archivo (`v3.jpg`, `v3.webp`); si viene sin extensión (`v3`) es `v3.png` |
 | **Logo, fotos de producto** | `library/logos/` · `library/products/<producto>/` | — |
 | **Tipografías REALES de la marca** | `library/fonts/<Familia>/<Estilo>.ttf` | Usá **esos archivos** en la composición, nunca un parecido de Google Fonts |
 | **Marca** (paleta, tono, do/don'ts) | `library/brand/brand.md` | — |

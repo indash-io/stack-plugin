@@ -18,7 +18,7 @@ decisiones.
   assets/
     clip-01.mp4       los clips vigentes, COPIADOS de creatives/**/clips/
     clip-02.mp4
-    packshot.png      copiado de library/products/ o de un still
+    packshot.<ext>    copiado de library/products/ o de un still (su formato original)
     music.mp3
     Marca-Bold.ttf    copiada de library/fonts/ del proyecto
   renders/
