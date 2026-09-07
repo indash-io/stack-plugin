@@ -122,7 +122,7 @@ Ver `examples/good/ad_robot_selfie_cubano_15s.md`.
 |---|---|---|
 | Kling 3.0 — duración | 15s | **Split en N clips de hasta 15s + pegar en CapCut.** Mantener wardrobe + setting + lighting idénticos entre clips para continuidad inter-clip. |
 | Veo 3.1 — duración | 8s | Igual: split + edit. |
-| Seedance 2.0 — duración | 15s | Igual que Kling: split en N clips + CapCut. Alternativa: usar **video extension nativa** (`Extend @video1 by Xs`) para continuar sin corte. |
+| Seedance 2.0 — duración | 15s | Igual que Kling: split en N clips + CapCut. Alternativas: **`seedance-2.5` llega a 30s en una sola toma**, o **video extension nativa** (`Extend @video1 by Xs`) para continuar sin corte. |
 | Prompt de video — caracteres | **2500 (target en los 3 modelos)** | Comprimir según `instructions/execution.md` regla 9. Verificar con `wc -c`. |
 | Multi-instancia del mismo producto en un solo shot | Imposible | Partir en N inserts separados, cada uno con su Nano Banana. Ver `instructions/analysis.md` "Caso imposible #2". |
 | Seedance 2.0 — referencias multimodales | 9 imgs + 3 videos + 3 audios (12 archivos) | Si el pedido necesita más, priorizar en orden: (1) referencia de cámara/movimiento, (2) consistencia de sujeto, (3) mood/audio. Las que sobran se describen en texto. |

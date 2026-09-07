@@ -1,16 +1,23 @@
-# Seedance 2.0 — Parameter Reference
+# Seedance — Parameter Reference (2.0 y 2.5)
 
 This is the closed-set list of valid parameters and values. The skill must never invent values outside these tables.
 
-> Source: ByteDance Seed / Seedance 2.0 release (April 2026), provider docs (fal.ai, Replicate, Atlas Cloud, Segmind, Modelslab). If ByteDance changes the API, update this file.
+> Source: ByteDance Seed / Seedance 2.0 (April 2026) and 2.5 (August 2026), verified against fal's live input schemas on 2026-09-07. If ByteDance changes the API, update this file.
+
+> **Not every param here is sendable through `generate_video`.** The MCP exposes `prompt`, references, `aspect_ratio`, `duration_seconds`, `resolution` and `generate_audio`. `fps`, `creativity_scale` and `temporal_smoothing` are model-level knobs with no field on our tool — express that intent in the prompt instead of asking for a parameter that will not travel.
 
 ---
 
 ## Model
 
-| Param  | Value          | Notes                                  |
-|--------|----------------|----------------------------------------|
-| model  | `seedance-2.0` | Only model this skill targets.         |
+| `model` value      | Version | Route | Notes |
+|--------------------|---------|-------|-------|
+| `seedance`         | 2.0 | fal | The workhorse. 4-15s. |
+| `seedance-2.5`     | 2.5 | fal | 4-30s in ONE render, 10 refs of each kind, last frame, text-to-video. ~1.55x the cost per second. |
+| `seedance-ark`     | 2.0 | ByteDance ModelArk | Same model as `seedance` at HALF the credits. Moderation allows AI-generated people. 4-12s, no video/audio refs, slow (~40s render per second of clip). |
+| `seedance-2.5-ark` | 2.5 | ByteDance ModelArk | Same trade as above, on 2.5. 4-12s. |
+
+**Pick the ark route by default for anything cost-sensitive or people-heavy.** It is the same model at half the price; what you give up is the long durations, the video/audio references and the auto-retry.
 
 Do NOT use: `seedance-1.0-lite`, `seedance-1.0-pro`, `seedance-1.0-pro-fast`. They do not support native multi-shot or synchronized audio.
 
@@ -18,9 +25,13 @@ Do NOT use: `seedance-1.0-lite`, `seedance-1.0-pro`, `seedance-1.0-pro-fast`. Th
 
 ## Duration
 
-| Param       | Range     | Notes                                                         |
-|-------------|-----------|---------------------------------------------------------------|
-| duration_s  | 4 – 15    | Hard limits. Floor 4s, ceiling 15s. Reject anything outside. |
+| Model              | Range    | Notes |
+|--------------------|----------|-------|
+| `seedance`         | 4 – 15   | Hard limits. |
+| `seedance-2.5`     | 4 – 30   | The headline of 2.5: a 30s single take, no stitching. |
+| `seedance-ark` / `seedance-2.5-ark` | 4 – 12 | Capped by our gateway budget, not by the model. |
+
+Off-menu values snap DOWN and you are charged for the snapped value.
 
 ---
 
@@ -40,13 +51,15 @@ Do NOT use: `seedance-1.0-lite`, `seedance-1.0-pro`, `seedance-1.0-pro-fast`. Th
 
 ## Resolution
 
-| Value     | Notes                                            |
-|-----------|--------------------------------------------------|
-| `480p`    | Draft / cost-saving previews only.               |
-| `720p`    | Acceptable for organic.                          |
-| `1080p`   | Default for paid creative, demos, brand films.   |
+**Resolution is a PRICE knob.** Seedance bills on output video tokens, and tokens scale with pixels: the cost per second is a direct function of the tier.
 
-Default for indash: `1080p` unless user explicitly requests lower.
+| Value   | Cost vs 720p | Use |
+|---------|--------------|-----|
+| `480p`  | ~0.45x | Drafts, choreography checks, anything the client will not see. On 2.5 it costs less per second than 2.0 does at 720p. |
+| `720p`  | 1x     | **Default.** Fine for organic and for most paid social. |
+| `1080p` | ~2.25x | Only when the deliverable genuinely needs it — a brand film, a hero spot, something going to a big screen. |
+
+Default for indash: **`720p`**. Ask for `1080p` deliberately and say why; on `seedance-2.5` a 30s 1080p render is the single most expensive thing the stack can produce.
 
 ---
 
@@ -100,11 +113,13 @@ Reduces flicker in long shots; trades motion energy for stability.
 
 ## Multimodal references
 
-| Type   | Max count | Notes                                                              |
-|--------|-----------|--------------------------------------------------------------------|
-| image  | 9         | Style / subject / palette refs                                     |
-| video  | 3         | Motion / pacing / camera-language refs                             |
-| audio  | 3         | Music tone / BPM / vocal style refs (only meaningful when audio on)|
+| Type   | `seedance` (2.0) | `seedance-2.5` | Notes |
+|--------|------------------|----------------|-------|
+| image  | 9  | 10 | Style / subject / palette refs |
+| video  | 3  | 10 | Motion / pacing / camera-language refs |
+| audio  | 3  | 10 | Music tone / BPM / vocal style refs (only meaningful when audio on) |
+
+The ark routes take **images only** — no video or audio references. That is a limit of the surface we call, not of the model.
 
 Each ref needs an explicit ROLE in the prompt: `style`, `subject`, `motion`, `palette`, `audio`. See `instructions/execution.md` Block 4.
 
@@ -118,7 +133,9 @@ Each ref needs an explicit ROLE in the prompt: `style`, `subject`, `motion`, `pa
 - Per-shot aspect ratio changes (the entire video has one A:R)
 - Reading on-screen text from prompts as exact glyphs (Seedance approximates text — use post-prod for legible copy)
 - Brand-typography accuracy (use indash's editor layer for logos)
-- Durations >15s (split into a sequence of clips and stitch in post)
+- Durations >15s on `seedance` and >30s on `seedance-2.5` (split into a sequence of clips and stitch in post)
+- Video or audio references on the `-ark` routes (image refs only)
+- A last frame on 2.0 — `seedance-2.5` added it, `seedance` never had it
 
 ---
 
@@ -130,3 +147,5 @@ Each ref needs an explicit ROLE in the prompt: `style`, `subject`, `motion`, `pa
 | product_demo    | 8–12       | 16:9         | 24  | false          | 0.35             | 0.6                |
 | organic_social  | 6–10       | 9:16         | 30  | true           | 0.7              | 0.3                |
 | brand_film      | 12–15      | 21:9 / 16:9  | 24  | true           | 0.5              | 0.6                |
+
+For a single take longer than 15s, the use case is `seedance-2.5` and nothing else in the roster can do it.
