@@ -130,8 +130,8 @@ El usuario tiene una imagen base y quiere cambiarle algo: el fondo, un elemento,
 | Caso | Modelo |
 |---|---|
 | Generate con refs (consistencia de producto, multi-image) | `google/gemini-3-pro-image` (alta calidad) o `google/gemini-2.5-flash-image-preview` (rápido) |
-| Edit puntual de una imagen existente | `openai/gpt-image-1` (la tool ya rutea por `/v1/images/edits` cuando hay refs) o Gemini multimodal |
-| Generate sin refs (texto puro a imagen) | Gemini, gpt-image, o `google/imagen-4.0-generate-001` |
+| Edit puntual de una imagen existente | `gpt-image-2.5-sunburst` (la tool ya rutea por `/v1/images/edits` cuando hay refs) o Gemini multimodal |
+| Generate sin refs (texto puro a imagen) | Gemini o la familia `gpt-image` |
 | Iteración rápida (variaciones, drafts) | `google/gemini-2.5-flash-image-preview` |
 | Output final de campaña | `google/gemini-3-pro-image` |
 
@@ -144,8 +144,8 @@ El usuario tiene una imagen base y quiere cambiarle algo: el fondo, un elemento,
 La tool `generate_image` abstrae esto, pero conviene saber qué hace por debajo para escribir bien el prompt:
 
 - **Gemini multimodal** (`gemini-3-pro-image`, `gemini-2.5-flash-image-preview`): las refs viajan como bloques `image_url` en `chat/completions`. Funciona perfecto con texto + N imágenes. **Pasale las refs, mencionalas en el prompt.**
-- **gpt-image** (`openai/gpt-image-1`, `gpt-image-2`): si pasás `reference_paths`, la tool va por `/v1/images/edits` (multipart). La primera imagen es la "base", las demás son adicionales. Si NO pasás refs, va por `/v1/images/generations` (texto puro).
-- **Imagen / Flux / Grok-Imagine**: solo `/generations`, NO soportan refs. Si pedís refs con esos modelos, la tool tira error explícito — usá Gemini o gpt-image.
+- **Familia gpt-image** (`gpt-image-2`, `gpt-image-2.5-flare`, `gpt-image-2.5-sunburst`): si pasás `reference_paths`, la tool va por `/v1/images/edits` (multipart). La primera imagen es la "base", las demás son adicionales. Si NO pasás refs, va por `/v1/images/generations` (texto puro). **`sunburst` es el que mejor sostiene el control en ediciones**; `flare` es el rápido para explorar.
+- **Imagen / Flux / Grok-Imagine**: solo `/generations`, NO soportan refs. Si pedís refs con esos modelos, la tool tira error explícito — usá Gemini o la familia gpt-image.
 
 **Regla simple**: si querés refs y dudás, usá Gemini.
 

@@ -9,7 +9,7 @@ Estás operando dentro del stack de creative performance de Indash. Tu trabajo e
 Skills de creative performance para e-commerce, montadas sobre un set de MCPs. Cada una se dispara sola cuando el pedido del usuario coincide:
 
 **Orientación**
-- **`stack-overview`** → explica qué puede hacer el stack: las 11 skills con su disparador, las 26 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash vs. en disco, y qué referencias soporta cada modelo (imágenes en todo; **video de referencia con `seedance-2.5` —hasta 10—, `seedance` —3— y `omni` —3—; audio de referencia solo con la familia seedance**), y que la resolución mueve el precio. Disparala ante cualquier pregunta de capacidades — *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"*, *"¿se actualizan solas las skills?"* — en vez de improvisar la respuesta.
+- **`stack-overview`** → explica qué puede hacer el stack: las 11 skills con su disparador, las 29 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash vs. en disco, y qué referencias soporta cada modelo (imágenes en todo; **video de referencia con `seedance-2.5` —hasta 10—, `seedance` —3— y `omni` —3—; audio de referencia solo con la familia seedance**), y que la resolución mueve el precio. Disparala ante cualquier pregunta de capacidades — *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"*, *"¿se actualizan solas las skills?"* — en vez de improvisar la respuesta.
 
 **Onboarding y planificación**
 - **`new-client`** → da de alta un cliente nuevo: crea la estructura de carpetas estándar, baja la marca y los productos desde el MCP de Indash y genera el `CLAUDE.md` de contexto de marca que las demás skills heredan.

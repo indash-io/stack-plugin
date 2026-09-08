@@ -40,7 +40,7 @@ Elegir entre los dos modelos NO es opcional. Hacerlo mal te cuesta una corrida e
 
 ### Capacidades reales de cada modelo
 
-| | **nano-banana** (Gemini 2.5 Flash Image) | **gpt-image** (gpt-image-1) |
+| | **nano-banana** (Gemini 2.5 Flash Image) | **gpt-image** (`gpt-image-2` / `gpt-image-2.5-flare` / `gpt-image-2.5-sunburst`) |
 |---|---|---|
 | Fidelidad del producto desde packshot | ⭐⭐⭐⭐⭐ excelente | ⭐⭐ inventa detalles del label |
 | Texto on-image (1-3 palabras grandes) | ⭐⭐⭐ aceptable | ⭐⭐⭐⭐⭐ excelente |

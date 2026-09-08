@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Marketplace de Indash. Publica el plugin del stack de creative performance. El repo es público: lo que queda detrás del login es tu catálogo, tu brand kit y tus entregables, no las skills.",
-    "version": "0.15.0"
+    "version": "0.16.0"
   },
   "plugins": [
     {

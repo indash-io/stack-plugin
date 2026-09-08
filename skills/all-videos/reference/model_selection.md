@@ -34,9 +34,12 @@ La skill ya no es Seedance-only. El MCP de indash expone 9 modelos de video. Ele
   → OMNI a 360p (lo más barato y rápido del roster por lejos)
   → Cuando la coreografía valide, re-render final en Seedance.
 
-¿El shot necesita durar más de 15s en una sola toma?
-  → SEEDANCE-2.5 (hasta 30s). Es el único. Y pedilo a 720p salvo que
-    el entregable justifique 1080p — a 30s la diferencia duele.
+¿El shot necesita durar más de 15s?
+  → Si tiene que ser UNA SOLA TOMA: SEEDANCE-2.5 (hasta 30s). Es el único.
+    Pedilo a 720p salvo que el entregable justifique 1080p — a 30s duele.
+  → Si puede construirse por partes: OMNI + extend_video (hasta 40s, de a
+    3-10s por turno). Más barato y, sobre todo, el user APRUEBA los primeros
+    10s antes de que pagues los otros 30.
 
 ¿Producto con label/marca específica, hasta 15s?
   → SEEDANCE-ARK primero (mismo modelo, mitad de precio)
@@ -74,6 +77,30 @@ Para briefs caros (varios shots, hypermotion, coreografía compleja):
 Esto ahorra quemar renders caros de Seedance en coreografías que van a cambiar. Con el 360p de omni y la ruta ark del final, un ciclo draft→final cuesta hoy una fracción de lo que costaba.
 
 ---
+
+## Extender en vez de renderizar largo
+
+`extend_video` continúa un clip de omni agregando 3-10s por turno hasta 40s.
+Cambia el orden del trabajo: en vez de apostar a un render largo, generás el
+primer beat, lo mirás, y recién ahí seguís.
+
+- **Solo omni.** Se apoya en la API con estado de Google; ningún otro
+  proveedor del roster tiene equivalente.
+- **Solo clips nuestros**, y generados desde el 2026-09-08. Los anteriores no
+  guardaron el id que el proveedor necesita para continuarlos.
+- **Serial**: un clip solo se continúa cuando terminó de renderizar. No se
+  disparan los cuatro turnos juntos.
+- **Encadenás sobre el último**, no sobre el original: cada turno devuelve un
+  `run_id` nuevo cuyo clip es el más largo.
+- **Cada turno deja su propio creative.** 40s encadenados = cuatro drafts en
+  la galería; el último es el completo. Promocioná ese.
+- **Se cobra lo agregado**, no lo que vuelve (el proveedor devuelve el clip
+  entero cada vez).
+- **El prompt describe SOLO lo nuevo.** El modelo ya tiene la escena, el
+  sujeto, la luz y el lenguaje de cámara. Repetirle el prompt original lo hace
+  pelear contra lo que ya construyó. "La cámara se aleja y aparece la barra
+  entera" sí; "un vaso de cerveza sobre una barra de madera, luz cálida, la
+  cámara se aleja" no.
 
 ## Best practices POR MODELO
 
