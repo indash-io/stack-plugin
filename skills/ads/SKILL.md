@@ -106,7 +106,7 @@ Cada pieza tiene un modelo correcto según el input. No hay default ciego. **Ant
 
 Regla rápida:
 - **nano-banana**: el producto domina, fotografía real, lifestyle, recoloreo desde packshot, texto on-image corto (1-3 palabras grandes).
-- **gpt-image**: el texto/UI domina, layouts editoriales tipo revista, chips/badges/iconos, search-bar mockups, replica de screenshots, tipografía multi-línea, posters tipográficos.
+- **familia gpt-image** (`gpt-image-2.5-flare` para explorar, `gpt-image-2.5-sunburst` para el final): el texto/UI domina, layouts editoriales tipo revista, chips/badges/iconos, search-bar mockups, replica de screenshots, tipografía multi-línea, posters tipográficos.
 - **Híbrido en 2 pasos** (nano → gpt): producto 100% fiel + texto on-image complejo. Paso 1 produce la escena con producto. Paso 2 agrega la capa tipográfica.
 
 Banderas rojas que indican que elegiste mal — regenerá con el otro modelo, no insistas:

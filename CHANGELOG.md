@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.16.0 — 2026-09-08
+
+**Videos de hasta 40 segundos y la familia GPT Image 2.5.** Acompaña a
+indash-io/mkt-agents#286, #287 y #288.
+
+- **`extend_video`**: continúa un clip de `omni` agregando 3-10s por turno,
+  hasta **40s**. Cambia el orden del trabajo: generás el primer beat, el
+  cliente lo aprueba, y recién ahí pagás la continuación — en vez de apostar a
+  un render largo que no podés ver hasta que termina. `model_selection.md`
+  ahora ramifica por ahí, y `stack-overview` explica las cuatro reglas del
+  encadenado (serial, sobre el último `run_id`, un creative por turno, se
+  cobra lo agregado).
+- **GPT Image 2.5** en sus dos variantes: `gpt-image-2.5-flare` (mejor que el
+  2 a la mitad de latencia) y `gpt-image-2.5-sunburst` (control fino en
+  ediciones, para el entregable final). **Cuestan lo mismo que gpt-image-2.**
+- **`gpt-image` pasa a llamarse `gpt-image-2`.** El nombre genérico era parte
+  del problema: durante cuatro meses renderizó `gpt-image-1` sin que nada lo
+  delatara. El nombre viejo sigue funcionando como alias, pero las skills ya
+  nombran el nuevo.
+- Las tablas de modelos de `prompt-craft` y `ads` dejan de recomendar
+  `openai/gpt-image-1`, que no era ni el que corría ni el que convenía.
+- El conteo de tools del conector estaba viejo: eran 26 en la doc y hoy son
+  **29**.
+
 ## 0.15.0 — 2026-09-07
 
 **El roster de modelos del MCP cambió, y con él las decisiones de costo.** Las

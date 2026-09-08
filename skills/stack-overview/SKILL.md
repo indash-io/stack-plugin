@@ -1,6 +1,6 @@
 ---
 name: stack-overview
-description: Explica qué es y qué puede hacer el stack de Indash — las 11 skills de creative performance, las 26 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "qué es /save-learnings", "cómo se guarda lo que aprendimos", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
+description: Explica qué es y qué puede hacer el stack de Indash — las 11 skills de creative performance, las 29 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "qué es /save-learnings", "cómo se guarda lo que aprendimos", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
 language: es
 owner: manuel-soria
 status: published
@@ -98,7 +98,7 @@ sesión hubo fricción con una skill** — la persona pidió rehacer algo, corri
 la skill o dijo que algo no le sirvió — en una línea al final del handoff. Si la
 entrega salió derecho, no lo menciones. Y **no lo ejecutes por tu cuenta**.
 
-## 2. Las 26 tools del conector `indash`
+## 2. Las 29 tools del conector `indash`
 
 Cinco familias. Las skills las usan solas; la persona no las llama a mano.
 
@@ -114,7 +114,7 @@ El catálogo real y la identidad de la marca: paleta, tipografía, logos,
 productos con sus fotos, referencias de estilo. Es **lectura y escritura** — se
 puede dar de alta un producto y subirle fotos desde acá.
 
-**Generación (3)** — `generate_image`, `generate_video`, `get_video_result`
+**Generación (4)** — `generate_image`, `generate_video`, `extend_video`, `get_video_result`
 Donde se consume crédito. Ver sección 4 para modelos y referencias.
 
 **Guardado en Indash (2)** — `upload_creative`, `promote_creative`
@@ -206,7 +206,9 @@ en vez de un texto-a-imagen genérico, y es lo que da fidelidad de marca.
 | `nano-banana-2-lite` | Gemini 3.1 Flash-Lite Image — la mitad de créditos que `nano-banana-2` y el más rápido. **El tier para draftear**: iterá composición acá y hacé el final en `nano-banana-2` o `-pro` | solo 1k |
 | `nano-banana-pro` | Gemini 3 Pro Image — máxima calidad, más caro y lento | 1k / 2k / 4k |
 | `nano-banana` | Gemini 2.5 Flash Image — el más barato | solo 1k |
-| `gpt-image` | OpenAI | 1k |
+| `gpt-image-2` | OpenAI GPT Image 2 | 1k |
+| `gpt-image-2.5-flare` | GPT Image 2.5 Flare — mejor que el 2 a la **mitad de latencia**, mismos créditos. El default cuando querés OpenAI | 1k |
+| `gpt-image-2.5-sunburst` | GPT Image 2.5 Sunburst — control más fino en ediciones, más lento. OpenAI lo posiciona para *campaign creative* y foto de producto terminada: usalo en el **entregable final**, no explorando | 1k |
 
 **Modelos de video** — cada uno acepta un set distinto de referencias:
 
@@ -281,8 +283,23 @@ Reglas prácticas:
 Ejemplo de pedido: *"tomá este anuncio, mismo movimiento de cámara y mismo
 ritmo, pero con nuestro producto y paleta de marca"*.
 
-**Clips largos:** si necesitás más de 15s en una sola toma, el modelo es
-`seedance-2.5` (hasta 30s nativos). Para extender un clip existente, Seedance lo
+**Clips largos, dos caminos distintos:**
+
+- **En una sola toma** → `seedance-2.5`, hasta 30s nativos.
+- **Encadenando** → `extend_video` continúa un clip de `omni` agregando 3-10s
+  por turno, hasta **40s** en total. Es la tool que más cambia cómo se
+  trabaja: generás 10s, **los mirás**, y recién ahí pagás la continuación. Un
+  render de 40s que no podés ver hasta que termina son 40 segundos de riesgo.
+
+  Tres cosas del encadenado: los turnos son **seriales** (un clip solo se
+  continúa cuando terminó de renderizar), se extiende el `run_id` del **último**
+  turno —no el del original—, y **cada turno deja su propio creative** (40s
+  encadenados = cuatro drafts, el último es el completo). Se cobra lo
+  **agregado**, no lo que vuelve.
+
+  Solo `omni`: la extensión se apoya en la API con estado de Google, y ningún
+  otro proveedor del roster tiene equivalente. Y solo clips que generamos
+  nosotros — los de antes del 2026-09-08 no se pueden continuar. Para extender un clip existente, Seedance lo
 hace **por prompt**, no por param — pasás el clip en `reference_video_urls` y
 pedís *"Extend @Video1 by 5s"* describiendo solo lo nuevo. No está verificado
 punta a punta, así que ofrecelo como algo a probar, no como garantía.
