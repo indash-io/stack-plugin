@@ -34,15 +34,20 @@ workbench/<brief>/<carpeta>/          ← una por creativo de video, LAZY
   musica.mp3 / referencias…           ← lo que el humano soltó desde Finder
 ```
 
-- **Buscá la carpeta antes de crearla:** escaneá `workbench/<brief>/*/.folder.json`
-  y quedate con la que apunta a tu creativo. Si no hay, creá
-  `workbench/<brief>/<title-o-id-del-creativo>/` + el sidecar. No espejes el
-  board: solo el creativo que estás trabajando.
+- **La carpeta la resuelve la app.** Las tools de generación reciben
+  `creative: "<brief>/<grupo>/<id>"` y escriben en la carpeta del Workbench
+  vinculada a ese creativo (la crean, con su `.folder.json`, si no existe).
+  Para los guiones `.md` que escribís vos, buscala escaneando
+  `workbench/<brief>/*/.folder.json`; si todavía no existe, crela con el
+  título o el id del creativo + el sidecar. No espejes el board: solo el
+  creativo que estás trabajando.
 - **Versión en el nombre**, no en carpetas: `clip-01-v2.mp4` es la segunda
-  toma del clip 1. Nunca pises un archivo — el humano navega esto como Finder
-  y compara versiones a ojo.
-- Las tools reciben `out_dir` explícito: `stills/` para `generate_image`,
-  `clips/` para `generate_video`. **Vos sabés dónde escribís.**
+  toma del clip 1. La ponen las tools (`name: "clip-01"` → `clip-01-v1`,
+  `clip-01-v2`…): nunca pisan, y vos tampoco — el humano navega esto como
+  Finder y compara versiones a ojo.
+- Dónde cae cada cosa lo decís con `folder`: `"stills"` para `generate_image`,
+  `"clips"` para `generate_video` (es su default). Nada de esto se promueve:
+  los clips son insumo de `video-composition`, no candidatos.
 - No tocás el manifiesto del creativo en este proceso (salvo `meta.generating`
   si el humano quiere ver la tarjeta pulsar): no hay bloque de clip en el
   manifiesto, no hay `clips/` en el creativo, no hay `active` que mover. El
@@ -132,8 +137,8 @@ solo se ve leyendo seguido. Seguís cuando te diga.
 ## Paso 2 — Los stills (uno por clip)
 
 Un still por clip, **misma escena, distinto ángulo de cámara**. Van a
-`stills/clip-NN-vK.<ext>` (`generate_image` con `out_dir` = la carpeta
-`stills/` y `name: "clip-01-v1"`; el formato es el que devuelve la tool).
+`stills/clip-NN-vK.<ext>` (`generate_image { creative, folder: "stills",
+name: "clip-01" }`; la versión y el formato los pone la tool).
 
 - **Racord:** todo objeto visible existe en los clips vecinos en la misma
   posición. Si en el clip 2 el producto está en la mano, en el clip 1 ya está
@@ -183,8 +188,8 @@ confianza del humano en tu QA vale más que un still.
 
 ## Paso 3 — Los clips
 
-Un `generate_video` por clip, con el still elegido como `start_image`,
-`out_dir` = la carpeta `clips/` y `name: "clip-01-v1"`. Modelo por defecto
+Un `generate_video { creative, folder: "clips", name: "clip-01" }` por clip,
+con el still elegido como `start_image`. Modelo por defecto
 **omni** (audio nativo, tope 10s, es sobre lo que está calibrado todo esto).
 **Si el humano pide otro modelo (seedance / veo / kling), leé
 `reference/modelos.md` PRIMERO**: cambian las duraciones, el audio por acento
