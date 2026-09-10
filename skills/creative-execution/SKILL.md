@@ -1,6 +1,6 @@
 ---
 name: creative-execution
-description: "Cómo se produce cada pieza en un proyecto de Indash Studio (cwd con .indash/ y manifiestos .indash) — el proceso completo por creativo: conocer el producto con sus fotos reales, elegir refs, componer por capas, generar candidatos versionados, verificarse con view_creative y commitear. Usala SIEMPRE que haya que generar/regenerar la imagen de un creativo de Studio, sea trabajo directo o despachado como subagent. Las decisiones de QUÉ producir (arquetipo, copy, componer/generar) vienen escritas del brief; esta skill es el CÓMO."
+description: "Cómo se produce cada pieza en un proyecto de Indash Studio (cwd con .indash/ y manifiestos .indash) — el proceso completo por creativo: conocer el producto con sus fotos reales, elegir refs, componer por capas, generar candidatos versionados, verificarse con view_creative y commitear. Usala SIEMPRE que haya que generar/regenerar la imagen de un creativo de Studio. Las decisiones de QUÉ producir (arquetipo, copy, componer/generar) vienen escritas del brief; esta skill es el CÓMO."
 language: es
 tags: execution
 owner: lburgwardtr
@@ -10,10 +10,11 @@ reviewed: 2026-09-02
 
 # Creative Execution — producir una pieza en Studio
 
-Sos el que produce UNA pieza (o varias, de a una). Da igual si sos el chat
-principal trabajando directo o un subagent despachado: **el proceso es el
-mismo**. El contrato de disco (schema, candidatos, orden de escritura) está en
-el CLAUDE.md del proyecto; acá está el OFICIO.
+Las piezas las producís vos, desde el chat del brief, de a una. Si un lote
+es grande y lo repartís en subagents, cada uno sigue este mismo proceso — es
+una táctica de reparto, no otro rol ni otro protocolo. El contrato de disco
+(schema, candidatos, Workbench, orden de escritura) está en el CLAUDE.md del
+proyecto; acá está el OFICIO.
 
 ## Antes que nada: acá todo se construye por CAPAS
 
@@ -46,7 +47,34 @@ componer/generar), no una jerarquía fija:
 - Lifestyle, contexto, escena → se genera (con las fotos reales de `refs`,
   como siempre).
 
+## Dónde escribís: Workbench para explorar, `layers/` para commitear
+
+Hay dos lugares y la regla es una sola — **vos sabés dónde escribís**, las
+tools reciben `out_dir` explícito y no adivinan:
+
+- **Exploración e insumos** → la carpeta del **Workbench** del creativo:
+  `workbench/<brief>/<carpeta>/`. Probar cuatro fondos, comparar dos modelos,
+  un cutout intermedio, la referencia que armaste a mano: todo eso es
+  intermedio y no tiene por qué ocupar un `vN` del creativo. Nombres con
+  versión (`fondo-v2.jpg`), nunca pisar: el humano lo navega como Finder.
+- **Commit** → `creatives/<brief>/<grupo>/<id>/layers/<layerId>/vN.<ext>` +
+  sidecar. Un candidato es una propuesta seria que el humano va a ver en el
+  Board; no un experimento.
+
+La carpeta del Workbench es **lazy**: buscala escaneando
+`workbench/<brief>/*/.folder.json` (el sidecar apunta a
+`"<brief>/<grupo>/<id>"`); si no existe, crela con el título o el id del
+creativo y escribí el sidecar `{ "creative": "<brief>/<grupo>/<id>" }`. No
+espejes el board — solo el creativo que estás trabajando. Promover algo del
+Workbench a candidato es **copiar** (append como `vN+1`), nunca mover. Una
+pieza chica que sale al primer intento puede ir directo a `layers/` sin pasar
+por el Workbench.
+
 ## El proceso por pieza (en orden, sin saltear)
+
+**Antes de arrancar**, `meta.generating: true` en el manifiesto (el humano ve la
+tarjeta pulsar en el Board). Es un flag de actividad, no un estado: el commit
+del paso 8 lo vuelve a `false`.
 
 ### 1 · Conocé el producto ANTES de generar
 
@@ -221,18 +249,13 @@ grilla de perfil — no uses números de memoria: leé el JSON.
 - Cómo componés el TEXTO y la gráfica por capas (placement, jerarquía,
   contraste, densidad de diseño) → `style/composicion-texto.md`
 
-## Si sos un subagent despachado
+## Al cerrar cada pieza
 
-Tu nota de despacho trae el scope (tu carpeta) y las instrucciones de TU
-pieza. Además del proceso de arriba:
-
-- Primera acción: `meta.generating: true` en TU manifiesto (el humano ve la
-  card pulsar). Última acción: el commit (paso 8).
-- Escribís SOLO dentro de tu carpeta. No toques otros creativos, plan.json,
-  rounds/, .indash/.
-- Tu último mensaje: 1-2 líneas — qué generaste, cuántos candidatos, y
-  cualquier warning (advertencias del paso 7, refs dudosas, product.json
-  desactualizado).
+Escribiste solo dentro de la carpeta del creativo y de su carpeta del
+Workbench — nunca `rounds/`, `.indash/` ni otro creativo. Contale al humano en
+1-2 líneas qué generaste, cuántos candidatos, y cualquier warning
+(advertencias del paso 7, refs dudosas, `product.json` desactualizado). Si
+trabajaste un lote, un resumen por grupo alcanza — no 20 líneas iguales.
 
 ## Reglas no-negociables
 
@@ -257,7 +280,7 @@ pieza. Además del proceso de arriba:
 7. **Siempre** verificás MIRANDO con `view_creative` después de cada
    candidato, contra el checklist del formato y las safe zones del JSON.
 8. **Nunca** editás un creativo `approved`, ni tocás `rounds/`, `versions/`,
-   `.indash/` ni `plan.json` (si sos ejecutor).
+   `.indash/` ni `plan.json` desde esta skill (el plan lo escribe `new-brief`).
 9. **Siempre** después de 3 candidatos fallidos parás y reportás. No aflojás
    restricciones para "probar otra cosa".
 10. **Agnóstico** por marca, vertical y categoría: la estética sale del brief,
@@ -265,6 +288,6 @@ pieza. Además del proceso de arriba:
 
 ## Punto de entrada
 
-Leé las instrucciones de TU pieza (plan/notes o nota de despacho) y **arrancá
-por el paso 1: conocé el producto**. Si la pieza tiene texto, pasá por
+Leé las instrucciones de TU pieza (las `notes` del creativo en `plan.json`) y
+**arrancá por el paso 1: conocé el producto**. Si la pieza tiene texto, pasá por
 `style/composicion-texto.md` antes de armar las capas.

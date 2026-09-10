@@ -80,8 +80,8 @@ Studio, nunca vos a mano.
 Trabajo silencioso: releé la conversación de punta a punta antes de hablar.
 
 1. **Qué skills del stack se usaron.** Anotá los nombres **exactos**:
-   `new-workspace`, `new-brief`, `creative-execution`, `video-execution`,
-   `hyperframes`, `export-creatives`, `save-learnings`, `content-brief`,
+   `new-workspace`, `new-brief`, `creative-execution`, `video-clips`,
+   `video-composition`, `export-creatives`, `save-learnings`, `content-brief`,
    `ideacion-carruseles`, `ideacion-stories`, `ideacion-ads`,
    `ideacion-video`, `ideacion-emails`. Contá solo las que **se ejecutaron**
    en esta sesión, no las que se mencionaron al pasar.
@@ -108,7 +108,7 @@ Estructura exacta:
 Antes de redactar nada necesito lo tuyo. Esto es lo que reconstruí:
 
 **Qué hiciste**: [1-2 líneas, ya pre-llenadas desde el contexto de la sesión]
-**Skills que se usaron**: [creative-execution, video-execution]
+**Skills que se usaron**: [creative-execution, video-clips]
 
 Contestame las cuatro juntas, en el formato que te salga:
 
@@ -271,15 +271,15 @@ dos bloques numerados. Nada de resúmenes ni de "y algunas cosas más".
 
 ```
 📋 Borrador — nada se mandó todavía
-Skills usadas: creative-execution, video-execution · Workspace: <marca> (el de este proyecto)
+Skills usadas: creative-execution, video-clips · Workspace: <marca> (el de este proyecto)
 
 ── CLIENTE → LEARNINGS.md del workspace (queda con nombre y apellido) ──
-1. [DON'T · video-execution] No levantar el producto en cámara: la tipografía del label se degrada en movimiento.
+1. [DON'T · video-clips] No levantar el producto en cámara: la tipografía del label se degrada en movimiento.
 2. [DO · creative-execution] El packshot lateral como ref principal rindió mejor que el frontal.
 3. [Contexto] El mejor resultado salió componiendo con el cutout de la foto real, no generando.
 
 ── SKILL → issue privado del equipo (anonimizado) ──
-1. [video-execution]
+1. [video-clips]
    Antes: la skill pide el still en el paso 2, antes de cerrar el guion.
    Propongo: mover el still después de la aprobación de guiones.
    Por qué: hubo que regenerar el still dos veces en la misma entrega.
@@ -319,7 +319,7 @@ el Studio solo** — no va en tu payload):
 
 ```ts
 {
-  skills_used: string[];             // ["creative-execution", "video-execution"] — nombres exactos
+  skills_used: string[];             // ["creative-execution", "video-clips"] — nombres exactos
   brand_learnings: Array<{
     skill?: string;                  // la skill donde surgió; omitilo si no aplica
     kind: "do" | "dont" | "context";

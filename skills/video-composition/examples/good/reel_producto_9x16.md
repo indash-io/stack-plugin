@@ -1,7 +1,8 @@
 # BUENO — Reel 9:16 de producto a partir de clips generados
 
-Marca anonimizada. Categoría: skincare DTC. Material: 4 clips renderizados con
-`video-execution` + 1 packshot de `library/products/`.
+Marca anonimizada. Categoría: skincare DTC. Material: 4 clips generados con
+`video-clips` (en `workbench/<brief>/serum-noche/clips/`) + 1 packshot de
+`library/products/`. Creativo `creatives/<brief>/stories/serum-noche`.
 
 **Por qué es bueno**: el hook aguanta solo, cada corte aporta una idea, el ritmo
 acelera hacia el payoff, hay una sola transición primaria con un acento, y el
@@ -11,8 +12,7 @@ texto vive entero en zona segura.
 
 ## Brief de entrada
 
-> "Ya están renderizados los 4 clips del grupo `serum-noche` del board.
-> Armame el reel final."
+> "Ya están los 4 clips de `serum-noche` en el Workbench. Montame el video."
 
 ## Discovery (silencioso)
 
@@ -116,7 +116,8 @@ antes del draft.
 
 ### 10. Gates en orden
 `lint` limpio → `check` con dos hallazgos de contraste (corregidos con scrim) →
-`draft` → OK del user → un solo `high`.
+`render_video draft` (v1) → hoja de contactos con `view_creative` → OK del
+humano → un solo `render_video high` (v2, activo).
 
 ---
 

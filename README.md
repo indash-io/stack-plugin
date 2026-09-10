@@ -29,10 +29,23 @@ append-only, guard) vive en el `CLAUDE.md` que el Studio siembra en cada proyect
 | `new-workspace` | Alta de una marca | + el interrogatorio de discovery (una pregunta consolidada, paleta en hex, placeholders — jamás inventar) |
 | `new-brief` | Brief → Board | + el mapeo mecánico desde el bloque por pieza (`reference/bloque-por-pieza.md`) |
 | `creative-execution` | Producir piezas estáticas | + las 7 leyes de prompting (mundo capas), recetas de composición de texto, dispositivos de diseño, **zonas seguras 2026** (Meta unificado marzo 2026 + grilla 3:4) |
-| `video-execution` | Producir un video UGC | + referencia de modelos (omni/seedance/veo/kling), regla de las 3 fidelidades, disciplina de frame-0 |
+| `video-clips` | Producir los clips UGC de un video (guion → still → clip, en el **Workbench** del creativo) | Ex `video-execution`. + referencia de modelos (omni/seedance/veo/kling), regla de las 3 fidelidades, disciplina de frame-0 |
 | `export-creatives` | Entregar | (igual a la del Studio) |
-| `hyperframes` | Ensamblar el video final | Portada del mundo plugin: monta los clips de un grupo video (cortes, captions, música, VO) con [HyperFrames](https://github.com/heygen-com/hyperframes), render local (Node 22+ y FFmpeg). **Destino provisorio: `~/Downloads`** hasta que el contrato de disco defina dónde vive el MP4 ensamblado |
+| `video-composition` | Montar y renderizar un video | Ex `hyperframes`, curada para el Studio: la composición [HyperFrames](https://github.com/heygen-com/hyperframes) vive en `creatives/<brief>/<grupo>/<id>/composition/` (assets copiados adentro), los insumos salen del Workbench, y el render sale **solo** por `mcp__indash__render_video` (draft → hoja de contactos con `view_creative` → high) a `renders/vN.mp4` + `video.active`. Sin TTS ni música generada; sin cloud render |
 | `save-learnings` | Guardar lo aprendido | Adaptada al Studio: usa la tool `mcp__indash__save_learnings` del MCP in-process (requiere workspace conectado + login) |
+
+### Video como creative + Workbench
+
+Un video es **UN creativo** del plan (`"kind": "video"` + `"seconds"` en el
+creativo; el grupo solo lleva `format`), con manifiesto sin capas, una carpeta
+`composition/` (el fuente, HyperFrames) y `renders/vN.mp4` append-only con
+`video.active`. El material intermedio (guiones, stills, clips, la música que
+trae el humano) vive en el **Workbench**: `workbench/<brief>/<carpeta>/` con un
+sidecar `.folder.json` que lo vincula al creativo (carpetas lazy: las crea la
+skill que las necesita). No hay Conductor ni despacho por creativo: el agente
+del chat del brief produce directo (`creative-execution` por imagen;
+`video-clips` → `video-composition` por video). Spec: *Diseño: video de todo
+tipo + Workbench* (repo de Indash Studio, `docs/`).
 
 ## SET IDEACIÓN — 6 skills (destino: el armador de briefs hosteado)
 
@@ -47,7 +60,7 @@ aportan el oficio por formato.
 | `ideacion-carruseles` | Arquetipo, narrativa hook→desarrollo→CTA, slides, modo visual, copy on-image |
 | `ideacion-stories` | Arquetipo de secuencia, copy ≤6-8 palabras, **sticker de engagement por story** |
 | `ideacion-ads` | Ángulos scroll-stop, variaciones A/B reales, **copy de Meta completo** con límites |
-| `ideacion-video` | Grupo `kind: video` + `seconds`, guion + registro + gesto por clip, UGC y video de marca |
+| `ideacion-video` | Un creativo `kind: video` + `seconds` por video, guion + registro + gesto por clip, UGC y video de marca |
 | `ideacion-emails` | 3 ángulos, subjects + preheaders + hipótesis (la ejecución HTML no pasa por el Studio) |
 
 ## Zonas seguras canónicas (2026)
@@ -71,12 +84,12 @@ Una pieza 9:16 que va a Stories **y** Reels se compone contra la zona de Reels.
 |---|---|
 | `new-client` | Absorbida por `new-workspace` |
 | `carruseles` / `stories-nano-banana` / `ads` / `email-marketing-ecomm` | Partidas: estrategia → `ideacion-*`; producción → `creative-execution` |
-| `ugc-video-prompts` / `ugc-generator` / `all-videos` | Cosechadas en `video-execution` + `ideacion-video` |
+| `ugc-video-prompts` / `ugc-generator` / `all-videos` | Cosechadas en `video-clips` (ex `video-execution`) + `ideacion-video` |
 | `content-brief` | Reorientada como orquestadora de ideación |
 | `save-learnings` | Adaptada al Studio |
 | `core/` (prompt-craft + formatos IG) | Repartido: leyes → `creative-execution/reference/`; specs → `formats/`; narrativa → ideación |
-| `hyperframes` | Portada al set de ejecución (destino provisorio `~/Downloads` hasta definir dónde vive el video ensamblado) |
-| `stack-overview`, `edicion-ugc` | Quedan en `main` (mundo plugin); el criterio de montaje de `edicion-ugc` se cosechó parcialmente en `hyperframes` |
+| `hyperframes` | Portada al set de ejecución como `video-composition`: escribe dentro del creativo de video y renderiza con la tool del Studio |
+| `stack-overview`, `edicion-ugc` | Quedan en `main` (mundo plugin); el criterio de montaje de `edicion-ugc` se cosechó parcialmente en `video-composition` |
 
 ## Estado
 
