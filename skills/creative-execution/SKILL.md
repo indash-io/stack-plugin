@@ -38,8 +38,9 @@ Es una decisión por pieza (idealmente ya escrita en el plan como
 componer/generar), no una jerarquía fija:
 
 - Producto-sobre-fondo, brand-flat, precio+packshot → suele ganar el
-  **cutout de la foto real** (`mcp__indash__remove_background { file, creative }`
-  te deja el PNG con alpha en el Workbench del creativo) como capa `image`
+  **cutout de la foto real** (`mcp__indash__remove_background { file, creative,
+  folder: "workbench/<brief>/<título del plan>/cutouts" }` te deja el PNG con
+  alpha en la carpeta del creativo) como capa `image`
   sobre un `rect`/gradient de marca: cero alucinación, fidelidad perfecta.
   Para usarlo como capa, promovelo (`promote`) o copialo a `library/`.
 - La foto real (cruda o procesada) también puede SER el candidato de la capa
@@ -53,17 +54,34 @@ componer/generar), no una jerarquía fija:
 
 Hay dos lugares y una sola puerta entre ellos:
 
-- **Todo lo que generás cae en el Workbench** del creativo:
-  `workbench/<brief>/<carpeta>/`. Las tools de generación (`generate_image`,
-  `generate_video`, `remove_background`) **no reciben carpeta de salida**:
-  reciben `creative: "<brief>/<grupo>/<id>"` y escriben ahí, con nombre
-  versionado (`<name>-vN.<ext>`, nunca pisan). La app crea la carpeta y su
-  `.folder.json` si no existen — no la busques ni la crees vos. Opcional
-  `folder` para ordenar adentro (`"fondos"`, `"stills"`) y `name` como base
-  del nombre (`"fondo"` → `fondo-v3.jpg`; default `"image"` / `"cutout"`).
+- **Todo lo que generás cae en el Workbench**, en la carpeta del creativo:
+  `workbench/<brief>/<título del plan>/`. Las tools de generación
+  (`generate_image`, `generate_video`, `remove_background`) reciben
+  `creative: "<brief>/<grupo>/<id>"` y `folder` = **la ruta completa dentro
+  del Workbench que elegís vos** (`"workbench/<brief>/Carrusel portada/fondos"`).
+  La app solo garantiza que sea dentro de `workbench/<brief>/` (afuera, error):
+  crea la carpeta si falta, vincula la de primer nivel con el `.folder.json` si
+  no estaba vinculada, y guarda con nombre versionado (`<name>-vN.<ext>`, nunca
+  pisa; `name` es la base: `"fondo"` → `fondo-v3.jpg`). Sin `folder`, usa la
+  carpeta ya vinculada al `creative` o la crea con el `title` del plan.
   Material que no es de ningún creativo → sin `creative`, con `brief`: va a
   `workbench/<brief>/suelto/`. Probar cuatro fondos, comparar dos modelos, un
   cutout intermedio: todo eso vive acá y el humano lo navega como Finder.
+
+**La carpeta es tuya, y es UNA por creativo:**
+
+- Se llama como el **`title` del plan, tal cual** (`Carrusel portada`, no
+  `carrusel-slide-02` ni el id).
+- **Antes de generar, buscala** escaneando `workbench/<brief>/*/.folder.json`
+  (el sidecar apunta a `"<brief>/<grupo>/<id>"`). El humano puede haberla
+  renombrado desde el Finder: **nunca asumas el nombre**, el vínculo es el
+  sidecar. Si existe, esa es la ruta que pasás en `folder`.
+- Si no existe, creala con el título + escribí el sidecar
+  `{ "creative": "<brief>/<grupo>/<id>" }` (o dejá que la primera generación
+  la cree). **Dos carpetas para el mismo creativo = error.**
+- Adentro, la **misma estructura entre creativos**: `fondos/`, `cutouts/`,
+  `stills/`, `clips/`, `scripts/`… — una subcarpeta por tipo de material, y
+  nombres versionados.
 - **Commit** → `mcp__indash__promote { file, creative, layer? }`: copia el
   archivo elegido como candidato `layers/<layer>/vN+1.<ext>` y lo deja
   `active`. El original sigue en el Workbench. **Es la única forma de escribir
@@ -153,11 +171,13 @@ pierde detalles del label → mejores refs + 4K antes que otro modelo.
 
 ### 5 · Generá en el Workbench, elegí, promové
 
-- `mcp__indash__generate_image { prompt, refs, creative: "<brief>/<grupo>/<id>",
-  name: "<qué-es>" }` (+ `folder` si querés ordenar). Sale a la carpeta del
-  Workbench del creativo como `<name>-vN.<ext>`, en el formato que devuelve el
-  modelo (casi siempre `.jpg`), y la tool te devuelve el path exacto. **Nunca
-  lo conviertas a PNG**: son los mismos píxeles a 5–10× el peso.
+- Resolvé la carpeta del creativo (escaneo de `.folder.json`, ver "Dónde
+  escribís") y generá:
+  `mcp__indash__generate_image { prompt, refs, creative: "<brief>/<grupo>/<id>",
+  folder: "workbench/<brief>/<título del plan>/fondos", name: "<qué-es>" }`.
+  Sale como `<name>-vN.<ext>` en el formato que devuelve el modelo (casi
+  siempre `.jpg`), y la tool te devuelve el path exacto. **Nunca lo conviertas
+  a PNG**: son los mismos píxeles a 5–10× el peso.
 - Miralo. Si generaste varios, `show_media` y que elija el humano; si es uno y
   está bien, seguís vos.
 - `mcp__indash__promote { file: "<path-del-workbench>", creative }`: el elegido
@@ -283,8 +303,9 @@ trabajaste un lote, un resumen por grupo alcanza — no 20 líneas iguales.
 4. **Siempre** la escalera de modelos se sube, nunca se baja: nano-banana-2 →
    gpt-image-2 → nano-banana-pro, y `4K` para detalle fino. Reintentar
    soltando refs o bajando de modelo está prohibido.
-5. **Siempre** generás al Workbench (`creative`, sin carpeta de salida) y el
-   candidato lo crea `mcp__indash__promote` — **nunca** escribís `layers/vN`
+5. **Siempre** generás al Workbench, en **la única carpeta del creativo**
+   (nombrada como el `title` del plan, buscada por `.folder.json` antes de
+   generar, pasada en `folder`), y el candidato lo crea `mcp__indash__promote` — **nunca** escribís `layers/vN`
    ni `active` a mano. Se guarda en el formato que devolvió la tool (nunca
    convertido a PNG) y con sidecar `vN.json` inmediato. Un candidato sin
    sidecar no existe.

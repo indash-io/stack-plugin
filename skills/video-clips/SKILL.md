@@ -23,7 +23,7 @@ escritura) está en el CLAUDE.md del proyecto. Acá está el OFICIO.
 ## Dónde escribís: la carpeta del Workbench del video
 
 ```
-workbench/<brief>/<carpeta>/          ← una por creativo de video, LAZY
+workbench/<brief>/<título del plan>/  ← UNA por creativo de video, LAZY
   .folder.json                        ← { "creative": "<brief>/<grupo>/<id>" }
   scripts/                            ← guiones, uno por clip, en .md
     clip-01.md  clip-02.md  clip-03.md
@@ -34,20 +34,29 @@ workbench/<brief>/<carpeta>/          ← una por creativo de video, LAZY
   musica.mp3 / referencias…           ← lo que el humano soltó desde Finder
 ```
 
-- **La carpeta la resuelve la app.** Las tools de generación reciben
-  `creative: "<brief>/<grupo>/<id>"` y escriben en la carpeta del Workbench
-  vinculada a ese creativo (la crean, con su `.folder.json`, si no existe).
-  Para los guiones `.md` que escribís vos, buscala escaneando
-  `workbench/<brief>/*/.folder.json`; si todavía no existe, crela con el
-  título o el id del creativo + el sidecar. No espejes el board: solo el
-  creativo que estás trabajando.
+- **La carpeta la elegís vos, y es UNA por creativo.** Se llama como el
+  **`title` del plan, tal cual** (`UGC creatina`, no `ugc-creatina-01` ni el
+  id). **Antes de generar, buscala** escaneando
+  `workbench/<brief>/*/.folder.json` (el sidecar apunta a
+  `"<brief>/<grupo>/<id>"`): el humano puede haberla renombrado desde el
+  Finder — **nunca asumas el nombre**. Si no existe, creala con el título +
+  el sidecar `{ "creative": "<brief>/<grupo>/<id>" }`. Dos carpetas para el
+  mismo creativo = error. No espejes el board: solo el creativo que estás
+  trabajando.
+- **Las tools escriben donde les decís.** `generate_image` / `generate_video`
+  reciben `creative: "<brief>/<grupo>/<id>"` y `folder` = la ruta completa
+  dentro del Workbench (`"workbench/<brief>/UGC creatina/stills"`). La app
+  solo garantiza que sea dentro de `workbench/<brief>/` (afuera, error), crea
+  la subcarpeta si falta y vincula la de primer nivel si no lo estaba. Sin
+  `folder`, usa la carpeta vinculada al `creative` (o la crea con el título).
 - **Versión en el nombre**, no en carpetas: `clip-01-v2.mp4` es la segunda
   toma del clip 1. La ponen las tools (`name: "clip-01"` → `clip-01-v1`,
   `clip-01-v2`…): nunca pisan, y vos tampoco — el humano navega esto como
   Finder y compara versiones a ojo.
-- Dónde cae cada cosa lo decís con `folder`: `"stills"` para `generate_image`,
-  `"clips"` para `generate_video` (es su default). Nada de esto se promueve:
-  los clips son insumo de `video-composition`, no candidatos.
+- **Misma estructura en todos los videos**: `scripts/`, `stills/`, `clips/`.
+  `folder: ".../stills"` para `generate_image`, `folder: ".../clips"` para
+  `generate_video`. Nada de esto se promueve: los clips son insumo de
+  `video-composition`, no candidatos.
 - No tocás el manifiesto del creativo en este proceso (salvo `meta.generating`
   si el humano quiere ver la tarjeta pulsar): no hay bloque de clip en el
   manifiesto, no hay `clips/` en el creativo, no hay `active` que mover. El
@@ -129,7 +138,7 @@ humano lee en el Workbench, así que tiene que leerse solo:
 ```
 
 **Pará acá y avisale al humano que los guiones están en
-`workbench/<brief>/<carpeta>/scripts/`.** Pegá los N de corrido en el chat
+`workbench/<brief>/<título del plan>/scripts/`.** Pegá los N de corrido en el chat
 también: la pregunta que tiene que poder contestar no es "¿este guion está
 bien?" sino "¿estos clips cuentan una historia y no repiten el hook?", y eso
 solo se ve leyendo seguido. Seguís cuando te diga.
@@ -137,8 +146,9 @@ solo se ve leyendo seguido. Seguís cuando te diga.
 ## Paso 2 — Los stills (uno por clip)
 
 Un still por clip, **misma escena, distinto ángulo de cámara**. Van a
-`stills/clip-NN-vK.<ext>` (`generate_image { creative, folder: "stills",
-name: "clip-01" }`; la versión y el formato los pone la tool).
+`stills/clip-NN-vK.<ext>` (`generate_image { creative: "<brief>/<grupo>/<id>",
+folder: "workbench/<brief>/<título del plan>/stills", name: "clip-01" }`; la
+versión y el formato los pone la tool).
 
 - **Racord:** todo objeto visible existe en los clips vecinos en la misma
   posición. Si en el clip 2 el producto está en la mano, en el clip 1 ya está
@@ -188,8 +198,9 @@ confianza del humano en tu QA vale más que un still.
 
 ## Paso 3 — Los clips
 
-Un `generate_video { creative, folder: "clips", name: "clip-01" }` por clip,
-con el still elegido como `start_image`. Modelo por defecto
+Un `generate_video { creative: "<brief>/<grupo>/<id>",
+folder: "workbench/<brief>/<título del plan>/clips", name: "clip-01" }` por
+clip, con el still elegido como `start_image`. Modelo por defecto
 **omni** (audio nativo, tope 10s, es sobre lo que está calibrado todo esto).
 **Si el humano pide otro modelo (seedance / veo / kling), leé
 `reference/modelos.md` PRIMERO**: cambian las duraciones, el audio por acento

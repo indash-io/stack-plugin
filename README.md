@@ -43,7 +43,9 @@ creativo; el grupo solo lleva `format`), con manifiesto sin capas, una carpeta
 trae el humano) vive en el **Workbench**: `workbench/<brief>/<carpeta>/` con un
 sidecar `.folder.json` que lo vincula al creativo (carpetas lazy: las crea la
 skill que las necesita). Las tools de generación escriben **siempre** en el
-Workbench (reciben `creative`, no una carpeta de salida) y la única puerta a
+Workbench (reciben `creative` + `folder`, una ruta dentro de `workbench/<brief>/`
+que elige el agente: una carpeta por creativo, nombrada como el `title` del
+plan, buscada por `.folder.json` antes de generar) y la única puerta a
 `creatives/layers/` y `renders/` es `mcp__indash__promote`. No hay Conductor
 ni despacho por creativo: el agente
 del chat del brief produce directo (`creative-execution` por imagen;
