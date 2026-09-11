@@ -123,6 +123,15 @@ timeline registrado), nunca una animación de reloj de pared. Ver
 
 ---
 
+## 6b. Ritmo UGC de dos clips (avatar + inserts)
+
+Cuando el material son clips de avatar de 10 s, el reparto de §4 se lee así:
+pieza de **21-23 s** = dos clips de 10 s + placa de 2.6-3.2 s. **Los primeros
+2 segundos limpios** (cara y frase, sin insert); después un re-hook cada
+3-4 s. Inserts de **2.4-2.8 s**, el del beneficio el más largo. El corte
+entre clips va donde termina de hablar el A más 0.2-0.4 s de respiro, y un
+insert que lo cruza lo disimula. El CTA escrito vive en la placa.
+
 ## 7. Aire
 
 - Entre que un texto sale y entra el siguiente: **0.2-0.3s** de aire. Sin eso

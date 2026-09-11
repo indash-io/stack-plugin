@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width={{W}}, height={{H}}" />
+<title>{{TITLE}}</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+{{FONTS_CSS}}
+  :root {
+    --acid:{{ACCENT}}; --kw:{{KW}}; --dark:{{DARK}}; --dark2:{{DARK2}}; --cream:{{CREAM}};
+    --disp:{{FONT_DISP}};
+    --body:{{FONT_BODY}};
+    --mono:{{FONT_MONO}};
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#000; }
+  /* El root mide lo que dice el manifiesto; el escenario está dibujado en
+     720x1280 y se escala entero (nunca se reposiciona elemento por elemento). */
+  #{{CID}} { position:relative; width:{{W}}px; height:{{H}}px; overflow:hidden; background:var(--dark); }
+  #stage { position:absolute; left:0; top:0; width:720px; height:1280px; transform:scale({{SCALE}}); transform-origin:top left; }
+  video { display:block; }
+  .avatar { position:absolute; inset:0; width:720px; height:1280px; object-fit:cover; }
+
+  /* bottom:390 pone el bloque en y 797-890 (62-70% del alto), que es donde el
+     material del cliente trae sus subtítulos quemados: el fondo OPACO del
+     caption propio los tapa y no hace falta oscurecer media pantalla. Queda
+     por encima del 35% inferior que ocupa la UI de Reels. */
+  .cap { position:absolute; left:34px; right:34px; bottom:390px; z-index:40; text-align:center;
+    background:rgba(0,0,0,.99); border-radius:22px; padding:26px 18px;
+    font-family:var(--disp); font-weight:800; font-size:50px; line-height:1.3;
+    color:#fff; text-transform:uppercase;
+    text-shadow:0 3px 0 rgba(0,0,0,.85), 0 0 22px rgba(0,0,0,.6);
+    -webkit-text-stroke:2px rgba(0,0,0,.35); }
+  .cap .w { display:inline-block; will-change:transform,opacity; margin:1px 3px; }
+  .cap .kw { color:var(--kw); }
+
+  .cutaway { position:absolute; inset:0; width:720px; height:1280px; object-fit:cover; z-index:33; }
+  /* Scrim LOCALIZADO (200px con fade a los dos lados): solo para material cuyo
+     texto quemado no cae bajo el bloque de captions. Pegado al bloque se lee
+     como una mancha y vuelve el problema. */
+  .cutscrim { position:absolute; left:0; right:0; height:200px; z-index:34; pointer-events:none;
+    background:linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.97) 26%, rgba(0,0,0,.97) 74%, rgba(0,0,0,0) 100%); }
+  .bandvid { position:absolute; left:0; top:438px; width:720px; height:405px; object-fit:cover; z-index:31; }
+  .outroband { z-index:61; border-radius:20px; }
+
+  .chip { position:absolute; top:19%; left:50%; transform:translateX(-50%);
+    display:inline-block; padding:12px 26px; border-radius:999px; white-space:nowrap;
+    background:var(--acid); color:var(--dark); font-family:var(--body); font-weight:700;
+    font-size:30px; letter-spacing:.04em; text-transform:uppercase; box-shadow:0 6px 0 rgba(0,0,0,.45); z-index:44; }
+
+  /* Recuadro para material de OTRO ratio (lo del mismo ratio va a pantalla completa). */
+  .cardvid { position:absolute; top:44px; right:26px; width:470px; height:305px; object-fit:cover; z-index:34; border-radius:20px; }
+  .cardframe { position:absolute; top:44px; right:26px; width:470px; height:305px; z-index:35; border-radius:20px;
+    border:4px solid var(--acid); box-shadow:0 14px 40px rgba(0,0,0,.6); }
+  .cardframe .label { position:absolute; left:12px; top:12px; padding:6px 14px; border-radius:999px;
+    background:var(--dark); color:var(--acid); font-family:var(--body); font-weight:700;
+    font-size:23px; text-transform:uppercase; letter-spacing:.05em; }
+  .cardglow { position:absolute; top:56px; right:26px; width:470px; height:305px; z-index:33; border-radius:20px;
+    pointer-events:none; box-shadow:0 0 34px 8px var(--acid); }
+  .cardvid.tall, .cardframe.tall, .cardglow.tall { width:340px; height:453px; top:44px; right:26px; }
+
+  .cutlabel { position:absolute; top:62px; left:50%; transform:translateX(-50%); z-index:44;
+    display:inline-block; padding:14px 30px; border-radius:999px; white-space:nowrap;
+    background:var(--acid); color:var(--dark); font-family:var(--body); font-weight:700;
+    font-size:34px; letter-spacing:.04em; text-transform:uppercase; box-shadow:0 6px 0 rgba(0,0,0,.45); }
+  /* bottom:575 la deja por encima del bloque de captions: si baja, se pisan. */
+  .pill { position:absolute; left:50%; margin-left:-290px; width:580px; bottom:575px; z-index:45;
+    background:var(--acid); color:var(--dark); border-radius:22px; padding:22px 28px;
+    font-family:var(--disp); font-weight:800; font-size:40px; line-height:1.1; text-align:center;
+    text-transform:uppercase; box-shadow:0 10px 0 rgba(0,0,0,.4); }
+  .stamp { position:absolute; left:50%; top:42%; margin-left:-250px; width:500px; z-index:45;
+    text-align:center; font-family:var(--disp); font-weight:800; font-size:72px; color:#fff;
+    border:8px solid #fff; border-radius:18px; padding:12px 0; transform-origin:center; line-height:1.05;
+    text-shadow:0 4px 0 rgba(0,0,0,.6); box-shadow:0 0 0 6px rgba(0,0,0,.25), inset 0 0 0 3px rgba(0,0,0,.25);
+    background:rgba(0,0,0,.55); }
+  .danger { position:absolute; inset:0; z-index:32; pointer-events:none;
+    background:radial-gradient(ellipse at center, rgba(229,72,77,0) 45%, rgba(229,72,77,.55) 100%); }
+
+  .outro { position:absolute; inset:0; z-index:60; background:var(--dark2); }
+  .outro .top { position:absolute; top:20%; left:0; right:0; text-align:center;
+    font-family:var(--body); font-weight:600; font-size:34px; color:var(--cream); letter-spacing:.3em; text-transform:uppercase; }
+  .outro .bottom { position:absolute; top:68%; left:0; right:0; display:flex; flex-direction:column; align-items:center; gap:16px; }
+  .outro .url { font-family:var(--mono); font-weight:700; font-size:38px; color:var(--dark); background:var(--cream); padding:14px 34px; border-radius:999px; }
+  .outro .wl { font-family:var(--disp); font-weight:800; font-size:38px; color:var(--kw); letter-spacing:.06em; text-transform:uppercase; text-shadow:0 4px 0 rgba(0,0,0,.5); }
+  .outro .arrow { display:inline-block; }
+
+  #progress { position:absolute; top:0; left:0; right:0; height:8px; z-index:80; background:rgba(255,255,255,.14); }
+  #progress-fill { width:100%; height:100%; background:var(--acid); transform-origin:left center; }
+  #watermark { position:absolute; top:22px; left:24px; z-index:78; font-family:var(--mono); font-weight:700; font-size:24px;
+    letter-spacing:.14em; color:var(--kw); background:rgba(0,0,0,.92); padding:7px 14px; border-radius:10px; }
+  #flash { position:absolute; inset:0; z-index:85; pointer-events:none; background:var(--acid); opacity:0; }
+</style>
+</head>
+<body>
+  <div id="{{CID}}" data-composition-id="{{CID}}" data-start="0" data-duration="{{TOTAL}}" data-fps="{{FPS}}" data-width="{{W}}" data-height="{{H}}">
+  <div id="stage">
+
+    <!-- A-ROLL: el video va muted y su audio aparte, apuntando al MISMO mp4 (patrón validado en 0.8.33) -->
+    <video id="av1" class="avatar clip" src="{{AV1SRC}}" data-start="0.00" data-duration="{{AV1DUR}}" data-track-index="0" muted playsinline></video>
+    <video id="av2" class="avatar clip" src="{{AV2SRC}}" data-start="{{CUT}}" data-duration="{{AVDUR}}" data-track-index="0" muted playsinline></video>
+    <audio id="av1-audio" src="{{AV1SRC}}" data-start="0.00" data-duration="{{AV1DUR}}" data-track-index="11" data-volume="1"></audio>
+    <audio id="av2-audio" src="{{AV2SRC}}" data-start="{{CUT}}" data-duration="{{AVDUR}}" data-track-index="12" data-volume="1"></audio>
+
+    <!-- OVERLAYS -->
+{{OVERLAYS}}
+
+    <!-- POLISH -->
+    <div id="progress" class="clip" data-start="0" data-duration="{{TOTAL}}" data-track-index="9"><div id="progress-fill"></div></div>
+    <div id="watermark" class="clip" data-start="1.2" data-duration="{{WM_DUR}}" data-track-index="9">{{WATERMARK}}</div>
+    <div id="flash"></div>
+
+{{SFX}}
+
+    <!-- CAPTIONS: desde la transcripción real, una palabra por span -->
+{{CAPTIONS}}
+  </div>
+  </div>
+
+<script>
+(function () {
+  const build = () => {
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+    const root = document.getElementById("{{CID}}");
+
+    root.querySelectorAll(".cap .w").forEach((w) => {
+      tl.fromTo(w, { autoAlpha: 0, y: 10, scale: 0.9 },
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.14, ease: "back.out(1.4)" },
+        parseFloat(w.dataset.t));
+    });
+
+    tl.fromTo("#progress-fill", { scaleX: 0 }, { scaleX: 1, duration: {{TOTAL}}, ease: "none" }, 0);
+    tl.set("#flash", { opacity: 0 }, 0);
+    tl.fromTo("#watermark", { opacity: 0, y: -12 }, { opacity: 0.9, y: 0, duration: 0.3, ease: "power2.out" }, 1.2);
+
+{{TIMELINE}}
+
+    window.__timelines["{{CID}}"] = tl;
+  };
+  build();
+})();
+</script>
+</body>
+</html>

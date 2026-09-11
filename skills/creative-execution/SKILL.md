@@ -153,21 +153,27 @@ el primer prompt de la sesión.** Lo innegociable:
 2. `gpt-image-2` — el segundo intento de fidelidad cuando nano-banana-2 no
    sale, o cuando manda una gráfica orgánica compleja dentro de la imagen.
 3. `nano-banana-pro` — el último recurso, para el caso puntual de fidelidad
-   que los dos anteriores no resolvieron.
+   que los dos anteriores no resolvieron. Nunca como modelo de una tanda
+   entera "por las dudas": si lo usás, es en UNA pieza y decís por qué.
 
 **No existe "gpt-image para texto".** Esa matriz era del mundo viejo, donde
 el texto se le pedía al modelo. Acá el texto es una capa: si sentís que
 necesitás un modelo "que renderice texto legible", la pieza se COMPONE — pará
 y armá las capas.
 
-**Resolución** (`resolution`, modelos nano): **`1K` por default; `4K` cuando
-la pieza pide detalle fino** — texto chico DENTRO de la imagen (el del propio
-producto), labels y logos del producto que tienen que quedar legibles. Subir
-a 4K arregla más problemas de texto/logo ilegible que cambiar de modelo.
+**Resolución** (`resolution`, modelos nano): **`1K`, siempre** — no mandes
+el parámetro. Es todo lo que necesita cualquier superficie: un post de feed
+son ~1080px, una story 1080×1920, un clip de video sale a 720p; el candidato
+va por `indash://preview` (≤2048px) en canvas y board. `2K`/`4K` cuestan
+varias veces más por imagen y **solo se usan cuando el humano lo pide
+explícitamente para esa pieza** ("hacela en 4K"): nunca por decisión tuya,
+nunca como paso de la escalera de reintentos, nunca como "arreglo" de un
+label que salió borroso. Si dudás, es 1K.
 
 Banderas rojas → no insistas con lo mismo: texto alucinado/espejado en la
-imagen → era una capa (o 4K si es texto del propio producto); producto que
-pierde detalles del label → mejores refs + 4K antes que otro modelo.
+imagen → era una capa (o gpt-image si es gráfica dentro de la imagen);
+producto que pierde detalles del label → mejores refs, producto apoyado y
+más grande en cuadro, o la foto real como cutout — nunca más resolución.
 
 ### 5 · Generá en el Workbench, elegí, promové
 
@@ -196,7 +202,7 @@ Si el candidato salió mal, el siguiente intento lleva:
 
 - **mismas refs o más** (o una ref mejor elegida — releé `product.json`),
 - **un peldaño ARRIBA en la escalera** (nano-banana-2 → gpt-image-2 →
-  nano-banana-pro) o `resolution: "4K"` si lo que falla es detalle fino,
+  nano-banana-pro) — la resolución no es un peldaño, se queda en 1K,
 - **prompt más preciso** (corregí LO que falló, no reescribas todo — ver
   "EDIT vs GENERATE" en `reference/prompt-craft.md`),
 - o el cambio de vía: **la foto real** (cutout + composición) si generando no
@@ -222,6 +228,26 @@ pieza compilada al tamaño justo. Chequeá contra
 - **Advierten** (seguí, pero anotalo en tu reporte): contraste justo, paleta
   que se aleja de la marca, composición de texto perezosa (placement clonado
   entre piezas hermanas — ver `style/composicion-texto.md`).
+
+**Regenerar es la excepción, no el reflejo.** Cada candidato cuesta créditos
+y el humano prefiere elegir entre dos imperfectos que esperar el perfecto.
+Pedís otro candidato SOLO por un defecto **flagrante**, el que cualquiera ve
+a tamaño real en un scroll:
+
+- anatomía imposible (tres brazos, seis dedos, cara derretida, ojos cruzados);
+- producto **distinto** al real (otro envase, otra forma, otro color, dos
+  unidades en cuadro cuando va una);
+- logo o marca rotos, inventados o quemados en el pixel;
+- un elemento que falta o sobra (no está el producto, apareció una mano
+  fantasma, texto en el fondo).
+
+Lo que **NO** justifica otro candidato — se anota en el reporte y sigue:
+una letra chica del label cambiada o borrosa (a tamaño real no se lee),
+un matiz de color o de luz, una sombra dura, un pliegue raro, "no me
+convence del todo". Si el humano quiere ese detalle perfecto, lo pide él;
+vos mostrás lo que hay y decís qué tiene. Máximo **un** reintento por tu
+cuenta por defecto flagrante; el segundo lo decide el humano con
+`show_media` de las opciones.
 
 Ajustes de capas no-AI (márgenes, tamaño de texto, scrim) se hacen acá y no
 gastan candidato.
@@ -301,8 +327,9 @@ trabajaste un lote, un resumen por grupo alcanza — no 20 líneas iguales.
 3. **Siempre** las fotos reales del producto van en `refs`. Una pieza con
    producto y `refs: []` está mal hecha, sin excepciones.
 4. **Siempre** la escalera de modelos se sube, nunca se baja: nano-banana-2 →
-   gpt-image-2 → nano-banana-pro, y `4K` para detalle fino. Reintentar
-   soltando refs o bajando de modelo está prohibido.
+   gpt-image-2 → nano-banana-pro; la resolución es `1K` salvo pedido
+   explícito del humano. Reintentar soltando refs o bajando de modelo está
+   prohibido — y regenerar solo por defecto flagrante, no por detalle.
 5. **Siempre** generás al Workbench, en **la única carpeta del creativo**
    (nombrada como el `title` del plan, buscada por `.folder.json` antes de
    generar, pasada en `folder`), y el candidato lo crea `mcp__indash__promote` — **nunca** escribís `layers/vN`

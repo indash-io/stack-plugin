@@ -72,6 +72,12 @@ cambia la zona segura:
 | Meta ads placement mixto | **1:1** | 1080×1080 |
 | YouTube / landing / desktop | **16:9** | 1920×1080 |
 
+**Resolución de autoría.** El default es la del formato (9:16 = 1080×1920).
+Si TODO el material son clips de 720p (omni) y los inserts salen del cliente
+en 720×1280, proponé **autorar a 720×1280**: nada se escala, los cortes del
+cliente entran nativos, y `canvas` del manifiesto se actualiza al cerrar. Es
+la regla 9 con su excepción UGC; se dice en la propuesta, no se decide solo.
+
 **Si el user pide dos formatos**: son **dos creativos** del plan (cada uno en
 el grupo de su formato), con dos composiciones — no un flag de render. Decilo
 explícito y proponé cuál se autora primero (el más restrictivo en zona
@@ -126,6 +132,7 @@ Regla dura: **una primaria + máximo un acento**. Nunca una por corte.
 | Situación | Default |
 |---|---|
 | Hay voiceover o alguien habla en cámara | Rail `anchor` (verbatim, legible) + **un** embed en la palabra más fuerte |
+| Clips de avatar UGC (lo que deja `video-clips`) | Preset **`ugc`**: karaoke de ≤4 palabras en mayúscula, keywords en color, caja opaca (`style/captions_typography.md` §10). Verbatim del transcript, siempre |
 | No hay voz, la pieza es visual | Sin captions; 2-4 textos on-screen cortos, uno por bloque |
 | Pieza para feed (se mira sin sonido) | Texto on-screen **obligatorio**, aunque no haya voz |
 
