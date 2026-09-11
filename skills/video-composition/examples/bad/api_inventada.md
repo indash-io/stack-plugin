@@ -62,9 +62,8 @@ npx hyperframes render --aspect 9:16 --output vertical.mp4
 destino tiene que coincidir con el de la composición y la escala tiene que ser
 un múltiplo entero. No reencuadra nada.
 
-**Fix**: dos formatos = **dos composiciones**. Se decide en Decisions y se
-entrega como dos subcarpetas del mismo set (ver
-`templates/output_template.md`).
+**Fix**: dos formatos = **dos creativos**, cada uno con su composición. Se
+decide en Decisions (ver `templates/output_template.md`).
 
 ---
 

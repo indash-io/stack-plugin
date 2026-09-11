@@ -57,4 +57,4 @@ Un bloque de grupo carrusel listo para el brief, según el contrato
 
 Lo que hace que este bloque esté **completo**: cada slide tiene copy textual,
 la decisión componer/generar, el producto con su vista, y un concepto visual que
-dice dónde vive el texto. Ningún ejecutor tiene que adivinar nada.
+dice dónde vive el texto. Nadie en ejecución tiene que adivinar nada.

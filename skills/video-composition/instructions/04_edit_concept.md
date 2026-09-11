@@ -11,7 +11,7 @@ pensarlo**.
 
 ## 1. El hook manda (primeros 1-3 segundos)
 
-Regla no negociable 5 del `SKILL.md`. En el primer segundo alguien decide si
+Regla no negociable 7 del `SKILL.md`. En el primer segundo alguien decide si
 sigue mirando.
 
 **El primer corte tiene que mostrar:**
@@ -155,6 +155,7 @@ corregirlo en el HTML.
 
 El plan de edición completo, con el formato de `templates/edit_plan.md`:
 timecodes, material por corte, función, texto on-screen, transición por seam y
-curva de audio.
+curva de audio. Guardalo como `creatives/<brief>/<grupo>/<id>/composition/PLAN.md`
+(creá `composition/` si no existe): es lo que hace la pieza reproducible sin el chat.
 
 → Pasá a `instructions/05_composition.md`.

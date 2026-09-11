@@ -25,14 +25,15 @@ Ya revisé el material y la marca. Te tiro el plan de edición:
 
 | # | Archivo | Dur. | Res. | Audio | Qué es | Entra |
 |---|---|---|---|---|---|---|
-| 1 | shot-01.mp4 | 6.0s | 1080×1920 | no | [qué muestra] | ✅ hook |
-| 2 | shot-02.mp4 | 8.0s | 1080×1920 | sí | [qué muestra] | ✅ desarrollo |
-| 3 | shot-03.mp4 | 5.0s | 1920×1080 | no | [qué muestra] | ⚠️ formato distinto |
-| 4 | packshot.png | — | 1080×1350 | — | [qué muestra] | ✅ cierre |
+| 1 | clips/clip-01-v2.mp4 | 10.0s | 1080×1920 | sí (voz) | [qué dice] | ✅ hook |
+| 2 | clips/clip-02-v3.mp4 | 10.0s | 1080×1920 | sí (voz) | [qué dice] | ✅ desarrollo + CTA |
+| 3 | broll-cocina.mov | 5.0s | 1920×1080 | no | [qué muestra] | ⚠️ formato distinto |
+| 4 | packshot.webp | — | 1600×2000 | — | [qué muestra] | ✅ cierre |
+| 5 | musica.mp3 | 42.0s | — | sí | cama | ✅ bajo la voz |
 
 **Mi propuesta**
-- **Formato**: [9:16 1080×1920 / 4:5 1080×1350 / 1:1 1080×1080 / 16:9 1920×1080] — [razón: plataforma de destino]
-- **Duración**: [N]s — [razón: qué pide la plataforma + cuánto material hay]
+- **Formato**: [el del creativo: 9:16 1080×1920 / …] para [plataforma] — [razón: zona segura]
+- **Duración**: [N]s ([= video.seconds / propongo cambiarla porque …])
 - **Estructura**: [N] cortes — hook [0–Xs] → [desarrollo] → [payoff] → [CTA]
 - **Hook**: [qué se ve en el primer segundo, en una línea]
 - **Transición primaria**: `[bloque]` a [X]s — [razón: energía de la pieza]
@@ -41,7 +42,8 @@ Ya revisé el material y la marca. Te tiro el plan de edición:
 - **Tipografía**: [familia real de `library/fonts/`] · **Paleta**: [hex de `library/brand/brand.md`]
 - **Audio**: [música + VO / música sola / audio nativo del clip N / sin audio] — [razón]
 - **Encuadre del clip 3** (formato distinto): [cover recortando los laterales / fondo desenfocado + clip centrado / queda afuera] — [razón]
-- **Render**: `draft` primero para que lo veas, `high` solo cuando lo apruebes
+- **Versiones**: clip 2 entra la `-v3` (la última) — [decímelo si preferís otra]
+- **Render**: `draft` primero para que lo veas (en la tarjeta del board), `high` solo cuando lo apruebes
 
 **Queda afuera**: [archivo] — [razón en media línea]
 
@@ -50,14 +52,18 @@ Ya revisé el material y la marca. Te tiro el plan de edición:
 
 Si algo del material no se pudo identificar, agregá una línea:
 
-> El clip 3 no lo pude identificar (el guion del manifiesto no alcanza). ¿Qué muestra? Según
-> eso lo ubico o lo dejo afuera.
+> El b-roll no lo pude identificar (no hay guion ni nombre que lo explique). ¿Qué muestra?
+> Según eso lo ubico o lo dejo afuera.
 
 ---
 
 ## Cómo elegís cada default
 
 ### Formato
+
+**Ya está decidido**: es el `canvas` del manifiesto (= el `format` del grupo
+del plan). Lo que elegís es la **plataforma** dentro de ese formato, porque
+cambia la zona segura:
 
 | Destino | Formato | Píxeles |
 |---|---|---|
@@ -66,14 +72,17 @@ Si algo del material no se pudo identificar, agregá una línea:
 | Meta ads placement mixto | **1:1** | 1080×1080 |
 | YouTube / landing / desktop | **16:9** | 1920×1080 |
 
-Default si el user no dijo nada y el material es vertical: **9:16**. Si el
-material es horizontal y no hay señal de plataforma: **16:9**.
-
-**Si el user pide dos formatos**: son **dos composiciones**, no un flag de
-render. Decilo explícito y proponé cuál se autora primero (el más restrictivo en
-zona segura: 9:16). Ver regla 7 del `SKILL.md`.
+**Si el user pide dos formatos**: son **dos creativos** del plan (cada uno en
+el grupo de su formato), con dos composiciones — no un flag de render. Decilo
+explícito y proponé cuál se autora primero (el más restrictivo en zona
+segura: 9:16). Si el segundo creativo no existe en el plan, hay que agregarlo
+(`new-brief` scaffold) antes de montar. Cada formato es otro creativo del plan (regla 9 del `SKILL.md`).
 
 ### Duración
+
+**El default es `video.seconds`** del manifiesto (lo que dice el plan). Si el
+material no lo aguanta o la plataforma pide otra cosa, proponé el cambio y,
+si el humano acepta, actualizá `video.seconds` al cerrar (paso 07).
 
 | Pieza | Rango | Default |
 |---|---|---|
@@ -130,10 +139,11 @@ Detalle tipográfico en `style/captions_typography.md`. Posición en
 | Hay VO grabado o guion | VO al frente (`data-volume: 1`) + cama de música a `0.15-0.25` |
 | No hay VO | Música sola a `0.6-0.8` |
 | El clip tiene audio nativo bueno (UGC, ambiente) | Audio nativo (`data-has-audio="true"`) + música muy baja o nada |
-| El user no tiene música | **Decilo**: la pieza sale sin música y se puede sumar después. No inventes un archivo que no existe. |
+| No hay música en la carpeta del Workbench | **Decilo**: la pieza sale sin música y se puede sumar después (el humano la suelta en la carpeta). No inventes un archivo que no existe. |
 
-`npx hyperframes tts` genera un VO local (soporta locale `es`) — **proponelo,
-no lo ejecutes sin confirmar**: es una decisión creativa, no técnica.
+**Sin TTS ni música generada** (regla 21 del `SKILL.md`): el audio es lo que
+trajo el humano más el nativo de los clips. Si hace falta una voz que no
+existe, es un clip nuevo (`video-clips`), no una síntesis.
 
 ### Encuadre de clips con formato distinto
 
@@ -168,8 +178,9 @@ línea y ofrecé la alternativa:
 > como primaria y `flash-through-white` solo en el payoff — así el acento
 > significa algo.
 
-**E — pide dos formatos** → confirmá que son dos composiciones y cuál va
-primero. El segundo se deriva del primero reencuadrando, no re-planificando.
+**E — pide dos formatos** → confirmá que son dos creativos (dos composiciones)
+y cuál va primero. El segundo se deriva del primero reencuadrando, no
+re-planificando.
 
 **F — no responde algún punto** → avanzás con tu default. **No vuelvas a
 preguntar.** Que no lo haya cambiado es confirmación.

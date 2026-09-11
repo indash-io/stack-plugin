@@ -9,8 +9,9 @@ aplicables.**
 ## Sección 1 — Proceso
 
 - [ ] Anuncié el **modo** (`full_render` / `plan_only`) en la primera línea.
-- [ ] Si faltaba material (un clip sin render, un asset inexistente), **frené y
-      derivé** (`video-execution` / `creative-execution`) en vez de inventarlo.
+- [ ] Si faltaba material (un clip que no está en el Workbench, un asset
+      inexistente), **frené y derivé** (`video-clips` / `creative-execution`) o
+      se lo pedí al humano, en vez de inventarlo.
 - [ ] Leí `reference/hyperframes.md` completo antes de escribir composición.
 - [ ] Heredé la marca del proyecto (`library/brand/brand.md` + `library/fonts/` + `library/logos/`).
 - [ ] Hice **una sola pregunta consolidada** en Decisions y el user confirmó.
@@ -107,6 +108,8 @@ falla acá es un render roto o, peor, un render que sale mal en silencio.
 - [ ] Todos los `src` son **rutas relativas** dentro del proyecto (ninguna URL
       remota).
 - [ ] Los assets que venían por URL están **bajados a disco**.
+- [ ] Ningún `src` apunta a `workbench/`, `library/` ni fuera de `composition/`:
+      todo está **copiado** a `assets/`.
 
 ### 5D. Animación
 - [ ] **Un solo** timeline finito, creado con `{ paused: true }`.
@@ -139,11 +142,10 @@ falla acá es un render roto o, peor, un render que sale mal en silencio.
 - [ ] Los hallazgos de **contraste** se resolvieron con scrim/placa, no
       ignorándolos ni pasando `--no-contrast`.
 - [ ] Los hallazgos de **layout** (overflow, clipping, oclusión) se resolvieron.
-- [ ] El primer render fue `--quality draft`.
-- [ ] El `high` salió **solo después** de la aprobación explícita del user.
-- [ ] No pedí `--resolution` (4K) ni `--fps 60` sin que el destino los resuelva.
-- [ ] Si pedí transparencia, la pieza **tiene** algo que transparentar y el
-      contenedor es el correcto (MOV para editores, WebM solo para browser).
+- [ ] El primer render fue `render_video { quality: "draft" }` y lo **miré**
+      con `view_creative` (hoja de contactos: duración, audio, frames clave).
+- [ ] El `high` salió **solo después** de la aprobación explícita del humano.
+- [ ] No escribí `renders/` ni `video.active` a mano.
 
 ---
 
@@ -168,12 +170,15 @@ retiene.
 
 ## Sección 8 — Output y persistencia
 
-- [ ] Entregué **plan de edición + composición + comando de render**. Los tres.
-- [ ] El proyecto completo (con su `PLAN.md`) quedó en
-      `~/Downloads/<brief>-<grupo>-final-v<N>/` — la convención provisoria.
-- [ ] **Nada** quedó escrito dentro de `creatives/`, `.indash/` ni `library/`.
-- [ ] **Versioné, no pisé** ningún archivo existente.
-- [ ] Dije la ruta de guardado en una línea.
+- [ ] Entregué **plan de edición + composición + render (o comandos)**. Los tres.
+- [ ] La composición completa (con su `PLAN.md`) quedó en
+      `creatives/<brief>/<grupo>/<id>/composition/`, assets copiados adentro.
+- [ ] **Nada** quedó escrito en `.indash/`, `rounds/`, `library/`, otro
+      creativo, ni en el Workbench (salvo material nuevo que sirva al humano).
+- [ ] El manifiesto quedó cerrado: `status: review`, `generating: false`,
+      `video.seconds` correcto, `video.active` = el render que corresponde,
+      línea en `history.jsonl`. (En `plan_only`: queda en `draft`.)
+- [ ] Dije qué render quedó activo en una línea.
 - [ ] Sin preámbulo, sin cierre de despedida, sin emojis.
 - [ ] Cerré con la línea de ajustes.
 - [ ] Si es una iteración, entregué el **diff**, no el HTML entero de nuevo.

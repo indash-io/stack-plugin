@@ -109,8 +109,8 @@ subas el tamaño, que solo hace más grande el problema.
 7. **CTA con verbo + acción concreta**: *"Pedilo en el link"*, no *"Gracias por
    mirar"*.
 8. **Nunca inventes un claim.** Si no está en las `notes` del plan, en los
-   guiones (`meta.video.script`), en `library/brand/brand.md` o en
-   `library/products/products.md`, no va on-screen.
+   guiones (`workbench/<brief>/<carpeta>/scripts/*.md`), en
+   `library/brand/brand.md` o en `library/products/products.md`, no va on-screen.
 9. **Voseo** si la marca es rioplatense y `brand.md` no dice otra cosa.
    Nunca mezclar voseo y tuteo en la misma pieza.
 

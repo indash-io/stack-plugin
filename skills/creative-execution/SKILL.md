@@ -1,6 +1,6 @@
 ---
 name: creative-execution
-description: "Cómo se produce cada pieza en un proyecto de Indash Studio (cwd con .indash/ y manifiestos .indash) — el proceso completo por creativo: conocer el producto con sus fotos reales, elegir refs, componer por capas, generar candidatos versionados, verificarse con view_creative y commitear. Usala SIEMPRE que haya que generar/regenerar la imagen de un creativo de Studio, sea trabajo directo o despachado como subagent. Las decisiones de QUÉ producir (arquetipo, copy, componer/generar) vienen escritas del brief; esta skill es el CÓMO."
+description: "Cómo se produce cada pieza en un proyecto de Indash Studio (cwd con .indash/ y manifiestos .indash) — el proceso completo por creativo: conocer el producto con sus fotos reales, elegir refs, componer por capas, generar en el Workbench, elegir, promover como candidato versionado (promote), verificarse con view_creative y commitear. Usala SIEMPRE que haya que generar/regenerar la imagen de un creativo de Studio. Las decisiones de QUÉ producir (arquetipo, copy, componer/generar) vienen escritas del brief; esta skill es el CÓMO."
 language: es
 tags: execution
 owner: lburgwardtr
@@ -10,10 +10,11 @@ reviewed: 2026-09-02
 
 # Creative Execution — producir una pieza en Studio
 
-Sos el que produce UNA pieza (o varias, de a una). Da igual si sos el chat
-principal trabajando directo o un subagent despachado: **el proceso es el
-mismo**. El contrato de disco (schema, candidatos, orden de escritura) está en
-el CLAUDE.md del proyecto; acá está el OFICIO.
+Las piezas las producís vos, desde el chat del brief, de a una. Si un lote
+es grande y lo repartís en subagents, cada uno sigue este mismo proceso — es
+una táctica de reparto, no otro rol ni otro protocolo. El contrato de disco
+(schema, candidatos, Workbench, orden de escritura) está en el CLAUDE.md del
+proyecto; acá está el OFICIO.
 
 ## Antes que nada: acá todo se construye por CAPAS
 
@@ -37,16 +38,68 @@ Es una decisión por pieza (idealmente ya escrita en el plan como
 componer/generar), no una jerarquía fija:
 
 - Producto-sobre-fondo, brand-flat, precio+packshot → suele ganar el
-  **cutout de la foto real** (`mcp__indash__remove_background` te da el PNG
-  con alpha) como capa `image` sobre un `rect`/gradient de marca: cero
-  alucinación, fidelidad perfecta.
+  **cutout de la foto real** (`mcp__indash__remove_background { file, creative,
+  folder: "workbench/<brief>/<título del plan>/cutouts" }` te deja el PNG con
+  alpha en la carpeta del creativo) como capa `image`
+  sobre un `rect`/gradient de marca: cero alucinación, fidelidad perfecta.
+  Para usarlo como capa, promovelo (`promote`) o copialo a `library/`.
 - La foto real (cruda o procesada) también puede SER el candidato de la capa
-  ai-gen: copiala como `vN.<ext>` (su formato original) + sidecar anotando el origen
+  ai-gen: copiala a la carpeta del Workbench del creativo (su formato
+  original) y promovela con `mcp__indash__promote`; el sidecar anota el origen
   (`"source": "library-photo"`, sin `model`).
 - Lifestyle, contexto, escena → se genera (con las fotos reales de `refs`,
   como siempre).
 
+## Dónde escribís: Workbench primero, `promote` después
+
+Hay dos lugares y una sola puerta entre ellos:
+
+- **Todo lo que generás cae en el Workbench**, en la carpeta del creativo:
+  `workbench/<brief>/<título del plan>/`. Las tools de generación
+  (`generate_image`, `generate_video`, `remove_background`) reciben
+  `creative: "<brief>/<grupo>/<id>"` y `folder` = **la ruta completa dentro
+  del Workbench que elegís vos** (`"workbench/<brief>/Carrusel portada/fondos"`).
+  La app solo garantiza que sea dentro de `workbench/<brief>/` (afuera, error):
+  crea la carpeta si falta, vincula la de primer nivel con el `.folder.json` si
+  no estaba vinculada, y guarda con nombre versionado (`<name>-vN.<ext>`, nunca
+  pisa; `name` es la base: `"fondo"` → `fondo-v3.jpg`). Sin `folder`, usa la
+  carpeta ya vinculada al `creative` o la crea con el `title` del plan.
+  Material que no es de ningún creativo → sin `creative`, con `brief`: va a
+  `workbench/<brief>/suelto/`. Probar cuatro fondos, comparar dos modelos, un
+  cutout intermedio: todo eso vive acá y el humano lo navega como Finder.
+
+**La carpeta es tuya, y es UNA por creativo:**
+
+- Se llama como el **`title` del plan, tal cual** (`Carrusel portada`, no
+  `carrusel-slide-02` ni el id).
+- **Antes de generar, buscala** escaneando `workbench/<brief>/*/.folder.json`
+  (el sidecar apunta a `"<brief>/<grupo>/<id>"`). El humano puede haberla
+  renombrado desde el Finder: **nunca asumas el nombre**, el vínculo es el
+  sidecar. Si existe, esa es la ruta que pasás en `folder`.
+- Si no existe, creala con el título + escribí el sidecar
+  `{ "creative": "<brief>/<grupo>/<id>" }` (o dejá que la primera generación
+  la cree). **Dos carpetas para el mismo creativo = error.**
+- Adentro, la **misma estructura entre creativos**: `fondos/`, `cutouts/`,
+  `stills/`, `clips/`, `scripts/`… — una subcarpeta por tipo de material, y
+  nombres versionados.
+- **Commit** → `mcp__indash__promote { file, creative, layer? }`: copia el
+  archivo elegido como candidato `layers/<layer>/vN+1.<ext>` y lo deja
+  `active`. El original sigue en el Workbench. **Es la única forma de escribir
+  en `layers/`**: nunca escribas un `vN` a mano. `layer` solo hace falta si el
+  creativo tiene varias capas ai-gen (si falta, el error te las lista). Un
+  candidato es una propuesta seria que el humano va a ver en el Board; no un
+  experimento.
+
+El flujo es siempre el mismo: **generás → mirás** (el resultado ya viene en la
+llamada; `show_media` para comparar varios) **→ el humano elige si hay que
+elegir → `promote`**. Las previews de `view_creative` no se guardan en el
+Workbench; los exports van a Descargas.
+
 ## El proceso por pieza (en orden, sin saltear)
+
+**Antes de arrancar**, `meta.generating: true` en el manifiesto (el humano ve la
+tarjeta pulsar en el Board). Es un flag de actividad, no un estado: el commit
+del paso 8 lo vuelve a `false`.
 
 ### 1 · Conocé el producto ANTES de generar
 
@@ -116,19 +169,26 @@ Banderas rojas → no insistas con lo mismo: texto alucinado/espejado en la
 imagen → era una capa (o 4K si es texto del propio producto); producto que
 pierde detalles del label → mejores refs + 4K antes que otro modelo.
 
-### 5 · Generá al candidato, versionado completo
+### 5 · Generá en el Workbench, elegí, promové
 
-- `out_dir: "<carpeta-del-creativo>/layers/<layerId>"`, `name: "vN"` donde
-  vN = máximo existente + 1 contando cualquier extensión (nunca pises un vN:
-  son append-only y el guard te va a frenar).
-- La tool guarda en el formato que devuelve el modelo (casi siempre `vN.jpg`)
-  y te devuelve el path exacto. **Nunca lo conviertas a PNG**: son los mismos
-  píxeles a 5–10× el peso. Guardá ese nombre para el commit.
-- Sidecar `vN.json` INMEDIATAMENTE después de generar — no al final, no
-  "después lo escribo": modelo, prompt, refs, `by`, `createdAt`. **Un
-  candidato sin sidecar no existe**: es una generación imposible de auditar
-  y de reproducir. (Caso real: la pieza más retrabajada de un brief terminó
-  con candidatos sin sidecar justo donde más importaba el registro.)
+- Resolvé la carpeta del creativo (escaneo de `.folder.json`, ver "Dónde
+  escribís") y generá:
+  `mcp__indash__generate_image { prompt, refs, creative: "<brief>/<grupo>/<id>",
+  folder: "workbench/<brief>/<título del plan>/fondos", name: "<qué-es>" }`.
+  Sale como `<name>-vN.<ext>` en el formato que devuelve el modelo (casi
+  siempre `.jpg`), y la tool te devuelve el path exacto. **Nunca lo conviertas
+  a PNG**: son los mismos píxeles a 5–10× el peso.
+- Miralo. Si generaste varios, `show_media` y que elija el humano; si es uno y
+  está bien, seguís vos.
+- `mcp__indash__promote { file: "<path-del-workbench>", creative }`: el elegido
+  pasa a `layers/<layer>/vN+1.<ext>` y queda `active`. La tool te devuelve el
+  candidato que creó — guardá ese nombre.
+- Sidecar `vN.json` INMEDIATAMENTE después de promover, al lado del candidato
+  (`Write`) — no al final, no "después lo escribo": modelo, prompt, refs,
+  `by`, `createdAt`. **Un candidato sin sidecar no existe**: es una generación
+  imposible de auditar y de reproducir. (Caso real: la pieza más retrabajada
+  de un brief terminó con candidatos sin sidecar justo donde más importaba el
+  registro.)
 
 ### 6 · Reintentos: se ESCALA, nunca se degrada
 
@@ -168,11 +228,11 @@ gastan candidato.
 
 ### 8 · Commit
 
-Una sola edición final del manifiesto: `active` = el nombre del archivo que
-guardó la tool (`"vN.jpg"`; `"vN"` a secas significa `vN.png`), `meta.status:
-"review"`, `meta.generating: false`, `meta.updatedAt`. Después una línea en
-`history.jsonl`. El orden candidatos-PRIMERO / manifiesto-AL-FINAL no es
-opcional: el manifiesto es el commit point que dispara el Board.
+`promote` ya dejó `active` apuntando al candidato (`"vN.jpg"`; `"vN"` a secas
+significa `vN.png`) — no lo reescribas. Una sola edición final del manifiesto:
+`meta.status: "review"`, `meta.generating: false`, `meta.updatedAt`. Después
+una línea en `history.jsonl`. El orden candidatos-PRIMERO / manifiesto-AL-FINAL
+no es opcional: el manifiesto es el commit point que dispara el Board.
 
 ## product.json — la memoria visual del producto
 
@@ -221,18 +281,13 @@ grilla de perfil — no uses números de memoria: leé el JSON.
 - Cómo componés el TEXTO y la gráfica por capas (placement, jerarquía,
   contraste, densidad de diseño) → `style/composicion-texto.md`
 
-## Si sos un subagent despachado
+## Al cerrar cada pieza
 
-Tu nota de despacho trae el scope (tu carpeta) y las instrucciones de TU
-pieza. Además del proceso de arriba:
-
-- Primera acción: `meta.generating: true` en TU manifiesto (el humano ve la
-  card pulsar). Última acción: el commit (paso 8).
-- Escribís SOLO dentro de tu carpeta. No toques otros creativos, plan.json,
-  rounds/, .indash/.
-- Tu último mensaje: 1-2 líneas — qué generaste, cuántos candidatos, y
-  cualquier warning (advertencias del paso 7, refs dudosas, product.json
-  desactualizado).
+Escribiste solo dentro de la carpeta del creativo y de su carpeta del
+Workbench — nunca `rounds/`, `.indash/` ni otro creativo. Contale al humano en
+1-2 líneas qué generaste, cuántos candidatos, y cualquier warning
+(advertencias del paso 7, refs dudosas, `product.json` desactualizado). Si
+trabajaste un lote, un resumen por grupo alcanza — no 20 líneas iguales.
 
 ## Reglas no-negociables
 
@@ -248,16 +303,18 @@ pieza. Además del proceso de arriba:
 4. **Siempre** la escalera de modelos se sube, nunca se baja: nano-banana-2 →
    gpt-image-2 → nano-banana-pro, y `4K` para detalle fino. Reintentar
    soltando refs o bajando de modelo está prohibido.
-5. **Siempre** candidato `vN` = máximo + 1 contando cualquier extensión
-   (append-only), guardado en el formato que devolvió la tool — nunca
-   convertido a PNG — y sidecar `vN.json` inmediato. Un candidato sin sidecar
-   no existe.
-6. **Siempre** candidatos y sidecars PRIMERO, manifiesto AL FINAL. El
-   manifiesto es el commit point.
+5. **Siempre** generás al Workbench, en **la única carpeta del creativo**
+   (nombrada como el `title` del plan, buscada por `.folder.json` antes de
+   generar, pasada en `folder`), y el candidato lo crea `mcp__indash__promote` — **nunca** escribís `layers/vN`
+   ni `active` a mano. Se guarda en el formato que devolvió la tool (nunca
+   convertido a PNG) y con sidecar `vN.json` inmediato. Un candidato sin
+   sidecar no existe.
+6. **Siempre** promote y sidecar PRIMERO, manifiesto AL FINAL. El manifiesto
+   es el commit point.
 7. **Siempre** verificás MIRANDO con `view_creative` después de cada
    candidato, contra el checklist del formato y las safe zones del JSON.
 8. **Nunca** editás un creativo `approved`, ni tocás `rounds/`, `versions/`,
-   `.indash/` ni `plan.json` (si sos ejecutor).
+   `.indash/` ni `plan.json` desde esta skill (el plan lo escribe `new-brief`).
 9. **Siempre** después de 3 candidatos fallidos parás y reportás. No aflojás
    restricciones para "probar otra cosa".
 10. **Agnóstico** por marca, vertical y categoría: la estética sale del brief,
@@ -265,6 +322,6 @@ pieza. Además del proceso de arriba:
 
 ## Punto de entrada
 
-Leé las instrucciones de TU pieza (plan/notes o nota de despacho) y **arrancá
-por el paso 1: conocé el producto**. Si la pieza tiene texto, pasá por
+Leé las instrucciones de TU pieza (las `notes` del creativo en `plan.json`) y
+**arrancá por el paso 1: conocé el producto**. Si la pieza tiene texto, pasá por
 `style/composicion-texto.md` antes de armar las capas.

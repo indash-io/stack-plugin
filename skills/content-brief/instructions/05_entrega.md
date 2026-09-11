@@ -25,8 +25,8 @@ Usá `templates/brief_template.md`. El brief lleva, en orden:
 
 > Brief listo. **Este brief lo ejecuta el Studio**: su skill `new-brief` vuelca
 > los bloques a `plan.json` (grupos, creativos, decisiones en `notes`, copy
-> como capas, guiones en los clips) y la producción corre con
-> `creative-execution` / `video-execution` — sin re-decidir nada, porque cada
+> como capas, videos con `kind`/`seconds`) y la producción corre con
+> `creative-execution` / `video-clips` + `video-composition` — sin re-decidir nada, porque cada
 > bloque ya trae la decisión escrita.
 >
 > Los bloques de **email** y el **copy de Meta** no se renderizan en el Studio:

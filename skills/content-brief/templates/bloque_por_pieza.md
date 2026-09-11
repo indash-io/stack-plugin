@@ -5,11 +5,11 @@
 > si editás este, editá el espejo.
 
 El brief que arma el set de ideación se compone de **bloques**: uno por pieza (o por
-grupo, en carruseles y videos). Este formato ES el contrato: si el bloque llega
+grupo, en carruseles). Este formato ES el contrato: si el bloque llega
 completo, `new-brief` lo vuelca a `plan.json` + manifiestos **sin re-decidir nada**,
 y la ejecución corre sin preguntas. Todo campo que falte acá es una pregunta que
-alguien va a tener que hacer después — o peor, una decisión que un ejecutor va a
-tomar solo.
+alguien va a tener que hacer después — o peor, una decisión que la ejecución va a
+tomar sola.
 
 ## Campos comunes (toda pieza)
 
@@ -23,7 +23,7 @@ tomar solo.
 | **`producto`** | `product_id` + **vista pedida** (frente / perfil / detalle / en-uso / packshot) — o `lifestyle sin producto` **declarado** | Lifestyle sin producto es legítimo, pero se decide acá y queda escrito |
 | `copy on-image` | El texto EXACTO: título / sub (opcional) / CTA | Va como **capas de texto**, jamás al modelo de imagen |
 | `concepto visual` | 2-4 líneas: la escena orgánica (si se genera) o la composición (si se compone), incluyendo dónde queda el espacio negativo para el texto | Sin adjetivos vacíos |
-| `notes` | Restricciones: claims prohibidos, no-negociables de la marca, reglas del cliente | Lo que un ejecutor no puede adivinar |
+| `notes` | Restricciones: claims prohibidos, no-negociables de la marca, reglas del cliente | Lo que la ejecución no puede adivinar |
 
 ## Campos por tipo de pieza
 
@@ -36,8 +36,9 @@ tomar solo.
 - **Ad de Meta** → además: **copy de Meta completo** — Primary Text, Headline,
   Description, CTA — con conteo de caracteres. Viaja en el brief para quien
   publica; la pieza visual es un creativo más.
-- **Video UGC** → el bloque es el **grupo**: `kind: video` + `seconds` (los clips
-  se derivan: `ceil(seconds/10)`). Por clip: **guion** (28-32 palabras por 10s,
+- **Video UGC** → el bloque es **un creativo** del grupo de su formato:
+  `kind: video` + `seconds` (un video = un formato; los clips se derivan:
+  `ceil(seconds/10)`). Por clip: **guion** (28-32 palabras por 10s,
   techo ~34) + **registro** (orgánico/genuino vs descriptivo/beneficios) + el
   **gesto** que el still tiene que actuar (el hook se actúa, no solo se dice).
   Nombre de marca dudoso → marcarlo `pronunciación a validar`.
@@ -49,9 +50,9 @@ tomar solo.
 
 | Del bloque | Al disco |
 |---|---|
-| grupo + formato (+ `kind`/`seconds` si video) | `groups[]` de `plan.json` |
-| pieza (`id`, título) | `creatives[]` del grupo |
+| grupo + formato | `groups[]` de `plan.json` (solo `format`) |
+| pieza (`id`, título; + `kind: video` y `seconds` si es video) | `creatives[]` del grupo |
 | ¿componer o generar? + producto + vista + restricciones | `notes` del creativo (escritas, textuales) |
 | copy on-image | capas `text` del manifiesto scaffoldeado |
-| guion del clip | `meta.video.script` del manifiesto del clip |
+| guion del clip | `notes` del creativo de video + el documento del brief; `video-clips` los vuelca a `workbench/<brief>/<video>/scripts/` al producir |
 | sticker / copy de Meta / bloques de email | quedan en el documento del brief (`briefs/<brief>/source/`) — no se renderizan |

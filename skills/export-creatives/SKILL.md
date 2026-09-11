@@ -1,6 +1,6 @@
 ---
 name: export-creatives
-description: "Entregar los creativos de un proyecto de Indash Studio — exportar una ronda, un grupo o el brief completo en los formatos que pide el destino (PNG/JPG escala web, PSD editable), con estructura y nombres consistentes. Usala cuando el humano pida \"exportame\", \"pasame los finales\", \"prepará la entrega\". Hoy el destino es la carpeta Descargas; cuando exista el drive de indash, esta skill entrega ahí."
+description: "Entregar los creativos de un proyecto de Indash Studio — exportar una ronda, un grupo o el brief completo en los formatos que pide el destino (PNG/JPG escala web, PSD editable; los videos salen como su render activo, tal cual), con estructura y nombres consistentes. Usala cuando el humano pida \"exportame\", \"pasame los finales\", \"prepará la entrega\". Hoy el destino es la carpeta Descargas; cuando exista el drive de indash, esta skill entrega ahí."
 language: es
 tags: execution
 owner: lburgwardtr
@@ -14,6 +14,14 @@ Exportar no es "sacar un PNG": es preparar UNA entrega coherente. El export
 sale por `mcp__indash__view_creative` con `export: true` (una llamada por
 creativo) y aterriza en la carpeta **Descargas** del humano. El destino va a
 cambiar (drive de indash) — el proceso es el mismo, cambia dónde aterriza.
+
+**Un video se entrega como está.** Para un creativo `kind: "video"` el export
+es una **copia** de `renders/<active>.mp4` (lo hace la misma llamada con
+`export: true`; el botón Export de la app hace exactamente lo mismo). Nunca
+se re-renderiza para entregar: el render activo ES lo aprobado, y un render
+nuevo sería otro `vN` que el humano no vio. Si el video no tiene `active`
+(`null`), no hay nada que entregar — falta el render, y eso es
+`video-composition`, no esta skill.
 
 ## 1 · Qué se entrega
 
@@ -30,6 +38,9 @@ cambiar (drive de indash) — el proceso es el mismo, cambia dónde aterriza.
 - **Web / preview liviano**: `{ format: "jpg", scale: 1 }`.
 - **El cliente quiere editar**: `{ format: "psd" }` — capas y texto editable
   en Photoshop (sale a escala 1).
+- **Videos**: siempre el mp4 activo tal cual; `format`/`scale` no aplican. Si
+  piden otro contenedor o un máster distinto (ProRes, alpha), es un pedido
+  aparte que se resuelve con la composición, no con el export.
 - Mezclado si el humano lo pide (ej: PNG para pauta + PSD de las 3 piezas
   hero).
 
@@ -44,7 +55,8 @@ pieza↔archivo↔Board vale más que un nombre "lindo").
 
 - Verificá 2-3 piezas al azar MIRANDO (`view_creative` sin export): lo que
   exporta es lo que se ve — si una capa quedó rota, mejor encontrarla vos
-  que el cliente.
+  que el cliente. En un video la misma llamada te da la hoja de contactos del
+  render activo: confirmá que es el corte que el humano aprobó.
 - Reportá al final: N piezas exportadas, formato/escala, qué quedó afuera.
 
 ## Futuro (no lo intentes hoy)
