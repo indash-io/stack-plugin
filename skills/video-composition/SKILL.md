@@ -5,7 +5,7 @@ language: es
 tags: execution
 owner: lburgwardtr
 status: draft
-reviewed: 2026-09-02
+reviewed: 2026-09-11
 ---
 
 # Video Composition — el corte final de un video del Studio
@@ -88,9 +88,11 @@ Cómo detectarlo, en este orden y **en silencio**:
 
 1. `node --version` → si es < 22, `plan_only`.
 2. `ffmpeg -version` → si no está, `plan_only`.
-3. `npx hyperframes --version` → si responde, anotá la versión real y usala.
-   Si no responde pero 1 y 2 pasan, seguís en `full_render`: `npx` lo baja solo
-   la primera vez (avisale al humano que la primera corrida tarda más).
+3. `npx hyperframes@0.8.33 --version` → la versión **pineada** que corre la
+   app (`reference/hyperframes.md` §1.9); usá ese mismo pin en `lint`,
+   `check` y `transcribe`. Si no responde pero 1 y 2 pasan, seguís en
+   `full_render`: `npx` lo baja solo la primera vez (avisale al humano que la
+   primera corrida tarda más).
 
 `mcp__indash__render_video` hace el mismo preflight y, si falta algo, te lo
 dice en el error: ahí pasás a `plan_only` sin más vueltas.
@@ -196,6 +198,7 @@ línea en `history.jsonl`, y decís en una línea qué render quedó activo.
 | Qué preguntar y cómo decidir | `instructions/03_decisions.md` |
 | Armar el plan de edición por segundos | `instructions/04_edit_concept.md` + `templates/edit_plan.md` |
 | Escribir la composición HyperFrames | `instructions/05_composition.md` + `templates/composition_template.md` |
+| Montar un UGC de dos clips + placa (generador) | `formats/ugc-2clips.md` + `scripts/build-ugc.py` + `templates/ugc-2clips.html` |
 | Renderizar (con la tool) y hacer QA | `instructions/06_render_qa.md` |
 | Formatear, cerrar el manifiesto y entregar | `instructions/07_output_format.md` + `templates/output_template.md` |
 | Elegir ritmo y duración de corte | `style/pacing.md` |
@@ -235,6 +238,9 @@ línea en `history.jsonl`, y decís en una línea qué render quedó activo.
    = el `canvas` del manifiesto, y el mismo valor en el `<meta name="viewport">`
    y en la caja `#root` del CSS. `render --resolution` **no** reencuadra: solo
    supersamplea. Otro formato = otro creativo con su propia composición.
+   **Excepción UGC:** si TODO el material es 720p (clips de omni), podés
+   autorar a 720×1280 en vez de escalar 1.5× — lo proponés en Decisions y,
+   si el humano acepta, actualizás `canvas` del manifiesto al cerrar.
 10. **Siempre** el `data-duration` del root es la duración final del render y
     coincide con el último timecode del plan y con `video.seconds` del
     manifiesto (si cambiás la duración, actualizá `video.seconds`). El largo
@@ -256,39 +262,52 @@ línea en `history.jsonl`, y decís en una línea qué render quedó activo.
 15. **Siempre** UNA transición primaria para la mayoría de los cortes, más uno
     o dos acentos como máximo. **Nunca** una transición distinta por corte: eso
     se lee como caos, no como diseño.
-16. **Siempre** los captions siguen el modelo **rail + embed**: el rail carga el
-    texto, el embed es una sola palabra en el clímax. **Nunca** embebas el
-    transcript entero. Los captions verbatim salen de los guiones
-    (`scripts/*.md`) o de `npx hyperframes transcribe`, no de tu memoria.
-17. **Siempre** corrés `lint` y `check` antes de cualquier render, y el primer
+16. **Siempre** los captions verbatim salen de la **transcripción real del
+    audio** (`npx hyperframes transcribe … --json`, tiempos por palabra),
+    nunca del guion tipeado ni de tu memoria: el modelo no dice exactamente
+    lo que le pediste y los tiempos tienen que ser reales. El guion
+    (`scripts/*.md`) es la grafía de referencia para corregir lo que el ASR
+    oyó mal, y **cada corrección se declara**. Dos presets de estilo: **rail +
+    embed** (el rail carga el texto, el embed es una sola palabra en el
+    clímax; **nunca** el transcript entero embebido) y **`ugc` karaoke**
+    (`style/captions_typography.md` §10) para clips de avatar.
+17. **Siempre** re-encodeás con keyframes densos todo video que entra a
+    `composition/assets/`, clips de avatar incluidos (`-r 30 -g 30
+    -keyint_min 30 -pix_fmt yuv420p -movflags +faststart`): sin eso el render
+    avisa `sparse keyframes` y el clip se congela o sale en negro.
+18. **Siempre** corrés `lint` y `check` antes de cualquier render, y el primer
     render es `quality: "draft"` vía `mcp__indash__render_video`. El `high`
     sale **una sola vez**, sobre el corte ya aprobado por el humano.
-18. **Nunca** escribís `renders/` a mano ni tocás `video.active` para inventar
+19. **Nunca** escribís `renders/` a mano ni tocás `video.active` para inventar
     un render: la tool es la única que le pone `vN` a un mp4 y mueve el
     puntero. **Nunca** re-renderizás para exportar: exportar es copiar el
     render activo (`view_creative { export: true }`).
-19. **Siempre** iterás con **un cambio por render** y con **objetivos
+20. **Siempre** iterás con **un cambio por render** y con **objetivos
     absolutos** ("la escena 2 dura 2.0s", no "un toque más corta").
-20. **Nunca** inventás material que no existe. Si el plan pide un plano que no
+21. **Nunca** inventás material que no existe. Si el plan pide un plano que no
     está, frenás y ofrecés: (a) que el humano lo suelte en la carpeta del
     Workbench, (b) generarlo con `video-clips` / `creative-execution` y volver,
     o (c) replantear el corte con lo que hay.
-21. **Nunca** generás voz ni música: **sin TTS, sin música generada**. Audio =
+22. **Nunca** generás voz ni música: **sin TTS, sin música generada**. Audio =
     lo que el humano soltó en la carpeta + el audio nativo de los clips.
     Transcribir para captions (`npx hyperframes transcribe`) sí.
-22. **Nunca** inventás features, claims ni precios on-screen. Si no está en el
+23. **Nunca** inventás features, claims ni precios on-screen. Si no está en el
     plan (`notes`), en los guiones, en `library/brand/brand.md` o en
     `library/products/products.md`, no se escribe.
-23. **Siempre** heredás marca del proyecto: paleta y tono de
+24. **Siempre** heredás marca del proyecto: paleta y tono de
     `library/brand/brand.md`, las fuentes REALES de `library/fonts/` (copiadas
     a `assets/` con `@font-face`), el logo de `library/logos/`. Nunca un
     parecido de Google Fonts.
-24. **Nunca** escribís en `.indash/`, `rounds/`, `versions/`, en otro creativo,
+25. **Nunca** escribís en `.indash/`, `rounds/`, `versions/`, en otro creativo,
     ni en un creativo `approved`. Dentro del tuyo: `composition/` libre,
     manifiesto solo para estado (`status`, `generating`, `updatedAt`,
     `video.seconds` si cambió la duración), `history.jsonl` append.
-25. **Agnóstico** por marca, vertical y categoría. El ritmo y la estética salen
+26. **Agnóstico** por marca, vertical y categoría. El ritmo y la estética salen
     del material y del plan, no de prejuicios sobre el rubro.
+27. **Siempre** el tope de contenido del brief aplica también al **material
+    del cliente**: que el cliente muestre algo en su propio video no lo
+    habilita en el nuestro. Un tramo que choca con la lista de prohibiciones
+    queda afuera, aunque sea el mejor plano que hay.
 
 ---
 
@@ -307,6 +326,17 @@ exista.
 
 Cuando el material son clips de avatar hablando (lo típico de `video-clips`):
 
+- **Los primeros 2 segundos van limpios**: la cara y la frase, sin insert
+  encima. Después, **un re-hook cada 3-4 s** (una placa de tipografía, un
+  dato, una pregunta) sostiene la retención.
+- **Los inserts se anclan a la palabra exacta de la transcripción**, no «a
+  ojo»: por eso el paso de transcripción imprime los tiempos por palabra.
+  Duran 2.4-2.8 s; **el que carga el beneficio dura más que los demás** (es
+  el que tiene que quedar). Un insert que cruza el corte entre clips lo
+  disimula, y funciona muy bien cuando el guion lo pide («mirá la tabla»
+  justo antes del corte).
+- **El corte entre clips** se saca de la transcripción: donde termina de
+  hablar el clip A, más un respiro de 0.2-0.4 s.
 - **Entrá a cada clip pegado a donde arranca la voz** (`data-media-start`): los
   clips se generan desde stills de la misma escena, así que suelen abrir en
   poses parecidas — si los concatenás enteros, esa pose se repite en cada
@@ -316,8 +346,16 @@ Cuando el material son clips de avatar hablando (lo típico de `video-clips`):
   como una costura.
 - **Si un clip trae un glitch/morph a mitad**, tapalo con un insert (foto de
   producto, still) en vez de descartar el clip entero — el audio sigue abajo.
-- **La placa final de marca** (logo sobre fondo de marca) dura ~1.5s si es
-  imagen fija; si es un asset animado, va entero.
+- **La placa final de marca** dura ~1.5s si es imagen fija; si es un asset
+  animado, va entero. **Antes de reconstruir un logo, buscá el real**: casi
+  siempre está en los primeros o últimos segundos de algún video del cliente
+  (se corta con ffmpeg y se loopea con `-stream_loop` si dura poco). La placa
+  necesita **runway**: `data-media-start + duración < duración del asset`, o
+  el render aborta cuando el fondo se queda sin frames (y está bien que
+  aborte: evita entregar una placa en negro). En guiones de plata el CTA
+  vive acá, escrito, no en la voz (`video-clips`, Paso 1).
+- **Un formato de dos clips + placa** (21-23 s) tiene generador propio:
+  `formats/ugc-2clips.md`. No escribas ese HTML a mano.
 
 ---
 

@@ -75,6 +75,34 @@ se conserva (`data-has-audio="true"`) con música muy abajo. Anotalo en la tabla
 
 ---
 
+### El material del cliente (b-roll, gameplay, capturas de app)
+
+Los inserts salen del material real del cliente; nunca se inventa arte de
+producto. Para leer un video rápido, hoja de contactos con ffmpeg:
+
+```bash
+# un frame cada 3 segundos, en grilla de 7×2
+ffmpeg -i video.mp4 -vf "fps=1/3,scale=180:320,tile=7x2" -frames:v 1 -y sheet.png
+# afinar una ventana: cada 0.5 s entre el segundo 6 y el 20
+ffmpeg -ss 6 -t 14 -i video.mp4 -vf "fps=2,scale=150:267,tile=7x4" -frames:v 1 -y fine.png
+```
+
+Los nombres de archivo ya dicen mucho («nuevos emotes», «Legacy Booster»
+fueron la primera prueba de que un juego era digital y no de cartas). Qué
+buscar: **gameplay limpio** (para cortes a pantalla completa), **pantallas
+con un dato** (precios, contadores, tablas: la prueba visual del concepto),
+**el logo oficial sobre fondo liso** (el fondo de la placa final). Qué
+esquivar: los **subtítulos quemados** del creador original (casi siempre
+están; cómo se tapan en `style/captions_typography.md` §4), barras de
+navegador, URLs y cursores en cuadro, interfaz en otro idioma a pantalla
+completa, y **todo lo que choque con el tope de contenido del brief, aunque
+lo diga el cliente en su propio video** (regla 27).
+
+Al cortar, tramos generosos (5-10 s) sin recortar el cuadro: el momento
+exacto se elige después con `data-media-start`. Todo lo que entra a
+`assets/` se re-encodea (regla 17, comando en `05_composition.md` §1) y se
+verifica con `ffprobe` que quedó en el tamaño nativo.
+
 ## 2. Contexto de marca
 
 - Leé `library/brand/brand.md`: paleta (hex), tipografías, tono, do's & don'ts.

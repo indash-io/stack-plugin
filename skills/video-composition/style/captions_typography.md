@@ -90,6 +90,23 @@ defensa.
 
 **Nunca** confíes en que "el fondo de ese clip es oscuro". Cambia en 2 segundos.
 
+**D — El material del cliente trae subtítulos quemados.** Casi siempre están
+(los del creador que grabó el original), típicamente en la banda del 62-70 %
+del alto (y≈800-890 en 720×1280). Caen justo arriba de los nuestros y quedan
+dos textos apilados. Un degradado grande al pie del insert los tapa, pero
+**apaga la mitad inferior de cada insert**, que es donde está lo bueno (la
+mano de cartas, la ficha, el pie de la tabla) — un cliente lo frenó, con
+razón. **La solución buena:** poner **nuestro** bloque de captions en esa
+misma banda y hacerle el fondo opaco (`background: rgba(0,0,0,.99)`): tapa
+el texto ajeno con la caja que el caption ya necesitaba, y el insert queda
+entero. Un scrim solo si es **localizado** (una banda de ~200 px con fade a
+los dos lados) y solo para material cuyo texto quemado NO cae bajo el bloque;
+pegado al bloque se lee como una mancha y vuelve el problema. Regla general:
+**cuando algo hay que tapar, primero fijate si un elemento que ya existe lo
+tapa desde otra posición.** Y si un dato del material queda tapado, se repone
+en tipografía propia (una pastilla): con el insert a pantalla completa se
+ven los dos, el dato afirmado y el dato probado, en el mismo cuadro.
+
 **Verificalo**, no lo supongas: `npx hyperframes check --snapshots` audita
 contraste WCAG AA en cada muestra. Si tira contraste bajo, **metele scrim** — no
 subas el tamaño, que solo hace más grande el problema.
@@ -180,3 +197,33 @@ del rail. Es la forma barata de dirigir la atención sin promover a embed.
 | Display extrema a 1.8s de exposición | No se lee, se adivina |
 
 Casos desarrollados en `examples/bad/captions_ilegibles.md`.
+
+---
+
+## 10. Preset `ugc` — karaoke para clips de avatar
+
+El segundo preset, para el material que deja `video-clips`. Se elige en
+Decisions; **no** se mezcla con el rail en la misma pieza.
+
+- **Verbatim del transcript**, con tiempos por palabra (regla 16). Cada
+  palabra es un `<span>` que aparece en su propio milisegundo: eso es el
+  karaoke. Correcciones de ASR declaradas.
+- **Cues de 4 palabras como máximo**, cortando antes en `.`, `?`, `!`.
+- **Mayúsculas**, display pesada redondeada o condensada (la fuente real de
+  la marca si la tiene; si no, una rounded/condensed de peso 800 bajada a
+  `assets/`), 50 px sobre 720 de ancho (×1.5 en 1080), interlineado 1.3,
+  `text-shadow` duro + stroke fino.
+- **Caja opaca** detrás (§4-D), en la banda del 62-70 % del alto. En 9:16
+  eso queda dentro de la zona segura de Reels (por encima del 35 % inferior).
+- **Keywords en color**: las palabras que cargan el mensaje (2-3 por clip,
+  elegidas, no todas) van en el color `kw` de la marca.
+- Vocabulario de overlays que lo acompaña, cada uno con su animación y su
+  SFX: `cutaway` (pantalla completa, mismo ratio nativo), `card` /
+  `cardtall` (recuadro para material de otro ratio), `pill` (un dato o
+  beneficio, pastilla de color), `chip` (rótulo de qué se está viendo),
+  `stamp` (placa grande rotada que entra de golpe: el remate de una frase),
+  `danger` (viñeta roja que late, tensión). Más watermark con el nombre del
+  producto arriba a la izquierda, barra de progreso arriba y un flash del
+  color de acento en cada corte.
+- Todo esto lo emite el generador de `formats/ugc-2clips.md`; si escribís a
+  mano, respetá §1.9 del reference (hard-kill del flash en cada borde).

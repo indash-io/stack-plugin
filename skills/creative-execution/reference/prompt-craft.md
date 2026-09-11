@@ -165,8 +165,9 @@ de una zona, un elemento). Reglas duras:
 
 - **Etiqueta tipográfica importante** (perfume, vino, skincare): anclá fuerte
   (*"conservá la tipografía de la etiqueta idéntica"*), evitá ángulos muy
-  oblicuos en piezas hero, y subí a `resolution: "4K"` si el texto del label
-  es chico.
+  oblicuos en piezas hero, y si el texto del label es chico traé el producto
+  más grande en cuadro (o usá la foto real como cutout) — la resolución se
+  queda en 1K salvo que el humano pida 4K.
 - **Reflectivo / metálico / vidrio**: especificá la fuente de luz porque se va
   a reflejar (*"luz suave de softbox grande"*); pedí rim light para separar
   del fondo.

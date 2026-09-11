@@ -61,8 +61,11 @@ aplicables.**
 - [ ] **Ningún claim inventado**: todo sale del brief, la URL o el `CLAUDE.md`.
 - [ ] Registro consistente (voseo si la marca es rioplatense) — sin mezclar
       voseo y tuteo.
-- [ ] Si los captions son verbatim, salen del **transcript real**, no
-      reescritos de memoria.
+- [ ] Si los captions son verbatim, salen del **transcript real** (tiempos
+      por palabra), no del guion tipeado ni de memoria, y las correcciones de
+      ASR están **declaradas**.
+- [ ] En clips de avatar: primeros 2 s sin insert; inserts anclados a la
+      palabra exacta; ningún subtítulo quemado del cliente visible.
 - [ ] **Una sola** animación de entrada de texto en toda la pieza.
 
 ---
@@ -110,6 +113,15 @@ falla acá es un render roto o, peor, un render que sale mal en silencio.
 - [ ] Los assets que venían por URL están **bajados a disco**.
 - [ ] Ningún `src` apunta a `workbench/`, `library/` ni fuera de `composition/`:
       todo está **copiado** a `assets/`.
+- [ ] Todo video de `assets/` está **re-encodeado con keyframes densos**
+      (`-r 30 -g 30 -keyint_min 30`), avatares incluidos (regla 17).
+- [ ] Los cortes a pantalla completa son del **mismo ratio nativo** que la
+      composición, sin recortar; lo de otro ratio o con texto va en recuadro.
+- [ ] Ningún insert con algo que leer lleva zoom.
+- [ ] La placa final tiene runway: `data-media-start + duración < duración
+      del asset` del fondo.
+- [ ] Ningún asset del cliente trae un tramo que choque con el tope de
+      contenido del brief, ni barras de navegador, URLs o cursores en cuadro.
 
 ### 5D. Animación
 - [ ] **Un solo** timeline finito, creado con `{ paused: true }`.
@@ -137,8 +149,10 @@ falla acá es un render roto o, peor, un render que sale mal en silencio.
 
 ## Sección 6 — Gates y render
 
-- [ ] `npx hyperframes lint` corrió y **no tiene errores (`✗`)**.
-- [ ] `npx hyperframes check --snapshots` corrió y **miré los PNG**.
+- [ ] `npx hyperframes@0.8.33 lint` corrió y **no tiene errores (`✗`)**.
+- [ ] `npx hyperframes@0.8.33 check --snapshots` corrió y **miré los PNG**
+      (no solo el contact sheet), buscando inserts caídos en una transición y
+      recuadros que tapen la cara.
 - [ ] Los hallazgos de **contraste** se resolvieron con scrim/placa, no
       ignorándolos ni pasando `--no-contrast`.
 - [ ] Los hallazgos de **layout** (overflow, clipping, oclusión) se resolvieron.

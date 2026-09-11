@@ -32,6 +32,13 @@ arrancan parecido en el mismo feed se leen como campaña fabricada.
 | Ritual invertido | romper un hábito conocido | "¿Sabés qué es lo primero que me saco al llegar? Los zapatos. Bueno, anoche no." |
 | Precio de frente | asumir lo caro (solo si el pedido permite precio) | "Pagué casi trescientos mil pesos por unas sandalias. Sí." |
 | Misterio de producto | negar lo obvio | "No es ni dorada, ni beige, ni gris. Es visón." |
+| Contradicción | un resultado que no cierra | "Gané la temporada entera y no puse un peso." (fórmula) |
+| Lista numerada | el que mira se queda por el número 3 | "Tres cosas que nadie te dice de…" (fórmula) |
+
+Los dos últimos son los formatos que mejor retienen en producto digital. Y el
+hook no termina en el segundo 2: **un re-hook cada 3-4 segundos** sostiene la
+retención — una placa de tipografía, un dato, una pregunta. Se escribe en el
+guion como beat y `video-composition` lo pone en pantalla.
 
 ## Catálogo de CTAs (cierre imperativo SIEMPRE — un dato suelto no es CTA)
 
@@ -48,6 +55,11 @@ arrancan parecido en el mismo feed se leen como campaña fabricada.
 **Anti-patrón:** "Están en la web, negro o suela" — eso es un dato, no un CTA.
 Sin verbo imperativo no hay cierre.
 
+**Excepción de rubro:** si el guion habla de plata (ahorro, finanzas, cripto,
+apuestas), el CTA **no se dice**: va escrito en la placa final, y la URL nunca
+se habla. El filtro del modelo bloquea «poné plata» + pedido de salir del
+video. Detalle en el Paso 1 del `SKILL.md`.
+
 ## Reglas transversales
 
 - Beneficio contrabandeado: el spec entra como explicación del momento
@@ -59,6 +71,8 @@ Sin verbo imperativo no hay cierre.
   durabilidad ("te duran años" es un reclamo futuro).
 - Muletillas rioplatenses que dan realismo: "posta", "o sea", "ni hablar",
   "de nada". Con moderación — una o dos por guion.
+- Se nombra el producto, no la plataforma que lo contiene: la marca que tiene
+  que quedar es la del producto.
 - El hook se diseña JUNTO con el frame: la escena y el gesto del avatar
   actúan lo que el guion dice (caja abierta para "me llegaron", mano al pecho
   para la confesión, dedo en alto para la advertencia, sol de ventana para

@@ -7,10 +7,12 @@
 > está en las fuentes**: no lo afirmes al user, decile que hay que chequearlo.
 >
 > HyperFrames se mueve rápido (la CLI iba en `0.8.x` a esta fecha; el 2026-09-09
-> se re-verificaron `render --help` y `check --help` contra `0.8.33`). Si algo de
-> acá no matchea con lo que devuelve la máquina, **gana la máquina**:
-> `npx hyperframes <comando> --help` y `npx hyperframes doctor` son la fuente
-> de verdad del entorno.
+> se re-verificaron `render --help` y `check --help` contra `0.8.33`, y §1.9
+> junta lo confirmado en producciones reales sobre esa versión). **La app
+> pinea `0.8.33`** y vos usás el mismo pin (`npx hyperframes@0.8.33 …`). Si
+> algo de acá no matchea con lo que devuelve la máquina, **gana la máquina**:
+> `npx hyperframes@0.8.33 <comando> --help` y `doctor` son la fuente de verdad
+> del entorno.
 >
 > **En el Studio el render lo corre la app** (`mcp__indash__render_video`, un
 > cascarón sobre `npx hyperframes render`): lo de `render` está acá para que
@@ -343,6 +345,43 @@ Skills de dominio: `/hyperframes-core`, `/hyperframes-animation`,
 > instaladas en la máquina del user, aprovechalas: saben más de la sintaxis
 > vigente que este archivo. Si no están, esta skill se sostiene sola con el
 > contrato de arriba.
+
+### 1.9 Confirmado en máquina (producciones reales sobre `0.8.33`)
+
+No sale de la doc: sale de piezas entregadas. Reglas que el lint o el render
+hacen cumplir y que cuestan un render cada una.
+
+- **La versión va pineada.** La app corre `npx hyperframes@0.8.33 render`
+  (constante `HYPERFRAMES_VERSION` en `src/main/agent/video-tools.ts`); vos
+  corrés `lint`, `check` y `transcribe` con **el mismo pin**, así la pieza se
+  re-renderiza igual dentro de seis meses. `npx hyperframes@latest upgrade
+  --project . --check` muestra el delta si hay que subir.
+- **No se anima `autoAlpha` sobre elementos `.clip`**: se anima `opacity`.
+- **Todo `fromTo` sobre un elemento que reaparece** necesita
+  `immediateRender:false` y un `tl.set` de baseline, o el seek no lineal deja
+  estado viejo.
+- **Un flash de corte necesita un `tl.set` de hard-kill en cada borde de clip
+  que caiga dentro del fade**, incluidos los bordes de subtítulo, no solo los
+  de overlay. El linter marca el borde exacto: `gsap_exit_missing_hard_kill
+  … at 9.60s`.
+- **Los assets van con keyframes densos** (`-r 30 -g 30 -keyint_min 30`),
+  avatares incluidos: si no, `sparse keyframes` y el seek falla.
+- **El gate de cobertura de video** (`Video "avN" captured X of expected Y
+  frames`) aborta el render cuando un MP4 está roto o incompleto. Es un
+  amigo: sin él se entrega un video con el avatar en negro.
+- **`Navigation timeout` en `check` y `snapshot` es transitorio**: reintentar
+  o `HYPERFRAMES_NAV_TIMEOUT_MS=60000`.
+- **`snapshot --at 1.2,5.5,8,12 --no-end`** captura frames a PNG más un
+  `snapshots/contact-sheet.jpg`. Para juzgar transparencias, el PNG; el JPEG
+  exagera el residuo.
+- **Patrón de audio validado:** el `<video>` del avatar va `muted` y su audio
+  va aparte en un `<audio>` que apunta al **mismo mp4**, con el mismo
+  `data-start` / `data-duration`. Es equivalente a `data-has-audio="true"` y
+  es lo que el generador de `formats/ugc-2clips.md` emite.
+- **`timeline_track_too_dense`** es un warning informativo: en una pieza de
+  ~22 s con todo en un `index.html` convive a propósito; partir en
+  sub-composiciones (`data-composition-src`) solo si de verdad se vuelve
+  inmanejable.
 
 ---
 

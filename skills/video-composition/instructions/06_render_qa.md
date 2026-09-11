@@ -76,6 +76,13 @@ Cómo usarlo bien en esta skill:
 **No** pases `--no-contrast` para "que pase". El contraste es exactamente lo que
 hace que un caption exista.
 
+**`check` en verde no alcanza.** El check no ve que un `data-media-start`
+cayó en una transición del gameplay, ni que un recuadro tapa la cara: las
+tres cosas pasaron el check en producciones reales. Mirá los frames. Y al
+juzgar cuánto se transparenta algo (un texto ajeno atravesando la caja de
+captions), **mirá el PNG del snapshot, no el JPEG de la hoja de contactos**:
+el JPEG exagera el residuo.
+
 ---
 
 ## 3. Draft — el gate del ojo (el tuyo primero)
@@ -193,6 +200,12 @@ la duración total y un hijo más largo no renderiza más allá.
 | "está approved (congelado)" | El creativo ya se aprobó | El humano lo des-aprueba desde la app, o es otro creativo |
 | Falta FFmpeg / Node 22 | Entorno | `plan_only` (abajo) — y decile al humano qué instalar |
 | Timeout (10 min) | Composición pesadísima o Chrome colgado | `npx hyperframes doctor`; menos workers; revisá assets gigantes |
+| `sparse keyframes (max interval: 2.03s)` y un clip congelado o en negro | Un asset sin re-encodear | El comando de keyframes densos de `05_composition.md` §1 (regla 17) |
+| `Video "avN" captured X of expected Y frames` | Un MP4 roto o incompleto | Ese gate te salva de entregar el avatar en negro: revisá el tamaño del archivo, volvé a bajarlo o re-encodealo |
+| La placa final quedaría en negro / el render aborta al final | El video de fondo de la placa se queda sin frames | `data-media-start + duración < duración del asset`; loopealo si es corto |
+| `check` falla con `gsap_exit_missing_hard_kill … at 9.60s` | Falta un `tl.set` de hard-kill en ese borde exacto (suele ser el de un subtítulo, no el de un overlay) | `reference/hyperframes.md` §1.9 |
+| `check` / `snapshot` fallan con `Navigation timeout of 10000 ms exceeded` | Transitorio | Reintentar, o `HYPERFRAMES_NAV_TIMEOUT_MS=60000` adelante del comando |
+| Un insert cae en una transición (nube de humo, pantalla negra) | `data-media-start` mal elegido; el check no lo ve | Hoja de contactos del asset y elegir el segundo mirando |
 
 Ante cualquier duda de entorno: `npx hyperframes doctor`.
 

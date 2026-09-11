@@ -34,6 +34,16 @@ mueve o renombra en el Workbench, la composición no se puede romper, y el
 creativo tiene que renderizar solo dentro de un año. Conservá el nombre con
 versión del clip (`clip-01-v2.mp4`): dice qué toma entró.
 
+**Todo video que entra a `assets/` se re-encodea con keyframes densos**,
+clips de avatar incluidos (regla 17). Los cortes de ffmpeg y los mp4 de los
+generadores traen keyframes cada ~2 s: el render avisa `sparse keyframes` y el
+seek falla (clip congelado o en negro).
+
+```bash
+ffmpeg -i entrada.mp4 -c:v libx264 -crf 18 -r 30 -g 30 -keyint_min 30 \
+  -pix_fmt yuv420p -movflags +faststart -c:a copy -y assets/salida.mp4
+```
+
 `composition/` es tuya hasta que el creativo está `approved`: la escribís de
 cero o la editás libremente en cada iteración. No hace falta scaffoldear con
 `npx hyperframes init` (crearía un proyecto aparte): partí de
@@ -156,6 +166,20 @@ borroso, el real centrado encima. Dos `<video>` con el mismo `src`, mismo
 
 **Afuera** — si ninguna lo salva sin romper el ritmo. Ya se decidió en Decisions.
 
+### La regla del ratio y del zoom (inserts)
+
+- **Un corte a pantalla completa se alimenta con material del MISMO ratio que
+  la composición, nativo y sin recortar.** Un recorte apaisado de 720×704 en
+  un hueco de 720×1280 lo infla 1.8× con `object-fit: cover` y se come la
+  mitad a los costados. Es la regla que más veces se rehizo.
+- **Lo que tiene texto y otro ratio va en recuadro** (un card arriba a la
+  derecha), no a pantalla completa. Un recuadro chico es invisible en el
+  feed, pero un insert full-bleed con interfaz en otro idioma pone el idioma
+  equivocado en primer plano.
+- **Todo lo que hay que leer va SIN zoom.** El `scale 1.1 → 1` que le da vida a
+  un gameplay le come el borde a una captura de app y recorta justo lo que
+  querías mostrar.
+
 ---
 
 ## 5. Animación: el contrato de GSAP
@@ -240,19 +264,34 @@ posicionamiento en `style/safe_zones.md`. Lo estructural:
 - La animación de entrada/salida vive en el timeline de GSAP, no en `@keyframes`
   con reloj de pared.
 
-**Si hay voz y querés captions verbatim**, primero los guiones de
-`workbench/<brief>/<carpeta>/scripts/*.md` (son lo que se dijo); para
-sincronizarlos palabra por palabra, o cuando la voz es un archivo que trajo el
-humano sin guion, transcribí con la CLI:
+**Si hay voz, los captions salen de la transcripción real** (regla 16), con
+tiempos por palabra:
 
 ```bash
-npx hyperframes transcribe ./assets/clip-01-v2.mp4 --language es --to srt --output ./assets/clip-01.srt
+npx hyperframes@0.8.33 transcribe ./assets/clip-01-v2.mp4 -e whisper -m large-v3 -l es --json
+# deja assets/transcript.json → guardalo como t1.json (solo el array de words)
 ```
 
-Motor `auto` (Parakeet si está, si no Whisper); corre local, sin API key.
+```python
+import json
+d = json.load(open('assets/transcript.json'))
+w = d['words'] if isinstance(d, dict) and 'words' in d else d
+json.dump(w, open('t1.json', 'w'), ensure_ascii=False, indent=1)
+print(' '.join(f"{x['text']}[{x['start']:.2f}]" for x in w))   # los tiempos, para anclar inserts
+```
+
+Corre local, sin API key. **Guardá esa impresión de tiempos**: es lo que se
+usa para anclar cada insert a la palabra exacta y para sacar el `cut` entre
+clips. El guion de `scripts/*.md` es la **grafía de referencia**: lo que el
+ASR pegó («Ypara» → «Y», «para») se separa, lo que oyó mal («TSG» → «TCG») se
+corrige, y **las correcciones se le declaran al humano**. Un `.srt` alcanza
+solo para un rail sin sincronía por palabra (`--to srt`).
 
 Modelo **rail + embed**: el rail carga el texto, el embed es **una** palabra
-grande en el clímax. Nunca el transcript entero como embed (regla 16 del `SKILL.md`).
+grande en el clímax. Nunca el transcript entero como embed (regla 16 del
+`SKILL.md`). Para clips de avatar, el preset **`ugc`** (karaoke) de
+`style/captions_typography.md` §10; para el formato de dos clips + placa, el
+generador de `formats/ugc-2clips.md` arma los captions solo.
 
 ### Fuentes de marca
 
@@ -306,9 +345,9 @@ Si el clip de video aporta su propio audio: `data-has-audio="true"` en el
 Los gates los corrés vos, dentro de `composition/`; el render lo corre la app:
 
 ```bash
-# 1. gates (cwd = composition/)
-npx hyperframes lint
-npx hyperframes check --snapshots
+# 1. gates (cwd = composition/) — misma versión pineada que usa la app
+npx hyperframes@0.8.33 lint
+npx hyperframes@0.8.33 check --snapshots
 ```
 
 ```

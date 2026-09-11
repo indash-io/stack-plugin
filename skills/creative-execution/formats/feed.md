@@ -42,8 +42,9 @@ Manual completo en `../style/composicion-texto.md`. Lo mínimo:
 
 ## Imagen orgánica
 
-- Con producto: `nano-banana-2` + 2-3 refs (`resolution: "4K"` si el label
-  del producto tiene texto chico); encuadre que deje aire donde va el texto.
+- Con producto: `nano-banana-2` + 2-3 refs, en 1K (un label con texto chico
+  se resuelve con producto más grande en cuadro o la foto real, no con
+  resolución); encuadre que deje aire donde va el texto.
 - Cuadrado: pensá la composición radial/centrada — el 4:5 recortado no es un
   cuadrado bien compuesto.
 
