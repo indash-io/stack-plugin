@@ -1,10 +1,38 @@
-# Indash Stack — branch `studio`
+# Indash Stack — branch `studio-c2` (contrato 2 de Studio)
 
 > **Esta branch es el mundo nuevo.** Acá viven los **dos sets de skills curados**
 > para el ecosistema Studio: el de **ejecución** (lo consume Indash Studio, la app
 > de escritorio) y el de **ideación** (lo consume el armador de briefs hosteado).
 > Las skills del mundo plugin clásico (claude.ai / Cowork, con el conector MCP
 > hosteado) siguen viviendo en **`main`** — esta branch no las reemplaza allá.
+
+## Ramas de contrato: qué rama baja cada Studio
+
+El Studio **no baja "la última"**: cada build declara un número de contrato
+(`SKILLS_CONTRACT` en `src/main/skills-source.ts` del repo `indash-io/studio`)
+y baja la rama `studio-c<N>` de este repo. Un contrato = el conjunto de cosas
+de la app en las que las skills se apoyan (campos del manifiesto como `within`
+o `compose`, tools MCP y sus argumentos, convenciones del Workbench). Así una
+skill que necesita motor nuevo nunca cae en una app que no lo tiene.
+
+- **Fix sólo de skill** (copy, proceso, prompting): va a la rama vigente y
+  llega a todas las instalaciones en horas (la app refresca cada 6 h), sin
+  release de la app.
+- **Cambio que necesita app nueva**: se corta `studio-c<N+1>` desde
+  `studio-c<N>`, el cambio entra ahí, y el PR del Studio que agrega el
+  soporte sube `SKILLS_CONTRACT` en el mismo cambio. Las apps sin actualizar
+  siguen en su rama y siguen recibiendo fixes ahí; lo que aplica a ambas se
+  cherry-pickea.
+- **Nunca** pushear a una rama de contrato algo a medio terminar: es HEAD lo
+  que baja, y llega a producción en horas.
+
+| Rama | Contrato | Studio |
+|---|---|---|
+| `studio` | 1 (congelada) | ≤ 0.6.12, builds anteriores al esquema de contratos. Borrar cuando nadie quede ahí |
+| `studio-c1` | 1 | ≤ 0.6.12 |
+| `studio-c2` | 2 | 0.6.13+: `within`, modo FLAT por sesión, foto real en `refs` con cutout de último recurso |
+
+**Esta rama es `studio-c2`.**
 
 ## El modelo
 

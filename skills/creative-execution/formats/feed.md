@@ -24,8 +24,9 @@ una sola:
 - Modos visuales (elegí uno, no mezcles): **minimalista** (producto +
   espacio negativo + tipografía), **lifestyle** (producto en contexto de
   uso, luz natural), **brand-flat** (fondo de color de marca + composición
-  gráfica — acá casi siempre conviene COMPONER, no generar: cutout de la
-  foto real con `remove_background` sobre un `rect` de marca).
+  gráfica — se GENERA igual: prompt de fondo liso del color de marca + las
+  fotos reales en `refs`; el cutout con `remove_background` es último
+  recurso, no el modo).
 
 ## Composición
 
@@ -33,7 +34,8 @@ Manual completo en `../style/composicion-texto.md`. Lo mínimo:
 
 - Texto sobre foto → scrim degradé (rect + gradient) o zona de la imagen
   pedida limpia en el prompt.
-- Bloques de color/pills → capas `rect` con `cornerRadius`, no pedidos al
+- Bloques de color/pills → capas `rect` con `cornerRadius` (y el texto de
+  adentro con `within` + `anchor: "center"`, nunca centrado a mano), no pedidos al
   modelo.
 - Logo → capa `image` desde `library/logos/` (SVG directo, `recolor` si hace
   falta invertirlo), nunca generado.

@@ -29,10 +29,12 @@ respetan SIEMPRE las safe zones del formato (`../data/safe-zones.json`).
    chico. En 9:16 hay poco ancho: preferí desplazamiento vertical antes que
    lateral.
 5. **Profundidad con cutout** — el truco de tres capas: escena ai-gen abajo,
-   capa `text` en el medio, **cutout del producto** (`remove_background`)
-   arriba. El producto se superpone parcialmente al texto y la pieza gana
-   profundidad real, con el texto igual de nítido. Funciona con productos de
-   silueta sólida.
+   capa `text` en el medio, **cutout del producto** arriba. El producto se
+   superpone parcialmente al texto y la pieza gana profundidad real, con el
+   texto igual de nítido. Funciona con productos de silueta sólida. **Solo si
+   el humano lo pide** (o ya existe un cutout por otro motivo): el
+   `remove_background` es último recurso, no un placement para elegir por tu
+   cuenta.
 6. **Doble peso** — dos capas `text` alineadas (la segunda con `below` + `gap`):
    la palabra clave grande y bold, el descriptor a ~60% del tamaño en peso
    regular. Para copy con golpe + complemento (*"Hierro fundido." / "Sin
@@ -83,7 +85,7 @@ sin leer — y en Studio, casi todos son CAPAS:
 | Dispositivo | Cómo se arma |
 |---|---|
 | Dato destacado | Número grande como capa `text` bold + descriptor con `below` |
-| Pill / badge | `rect` con `cornerRadius` + capa `text` encima |
+| Pill / badge | `rect` con `cornerRadius` + capa `text` con `within: "<rect>"` y `anchor: "center"` (nunca márgenes calculados a mano) |
 | Comparación lado a lado | Dos mitades: `rect` de fondo por lado + textos; o dos zonas pedidas en la escena |
 | Indicador de progreso (carrusel) | Capa `text` chica (`2/5`) o `rect`s finitos, mismo lugar en todos los slides |
 | Zoom de detalle del producto | Candidato aparte de la capa ai-gen (crop/detalle) o segunda capa `image` |

@@ -27,28 +27,76 @@ nítido en cualquier export. El schema completo está en el CLAUDE.md del
 proyecto. **Si te encontrás pidiéndole texto o logos al modelo de imagen,
 pará: eso es una capa.**
 
+Texto adentro de un pill/botón/badge → la capa `text` lleva
+`"within": "<id del rect>"` + `"anchor": "center"`. **Nunca centres a mano
+con márgenes calculados**: la caja del texto es la de mayúsculas (~0,7 ×
+`size`), no `size × lineHeight`, y ese cálculo cae siempre un cuarto de em
+corrido — el CTA queda visiblemente descentrado.
+
 Cómo se compone esa capa de texto (placement, jerarquía, contraste, densidad
 de diseño) vive en `style/composicion-texto.md` — leelo antes de armar las
 capas de una pieza con texto.
 
-## La foto real es una OPCIÓN — tenela siempre en el radar
+## Modo FLAT: cuando la pieza es UNA imagen de un saque
 
-Generar no es la única vía: la pieza también puede armarse CON la foto real.
-Es una decisión por pieza (idealmente ya escrita en el plan como
-componer/generar), no una jerarquía fija:
+Lo de arriba es el default. El humano puede poner **todo el brief** en modo
+FLAT desde la toolbar del Board: NO quiere capas, quiere que el modelo genere
+la imagen completa, **texto y logo incluidos**, como una pieza única — para
+cada imagen del brief, en todos sus chats. Te enterás por el bloque de foco
+de cada mensaje (`Compose mode of this brief: FLAT`) y por
+`.indash/sessions.json` (entrada de tu brief → `compose: "flat"`); leelo al
+arrancar un lote y pasáselo a cualquier subagent. Si está prendido, este
+bloque reemplaza a "acá todo se construye por capas" en cada pieza:
 
-- Producto-sobre-fondo, brand-flat, precio+packshot → suele ganar el
-  **cutout de la foto real** (`mcp__indash__remove_background { file, creative,
-  folder: "workbench/<brief>/<título del plan>/cutouts" }` te deja el PNG con
-  alpha en la carpeta del creativo) como capa `image`
-  sobre un `rect`/gradient de marca: cero alucinación, fidelidad perfecta.
-  Para usarlo como capa, promovelo (`promote`) o copialo a `library/`.
-- La foto real (cruda o procesada) también puede SER el candidato de la capa
-  ai-gen: copiala a la carpeta del Workbench del creativo (su formato
-  original) y promovela con `mcp__indash__promote`; el sidecar anota el origen
-  (`"source": "library-photo"`, sin `model`).
-- Lifestyle, contexto, escena → se genera (con las fotos reales de `refs`,
-  como siempre).
+- **Manifiesto**: `"compose": "flat"` en `meta` (así el Board etiqueta la
+  pieza), una sola capa `ai-gen` full-bleed (sin `width`/`height`,
+  `fit: "cover"`) y ninguna capa `text`/`rect`/logo. Si venía en capas, las
+  sacás del array (el humano pidió flat, no una mezcla).
+- **Prompt**: acá SÍ va todo: el copy exacto entre comillas y su jerarquía
+  ("headline 'Empezá hoy.' grande arriba, subtítulo debajo, CTA en un botón
+  negro redondeado abajo"), la tipografía descripta (no el archivo), el color
+  de marca en hex, y el logo **como ref** (`library/logos/…`, en `refs` junto
+  a las fotos del producto) con la instrucción de reproducirlo tal cual.
+- **Modelo**: `gpt-image-2.5-flare` de entrada (es el que rinde tipografía);
+  `nano-banana-pro` si el producto sale mal con flare. `nano-banana-2` no es
+  el default acá: alucina letras. Resolución `1K`, igual que siempre.
+- **Verificación**: además del checklist del formato, **la ortografía del
+  copy, letra por letra, y el logo fiel son defectos BLOQUEANTES** — una letra
+  cambiada en un flat es una pieza inutilizable, al revés que un label de
+  producto borroso. Contás las letras en `view_creative`; no confíes en la
+  vista chica.
+- **Sidecar**: el prompt completo con el copy va en `vN.json` (es la única
+  copia editable del texto).
+- El resto no cambia: Workbench → mirar → `promote` → sidecar → commit.
+
+Si el humano apaga flat, las piezas ya hechas quedan como están; cuando te
+pida rehacer una por capas, re-scaffoldeás texto/logo/scrim, sacás
+`meta.compose` y generás solo la escena, como en el default.
+
+## La foto real: en `refs` SIEMPRE; como cutout, ÚLTIMO recurso
+
+La foto real del producto entra a cada pieza como **referencia** de
+`generate_image` — así el modelo pone el producto verdadero en la escena, con
+sus logos y proporciones. Eso vale también para producto-sobre-fondo,
+brand-flat y precio+packshot: **se generan igual** (prompt de fondo liso del
+color de marca, luz de estudio, producto apoyado y grande en cuadro + las
+fotos en `refs`). No hay una categoría de pieza que "se compone con recorte".
+
+Recortar la foto con `mcp__indash__remove_background` y pegar el producto a
+mano sobre un `rect` es el **último recurso**, no una vía de composición:
+
+- solo cuando la escalera de modelos (paso 6) ya falló en la fidelidad del
+  producto — envase distinto, label roto — en sus 3 candidatos, **o** cuando
+  el humano lo pide explícitamente ("usá la foto tal cual");
+- y se dice en el reporte: "fui a cutout porque X".
+
+Nunca como primer intento, nunca "por seguridad", nunca porque el brief dice
+brand-flat. Cuando toca, el PNG con alpha cae en el Workbench del creativo
+(`folder: "workbench/<brief>/<título del plan>/cutouts"`); para usarlo como
+capa, promovelo (`promote`) o copialo a `library/`. La foto real cruda
+también puede SER el candidato de la capa ai-gen: promovela desde el
+Workbench (en su formato original) y el sidecar anota el origen
+(`"source": "library-photo"`, sin `model`).
 
 ## Dónde escribís: Workbench primero, `promote` después
 
@@ -205,8 +253,9 @@ Si el candidato salió mal, el siguiente intento lleva:
   nano-banana-pro) — la resolución no es un peldaño, se queda en 1K,
 - **prompt más preciso** (corregí LO que falló, no reescribas todo — ver
   "EDIT vs GENERATE" en `reference/prompt-craft.md`),
-- o el cambio de vía: **la foto real** (cutout + composición) si generando no
-  sale.
+- y recién con la escalera agotada (3 candidatos con el producto mal), el
+  cambio de vía: **el cutout de la foto real** — último recurso, avisándolo
+  (ver "La foto real").
 
 Prohibido soltar refs o aflojar restricciones para "probar otra cosa": ese
 camino termina siempre igual — producto inventado y el humano subiendo la
@@ -223,7 +272,8 @@ pieza compilada al tamaño justo. Chequeá contra
 `formats/<formato>.md` de esta skill (y sus safe zones en
 `data/safe-zones.json`):
 
-- **Bloquean** (→ candidato nuevo o ajuste de capas): texto/logo fuera de
+- **Bloquean** (→ candidato nuevo o ajuste de capas; en flat también
+  copy con una letra distinta o logo infiel): texto/logo fuera de
   safe zone, overflow de texto, producto deformado o sin sus logos.
 - **Advierten** (seguí, pero anotalo en tu reporte): contraste justo, paleta
   que se aleja de la marca, composición de texto perezosa (placement clonado
@@ -329,7 +379,9 @@ trabajaste un lote, un resumen por grupo alcanza — no 20 líneas iguales.
 4. **Siempre** la escalera de modelos se sube, nunca se baja: nano-banana-2 →
    gpt-image-2 → nano-banana-pro; la resolución es `1K` salvo pedido
    explícito del humano. Reintentar soltando refs o bajando de modelo está
-   prohibido — y regenerar solo por defecto flagrante, no por detalle.
+   prohibido — y regenerar solo por defecto flagrante, no por detalle. El
+   cutout de la foto real (`remove_background`) es el ÚLTIMO recurso: solo con
+   la escalera agotada o a pedido del humano, nunca como primer intento.
 5. **Siempre** generás al Workbench, en **la única carpeta del creativo**
    (nombrada como el `title` del plan, buscada por `.folder.json` antes de
    generar, pasada en `folder`), y el candidato lo crea `mcp__indash__promote` — **nunca** escribís `layers/vN`

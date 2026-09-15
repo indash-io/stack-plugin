@@ -63,8 +63,18 @@ Escribí `briefs/<brief>/plan.json` (schema en CLAUDE.md). Además de la
 estructura (grupos por formato, ids kebab-case), cada creativo lleva en
 `notes` las decisiones que después nadie tiene que adivinar:
 
-- **¿Componer o generar?** Si la pieza es tipográfica/brand-flat/precio →
-  se COMPONE (capas, sin generación). Si lleva escena orgánica → se genera.
+- **¿Componer o generar?** Si la pieza es puramente tipográfica (sin
+  producto ni escena: solo texto, logo, color) → se COMPONE (capas, sin
+  generación). Todo lo que lleva producto o escena → se GENERA, también
+  brand-flat y packshot sobre fondo liso (el producto va generado con sus
+  fotos en `refs`). "Componer" nunca significa recortar la foto del producto
+  con `remove_background`: eso es un último recurso de la ejecución, no una
+  decisión del plan.
+- **¿Capas o flat?** No es una decisión del plan: es el **modo de la sesión**
+  (el humano lo prende para todo el brief desde la toolbar del Board; te
+  llega en el bloque de foco y en `.indash/sessions.json`). Con flat prendido,
+  cada imagen se genera de un saque, texto y logo en el pixel, sin capas — el
+  scaffold cambia (abajo), el plan no.
 - **¿Producto en escena o no?** Lifestyle sin producto es legítimo, pero se
   decide ACÁ y queda escrito — no se improvisa en el momento de producir.
 - Con producto: cuál (`product_id`) y qué vista pide la pieza.
@@ -105,7 +115,9 @@ lo que el bloque no trae. Un bloque completo = cero preguntas.
 
 **Imagen**: carpeta + manifiesto `<id>.indash` con `meta.status: "draft"`,
 canvas del formato del grupo, capas de intención (texto con el copy del plan,
-logo, scrim, capa `ai-gen` con `active: null` si se genera). Formatos y safe
+logo, scrim, capa `ai-gen` con `active: null` si se genera). Si la sesión está
+en modo flat: `meta.compose: "flat"` y UNA sola capa ai-gen full-bleed, sin
+capas de texto ni logo — el copy queda en `notes` para el prompt. Formatos y safe
 zones: skill `creative-execution`, `formats/` y `data/safe-zones.json`.
 
 **Video**: carpeta + manifiesto **sin capas** — el contenido va a ser la
@@ -132,7 +144,7 @@ Workbench (son lazy: las crea la skill que las necesita).
 ## 5 · Listo para disparar
 
 Resumile al humano: N piezas en M grupos, qué productos se preparan, qué
-piezas se componen vs generan, cuántos videos. Cuando dispare ("generá las
+piezas se componen vs generan, cuáles van flat, cuántos videos. Cuando dispare ("generá las
 stories", "generá todo"), la producción la hacés vos desde este mismo chat:
 `creative-execution` por cada imagen; para cada video, `video-clips` (guiones
 → parás → stills → clips, en el Workbench) y después `video-composition`
