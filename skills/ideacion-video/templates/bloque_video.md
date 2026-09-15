@@ -1,12 +1,15 @@
-# Template — bloque de grupo video
+# Template — bloque de video
 
 Sub-formato del bloque de video dentro del contrato general
-(`../../content-brief/templates/bloque_por_pieza.md`). El bloque es el **grupo**
-(un video = una fila del board); los clips van adentro, en orden. La cantidad de
-clips se **deriva** de `seconds` (`ceil(seconds/10)`) — nunca se escribe.
+(`../../content-brief/templates/bloque_por_pieza.md`). El bloque es **un creativo**
+(un video = UNA tarjeta del board: `kind: video` + `seconds`, dentro del grupo
+de su formato); los clips van adentro, en orden, como material de producción.
+La cantidad de clips se **deriva** de `seconds` (`ceil(seconds/10)`) — nunca se
+escribe.
 
 ```markdown
-### Grupo: <id-del-grupo>            ← kebab-case, ej. video-confesion
+### Video: <id-del-creativo>         ← kebab-case, ej. video-confesion
+- **grupo**: <grupo del formato, ej. stories>   ← un video = un formato
 - **kind**: video
 - **seconds**: <10 | 20 | …>
 - **formato**: 9:16 (1080×1920)
@@ -39,6 +42,6 @@ clips se **deriva** de `seconds` (`ceil(seconds/10)`) — nunca se escribe.
 3. Un hablante por clip. Si hay dos personas, el corte entre clips es el cambio
    de turno.
 4. Para la rama **marca**, reemplazá los clips por el shot list del arco elegido
-   (shot + job + duración + sujeto + acción), manteniendo los campos del grupo —
+   (shot + job + duración + sujeto + acción), manteniendo los campos del bloque —
    y la marca `ejecución a validar`.
 ```

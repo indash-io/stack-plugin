@@ -17,7 +17,7 @@ funnel, producto, reglas duras) y garantizás la coherencia del conjunto:
 | Ads de Meta | `ideacion-ads` | Bloques con ángulo + copy de Meta completo + concepto visual |
 | Carruseles | `ideacion-carruseles` | Bloques de grupo: narrativa + sub-bloque por slide |
 | Stories | `ideacion-stories` | Bloques de secuencia: copy + sticker por story |
-| Videos | `ideacion-video` | Bloques de grupo `kind: video`: guion por clip + registro + gesto |
+| Videos | `ideacion-video` | Bloques de video (un creativo `kind: video` + `seconds` cada uno): guion por clip + registro + gesto |
 | Emails | `ideacion-emails` | Bloques de campaña: 3 ángulos + subjects + hipótesis |
 
 Si el pedido es de un solo tipo ("armá 3 ads para el lanzamiento"), la skill de

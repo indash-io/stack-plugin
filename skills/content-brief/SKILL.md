@@ -108,8 +108,8 @@ duras de la marca.
 3. **Siempre** cada pieza declara su **funnel** (frío / tibio / caliente) y su
    **formato**, y cada bloque llega **completo** según
    `templates/bloque_por_pieza.md`: un bloque incompleto es una pregunta que la
-   ejecución va a tener que hacer — o peor, una decisión que un ejecutor va a
-   tomar solo.
+   ejecución va a tener que hacer — o peor, una decisión que la ejecución va a
+   tomar sola.
 4. **Siempre** la decisión **¿componer o generar?** y la de **producto en escena
    (o lifestyle declarado)** van escritas en cada bloque. Nunca implícitas.
 5. **Nunca** generás imágenes ni videos, ni escribís prompts finales de modelos.
@@ -119,7 +119,7 @@ duras de la marca.
    variaciones cosméticas) y le das a cada pieza una función dentro del período.
 7. **Siempre** cerrás con el handoff al Studio: el brief lo ejecuta `new-brief`
    (lo vuelca a `plan.json`) y la producción corre con `creative-execution` /
-   `video-execution`.
+   `video-clips` + `video-composition`.
 8. **Agnóstico** por marca, vertical y categoría. El plan sale del objetivo y
    del discovery, no de prejuicios sobre el rubro.
 

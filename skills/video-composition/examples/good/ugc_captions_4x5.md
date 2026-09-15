@@ -1,8 +1,9 @@
 # BUENO — UGC con captions, entregado en 4:5 y 9:16
 
 Marca anonimizada. Categoría: suplementos DTC. Material: 1 clip UGC de
-`video-execution` (persona hablando a cámara, audio nativo) + 2 inserts de
-producto + packshot.
+`video-clips` (persona hablando a cámara, audio nativo) + 2 inserts de
+producto + packshot, todo en la carpeta del Workbench. Dos creativos del plan:
+`stories/testimonio` (9:16) y `feed/testimonio-4x5` (4:5).
 
 **Por qué es bueno**: los captions siguen el modelo rail + embed, el audio
 nativo manda, el corte se autora primero en el formato más restrictivo, y el
@@ -37,8 +38,9 @@ documentado para el flujo de captions embebidos de HyperFrames.
    ```
 3. **Rail + un embed.** El rail lleva todo lo que se dice; una sola palabra —
    *"dos semanas"* — se promueve a embed en el clímax.
-4. **9:16 primero.** Es el formato con la zona segura más chica; el 4:5 se
-   deriva bajando el rail y achicando la escala tipográfica.
+4. **9:16 primero.** Es el formato con la zona segura más chica; el 4:5 es
+   otro creativo: se copia `composition/` a su carpeta y se deriva bajando el
+   rail y achicando la escala tipográfica.
 
 ---
 
@@ -126,4 +128,5 @@ Ningún claim de salud agregado por el editor.
 | Encuadre `ugc-01` | `object-position: center 35%` | `object-position: center 30%` |
 
 Todo lo demás — cortes, timecodes, texto, audio, transiciones — **idéntico**. El
-corte no se re-planificó: se reencuadró.
+corte no se re-planificó: se reencuadró, y cada creativo tuvo su propio
+`render_video`.

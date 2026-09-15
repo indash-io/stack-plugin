@@ -6,10 +6,18 @@
 > `main`). Lo de "Inferido" es lectura nuestra, no cita. Lo de "Verificar" **no
 > está en las fuentes**: no lo afirmes al user, decile que hay que chequearlo.
 >
-> HyperFrames se mueve rápido (la CLI iba en `0.8.x` a esta fecha). Si algo de
+> HyperFrames se mueve rápido (la CLI iba en `0.8.x` a esta fecha; el 2026-09-09
+> se re-verificaron `render --help` y `check --help` contra `0.8.33`). Si algo de
 > acá no matchea con lo que devuelve la máquina, **gana la máquina**:
 > `npx hyperframes <comando> --help` y `npx hyperframes doctor` son la fuente
 > de verdad del entorno.
+>
+> **En el Studio el render lo corre la app** (`mcp__indash__render_video`, un
+> cascarón sobre `npx hyperframes render`): lo de `render` está acá para que
+> entiendas qué hace la tool, no para que lo corras vos. Lo que sí corrés vos,
+> dentro de `composition/`: `lint`, `check`, `transcribe`, `beats`, `add`,
+> `media-treatment`, `doctor`. Curado para el Studio: sin editor, sin cloud,
+> sin TTS.
 
 ## Fuentes primarias
 
@@ -53,8 +61,7 @@ Tagline: *"Write HTML. Render video. Built for agents."*
 - **Requisitos**: Node.js **22+** y **FFmpeg**. El render corre Chrome headless
   (Puppeteer) y encodea con FFmpeg.
 - **Determinismo**: el renderer *busca* (seek) cada frame en Chrome headless y
-  encodea con FFmpeg → mismo input, mismos frames, mismo output. `--docker`
-  fuerza el camino determinístico entre máquinas.
+  encodea con FFmpeg → mismo input, mismos frames, mismo output.
 - **Sin build step**: un `index.html` de composición se abre y se reproduce como
   está.
 - **Comparación explícita con Remotion** (está en el README): mismo motor
@@ -69,41 +76,31 @@ npx hyperframes preview            # preview en browser con live reload
 npx hyperframes render             # render a MP4
 ```
 
-Comandos documentados (referencia de la CLI): `init`, `add`, `catalog`,
-`capture`, `transcribe`, `tts`, `remove-background`, `media-treatment`, `beats`,
-`preview`, `lint`, `check`, `snapshot`, `render`, `publish`, `doctor`,
-`cloud render` (render hosteado por HeyGen) y `lambda deploy | render | progress`
-(render distribuido en AWS Lambda).
+Comandos documentados (referencia de la CLI) que usa esta skill: `add`,
+`catalog`, `transcribe`, `media-treatment`, `beats`, `preview`, `lint`,
+`check`, `render` (vía la tool), `doctor`. Existen además `init`, `capture`,
+`tts`, `remove-background`, `snapshot`, `publish`, `cloud render` y `lambda`
+— fuera del proceso del Studio: no scaffoldeamos proyectos aparte (la
+composición vive en el creativo), no sintetizamos voz, no renderizamos en la
+nube.
 
 Convenciones transversales de la CLI: casi todo acepta `--json` (pensado para
 agentes), `--dir` elige el directorio del proyecto, y `--non-interactive` /
 `--yes` evitan cualquier prompt.
 
-**`init` — flags relevantes:**
-
-| Flag | Qué hace |
-|---|---|
-| `--example, -e` | Ejemplo a scaffoldear. Requerido con `--non-interactive`. |
-| `--resolution` | Preset de canvas: `landscape` (1920×1080), `portrait` (1080×1920), `landscape-4k` (3840×2160), `portrait-4k` (2160×3840), `square` (1080×1080), `square-4k` (2160×2160). Aliases: `1080p`, `4k`, `uhd`, `1080p-square`, `square-1080p`, `4k-square`. |
-| `--video, -v` / `--audio, -a` | Path a un video (MP4, WebM, MOV) o audio (MP3, WAV, M4A). Al pasarlos, la CLI transcribe con Whisper y **parchea los captions en la composición**. |
-| `--tailwind` | Inyecta el runtime de Tailwind v4 en el HTML scaffoldeado. |
-| `--non-interactive` | Nunca pregunta. Para agentes y CI. |
-| `--skip-transcribe`, `--model`, `--language` | Control de la transcripción automática. |
-
-**`render` — flags relevantes:**
+**`render` — lo que hace la tool** (`hyperframes render [OPTIONS] [DIR]`,
+verificado en `0.8.33`; `DIR` = la carpeta del proyecto, o sea
+`composition/`):
 
 | Flag | Default | Qué hace |
 |---|---|---|
-| `--output, -o` | `renders/<name>.mp4` | Path del archivo de salida |
-| `--composition, -c` | `index.html` | Renderizar otra composición |
-| `--format` | `mp4` | `mp4`, `webm`, `mov`, `gif`, `png-sequence`. WebM y MOV llevan transparencia; `png-sequence` escribe frames RGBA. |
-| `--fps, -f` | `data-fps` del root, si no 30 | 1–240, o racional de ffmpeg (`30000/1001` para 29.97) |
-| `--quality, -q` | `standard` | `draft`, `standard`, `high`. Maneja CRF y bitrate. |
-| `--resolution` | tamaño de la composición | Supersample vía `deviceScaleFactor` de Chrome. El aspect ratio tiene que coincidir y la escala tiene que ser un múltiplo entero. No se combina con `--hdr`. |
-| `--docker` | off | Render dentro de Docker, para output determinístico |
-| `--variables` / `--variables-file` / `--batch` | — | Overrides de variables de composición; `--batch` renderiza un output por fila |
-| `--crf` / `--video-bitrate` | según `--quality` | Override del encoder (mutuamente excluyentes) |
-| `--gpu`, `--workers, -w` | auto | Encoding por hardware; 1–24 workers (cada uno es un Chrome, ~256 MB) |
+| `--output, -o` | `renders/<name>.mp4` **relativo a DIR** | Path del archivo de salida. La tool pasa uno explícito (temporal) y después lo mueve a `renders/vN.mp4` del creativo, así `composition/renders/` nunca aparece |
+| `--composition, -c` | `index.html` | Renderizar otra composición del proyecto |
+| `--format` | `mp4` | `mp4`, `webm`, `mov`, `gif`, `png-sequence`. La tool siempre pide MP4 |
+| `--fps, -f` | `data-fps` del root, si no 30 | 1–240, o racional de ffmpeg (`30000/1001`) — **`data-fps` en el root SÍ existe** (lo dice `render --help` de 0.8.33) |
+| `--quality, -q` | `standard` | `draft`, `standard`, `high`. Maneja CRF y bitrate. Es el `quality` de la tool |
+| `--resolution` | tamaño de la composición | Supersample vía `deviceScaleFactor`. No reencuadra. La tool no lo usa |
+| `--browser-timeout` | 60 s | Timeout de navegación de la página de entrada; para composiciones pesadísimas |
 | `--strict` / `--strict-all` | off | Fallar ante errores de lint (o errores + warnings) |
 
 **`preview`**: `--port` (default 3002), `--background`, `--foreground`, `--json`,
@@ -121,14 +118,12 @@ resultado incluye la URL exacta del proyecto en Studio.
   contraste WCAG AA. Flags útiles: `--json`, `--snapshots`, `--at 1.5,4,7.25`,
   `--at-transitions`, `--strict`.
 
-Otros comandos que esta skill usa seguido:
+Otros comandos que esta skill usa seguido (siempre con cwd = `composition/`):
 - `npx hyperframes add <block>` — instala un bloque/componente del catálogo
   (por ejemplo `flash-through-white`, `instagram-follow`, `data-chart`).
 - `npx hyperframes transcribe video.mp4 [--model medium.en] [--language es] [--to srt|vtt]`
-  — transcripción local (motor `auto` → Parakeet si está, si no Whisper).
-- `npx hyperframes tts "texto" --voice <id> --output narration.wav` — TTS local.
-  El locale del phonemizer soporta `es` entre otros, y hay voces que ya hablan
-  español (la doc nombra `ef_dora`).
+  — transcripción local (motor `auto` → Parakeet si está, si no Whisper). Es
+  lo único de audio que generás: **no hay TTS en el Studio**.
 - `npx hyperframes media-treatment --capabilities --json` — superficie vigente
   de color grading y efectos, legible por máquina. **Usalo en vez de hardcodear
   una lista de efectos.**
@@ -324,14 +319,11 @@ ni roll como gesto.
   motion graphics rápidos en pantalla de alto refresco; se desperdicia en un
   talking head o una secuencia de títulos lenta.
 - **HDR**: HDR10 MP4 (H.265 10-bit, BT.2020), *source-driven* — solo sale HDR si
-  la composición referencia media HDR real. Solo MP4, **no disponible en
-  Lambda**.
-- **Dónde corre**: local es el default y lo correcto para todo el loop de
-  iteración. `cloud render` (hosteado por HeyGen, sin cuenta de AWS),
-  `lambda` (AWS, SDR only, factura por tiempo de cómputo) y Cloud Run son para
-  cuando una sola máquina es el cuello de botella.
+  la composición referencia media HDR real. Fuera del proceso del Studio.
+- **Dónde corre**: local, en la máquina del humano, vía la tool. La nube
+  (`cloud render`, `lambda`) queda fuera del Studio por ahora.
 - La doc marca explícitamente que **el render es user-gated por diseño**: el
-  agente frena en preview y renderiza cuando la persona aprueba.
+  agente frena en el draft y renderiza el `high` cuando la persona aprueba.
 
 ### 1.8 Skills oficiales para agentes
 
@@ -372,8 +364,9 @@ Skills de dominio: `/hyperframes-core`, `/hyperframes-animation`,
    composición se alarga, hay que subir también el `data-duration` del root
    (la doc lo dice para el caso de retiming; lo generalizamos).
 5. **El flujo natural para el stack es CLI local**, no un servicio: la pieza
-   final sale de la máquina del user con `render`. Eso es lo que hace a esta
-   skill *prompt-only* — no necesita ninguna tool nueva del MCP de Indash.
+   final sale de la máquina del humano. En el Studio esa CLI la envuelve
+   `mcp__indash__render_video` para que el render caiga versionado en el
+   creativo; el día que la app empaquete FFmpeg y Chromium, la tool no cambia.
 
 ---
 
@@ -385,10 +378,11 @@ contra la doc vigente o contra la máquina.
 1. **¿Existe un MCP server oficial de HyperFrames?** No encontramos uno en el
    README ni en el índice de la doc. La integración documentada con agentes es
    vía **skills + CLI**, no vía MCP. *Verificar.*
-2. **`data-fps` en el root.** La referencia de `render` menciona que el default
-   de `--fps` sale del "root `data-fps`", pero ese atributo **no aparece** en la
-   tabla del schema HTML que leímos. Asumí que el fps se fija en el render
-   (`--fps`) y *verificá* antes de escribirlo como atributo.
+2. **`data-fps` en el root.** `render --help` de 0.8.33 lo confirma como
+   default de `--fps` ("Defaults to the composition's root data-fps, else 30"),
+   así que escribirlo en el root es válido; lo que no leímos es su entrada en
+   la tabla del schema HTML. Si lo usás, ponelo igual a `video.fps` del
+   manifiesto (30 salvo motivo).
 3. **Límites duros**: duración máxima de una composición, cantidad máxima de
    clips o de composiciones anidadas, tamaño máximo de archivo fuente. No
    documentados en lo que leímos. *Verificar.*
@@ -404,10 +398,7 @@ contra la doc vigente o contra la máquina.
    asumirlo.
 6. **Comportamiento de `publish` y `snapshot`.** Aparecen en el índice de
    comandos pero no leímos su referencia completa. *Verificar.*
-7. **Costos de `cloud render` (HeyGen).** La doc dice que Lambda factura por
-   tiempo de cómputo; el pricing del render hosteado no lo verificamos.
-   *Verificar antes de recomendarlo a un cliente.*
-8. **Compatibilidad exacta con los assets del MCP de Indash.** Los videos y
+7. **Compatibilidad exacta con los assets del MCP de Indash.** Los videos y
    frames que devuelve Indash son URLs públicas. La doc dice que las
    composiciones tienen que resolver la media local o por URL pública, pero
    **no verificamos** el comportamiento de HyperFrames con URLs firmadas o que

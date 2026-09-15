@@ -3,7 +3,7 @@
 Correlo ANTES de entregar el bloque. Si un ítem falla, se corrige — no se
 entrega con la falla anotada.
 
-## El grupo
+## El video (un creativo `kind: video`)
 
 - [ ] `kind: video` + `seconds` presentes; la cantidad de clips NO está escrita
       en ningún lado (se deriva).

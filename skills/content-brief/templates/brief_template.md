@@ -38,7 +38,7 @@ Estructura exacta del brief final. Los bloques por pieza siguen el contrato de
 {bloques de cada secuencia, con sticker por story}
 
 ## 4. Videos
-{bloques de cada grupo kind: video, con guion por clip}
+{bloques de cada video (creativo kind: video + seconds), con guion por clip}
 
 ## 5. Emails
 {bloques de cada campaña — se entregan a quien ejecuta el mail}
@@ -48,4 +48,4 @@ Estructura exacta del brief final. Los bloques por pieza siguen el contrato de
 
 **Handoff que cierra la entrega** (fuera del archivo, en el chat): este brief lo
 ejecuta el Studio — `new-brief` lo vuelca a `plan.json` y la producción corre
-con `creative-execution` / `video-execution`.
+con `creative-execution` / `video-clips` + `video-composition`.

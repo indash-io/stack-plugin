@@ -1,6 +1,6 @@
 # Modelos de video — cuándo salir de omni, y qué cambia si salís
 
-`generate_video` en Studio es **siempre image-to-video**: el still activo es el
+`generate_video` en Studio es **siempre image-to-video**: el still elegido es el
 `start_image`, no hay text-to-video puro. El proceso de esta skill (guion →
 still → render) está **calibrado sobre `omni`** — todo lo del SKILL.md aplica
 tal cual con omni. Este archivo existe para cuando el humano pide otro modelo:

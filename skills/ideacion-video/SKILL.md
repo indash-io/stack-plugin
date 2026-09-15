@@ -1,6 +1,6 @@
 ---
 name: ideacion-video
-description: "Ideación de video para el brief: convierte un pedido u objetivo en bloques de grupo video plan-ready — formato (corto/largo), seconds, guion por clip con registro y gesto del still, para UGC (default) o video de marca multi-shot. Disparala cuando el brief pida videos, UGC, reels con avatar, un film de marca o una demo — o cuando content-brief derive un bloque de video. NO genera stills ni clips ni escribe prompts de modelos: eso es video-execution, en el Studio."
+description: "Ideación de video para el brief: convierte un pedido u objetivo en bloques de video plan-ready (un video = un creativo `kind: video` + `seconds`) — formato (corto/largo), seconds, guion por clip con registro y gesto del still, para UGC (default) o video de marca multi-shot. Disparala cuando el brief pida videos, UGC, reels con avatar, un film de marca o una demo — o cuando content-brief derive un bloque de video. NO genera stills ni clips ni escribe prompts de modelos: eso es video-clips + video-composition, en el Studio."
 language: es
 tags: ideation
 owner: lburgwardtr
@@ -13,9 +13,9 @@ reviewed: 2026-09-02
 ## Rol
 
 Sos el **estratega de video** del armador de briefs. Tu entregable no es un video
-ni un prompt: es el **bloque de grupo video** del brief — formato, duración,
-guiones por clip con registro y gesto — escrito de forma que `video-execution`
-(en el Studio) lo produzca **sin re-decidir nada**. El formato exacto del bloque
+ni un prompt: es el **bloque de video** del brief — formato, duración,
+guiones por clip con registro y gesto — escrito de forma que `video-clips` y
+`video-composition` (en el Studio) lo produzcan **sin re-decidir nada**. El formato exacto del bloque
 vive en el contrato `../content-brief/templates/bloque_por_pieza.md` y su
 sub-formato en `templates/bloque_video.md`.
 
@@ -34,7 +34,7 @@ pedido"** — así, si el cliente esperaba otra cosa, se sabe qué fue supuesto.
 |---|---|
 | Producto | — (único obligatorio; buscalo en el catálogo con `list_products`) |
 | Ángulo / tema | proponerlo desde los beneficios reales del producto |
-| Cantidad y duración | **corto (default): 2 videos de 10s por producto** — dos grupos `kind: video` con `seconds: 10` |
+| Cantidad y duración | **corto (default): 2 videos de 10s por producto** — dos creativos `kind: video` con `seconds: 10` |
 | Formato de pantalla | 9:16 (1080×1920) |
 | Escenario | el habitual de la marca; si no hay, interior prolijo y luminoso |
 | Tono | el del brand kit |
@@ -51,7 +51,7 @@ Si falta algo que ningún default resuelve, preguntá **UNA vez, todo junto**.
   de costo y de puntos de falla que el largo. Los 2 videos de un producto llevan
   **hooks bien distintos y registros alternados** — dos videos que arrancan
   parecido se leen como campaña fabricada.
-- **Largo (a pedido, o si el guion no entra en 10s): 20s = 1 grupo con
+- **Largo (a pedido, o si el guion no entra en 10s): 20s = 1 creativo con
   `seconds: 20`** → 2 clips derivados (`ceil(seconds/10)` — la cantidad de clips
   NUNCA se escribe: se deriva). Clip A abre con el hook, clip B cierra con el
   CTA. Más de 20s: casi siempre conviene recortar — el guion mejora; si no,
@@ -73,7 +73,7 @@ abierta para "me llegaron", mano al pecho para la confesión, dedo en alto para
 la advertencia. Por eso cada clip del bloque lleva su **gesto** escrito — no
 escribas "este:" o "mirá esto" si el still no va a tener el producto en mano.
 
-Reglas de guion esenciales (el manual completo vive en `video-execution`; estas
+Reglas de guion esenciales (el manual completo vive en `video-clips`; estas
 cinco no se negocian tampoco acá):
 
 1. **Hook en los primeros 2 segundos** del primer clip; **CTA imperativo** al
@@ -118,7 +118,7 @@ Para films de marca, demos y lanzamientos — pensás como estratega de retenci�
 2. **CONOCER EL PRODUCTO** → `list_products` + `get_product_images`. Mirá las
    fotos antes de escribir: qué packaging tiene, qué textos lleva, qué
    proporciones. Las descripciones de e-commerce mienten.
-3. **DECIDIR FORMATO** → corto vs largo; cuántos videos; `seconds` por grupo.
+3. **DECIDIR FORMATO** → corto vs largo; cuántos videos; `seconds` por video.
 4. **ESTRATEGIA** → rama UGC (registros + hooks alternados) o rama marca
    (arco + shots con job).
 5. **GUIONES** → leé `reference/registros-y-hooks.md`, escribí los N guiones

@@ -9,39 +9,35 @@ decisiones.
 
 ---
 
-## 1. Estructura del proyecto
+## 1. Estructura: la composición vive EN el creativo
 
 ```
-~/Downloads/<brief>-<grupo>-final-v1/     ← convención PROVISORIA (ver 07)
-  PLAN.md             el plan de edición
-  index.html          la composición
-  assets/
-    clip-01.mp4       los clips vigentes, COPIADOS de creatives/**/clips/
-    clip-02.mp4
-    packshot.<ext>    copiado de library/products/ o de un still (su formato original)
-    music.mp3
-    Marca-Bold.ttf    copiada de library/fonts/ del proyecto
-  renders/
-    <grupo>_draft.mp4
-    <grupo>_final_v1.mp4
+creatives/<brief>/<grupo>/<id>/
+  <id>.indash                 el manifiesto (no lo tocás acá — ver 07)
+  composition/                ← tu carpeta
+    PLAN.md                   el plan de edición
+    index.html                la composición
+    assets/
+      clip-01-v2.mp4          los clips vigentes, COPIADOS de workbench/<brief>/<carpeta>/clips/
+      clip-02-v1.mp4
+      packshot.<ext>          copiado de library/products/ o de un candidato (su formato original)
+      musica.mp3              copiada de la carpeta del Workbench (la trajo el humano)
+      Marca-Bold.ttf          copiada de library/fonts/ del proyecto
+      logo.svg                copiado de library/logos/
+  renders/                    ← NO lo escribís vos: lo llena render_video (v1.mp4, v2.mp4 …)
 ```
 
-**Todo lo que la composición referencia vive adentro del proyecto de entrega**,
-con rutas relativas (`./assets/clip-01.mp4`). Copiá los archivos — nunca
-referencies `creatives/` o `library/` directo: la entrega tiene que renderizar
-sola, y escribir renders al lado de los manifiestos está prohibido (regla 22
-del `SKILL.md`).
+**Todo lo que la composición referencia vive en `composition/assets/`**, con
+rutas relativas (`./assets/clip-01-v2.mp4`). Copiá los archivos — nunca
+referencies `workbench/`, `library/` ni `creatives/` directo: si el humano
+mueve o renombra en el Workbench, la composición no se puede romper, y el
+creativo tiene que renderizar solo dentro de un año. Conservá el nombre con
+versión del clip (`clip-01-v2.mp4`): dice qué toma entró.
 
-En `full_render` podés scaffoldear con la CLI:
-
-```bash
-npx hyperframes init <slug> --example blank --resolution portrait --non-interactive
-```
-
-Presets de `--resolution`: `landscape` (1920×1080), `portrait` (1080×1920),
-`square` (1080×1080) y sus variantes 4K. **No hay preset 4:5**: para 1080×1350
-scaffoldeás en `portrait` y corregís a mano `data-width`, `data-height`, el
-`<meta name="viewport">` y la caja `#root` del CSS.
+`composition/` es tuya hasta que el creativo está `approved`: la escribís de
+cero o la editás libremente en cada iteración. No hace falta scaffoldear con
+`npx hyperframes init` (crearía un proyecto aparte): partí de
+`templates/composition_template.md` y escribí `index.html` directo.
 
 ---
 
@@ -244,19 +240,19 @@ posicionamiento en `style/safe_zones.md`. Lo estructural:
 - La animación de entrada/salida vive en el timeline de GSAP, no en `@keyframes`
   con reloj de pared.
 
-**Si hay voz y querés captions verbatim**, la ruta documentada es transcribir
-con la CLI:
+**Si hay voz y querés captions verbatim**, primero los guiones de
+`workbench/<brief>/<carpeta>/scripts/*.md` (son lo que se dijo); para
+sincronizarlos palabra por palabra, o cuando la voz es un archivo que trajo el
+humano sin guion, transcribí con la CLI:
 
 ```bash
-npx hyperframes transcribe ./assets/vo.wav --language es --to srt --output ./assets/vo.srt
+npx hyperframes transcribe ./assets/clip-01-v2.mp4 --language es --to srt --output ./assets/clip-01.srt
 ```
 
-Motor `auto` (Parakeet si está, si no Whisper); corre local, sin API key. Y en
-`init`, pasar `--video` / `--audio` hace que la CLI transcriba y **parchee los
-captions en la composición** sola.
+Motor `auto` (Parakeet si está, si no Whisper); corre local, sin API key.
 
 Modelo **rail + embed**: el rail carga el texto, el embed es **una** palabra
-grande en el clímax. Nunca el transcript entero como embed (regla 14).
+grande en el clímax. Nunca el transcript entero como embed (regla 16 del `SKILL.md`).
 
 ### Fuentes de marca
 
@@ -305,37 +301,32 @@ Si el clip de video aporta su propio audio: `data-has-audio="true"` en el
 
 ---
 
-## 9. El comando de render
+## 9. Los gates y el render
 
-Se entrega **siempre**, en los dos modos:
+Los gates los corrés vos, dentro de `composition/`; el render lo corre la app:
 
 ```bash
-# 1. gates
+# 1. gates (cwd = composition/)
 npx hyperframes lint
 npx hyperframes check --snapshots
-
-# 2. draft para revisar el corte
-npx hyperframes render --quality draft --output renders/<slug>_draft.mp4
-
-# 3. final, solo cuando el user aprobó el draft
-npx hyperframes render --quality high --output renders/<slug>_v1.mp4
 ```
 
-Defaults documentados: MP4, 30 fps, calidad `standard`, tamaño de la
-composición. No agregues flags que no aporten:
+```
+# 2. draft para revisar el corte → renders/vN.mp4 + video.active
+mcp__indash__render_video { creative: "creatives/<brief>/<grupo>/<id>", quality: "draft" }
+mcp__indash__view_creative { creative: "creatives/<brief>/<grupo>/<id>" }   # hoja de contactos
 
-- `--fps 60` solo si es motion graphics rápido para pantalla de alto refresco.
-  En una pieza para IG es render lento a cambio de nada.
-- `--resolution` (4K) solo si el destino lo resuelve de verdad: cuesta ~4× por
-  frame, da un archivo 3–5× más grande, **no** aporta nada a un `<video>` 1080p
-  ya atado a su grilla de píxeles, exige que el aspect coincida y la escala sea
-  múltiplo entero, y **no se combina con `--hdr`**.
-- `--format webm` / `--format mov` solo para overlays con transparencia. MOV da
-  ProRes 4444 (la opción de editor); WebM da VP9 con alpha que **solo los
-  browsers decodean** — un editor de video pinta las zonas transparentes de
-  negro. Una pieza full-frame no tiene nada que transparentar.
-- `--docker` si el user necesita que el render sea bit-a-bit reproducible entre
-  máquinas.
+# 3. final, solo cuando el humano aprobó el draft
+mcp__indash__render_video { creative: "creatives/<brief>/<grupo>/<id>", quality: "high" }
+```
+
+La tool renderiza `composition/index.html` a MP4 al tamaño de la composición,
+a los fps del root (`data-fps`, si no 30), con la calidad que le pasás. No hay
+más flags que esos por diseño: 4K, 60 fps, transparencia o HDR no aportan nada
+a una pieza para feed hecha de `<video>` 1080p, y un video del board es
+siempre un MP4 full-frame. Si el humano necesita un master distinto (ProRes
+con alpha para un editor), eso es un pedido aparte: `npx hyperframes render
+--format mov` a mano, fuera de `renders/`, y se lo entregás como archivo.
 
 ---
 
