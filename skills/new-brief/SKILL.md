@@ -1,11 +1,11 @@
 ---
 name: new-brief
-description: "Armado de un brief en un proyecto de Indash Studio (cwd con .indash/) — del insight crudo al Board listo para disparar producción: conseguir el material del humano (PDF, Word, texto), guardarlo como source, preparar los productos (fotos + product.json), proponer el plan con decisiones escritas por pieza (imágenes y videos), y scaffoldear los manifiestos. Usala cuando el humano la invoque en el chat de un brief o pida \"armá el brief / el plan del mes\". No genera imágenes ni videos: eso es creative-execution / video-clips / video-composition."
+description: "Armado de un brief en un proyecto de Indash Studio (cwd con .indash/) — del insight crudo al Board listo para disparar producción: conseguir el material del humano (PDF, Word, texto), guardarlo como source, preparar los productos (fotos + product.json), proponer el plan con decisiones escritas por pieza (imágenes y videos), y scaffoldear los manifiestos. Usala cuando el humano la invoque en el chat de un brief o pida \"armá el brief / el plan del mes\", y cuando la app la dispare sola con un brief bajado del hub (existe source/brief.json: el material ya está, no se pide nada). No genera imágenes ni videos: eso es creative-execution / video-clips / video-composition — salvo que el brief venga del hub, donde después del scaffold seguís de corrido hasta el v1 de las imágenes y los stills de los videos."
 language: es
 tags: execution
 owner: lburgwardtr
 status: draft
-reviewed: 2026-09-02
+reviewed: 2026-09-16
 ---
 
 # New Brief — del insight crudo al Board listo
@@ -32,7 +32,17 @@ humano sobre qué brief trabaja.
 
 Lo primero es el insumo: qué quiere lograr el humano con este brief.
 
-- ¿Ya está? Mirá `briefs/<brief>/source/` y lo que vino en el chat.
+- **¿Existe `briefs/<brief>/source/brief.json`? Entonces el brief bajó del
+  hub (indash.ai) y el material YA está: no le pedís nada al humano.** La
+  app lo dejó ahí al crear la sesión (`brief.json` es la fuente citable,
+  `brief.md` la versión legible, y los adjuntos al lado) y mandó `/new-brief`
+  sola. Leé `brief.json`: si `source` es `draft`, el brief es su `doc` (un
+  `BriefDoc`, mapeo mecánico en el paso 3); si es `submission`, el brief son
+  los archivos de `files[]`, que leés desde `source/<path>` (el `path` es
+  relativo a `source/`, no hay URL) más `note`. Contrato completo:
+  `reference/brief-doc.md`.
+- ¿Ya está de otra forma? Mirá `briefs/<brief>/source/` y lo que vino en el
+  chat.
 - Si NO está, **pedíselo antes de proponer nada**: por lo general lo va a
   adjuntar como PDF o Word (a veces texto pegado o un link). Preguntá qué
   quiere lograr, para cuándo, y qué productos toca.
@@ -111,6 +121,27 @@ on-image y las restricciones. Volcalo a `plan.json` + `notes` siguiendo la
 tabla de mapeo del reference, **sin re-decidir nada** — y preguntá únicamente
 lo que el bloque no trae. Un bloque completo = cero preguntas.
 
+### Si el brief viene del hub (`source/brief.json` con `doc`)
+
+Mismo espíritu, otro formato: el `BriefDoc` del hub (`doc` de
+`source/brief.json`, contrato en `reference/brief-doc.md`) ya decidió QUÉ se
+dice, en qué formato y con qué copy. Lo volcás así — cada tipo de pieza tiene
+su tabla completa en el reference:
+
+| Pieza del BriefDoc | En `plan.json` |
+|---|---|
+| `estatico` (`ratio`, `copy`, `kind`, `adBase`, `changes`) | Un creativo en el grupo de su ratio: `4:5` → `g-feed` 1080×1350 · `1:1` → `g-square` 1080×1080 · `9:16` → `g-story` 1080×1920. El `copy` va **literal** en capas de texto; arquetipo, base y cambios en `notes` |
+| `carrusel` (`slides[{text, role, accent}]`, `visual`, `continuity`, `caption`) | Un grupo 4:5 propio (`id` de la pieza) con un creativo por slide, `<pieza>-s<N>`; `text` en capas, rol y acento en `notes`, visual + continuidad en `notes` de todos; `caption` no se renderiza |
+| `historia` (`frames[{text, role, link}]`, `visual`) | Un grupo 9:16 propio con un creativo por frame, `<pieza>-f<N>`; `text` en capas, rol y `link` (publicación, no render) en `notes` |
+| `video` (`hook`, `body`, `cta`, `cast`, `angle`) | **UN** creativo `"kind": "video"` en `g-story` 1080×1920, `seconds: 20` por defecto (el doc no trae duración; si hook/body/cta lo sugieren, ajustá a ~32 palabras por clip de 10s y decí por qué). Hook, body, cta, cast y ángulo **textuales** en `notes`, más clips, producto, packshot y música |
+| `messages[]` (por `messageId`), `rules[]`, `note`, `production` | `notes` de cada pieza, textuales |
+
+**Lo que el BriefDoc no decide lo decidís vos y queda escrito en `notes`**:
+componer o generar, `product_id` y vista (o lifestyle sin producto,
+declarado), el título del video, y cualquier formato extra. `plan.json`
+apunta al brief crudo: `"source": ["source/brief.json"]`. Si `doc` es `null`
+(submission), no hay tabla: leés los archivos y es el camino de arriba.
+
 ## 4 · Scaffold
 
 **Imagen**: carpeta + manifiesto `<id>.indash` con `meta.status: "draft"`,
@@ -151,7 +182,26 @@ stories", "generá todo"), la producción la hacés vos desde este mismo chat:
 (composición + render). Si el lote es grande podés repartirlo en subagents que
 sigan esas mismas skills — es una táctica de reparto, no el proceso.
 
+**Si el brief vino del hub (existe `source/brief.json`), NO frenás acá.** El
+humano ya aprobó ese brief en indash.ai y la app disparó esta skill sola:
+lo que espera es ver material, no un resumen esperando un «dale». Después
+del scaffold, mandá el resumen igual y seguí de corrido en este mismo chat:
+
+1. `creative-execution` para el **v1 de todos los creativos de imagen**:
+   1K, **un candidato por pieza**, sin regenerar salvo defecto flagrante (la
+   lista de esa skill). No es la ronda final: es el primer material para que
+   el humano corrija barato.
+2. `video-clips` para **cada video, hasta los stills**: guiones y stills de
+   corrido, sin la parada de guiones (la skill tiene esa excepción escrita),
+   y **parás en los stills**, como siempre.
+
+**Nunca clips ni render sin que el humano lo pida**: un clip cuesta plata que
+no vuelve y el render es `video-composition`. Al terminar, contale qué quedó
+(imágenes en v1, guiones y stills por video) y qué espera de él.
+
 ## Punto de entrada
 
 Arrancá por el paso **0**: identificá tu brief. Después los dos gates (insight
-y producto), y recién ahí el plan.
+y producto), y recién ahí el plan. Si `source/brief.json` existe, el primer
+gate ya está cerrado (paso 1), el plan sale del `BriefDoc` (paso 3) y después
+del scaffold seguís de corrido hasta los stills (paso 5).

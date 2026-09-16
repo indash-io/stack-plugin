@@ -1,6 +1,6 @@
 # CLAUDE.md — Guía técnica del plugin Indash Stack
 
-> **⚠️ Si estás en una branch `studio-c<N>`** (esta es `studio-c2`; `studio` a secas es la c1 congelada — ver «Ramas de contrato» en el README): `skills/` contiene los dos sets nuevos
+> **⚠️ Si estás en una branch `studio-c<N>`** (esta es `studio-c3`; `studio` a secas es la c1 congelada — ver «Ramas de contrato» en el README): `skills/` contiene los dos sets nuevos
 > (6 de **ejecución** para Indash Studio + 6 de **ideación** para el armador de
 > briefs hosteado) — ver el `README.md` de la branch. Lo que sigue describe el
 > mundo plugin de `main`; en `studio-c<N>` siguen valiendo las convenciones de

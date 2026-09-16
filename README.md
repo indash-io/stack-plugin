@@ -1,4 +1,4 @@
-# Indash Stack — branch `studio-c2` (contrato 2 de Studio)
+# Indash Stack — branch `studio-c3` (contrato 3 de Studio)
 
 > **Esta branch es el mundo nuevo.** Acá viven los **dos sets de skills curados**
 > para el ecosistema Studio: el de **ejecución** (lo consume Indash Studio, la app
@@ -31,8 +31,9 @@ skill que necesita motor nuevo nunca cae en una app que no lo tiene.
 | `studio` | 1 (congelada) | ≤ 0.6.12, builds anteriores al esquema de contratos. Borrar cuando nadie quede ahí |
 | `studio-c1` | 1 | ≤ 0.6.12 |
 | `studio-c2` | 2 | 0.6.13+: `within`, modo FLAT por sesión, foto real en `refs` con cutout de último recurso |
+| `studio-c3` | 3 | Builds con pull de briefs desde indash.ai: la app deja `briefs/<brief>/source/brief.json` + `brief.md` + adjuntos y manda `/new-brief` sola; `new-brief` mapea el `BriefDoc` y sigue de corrido hasta el v1 de las imágenes y los stills de los videos |
 
-**Esta rama es `studio-c2`.**
+**Esta rama es `studio-c3`.**
 
 ## El modelo
 
@@ -55,7 +56,7 @@ append-only, guard) vive en el `CLAUDE.md` que el Studio siembra en cada proyect
 | Skill | Momento | Qué aporta esta versión sobre la del Studio 0.6.8 |
 |---|---|---|
 | `new-workspace` | Alta de una marca | + el interrogatorio de discovery (una pregunta consolidada, paleta en hex, placeholders — jamás inventar) |
-| `new-brief` | Brief → Board | + el mapeo mecánico desde el bloque por pieza (`reference/bloque-por-pieza.md`) |
+| `new-brief` | Brief → Board | + el mapeo mecánico desde el bloque por pieza (`reference/bloque-por-pieza.md`) y desde el `BriefDoc` del hub (`reference/brief-doc.md`); con brief del hub no frena: sigue hasta v1 de imágenes y stills |
 | `creative-execution` | Producir piezas estáticas | + las 7 leyes de prompting (mundo capas), recetas de composición de texto, dispositivos de diseño, **zonas seguras 2026** (Meta unificado marzo 2026 + grilla 3:4) |
 | `video-clips` | Producir los clips UGC de un video (guion → still → clip, en el **Workbench** del creativo) | Ex `video-execution`. + referencia de modelos (omni/seedance/veo/kling), regla de las 3 fidelidades, disciplina de frame-0 |
 | `export-creatives` | Entregar | (igual a la del Studio) |

@@ -5,7 +5,7 @@ language: es
 tags: execution
 owner: lburgwardtr
 status: draft
-reviewed: 2026-09-11
+reviewed: 2026-09-16
 ---
 
 # Video Clips — los clips UGC de un video, en el Workbench
@@ -90,6 +90,15 @@ no ser consultado a cada paso — pero un clip cuesta plata que no vuelve y se
 rinde SOBRE un still: mandarlo sin que el still esté validado es tirar esa
 plata.
 
+**La excepción: el brief vino del hub.** Si el brief bajó de indash.ai
+(existe `briefs/<brief>/source/brief.json` y `new-brief` te trajo hasta acá
+de corrido) y el humano **no pidió parar**, la parada de guiones se saltea:
+escribís los guiones y seguís con los stills sin esperar. Los guiones quedan
+igual en `scripts/` y pegados en el chat, para que los lea cuando llegue — y
+si al leerlos cambia uno, el still de ese clip se regenera (`-vK+1`), que es
+barato. **La parada de stills se mantiene siempre**: ahí parás, como siempre,
+y ningún clip sale sin que el humano lo pida.
+
 ## Paso 0 — El producto, con sus fotos reales
 
 Igual que en `creative-execution`, y por las mismas razones. `list_products`
@@ -169,6 +178,9 @@ humano lee en el Workbench, así que tiene que leerse solo:
 también: la pregunta que tiene que poder contestar no es "¿este guion está
 bien?" sino "¿estos clips cuentan una historia y no repiten el hook?", y eso
 solo se ve leyendo seguido. Seguís cuando te diga.
+
+Salvo con brief del hub (`source/brief.json`) y sin pedido de parar: ahí
+pegás los guiones en el chat igual, y pasás al Paso 2 de corrido.
 
 ## Paso 2 — Los stills (uno por clip)
 
@@ -430,5 +442,7 @@ una línea al cerrar.
 
 Arrancá por el **Paso 0**: ningún guion se escribe sobre un producto cuyas
 fotos reales no miraste (para producto digital, su material real). Después
-guiones → parás hasta que el humano diga → stills (avisás y seguís) → clips →
-la posta a `video-composition`.
+guiones → parás hasta que el humano diga → stills → parás hasta que elija →
+clips → la posta a `video-composition`. Con brief del hub y sin pedido de
+parar, guiones y stills van de corrido; la parada de stills no se saltea
+nunca.
