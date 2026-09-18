@@ -15,7 +15,7 @@ La idea: instalás el plugin, conectás tu cuenta de Indash con un login, y las 
 | Skill | Qué hace |
 |---|---|
 | **new-client** | Da de alta un cliente nuevo: crea la estructura de carpetas estándar (con `brand/`), baja marca y productos desde el MCP de Indash y genera el `CLAUDE.md` de contexto de marca que las demás heredan. Se dispara con *"nuevo cliente"*. |
-| **content-brief** | Arma el **brief de contenido del período**: define el mix de piezas (ads, carruseles, stories, videos, emails) con copy + brief de imagen por pieza, y orquesta las skills de ejecución. Se dispara con *"armá el brief del mes"* / *"plan de contenido"*. |
+| **content-brief** | Arma el **brief de contenido del período** con el contexto de marca que cargó el cliente y **la misma metodología que el agente de briefs de la app** (el conector la sirve en vivo): mensajes con fuente y cada pieza con copy literal. Lo guarda en Indash para que lo revisen el cliente y el equipo, y orquesta las skills de ejecución. Se dispara con *"armá el brief del mes"* / *"plan de contenido"*. |
 | **carruseles** | Carruseles **4:5 (1080×1350)**: shot list + **genera las imágenes** con el MCP de Indash (elige modelo por slide) + prompts. |
 | **stories-nano-banana** | Secuencias de **Stories 9:16 (1080×1920)**: shot list + prompts, con sticker de engagement por story y texto en zona segura de UI. |
 | **ads** | Meta ads (FB/IG) para DTC e-commerce: 3-5 variaciones con imagen final (vía MCP) + copy de Meta completo (Primary Text, Headline, Description, CTA). |
@@ -25,7 +25,7 @@ La idea: instalás el plugin, conectás tu cuenta de Indash con un login, y las 
 | **hyperframes** | **Post-producción creativa de video**: edita y ensambla los clips e imágenes que ya generaste en la pieza final con [HyperFrames](https://github.com/heygen-com/hyperframes) — cortes, transiciones, captions en zona segura, música y VO, en 9:16 / 4:5 / 1:1 / 16:9. Entrega el plan de edición por segundos + la composición + el comando de render. Se dispara con *"editame un reel con los clips de `<producto>`"*. |
 | **edicion-ugc** | **Montaje determinístico de clips de avatar/UGC**: recorta silencios muertos, detecta y tapa morphs con B-roll, quema subtítulos en Montserrat y pega la placa final de la marca. Las reglas salen de medir 21 ediciones manuales reales, no de criterio inventado. Corre **local** (macOS + ffmpeg + whisper-cpp, ver requisitos en su `SKILL.md`) y no consume créditos. Se dispara con *"editá estos clips de UGC"*, *"montá estos clips"* o *"revisá si hay morph"*. |
 | **email-marketing-ecomm** | Mails promo DTC: 3 variantes (HTML + PNG) brand-first, listas para Klaviyo / Mailchimp / Customer.io. |
-| **stack-overview** | **Empezá por acá si es tu primera vez.** Te explica el stack: qué hace cada skill, las 29 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué referencias soporta cada modelo (imagen, video y audio). Se dispara con *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"* o cualquier pregunta sobre capacidades. |
+| **stack-overview** | **Empezá por acá si es tu primera vez.** Te explica el stack: qué hace cada skill, las 31 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué referencias soporta cada modelo (imagen, video y audio). Se dispara con *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"* o cualquier pregunta sobre capacidades. |
 
 Todas siguen un workflow estricto: intake → discovery (scraping + análisis de imagen) → **una sola pregunta consolidada de decisiones** → concepto → generación de prompts → self-check → output. Nunca generan sin confirmar con vos primero.
 
@@ -121,7 +121,7 @@ Un run no interactivo no puede abrir el browser, así que no completa un OAuth p
 Pedile a Claude en lenguaje natural — las skills se disparan solas cuando el pedido coincide:
 
 1. **Dar de alta un cliente** (primero) → *"Nuevo cliente: Acme Foods"* → dispara `new-client`: crea la carpeta del cliente (con `brand/`), baja marca y productos del MCP de Indash y genera el `CLAUDE.md` de marca. Después trabajás **dentro de esa carpeta** para que el contexto se herede.
-2. **Planificar el período** (opcional, recomendado) → *"Armá el brief de junio para Acme"* → dispara `content-brief`: define el mix de piezas con copy + brief de imagen, y te dice qué skill ejecuta cada bloque.
+2. **Planificar el período** (opcional, recomendado) → *"Armá el brief de junio para Acme"* → dispara `content-brief`: trae el contexto de marca y la metodología de Indash, arma el brief con copy literal por pieza, lo guarda en la app (te pasa la URL y los chequeos) y te dice qué skill ejecuta cada tipo de pieza. A revisión lo manda solo cuando vos se lo decís.
 3. **Producir cada pieza** → el pedido dispara la skill que corresponde:
    - **Carrusel** → *"Armá un carrusel para `<URL>`"* + imagen → `carruseles` (genera las imágenes).
    - **Stories** → *"Necesito stories para `<URL>`"* + imagen → `stories-nano-banana`.

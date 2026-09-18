@@ -1,6 +1,6 @@
 ---
 name: stack-overview
-description: Explica qué es y qué puede hacer el stack de Indash — las 11 skills de creative performance, las 29 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "qué es /save-learnings", "cómo se guarda lo que aprendimos", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
+description: Explica qué es y qué puede hacer el stack de Indash — las 11 skills de creative performance, las 31 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "qué es /save-learnings", "cómo se guarda lo que aprendimos", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
 language: es
 owner: manuel-soria
 status: published
@@ -26,7 +26,7 @@ del gate de autenticación y de guardado que están más abajo son las que valen
 
 Adaptá el nivel al pedido — no vuelques todo el documento cada vez:
 
-- **"¿Qué puedo hacer?" / tour general** → el mapa de las 11 skills + las 5
+- **"¿Qué puedo hacer?" / tour general** → el mapa de las 11 skills + las
   familias de capacidades del MCP, en no más de una pantalla. Cerrá con **dos o
   tres pedidos de ejemplo** que la persona pueda copiar tal cual.
 - **Pregunta puntual** (video de referencia, dónde se guarda, actualizaciones) →
@@ -48,7 +48,7 @@ mano.
 | Skill | Qué hace | Se dispara con |
 |---|---|---|
 | `new-client` | Da de alta un cliente: crea la estructura de carpetas, baja marca y productos del MCP y escribe el `CLAUDE.md` de contexto que heredan las demás | *"nuevo cliente: Acme"* |
-| `content-brief` | Brief de contenido del período: el mix de piezas con copy + brief de imagen por pieza, y qué skill ejecuta cada bloque | *"armá el brief de junio"* |
+| `content-brief` | Brief de contenido del período, con el contexto de marca y la metodología del agente de briefs de la app: mensajes con fuente y cada pieza con copy literal. Lo guarda en Indash para revisión y dice qué skill ejecuta cada tipo de pieza | *"armá el brief de junio"* |
 
 **Ejecución de contenido**
 
@@ -98,18 +98,18 @@ sesión hubo fricción con una skill** — la persona pidió rehacer algo, corri
 la skill o dijo que algo no le sirvió — en una línea al final del handoff. Si la
 entrega salió derecho, no lo menciones. Y **no lo ejecutes por tu cuenta**.
 
-## 2. Las 29 tools del conector `indash`
+## 2. Las 31 tools del conector `indash`
 
-Cinco familias. Las skills las usan solas; la persona no las llama a mano.
+Ocho familias. Las skills las usan solas; la persona no las llama a mano.
 
 **Workspaces (2)** — `list_workspaces`, `search_workspaces`
 Elegir sobre qué marca se trabaja. Se resuelve por llamada, así que una misma
 sesión puede tocar varias marcas.
 
-**Marca y catálogo (11)** — `get_brand_kit`, `update_brand_kit`,
+**Marca y catálogo (12)** — `get_brand_kit`, `update_brand_kit`,
 `list_products`, `create_product`, `update_product`, `get_product_images`,
-`add_product_images`, `remove_product_image`, `get_style_references`,
-`add_inspiration`, `fetch_image_info`
+`add_product_images`, `update_product_images`, `remove_product_image`,
+`get_style_references`, `add_inspiration`, `fetch_image_info`
 El catálogo real y la identidad de la marca: paleta, tipografía, logos,
 productos con sus fotos, referencias de estilo. Es **lectura y escritura** — se
 puede dar de alta un producto y subirle fotos desde acá.
@@ -117,13 +117,23 @@ puede dar de alta un producto y subirle fotos desde acá.
 **Generación (4)** — `generate_image`, `generate_video`, `extend_video`, `get_video_result`
 Donde se consume crédito. Ver sección 4 para modelos y referencias.
 
-**Guardado en Indash (2)** — `upload_creative`, `promote_creative`
-Suben una pieza a la galería de la marca en Indash.
+**Galería de Indash (3)** — `upload_creative`, `promote_creative`, `list_creatives`
+Suben una pieza a la galería de la marca en Indash y listan lo que ya hay.
 
-**Briefs y colaboración (5)** — `upload_briefs`, `list_briefs`,
+**El brief del período (2)** — `get_brand_context`, `save_brief`
+Lo que usa `content-brief`. `get_brand_context` trae el contexto de marca que
+cargó el cliente en su onboarding (con los archivos originales: las imágenes se
+ven, el resto llega como URL firmada), el plan con su cupo, el período que
+viene y la metodología con la que Indash arma un brief — **la misma del agente
+de briefs de la app**, servida en vivo. `save_brief` valida el brief, lo guarda
+como borrador en la app, devuelve los chequeos que revisa Indash y, solo cuando
+la persona lo confirma, lo manda a revisión. No consumen crédito.
+
+**Pedidos y colaboración (5)** — `upload_briefs`, `list_briefs`,
 `update_brief_status`, `add_comment`, `list_comments`
-Kanban de briefs (`backlog` / `todo` / `in_progress` / `done`) y comentarios
-sobre creatives o briefs, compartidos con el equipo en la app.
+Kanban de pedidos de piezas (`backlog` / `todo` / `in_progress` / `done`) y
+comentarios sobre creatives o pedidos, compartidos con el equipo en la app. No
+es el brief del período: ese es el de arriba.
 
 **Skills del workspace (2)** — `list_skills`, `get_skill`
 
@@ -176,7 +186,8 @@ versión.
 **En Indash (la app)** — solo lo que se sube explícitamente:
 
 - `upload_creative` / `promote_creative` → la pieza entra a la galería de la marca.
-- `upload_briefs` → el brief entra al kanban del equipo.
+- `save_brief` → el brief del período queda como borrador en la app, con su URL; con confirmación de la persona, pasa a revisión de Indash.
+- `upload_briefs` → un pedido de pieza entra al kanban del equipo.
 - `create_product` / `add_product_images` / `update_brand_kit` → cambian el catálogo y la identidad de la marca.
 - Toda imagen o video generado se guarda además en la galería del workspace.
 
