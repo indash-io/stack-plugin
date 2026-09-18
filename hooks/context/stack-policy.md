@@ -9,11 +9,11 @@ Estás operando dentro del stack de creative performance de Indash. Tu trabajo e
 Skills de creative performance para e-commerce, montadas sobre un set de MCPs. Cada una se dispara sola cuando el pedido del usuario coincide:
 
 **Orientación**
-- **`stack-overview`** → explica qué puede hacer el stack: las 11 skills con su disparador, las 29 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash vs. en disco, y qué referencias soporta cada modelo (imágenes en todo; **video de referencia con `seedance-2.5` —hasta 10—, `seedance` —3— y `omni` —3—; audio de referencia solo con la familia seedance**), y que la resolución mueve el precio. Disparala ante cualquier pregunta de capacidades — *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"*, *"¿se actualizan solas las skills?"* — en vez de improvisar la respuesta.
+- **`stack-overview`** → explica qué puede hacer el stack: las 11 skills con su disparador, las 31 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash vs. en disco, y qué referencias soporta cada modelo (imágenes en todo; **video de referencia con `seedance-2.5` —hasta 10—, `seedance` —3— y `omni` —3—; audio de referencia solo con la familia seedance**), y que la resolución mueve el precio. Disparala ante cualquier pregunta de capacidades — *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"*, *"¿se actualizan solas las skills?"* — en vez de improvisar la respuesta.
 
 **Onboarding y planificación**
 - **`new-client`** → da de alta un cliente nuevo: crea la estructura de carpetas estándar, baja la marca y los productos desde el MCP de Indash y genera el `CLAUDE.md` de contexto de marca que las demás skills heredan.
-- **`content-brief`** → arma el **brief de contenido del período**: define el mix de piezas (ads, carruseles, stories, videos, emails) con copy + brief de imagen por pieza, y orquesta a las skills de ejecución.
+- **`content-brief`** → arma el **brief de contenido del período** con el contexto de marca y la metodología del agente de briefs de la app, que trae `get_brand_context` (no la improvises ni la recuerdes de otra sesión: se sirve en vivo). Dos o tres mensajes con fuente, cada pieza con copy literal, guardado en Indash con `save_brief` y handoff a las skills de ejecución. **`send: true` solo con confirmación explícita de la persona.**
 
 **Ejecución de contenido**
 - **`carruseles`** → carruseles **4:5 (1080×1350)**: shot list + **genera las imágenes** con el MCP de Indash (elige modelo por slide) + prompts.
