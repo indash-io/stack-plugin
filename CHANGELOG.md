@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.17.0 — 2026-09-18
+
+**El brief del período se arma con el contexto y la metodología de la app.**
+Acompaña a las tools `get_brand_context` y `save_brief` del conector
+(indash-io/mkt-agents, rama `manuel-soria/mcp-brand-context`). **Requiere ese
+server desplegado**: sin las dos tools la skill frena y lo dice.
+
+- **`content-brief` pasa a ser un wrapper fino.** Antes traía su propia
+  metodología (intake, discovery, plan, bloques por pieza), distinta de la del
+  agente de briefs de la app: un brief armado en Claude y uno armado en Indash
+  salían de criterios distintos. Ahora la metodología (`AGENT.md` +
+  `ecom-founder` + `content-brief-builder`) la sirve el conector en vivo, la
+  misma que usa la app, y la skill solo fija el orden: `get_brand_context` con
+  `include_methodology` → armar → `save_brief` → corregir según los chequeos →
+  `send: true` cuando la persona lo confirma. Se borran `instructions/`,
+  `templates/` y `eval/` de la skill: **una sola fuente**.
+- **El contexto de marca sale del onboarding del cliente** (el CKB), con sus
+  archivos originales: las imágenes se abren como imágenes, el resto llega como
+  URL firmada que en Claude Code se puede bajar y leer local. Si el workspace
+  no tiene onboarding ni `CONTEXT.md`, la skill lo dice, ofrece completarlo y
+  avanza con el mínimo marcando el resto como pendiente.
+- **El brief queda guardado en Indash**, con su URL y los mismos chequeos que
+  ve el equipo al aprobar. La copia en `briefs/` sigue, como copia de trabajo.
+- El brief cubre los cuatro formatos de la metodología (video UGC, estático,
+  carrusel, historia). Emails y videos que no son UGC ya no salen del brief:
+  van directo a `email-marketing-ecomm` y `all-videos`.
+- `stack-overview`, la política del hook y el README: **31 tools** (eran 29), la
+  familia nueva "El brief del período", y el kanban de `upload_briefs`
+  renombrado a "pedidos" para que no se confunda con el brief. De paso entran
+  al listado `list_creatives` y `update_product_images`, que estaban contadas
+  pero no nombradas.
+
 ## 0.16.0 — 2026-09-08
 
 **Videos de hasta 40 segundos y la familia GPT Image 2.5.** Acompaña a
