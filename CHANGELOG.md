@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.18.0 — 2026-09-20
+
+**El onboarding de marca se puede hacer conversando.** Acompaña a las tools
+`get_brand_onboarding`, `update_brand_onboarding`, `create_onboarding_uploads`
+y `run_brand_onboarding_action` del conector (indash-io/mkt-agents). **Requiere
+ese server desplegado**: sin las cuatro tools la skill frena y manda al
+onboarding de la app.
+
+- **Skill nueva: `brand-onboarding`.** Es el mismo onboarding de la app (6
+  pasos) y escribe al mismo lugar, así que se puede hacer mitad en Claude y
+  mitad en `/w/<slug>/onboarding`, y lo cargado lo lee después `content-brief`.
+  Arranca siempre leyendo lo que ya hay y no repregunta.
+- **Dos modos.** Conversado, para el cliente: de a una cosa, con la pregunta
+  literal de la app, aceptando lo incompleto y el "ninguno". Carga masiva, para
+  quien llega con una carpeta (el equipo con lo que el cliente mandó por
+  WhatsApp): inventario, **tabla de clasificación archivo → lista → por qué**,
+  un OK, y recién ahí la subida por URL firmada en lotes de 20. Los audios se
+  transcriben en el server.
+- **La regla de procedencia.** A ningún campo entra nada que la persona no haya
+  dicho, pegado, subido o aprobado explícitamente en la conversación. El
+  material va crudo (las reseñas, con sus errores de tipeo). Lo que Claude saca
+  de un material largo se muestra entero y espera su OK. Un resumen devuelve
+  lenguaje de marketing y el copy sale genérico; un hueco a la vista se resuelve
+  con un mensaje, uno tapado aparece en la ronda de revisión.
+- **Opt-ins explícitos**: `read_instagram` solo si la persona lo pide o lo
+  acepta, y `complete` solo cuando dice que terminó. El cierre muestra el
+  inventario con su veredicto: compuertas, no porcentajes.
+- **Como `content-brief`, es un wrapper fino**: las preguntas de cada paso y
+  qué acepta cada campo los sirve el conector con `include_guide`. La skill no
+  los copia.
+- `new-client` y `brand-onboarding` se nombran entre sí: una arma la carpeta
+  local, la otra carga Indash, y ninguna exige a la otra. `content-brief`, sin
+  contexto de marca, ofrece completar el onboarding acá mismo.
+- `stack-overview`, la política del hook y el README: **12 skills** (eran 11) y
+  **35 tools** (eran 31), con la familia nueva "El onboarding de marca".
+- La skill sale en `status: draft`: falta la lectura de un humano.
+
 ## 0.17.0 — 2026-09-18
 
 **El brief del período se arma con el contexto y la metodología de la app.**
