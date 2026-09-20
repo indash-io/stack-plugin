@@ -90,13 +90,13 @@ Llamá `get_brand_onboarding` con `include_guide: true` y leé la guía entera: 
 
 ### 4. Modo conversado
 
-Andá por `next[]` en orden, **una cosa por vez**, con la `question` literal. Es el mismo copy de la app, no lo reescribas. Sumá el `why` en una línea solo cuando el pedido es raro (pedir piezas que *no* son la marca, pedir reseñas malas).
+Andá por `next[]` en orden, **una cosa por vez**, con la `question` literal. Cada ítem dice dónde se guarda: `field` o `list` (con `use`, la action que corresponde), o una `action` cuando lo que sigue no es una pregunta (reintentar un audio sin transcribir, confirmar lo leído de Instagram, cerrar). Es el mismo copy de la app, no lo reescribas. Sumá el `why` en una línea solo cuando el pedido es raro (pedir piezas que *no* son la marca, pedir reseñas malas).
 
 - **Guardá en el momento** con `update_brand_onboarding`, una respuesta por llamada. Si la sesión se corta, lo dicho ya quedó.
 - **Aceptá lo incompleto.** Ocho reseñas en vez de veinte se guardan; el inventario dirá `incompleto` y está bien. No retengas una respuesta esperando que se complete.
 - **"Ninguno" y "no tenemos esto" son respuestas.** En identidad, assets y material escrito es `set_flag` (`brand.identity_none`, `assets.assets_none`, `voice.written_none`); en un campo de texto se guarda lo que dijeron ("Ninguno"). Vacío a propósito no es lo mismo que sin responder, y el inventario los distingue. No insistas. La única excepción es decir la consecuencia una vez cuando es una compuerta: sin fotos de producto no se puede mostrar el producto.
 - **Para sumar, `mode: "append"`**. `replace` solo cuando la persona pide reemplazar: borra lo que había, que pudo cargarse desde la app.
-- **La tienda se pide antes que las reseñas.** Con la URL, `run_brand_onboarding_action` → `connect_store`. Si la tienda tiene app de reseñas, llegan solas y desaparece el campo más pesado del onboarding. Shopify puede devolver `importing`: seguí con otra cosa y consultá después con `get_brand_onboarding`. Tiendanube devuelve una `authorize_url`: pasásela a la persona para que la abra en su browser, vos no podés. Plataforma desconocida: la URL queda guardada; decilo.
+- **La tienda se pide temprano.** Con la URL, `run_brand_onboarding_action` → `connect_store`, y mirá el `status` que vuelve. `connected`: trajo el catálogo y las fotos de producto, y `products[]` ya sirve para matchear mecanismos y SKUs. `importing`: seguí con otra cosa y consultá después con `get_brand_onboarding` (`state.store.import`). `needs_authorization` (Tiendanube): pasale la `authorize_url` a la persona para que la abra en su browser; vos no podés. `saved_unknown_platform`: la URL queda guardada sin catálogo; decilo y pedí las fotos por otro lado. `failed` o `invalid_url`: decí el error tal cual. La tienda **no trae reseñas**: se piden igual.
 - **Audios**: ver `instructions/carga_masiva.md`, sección Audios. En claude.ai, sin shell, un audio se graba en la app (`onboarding.url`).
 - **Mecanismos**: uno alcanza si todos los productos funcionan igual; si hay otro que funciona distinto, otro `add_mechanism`. Mandá `product_id` solo cuando el nombre coincide sin ambigüedad con uno de `products[]`; si no, omitilo y matchea el server.
 - **Qué puede tocar la IA** (`set_asset_freedom`): mostrá las seis opciones juntas con sus valores por defecto y mandá lo que la persona contestó. No lo marques como respondido por tu cuenta: viajan literales al generador como restricciones duras.
@@ -112,7 +112,7 @@ Cuando la lectura esté `ready` (se ve con `get_brand_onboarding`), mostrale la 
 
 ### 6. Cierre
 
-Mostrá el inventario que vuelve en `inventory`, una línea por dimensión: estado, qué falta y cómo se resuelve (`fix_hint`). Después el veredicto, con su frase literal. **Son compuertas, no porcentajes**: nunca digas "vas 70%". Solo Assets y Mecanismo frenan la producción; todo lo demás sale con el pendiente marcado.
+Mostrá el inventario que vuelve en `inventory`, una línea por dimensión: `state`, qué falta (`reason`) y cómo se resuelve (`fix_hint`). Después el veredicto, con su frase literal (`verdict_text` y, si hay pendientes, `verdict_detail`). **Son compuertas, no porcentajes**: nunca digas "vas 70%". Solo Assets y Mecanismo frenan la producción; todo lo demás sale con el pendiente marcado.
 
 `complete` **solo cuando la persona dice que terminó**. "Por ahora está", "después sigo" o un silencio no son terminar: dejale `onboarding.url` para volver cuando quiera, acá o en la app. `complete` le avisa al equipo de Indash, por eso no se dispara de más.
 
@@ -125,7 +125,7 @@ Después de `complete`, el handoff: lo que sigue es el brief del período, con `
 ├── Sí → `create_onboarding_uploads` + `curl --upload-file` + `add_file` / `add_audio`
 └── No (claude.ai)
     ├── Es un link → `add_file` con `source: { url }`
-    ├── Es un archivo de hasta 4 MB cuyos bytes tenés de verdad → `source: { base64, mime_type, filename }`
+    ├── Es un archivo de hasta 3 MB cuyos bytes tenés de verdad → `source: { base64, mime_type, filename }`
     └── Todo lo demás → pasale `onboarding.url` para que lo suba en la app, y seguí con lo que sí se puede conversar
 ```
 

@@ -54,10 +54,10 @@ Por qué el OK antes de subir: en la app el cliente arrastra cada archivo a su c
 
 Por lote:
 
-1. `create_onboarding_uploads` con hasta 20 archivos (`filename`, `mime_type`, `bytes` reales).
+1. `create_onboarding_uploads` con hasta 20 archivos (`filename`, `mime_type`, `bytes` reales). Cada uno vuelve con su `status`: uno que no entra (tipo no permitido, más de 50 MB) no tira el lote.
 2. Subí cada uno con el `curl --upload-file` que devuelve la tool, con su `method` y sus `headers` tal cual, y `--fail` para que un error HTTP no pase por éxito. Subí enseguida: las URLs vencen (`expires_at`). Si venció, pedí otra.
-3. `update_brand_onboarding` con un `add_file` por archivo **que subió bien** (`source: { upload_id }`). El límite es 25 cambios por llamada.
-4. Leé `results[]` uno por uno. **El lote no es transaccional**: puede haber 18 `ok` y 2 `error`. Reintentá solo los que fallaron; reenviar el lote entero duplica los que ya entraron.
+3. `update_brand_onboarding` con un `add_file` por archivo **que subió bien** (`source: { upload_id, filename }`: sin `filename` la app lo lista por su uuid). El límite es 25 cambios por llamada.
+4. Leé `results[]` uno por uno (`status`, y en los que fallan `error` y `hint`). **El lote no es transaccional**: puede haber 18 `ok` y 2 `error`; `applied` y `failed` dan el total. Reintentá solo los que fallaron; reenviar el lote entero duplica los que ya entraron.
 5. Una línea de avance: "40 de 63 cargados, 2 con error (`catalogo.ai`: tipo no permitido)".
 
 `caption` solo si la persona dijo algo de ese archivo; va con sus palabras. No describas la imagen en el caption.
@@ -70,7 +70,7 @@ El audio suele ser el material más rico de todo el onboarding: cuatro minutos d
 
 ```
 ¿De qué habla el audio?
-├── Cómo funciona un producto → `save_to: { mechanism: { name } }` (con `id` si ya existe ese mecanismo)
+├── Cómo funciona un producto → `save_to: { mechanism: { name } }` crea el mecanismo; `{ mechanism: { id } }` suma a uno que ya existe
 ├── Un solo tema que es un campo de texto (qué usaban antes, el objetivo, los claims prohibidos)
 │     → `save_to: { field }` con ese campo
 └── De todo un poco ("contame de la marca"), o la persona no sabe
@@ -79,7 +79,7 @@ El audio suele ser el material más rico de todo el onboarding: cuatro minutos d
 
 La transcripción de lo que dijo el cliente es material suyo: se guarda entera sin pedir OK. Lo que necesita OK es lo que **vos** saques de ese `transcript` para otros campos: el mecanismo que aparece en el minuto dos, una objeción que menciona al pasar. Eso se muestra con sus palabras y espera el "¿lo guardo así?".
 
-Si la transcripción falla, el audio queda adjunto y el resultado lo dice: avisale y ofrecé que lo escriba. Si salta el tope diario de minutos, decilo y dejá los audios que falten para mañana o para la app.
+Si la transcripción falla, el resultado vuelve con `status: "error"` y `audio_attached: true`: el audio quedó adjunto. Reenviar el mismo `add_audio` reintenta la transcripción sin adjuntarlo de nuevo; si vuelve a fallar, avisale y ofrecé que lo escriba. Lo mismo con un audio que ya estaba sin transcribir: aparece en `next[]`. Si salta el tope diario de minutos, decilo y dejá los audios que falten para mañana o para la app.
 
 ## 5. Textos extraídos, al final y aparte
 
