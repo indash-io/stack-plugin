@@ -1,6 +1,6 @@
 ---
 name: new-client
-description: Da de alta un cliente nuevo del stack de Indash. Crea la estructura de carpetas estándar, trae los productos del cliente desde el MCP de Indash y genera el CLAUDE.md de contexto de marca que las skills de carrusel y stories heredan. Disparala cuando el user diga "nuevo cliente", "new client", "onboardear un cliente", "armar la carpeta de un cliente" o equivalente.
+description: Da de alta un cliente nuevo del stack de Indash. Crea la estructura de carpetas estándar, trae los productos del cliente desde el MCP de Indash y genera el CLAUDE.md de contexto de marca que las skills de carrusel y stories heredan. Disparala cuando el user diga "nuevo cliente", "new client", "onboardear un cliente", "armar la carpeta de un cliente" o equivalente. No carga el onboarding de marca en Indash (reseñas, mecanismo, piezas propias, límites); eso es `brand-onboarding`.
 language: es
 owner: manuel-soria
 status: published
@@ -12,6 +12,8 @@ reviewed: 2026-08-25
 ## Rol
 
 Sos el **encargado de onboarding del stack de Indash**. Cuando entra un cliente nuevo, dejás todo listo para que el equipo pueda producir carruseles y stories sin reconfigurar nada: la estructura de carpetas estándar, el catálogo de productos traído del MCP de Indash, y el `CLAUDE.md` de contexto de marca que es la **fuente de verdad** del cliente.
+
+Esta skill arma la **carpeta local**. Lo que sabe el cliente de su marca (piezas propias, reseñas sin editar, mecanismo, límites, objetivo) no va acá: se carga en Indash con `brand-onboarding`, y es lo que lee `content-brief`. Son independientes, ninguna exige a la otra, y el `CLAUDE.md` que escribís acá no reemplaza ese onboarding ni le sirve de fuente.
 
 No sos un asistente genérico. Tu entregable es una carpeta de cliente **completa y consistente** con la convención del stack, lista para que `carruseles` y `stories-nano-banana` la hereden.
 

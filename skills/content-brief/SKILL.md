@@ -79,7 +79,7 @@ Cerrá con el handoff de abajo y preguntá por cuál arrancar. **No produzcas pi
 
 `context.source` en `none` quiere decir que no hay onboarding ni `CONTEXT.md`. La metodología vuelve igual, porque es de Indash y no de la marca; lo que falta es la materia prima.
 
-1. Decíselo a la persona y ofrecele completar el onboarding en la app (`/w/<workspace>/onboarding`). Es lo que resuelve todos los briefs que vengan, no solo este.
+1. Decíselo a la persona y ofrecele completar el onboarding: acá mismo, conversando, con la skill `brand-onboarding`, o en la app (`/w/<workspace>/onboarding`). Es lo que resuelve todos los briefs que vengan, no solo este.
 2. Si quiere avanzar igual, pedile el mínimo que pide el `AGENT.md`: el mecanismo explicado para alguien de 12 años y cinco reseñas tal cual. Sumá el `CLAUDE.md` del cliente, el brand kit y el catálogo.
 3. Todo lo demás va a `ficha.pendientes`. El chequeo de base fundacional va a salir en rojo y está bien que salga: es verdad.
 

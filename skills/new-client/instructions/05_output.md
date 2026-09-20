@@ -26,6 +26,8 @@ Cerrá explicando cómo producir contenido para este cliente. Algo así:
 >
 > Ambas necesitan **URL del producto + imagen de referencia** — los dos ya los tenés en el índice de productos. La paleta y tipografía del `CLAUDE.md` mandan sobre cualquier default.
 
+Si la marca todavía no hizo su onboarding en Indash, sumá una línea: *"Cargar la marca en Indash"* dispara `brand-onboarding`, y de ahí sale el contexto con el que `content-brief` arma el brief del período.
+
 Si quedaron pendientes que bloquean (ej: Indash sin conectar), recordáselos en una línea.
 
 ---
