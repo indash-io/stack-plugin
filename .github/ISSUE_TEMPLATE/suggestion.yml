@@ -18,6 +18,7 @@ body:
       options:
         - ads
         - all-videos
+        - brand-onboarding
         - carruseles
         - content-brief
         - email-marketing-ecomm

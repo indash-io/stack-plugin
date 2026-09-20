@@ -1,6 +1,6 @@
 ---
 name: stack-overview
-description: Explica qué es y qué puede hacer el stack de Indash — las 11 skills de creative performance, las 31 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "qué es /save-learnings", "cómo se guarda lo que aprendimos", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
+description: Explica qué es y qué puede hacer el stack de Indash — las 12 skills de creative performance, las 35 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "qué es /save-learnings", "cómo se guarda lo que aprendimos", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
 language: es
 owner: manuel-soria
 status: published
@@ -26,7 +26,7 @@ del gate de autenticación y de guardado que están más abajo son las que valen
 
 Adaptá el nivel al pedido — no vuelques todo el documento cada vez:
 
-- **"¿Qué puedo hacer?" / tour general** → el mapa de las 11 skills + las
+- **"¿Qué puedo hacer?" / tour general** → el mapa de las 12 skills + las
   familias de capacidades del MCP, en no más de una pantalla. Cerrá con **dos o
   tres pedidos de ejemplo** que la persona pueda copiar tal cual.
 - **Pregunta puntual** (video de referencia, dónde se guarda, actualizaciones) →
@@ -38,7 +38,7 @@ Antes de listar capacidades de generación, chequeá si el conector `indash` est
 conectado (ver *Gate de autenticación*). Si no lo está, aclaralo arriba de todo:
 lo que sigue describe lo que va a poder hacer una vez conectado.
 
-## 1. Las 11 skills
+## 1. Las 12 skills
 
 Cada una se dispara sola cuando el pedido coincide — la persona no invoca nada a
 mano.
@@ -48,6 +48,7 @@ mano.
 | Skill | Qué hace | Se dispara con |
 |---|---|---|
 | `new-client` | Da de alta un cliente: crea la estructura de carpetas, baja marca y productos del MCP y escribe el `CLAUDE.md` de contexto que heredan las demás | *"nuevo cliente: Acme"* |
+| `brand-onboarding` | El onboarding de marca de Indash, conversando: el mismo de la app y al mismo lugar. El cliente responde de a una cosa, o alguien del equipo carga en su nombre una carpeta con PDFs, capturas y audios. Guarda el material crudo, sin resumir ni inferir, y cierra con el inventario y su veredicto. Es lo que después lee `content-brief` | *"quiero cargar mi marca en Indash"*, *"el cliente me mandó todo esto, cargalo"* |
 | `content-brief` | Brief de contenido del período, con el contexto de marca y la metodología del agente de briefs de la app: mensajes con fuente y cada pieza con copy literal. Lo guarda en Indash para revisión y dice qué skill ejecuta cada tipo de pieza | *"armá el brief de junio"* |
 
 **Ejecución de contenido**
@@ -70,7 +71,7 @@ concepto → prompts → self-check → output**. Ninguna genera sin confirmar a
 
 ### Y una skill que invocás vos: `/save-learnings`
 
-Las 11 skills se disparan solas. **`/save-learnings` no**: lo escribe la persona
+Las 12 skills se disparan solas. **`/save-learnings` no**: lo escribe la persona
 en el chat, **a conciencia**, cuando sabe que la sesión dejó algo para guardar —
 no como cierre automático de cada entrega.
 
@@ -98,9 +99,9 @@ sesión hubo fricción con una skill** — la persona pidió rehacer algo, corri
 la skill o dijo que algo no le sirvió — en una línea al final del handoff. Si la
 entrega salió derecho, no lo menciones. Y **no lo ejecutes por tu cuenta**.
 
-## 2. Las 31 tools del conector `indash`
+## 2. Las 35 tools del conector `indash`
 
-Ocho familias. Las skills las usan solas; la persona no las llama a mano.
+Nueve familias. Las skills las usan solas; la persona no las llama a mano.
 
 **Workspaces (2)** — `list_workspaces`, `search_workspaces`
 Elegir sobre qué marca se trabaja. Se resuelve por llamada, así que una misma
@@ -119,6 +120,19 @@ Donde se consume crédito. Ver sección 4 para modelos y referencias.
 
 **Galería de Indash (3)** — `upload_creative`, `promote_creative`, `list_creatives`
 Suben una pieza a la galería de la marca en Indash y listan lo que ya hay.
+
+**El onboarding de marca (4)** — `get_brand_onboarding`, `update_brand_onboarding`,
+`create_onboarding_uploads`, `run_brand_onboarding_action`
+Lo que usa `brand-onboarding`. Es el mismo onboarding de la app
+(`/w/<slug>/onboarding`) y escribe al mismo lugar, así que se puede hacer mitad
+acá y mitad allá. `get_brand_onboarding` trae lo cargado, el inventario con su
+veredicto, qué pedir ahora y la guía de conducción. `update_brand_onboarding`
+guarda textos, archivos, links, mecanismos, límites y audios (los transcribe el
+server). `create_onboarding_uploads` da URLs firmadas para subir archivos de
+hasta 50 MB desde un cliente con shell. `run_brand_onboarding_action` conecta la
+tienda, lee Instagram **solo si la persona lo acepta** y cierra el onboarding. A
+ningún campo entra nada que la persona no haya dicho, pegado, subido o aprobado
+en la conversación. No consumen crédito.
 
 **El brief del período (2)** — `get_brand_context`, `save_brief`
 Lo que usa `content-brief`. `get_brand_context` trae el contexto de marca que
@@ -145,13 +159,13 @@ Las skills que viven **en la cuenta de Indash** de la marca, no en el plugin.
 Hay **dos** conjuntos de skills, y se actualizan distinto. Es la confusión más
 común:
 
-| | Skills del plugin (las 11 de arriba) | Skills del workspace |
+| | Skills del plugin (las 12 de arriba) | Skills del workspace |
 |---|---|---|
 | Dónde viven | En este repo, instaladas en la máquina | En la cuenta de Indash de la marca |
 | Cómo se leen | Las carga el cliente al iniciar sesión | `list_skills` / `get_skill`, en vivo |
 | Cómo se actualizan | **Manual**: `/plugin marketplace update indash` y reiniciar la sesión | **Solas** — se editan en la app y el próximo llamado ya trae lo nuevo |
 
-Es decir: **las 11 skills del plugin NO se actualizan solas.** Si el equipo de
+Es decir: **las 12 skills del plugin NO se actualizan solas.** Si el equipo de
 Indash publica una versión nueva, hay que correr el `marketplace update`. Si
 alguien reporta que "una skill quedó vieja", eso es lo primero a chequear.
 
@@ -186,6 +200,7 @@ versión.
 **En Indash (la app)** — solo lo que se sube explícitamente:
 
 - `upload_creative` / `promote_creative` → la pieza entra a la galería de la marca.
+- `update_brand_onboarding` → el material de la marca queda en su onboarding, el mismo que se ve en la app. `brand-onboarding` no guarda nada en disco.
 - `save_brief` → el brief del período queda como borrador en la app, con su URL; con confirmación de la persona, pasa a revisión de Indash.
 - `upload_briefs` → un pedido de pieza entra al kanban del equipo.
 - `create_product` / `add_product_images` / `update_brand_kit` → cambian el catálogo y la identidad de la marca.
