@@ -1,6 +1,8 @@
-# Carga masiva — una carpeta entera al onboarding
+# 03 — Carga masiva: una carpeta entera al onboarding
 
-Para cuando llega todo junto: alguien del equipo con lo que el cliente mandó por WhatsApp, o el cliente que tira 30 archivos. El orden es **inventariar → proponer → OK → subir → registrar → textos extraídos**. No se sube nada antes del OK.
+El caso central de la skill: alguien de Indash con lo que el cliente mandó por WhatsApp, o el cliente que tira 30 archivos. El orden es **inventariar → proponer → OK → subir → registrar → textos extraídos**. No se sube nada antes del OK, y después del OK no se pregunta nada más hasta que esté todo arriba: el objetivo es que la persona diga "dale" una vez y vea los archivos en Indash.
+
+Necesita shell y los archivos en disco. Sin shell (claude.ai), ver *Según dónde corras* en `02_onboarding.md`.
 
 ## 1. Inventariar
 
@@ -31,7 +33,7 @@ Casos de borde:
 - **Más de 50 MB**: no entra por acá. Va por la app, o como link de Drive (`set_text` a `assets.drive_url`, o `add_file` con `source: { url }`).
 - **Más de 40 fotos de producto**: antes de subirlas, ofrecé conectar la tienda o pasar el link de Drive. Es la misma información sin subir archivo por archivo, y se mantiene sola.
 - **Un tipo que el server rechaza**: lo dice el resultado de ese archivo. Avisalo en el resumen y seguí con el resto.
-- **Un export de chat de WhatsApp** (`_chat.txt`): el archivo entero va a `misc`. Lo que quieras pasar de ahí a un campo es una extracción (paso 5).
+- **Un export de chat de WhatsApp** (`_chat.txt`): el archivo entero va a `misc`. Lo que quieras pasar de ahí a un campo es una extracción (sección 5).
 - **Basura evidente** (duplicados, `.DS_Store`, stickers, capturas que no son de la marca): fila "no lo subo", con el motivo. No lo borres del disco.
 
 ## 3. Proponer y esperar el OK
@@ -88,3 +90,5 @@ Después de los archivos, y en un bloque separado de la tabla, lo que sacaste de
 Por cada campo, mostrá el texto **entero y literal**, decí de qué archivo salió y preguntá si se guarda así. Transcribir una captura es copiar lo que dice, con sus errores. Si una parte no se lee, va `[ilegible]`: no la completes.
 
 Es opcional. Si la persona prefiere no revisar textos ahora, los archivos ya quedaron cargados y los campos de texto siguen en `next[]` para el modo conversado.
+
+Cuando termine la carga, volvé a `02_onboarding.md`: lo que quede en `next[]` se pide conversando (la tienda, el mecanismo si no vino en ningún archivo, los límites, el objetivo), y de ahí al cierre.

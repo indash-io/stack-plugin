@@ -1,6 +1,6 @@
 # Template — CLAUDE.md del cliente
 
-Copiá esta plantilla a `{slug}/CLAUDE.md` y completala con el brief del Discovery. Lo que no sepas, dejalo como `> ⚠️ PENDIENTE: ...` accionable. **No inventes.**
+Copiá esta plantilla a `{slug}/CLAUDE.md` y completala con lo que devolvieron `get_brand_context`, `get_brand_kit` y `list_products` (`instructions/05_carpeta_local.md`, tabla de fuentes). Lo que Indash no tiene queda como `> PENDIENTE: …` diciendo dónde se carga. **No se escribe nada desde el sitio, una captura o tu lectura de la marca.**
 
 El bloque de abajo (entre las líneas de corte) es lo que va dentro del archivo del cliente.
 
@@ -9,54 +9,53 @@ El bloque de abajo (entre las líneas de corte) es lo que va dentro del archivo 
 ```markdown
 # CLAUDE.md — {Nombre del cliente}
 
-> Contexto canónico de **{Nombre del cliente}** para el stack de Indash. Este archivo se carga como contexto del proyecto cuando trabajás en esta carpeta y **gana sobre cualquier default genérico** en decisiones de marca (paleta, tono, tipografía, estética). Mantenelo al día.
+> Contexto de **{Nombre del cliente}** para el stack de Indash, escrito desde su onboarding en Indash el {fecha}. Se carga cuando trabajás en esta carpeta y **gana sobre cualquier default genérico** de las skills en decisiones de marca. La fuente de verdad sigue siendo Indash: si esto y el onboarding se contradicen, manda el onboarding, y este archivo se vuelve a escribir desde ahí. No cargues nada de acá al onboarding.
 
 ## Identidad
 
 - **Cliente:** {Nombre del cliente}
-- **Vertical / categoría:** {categoría — o ⚠️ PENDIENTE}
-- **Qué vende (una línea):** {descripción — o ⚠️ PENDIENTE}
+- **Workspace en Indash:** {slug} — onboarding: {onboarding.url}
+- **Qué vende:** {tienda + los productos del catálogo, en una línea — o PENDIENTE: sin tienda ni productos en Indash}
+- **Objetivo (en palabras del cliente):** {`goals.objective` literal — o PENDIENTE: sin responder en el onboarding}
 
-## Tono de marca
+## Mecanismo
 
-- **Cómo habla la marca:** {técnico / emocional / minimalista / hablado / … — o ⚠️ PENDIENTE}
-- **Qué evitar:** {anti-patrones de copy, claims prohibidos — o ⚠️ PENDIENTE}
+Por qué funciona el producto, en palabras del cliente. Cada pieza explica a partir de esto; sin mecanismo, solo afirma.
+
+- **{Producto o "todos"}:** {mecanismo literal — o PENDIENTE: cargar el mecanismo en el onboarding}
+
+## Voz
+
+- **Perfil de voz (derivado del corpus, confirmado por el cliente):** {persona, largo de frase, emojis, cómo nombran el producto, claims y CTAs que repiten, estructura del caption — o PENDIENTE: análisis de voz sin confirmar en Indash}
+- **Material escrito propio:** {qué hay en `written` y `voice.written_text`, o "ninguno"}
+- **Qué evitar:** {`rules.forbidden_claims` literal — o "ninguno cargado"}. Piezas "esto no somos" en Indash: {N} (las abre `content-brief`).
 
 ## Brand kit
 
-- **Paleta** (manda sobre defaults):
-  - {Color 1} — `#hex`
-  - {Color 2} — `#hex`
-  - {Color 3} — `#hex`
-  - > ⚠️ Si está vacío: completar desde logo/sitio/brand kit.
-- **Tipografía:** {familia + características: serif/sans, peso, contraste — o ⚠️ PENDIENTE}
-- **Estética / mood:** {editorial / lifestyle / minimal / heritage / … — o ⚠️ PENDIENTE}
-- **Material de marca**: logos en `assets/logos/`, tipografías en `assets/fonts/`, brand kit crudo en `assets/brand-kit/`.
-- **Más contexto**: narrativa en `assets/brand-kit/brand.md`, ficha técnica en `assets/brand-kit/brand-kit.md`.
+- **Paleta** (manda sobre defaults): {color — `#hex`, uno por línea, de `get_brand_kit` o del sistema visual confirmado — o PENDIENTE: brand kit vacío en Indash}
+- **Tipografía:** {familia y rol — o PENDIENTE}
+- **Logos:** `assets/logos/` — {qué hay, o PENDIENTE}
+- **Brand book / guidelines:** `assets/brand-kit/` — {archivo, o "no hay"}
+- **Qué puede tocar la IA** (restricciones duras del generador): {los seis flags de `asset_freedom` con su valor — o PENDIENTE: sin responder en el onboarding}
+- **Ficha técnica:** `assets/brand-kit/brand-kit.md`. Narrativa: `assets/brand-kit/brand.md`.
 
-## Links operativos
+## Links
 
-- **Sitio / tienda:** {URL — o ⚠️ PENDIENTE}
-- **Indash (handle/ID):** {id — o ⚠️ PENDIENTE: linkear cliente en Indash}
-- **Google Drive:** {link — o ⚠️ PENDIENTE}
-- **Notion:** {link — o ⚠️ PENDIENTE}
+- **Tienda / sitio:** {`state.store.site`}
+- **Instagram:** @{handle}
+- **Drive:** {`assets.drive_url`}
+- {otros links de `state.lists.links`}
 
 ## Catálogo
 
-Los productos viven en `assets/products/index.md` (traídos del MCP de Indash). Cada uno tiene nombre + URL + imagen de referencia — los dos inputs que piden las skills de contenido.
+`assets/products/index.md`, traído de Indash. Cada producto con nombre exacto, URL e imagen: los dos inputs que piden las skills de ejecución.
 
-## Reglas del cliente
-
-- **Claims que NO se pueden hacer:** {restricciones legales/regulatorias — o "ninguna conocida"}
-- **Do's & don'ts visuales:** {si los hay — o ⚠️ PENDIENTE}
-
-## Cómo producir contenido para este cliente
+## Cómo producir para este cliente
 
 - Trabajá **dentro de esta carpeta** para heredar este contexto.
-- **Carrusel** (4:5) → skill `carruseles`, con la URL + imagen del producto.
-- **Stories** (9:16) → skill `stories-nano-banana`, con la URL + imagen del producto.
-- La **paleta y tipografía de este archivo mandan** sobre cualquier default de las skills.
-- Entregables → `exports/carruseles/` y `exports/stories/`.
+- El brief del período sale de `content-brief`, que lee el onboarding en Indash (no este archivo).
+- Piezas: `carruseles` (4:5), `stories-nano-banana` (9:16), `ads`, `ugc-generator` / `ugc-video-prompts`, `all-videos`, `email-marketing-ecomm`. Entregables en `exports/<tipo>/`.
+- La paleta, la tipografía y "qué puede tocar la IA" de este archivo mandan sobre cualquier default de las skills.
 ```
 
 ---8<--- hasta acá ---8<---
