@@ -1,5 +1,48 @@
 # Changelog
 
+## 0.19.0 — 2026-09-22
+
+**Una sola puerta: `/new-client` es el onboarding entero.** Acompaña a las
+tools `analyze_brand` y `confirm_brand_analysis` del conector
+(indash-io/mkt-agents). Las cuatro tools de onboarding siguen siendo
+requeridas; las dos de análisis no: si el conector no las tiene, la skill
+saltea ese paso y lo dice.
+
+- **`new-client` absorbe a `brand-onboarding`.** Eran dos puertas para el
+  mismo cliente, y `new-client` (el nombre que el equipo ya usa) llevaba por
+  el camino viejo: carpeta local y `CLAUDE.md` analizando el sitio, sin tocar
+  el onboarding de la app. Ahora conduce el onboarding entero, en este orden:
+  nombre y workspace en Indash (si la marca no existe, el workspace lo crea
+  Indash en la app; no hay tool, y sin workspace no hay onboarding); la carga
+  al mismo onboarding de la app, conversada o masiva desde una carpeta (tabla
+  de clasificación, un OK, subida por URL firmada en lotes); tienda temprano;
+  Instagram solo con un sí; cierre con inventario y veredicto.
+- **El análisis, nuevo.** Con el inventario en `can_start` o
+  `can_start_with_pending`, la skill ofrece `analyze_brand`: el server produce
+  lo derivado (perfil de voz, objeciones priorizadas, verbatims, avatar,
+  sistema visual) solo con el material del cliente. Nace `pending` y **el
+  agente de briefs no lo ve hasta que un humano lo confirme**: la skill muestra
+  el resumen rama por rama y guarda las decisiones con
+  `confirm_brand_analysis`. Sin reseñas y sin corpus, `not_enough_material`:
+  se dice qué falta y no se insiste.
+- **La carpeta local pasa a ser opcional y va al final.** "¿Armamos también
+  la carpeta local para producir desde acá?". El `CLAUDE.md` del cliente ya
+  no se escribe desde el sitio: su fuente es lo que hay en Indash
+  (`get_brand_context` + `get_brand_kit` + `list_products`), y lo que el
+  onboarding no tiene queda como placeholder que dice dónde se carga. Nunca al
+  revés: el `CLAUDE.md` no es fuente del onboarding. Los templates
+  (`client_claude_md.md`, `brand_md.md`, `product_index.md`) se reescriben
+  con esa fuente; desaparece el "análisis de marca" desde la URL y los
+  adjetivos de personalidad.
+- **`brand-onboarding` se elimina.** Salió en la 0.18.0 como `draft` y nunca
+  se publicó: no hay nadie que se quede sin ella. Sus disparadores ("cargá mi
+  marca", "onboarding de marca", "el cliente me mandó todo esto, cargalo") y
+  su materia prima (la regla de procedencia, "material, no adjetivos", la
+  carga masiva) pasan a `new-client`, que queda `published`.
+- `content-brief`, `stack-overview`, la política del hook, el README y
+  `CLAUDE.md` dejan de nombrar `brand-onboarding`: **11 skills** (eran 12) y
+  **37 tools** (eran 35), con la familia "El onboarding de marca" en 6.
+
 ## 0.18.0 — 2026-09-20
 
 **El onboarding de marca se puede hacer conversando.** Acompaña a las tools
