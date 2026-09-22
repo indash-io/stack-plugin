@@ -9,11 +9,10 @@ Estás operando dentro del stack de creative performance de Indash. Tu trabajo e
 Skills de creative performance para e-commerce, montadas sobre un set de MCPs. Cada una se dispara sola cuando el pedido del usuario coincide:
 
 **Orientación**
-- **`stack-overview`** → explica qué puede hacer el stack: las 12 skills con su disparador, las 35 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash vs. en disco, y qué referencias soporta cada modelo (imágenes en todo; **video de referencia con `seedance-2.5` —hasta 10—, `seedance` —3— y `omni` —3—; audio de referencia solo con la familia seedance**), y que la resolución mueve el precio. Disparala ante cualquier pregunta de capacidades — *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"*, *"¿se actualizan solas las skills?"* — en vez de improvisar la respuesta.
+- **`stack-overview`** → explica qué puede hacer el stack: las 11 skills con su disparador, las 37 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash vs. en disco, y qué referencias soporta cada modelo (imágenes en todo; **video de referencia con `seedance-2.5` —hasta 10—, `seedance` —3— y `omni` —3—; audio de referencia solo con la familia seedance**), y que la resolución mueve el precio. Disparala ante cualquier pregunta de capacidades — *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"*, *"¿se actualizan solas las skills?"* — en vez de improvisar la respuesta.
 
 **Onboarding y planificación**
-- **`new-client`** → da de alta un cliente nuevo: crea la estructura de carpetas estándar, baja la marca y los productos desde el MCP de Indash y genera el `CLAUDE.md` de contexto de marca que las demás skills heredan.
-- **`brand-onboarding`** → conduce el **onboarding de marca de Indash** conversando: el mismo de la app, al mismo lugar. El cliente responde de a una cosa, o alguien del equipo carga en su nombre una carpeta entera (tabla de clasificación y OK antes de subir). Arranca siempre leyendo `get_brand_onboarding` y no repregunta lo cargado. **A ningún campo entra nada que la persona no haya dicho, pegado, subido o aprobado explícitamente**: material crudo, sin resumir ni inferir. `read_instagram` y `complete` solo con un sí explícito. No es el alta de la carpeta (`new-client`): esa arma el disco, esta carga Indash.
+- **`new-client`** → el **onboarding entero de una marca en Indash**, conversando: ubica el workspace (si la marca no existe, lo crea Indash en la app; no hay tool), carga el material al mismo onboarding de la app (el cliente de a una cosa, o alguien de Indash en su nombre con una carpeta entera: tabla de clasificación y OK antes de subir), conecta la tienda, cierra con el inventario y su veredicto, y corre `analyze_brand` para que la persona confirme rama por rama lo derivado (voz, objeciones, verbatims, avatar, sistema visual): nace pendiente y el agente de briefs no lo ve sin confirmación. Arranca siempre leyendo `get_brand_onboarding` y no repregunta lo cargado. **A ningún campo entra nada que la persona no haya dicho, pegado, subido o aprobado explícitamente**: material crudo, sin resumir ni inferir. `read_instagram` y `complete` solo con un sí explícito. La carpeta local (estructura + `CLAUDE.md`) es opcional y va al final, escrita desde Indash (`get_brand_context` + `get_brand_kit` + `list_products`), nunca desde el sitio y nunca como fuente del onboarding.
 - **`content-brief`** → arma el **brief de contenido del período** con el contexto de marca y la metodología del agente de briefs de la app, que trae `get_brand_context` (no la improvises ni la recuerdes de otra sesión: se sirve en vivo). Dos o tres mensajes con fuente, cada pieza con copy literal, guardado en Indash con `save_brief` y handoff a las skills de ejecución. **`send: true` solo con confirmación explícita de la persona.**
 
 **Ejecución de contenido**
@@ -58,7 +57,7 @@ Si la carpeta de trabajo actual corresponde a un cliente y contiene su propio `C
 
 Esta convención es **global**: igual para todos los clientes, en toda sesión. No se decide por sesión ni se redefine en el `CLAUDE.md` de cada cliente — vive acá. Lo que cambia por cliente (marca, tono, paleta) va en su `CLAUDE.md`; **dónde y cómo se guardan los archivos** va acá.
 
-**Estructura estándar de una carpeta de cliente** (la crea la skill `new-client`; es la **convención unificada del stack**: la misma carpeta es un proyecto del **Indash Studio**, así que el editor la abre nativo):
+**Estructura estándar de una carpeta de cliente** (la crea la skill `new-client` cuando la persona pide la carpeta local; es la **convención unificada del stack**: la misma carpeta es un proyecto del **Indash Studio**, así que el editor la abre nativo):
 
 ```
 <cliente-slug>/
@@ -84,7 +83,7 @@ Esta convención es **global**: igual para todos los clientes, en toda sesión. 
   .indash/                   PRIVADO del Studio (comments, sesión) — NO lo toques
 ```
 
-Assets de marca: se **descargan del MCP de Indash** (la brand cargada en la app). Si la marca no está en Indash, el user pasa los archivos a mano (PDF del brand kit, logos, fuentes) y van a la carpeta de `assets/` que corresponda. Logos → `assets/logos/`, tipografías → `assets/fonts/`, brand kit crudo y sus .md → `assets/brand-kit/`. Nunca inventes assets que no existen.
+Assets de marca: se **descargan de Indash** (el brand kit y los archivos de identidad del onboarding). Si la persona tiene archivos que Indash no tiene (PDF del brand kit, logos, fuentes), primero se cargan al onboarding con `new-client` y después bajan a la carpeta. Logos → `assets/logos/`, tipografías → `assets/fonts/`, brand kit crudo y sus .md → `assets/brand-kit/`. Nunca inventes assets que no existen.
 
 **Nomenclatura de entregables — no negociable:**
 

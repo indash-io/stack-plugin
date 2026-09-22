@@ -14,8 +14,7 @@ La idea: instalás el plugin, conectás tu cuenta de Indash con un login, y las 
 
 | Skill | Qué hace |
 |---|---|
-| **new-client** | Da de alta un cliente nuevo: crea la estructura de carpetas estándar (con `brand/`), baja marca y productos desde el MCP de Indash y genera el `CLAUDE.md` de contexto de marca que las demás heredan. Se dispara con *"nuevo cliente"*. |
-| **brand-onboarding** | El **onboarding de marca de Indash, conversando**: el mismo de la app y al mismo lugar. Respondés de a una cosa, o le pasás una carpeta con todo lo que tengas (PDFs, capturas, audios) y te propone a dónde va cada archivo antes de subir nada. Guarda tu material tal cual, sin resumirlo ni completarlo por su cuenta, y cierra con el inventario: qué recibimos, qué falta y si podemos arrancar. Es lo que después lee `content-brief`. No consume créditos. Se dispara con *"quiero cargar mi marca en Indash"* / *"el cliente me mandó todo esto, cargalo"*. |
+| **new-client** | El **onboarding entero de tu marca en Indash, conversando**: el mismo de la app y al mismo lugar. Respondés de a una cosa, o le pasás una carpeta con todo lo que tengas (PDFs, capturas, audios) y te propone a dónde va cada archivo antes de subir nada. Guarda tu material tal cual, sin resumirlo ni completarlo por su cuenta, conecta tu tienda y cierra con el inventario: qué recibimos, qué falta y si podemos arrancar. Después corre el **análisis** (cómo escribís, qué te preguntan, frases textuales, avatar, sistema visual) y te lo muestra para que confirmes qué se usa: nada derivado entra a un brief sin tu OK. Si vas a producir desde Claude Code, al final arma la carpeta local con el `CLAUDE.md` de contexto escrito desde Indash. Es lo que después lee `content-brief`. No consume créditos. Se dispara con *"nuevo cliente"*, *"quiero cargar mi marca en Indash"* o *"el cliente me mandó todo esto, cargalo"*. |
 | **content-brief** | Arma el **brief de contenido del período** con el contexto de marca que cargó el cliente y **la misma metodología que el agente de briefs de la app** (el conector la sirve en vivo): mensajes con fuente y cada pieza con copy literal. Lo guarda en Indash para que lo revisen el cliente y el equipo, y orquesta las skills de ejecución. Se dispara con *"armá el brief del mes"* / *"plan de contenido"*. |
 | **carruseles** | Carruseles **4:5 (1080×1350)**: shot list + **genera las imágenes** con el MCP de Indash (elige modelo por slide) + prompts. |
 | **stories-nano-banana** | Secuencias de **Stories 9:16 (1080×1920)**: shot list + prompts, con sticker de engagement por story y texto en zona segura de UI. |
@@ -26,7 +25,7 @@ La idea: instalás el plugin, conectás tu cuenta de Indash con un login, y las 
 | **hyperframes** | **Post-producción creativa de video**: edita y ensambla los clips e imágenes que ya generaste en la pieza final con [HyperFrames](https://github.com/heygen-com/hyperframes) — cortes, transiciones, captions en zona segura, música y VO, en 9:16 / 4:5 / 1:1 / 16:9. Entrega el plan de edición por segundos + la composición + el comando de render. Se dispara con *"editame un reel con los clips de `<producto>`"*. |
 | **edicion-ugc** | **Montaje determinístico de clips de avatar/UGC**: recorta silencios muertos, detecta y tapa morphs con B-roll, quema subtítulos en Montserrat y pega la placa final de la marca. Las reglas salen de medir 21 ediciones manuales reales, no de criterio inventado. Corre **local** (macOS + ffmpeg + whisper-cpp, ver requisitos en su `SKILL.md`) y no consume créditos. Se dispara con *"editá estos clips de UGC"*, *"montá estos clips"* o *"revisá si hay morph"*. |
 | **email-marketing-ecomm** | Mails promo DTC: 3 variantes (HTML + PNG) brand-first, listas para Klaviyo / Mailchimp / Customer.io. |
-| **stack-overview** | **Empezá por acá si es tu primera vez.** Te explica el stack: qué hace cada skill, las 35 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué referencias soporta cada modelo (imagen, video y audio). Se dispara con *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"* o cualquier pregunta sobre capacidades. |
+| **stack-overview** | **Empezá por acá si es tu primera vez.** Te explica el stack: qué hace cada skill, las 37 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué referencias soporta cada modelo (imagen, video y audio). Se dispara con *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"* o cualquier pregunta sobre capacidades. |
 
 Todas siguen un workflow estricto: intake → discovery (scraping + análisis de imagen) → **una sola pregunta consolidada de decisiones** → concepto → generación de prompts → self-check → output. Nunca generan sin confirmar con vos primero.
 
@@ -121,10 +120,9 @@ Un run no interactivo no puede abrir el browser, así que no completa un OAuth p
 
 Pedile a Claude en lenguaje natural — las skills se disparan solas cuando el pedido coincide:
 
-1. **Dar de alta un cliente** (primero) → *"Nuevo cliente: Acme Foods"* → dispara `new-client`: crea la carpeta del cliente (con `brand/`), baja marca y productos del MCP de Indash y genera el `CLAUDE.md` de marca. Después trabajás **dentro de esa carpeta** para que el contexto se herede.
-2. **Cargar la marca en Indash** (una vez) → *"Quiero cargar mi marca en Indash"* → dispara `brand-onboarding`: te pide el material que ya tenés (piezas propias, reseñas sin editar, cómo funciona el producto, límites y objetivo) o levanta una carpeta entera, y lo deja en el mismo onboarding de la app. Si ya lo hiciste en la app, no hace falta repetirlo.
-3. **Planificar el período** (opcional, recomendado) → *"Armá el brief de junio para Acme"* → dispara `content-brief`: trae el contexto de marca y la metodología de Indash, arma el brief con copy literal por pieza, lo guarda en la app (te pasa la URL y los chequeos) y te dice qué skill ejecuta cada tipo de pieza. A revisión lo manda solo cuando vos se lo decís.
-4. **Producir cada pieza** → el pedido dispara la skill que corresponde:
+1. **Onboardear la marca** (una vez) → *"Nuevo cliente: Acme Foods"* o *"Quiero cargar mi marca en Indash"* → dispara `new-client`: ubica tu workspace, te pide el material que ya tenés (piezas propias, reseñas sin editar, cómo funciona el producto, límites y objetivo) o levanta una carpeta entera, lo deja en el mismo onboarding de la app, corre el análisis para que confirmes qué se usa y, si querés producir desde acá, arma la carpeta del cliente con su `CLAUDE.md`. Si ya hiciste el onboarding en la app, retoma sin repreguntar. Después trabajás **dentro de esa carpeta** para que el contexto se herede.
+2. **Planificar el período** (opcional, recomendado) → *"Armá el brief de junio para Acme"* → dispara `content-brief`: trae el contexto de marca y la metodología de Indash, arma el brief con copy literal por pieza, lo guarda en la app (te pasa la URL y los chequeos) y te dice qué skill ejecuta cada tipo de pieza. A revisión lo manda solo cuando vos se lo decís.
+3. **Producir cada pieza** → el pedido dispara la skill que corresponde:
    - **Carrusel** → *"Armá un carrusel para `<URL>`"* + imagen → `carruseles` (genera las imágenes).
    - **Stories** → *"Necesito stories para `<URL>`"* + imagen → `stories-nano-banana`.
    - **Meta ads** → *"Hacé 3 ads para `<producto>`"* → `ads`.
@@ -134,7 +132,7 @@ Pedile a Claude en lenguaje natural — las skills se disparan solas cuando el p
    - **Video (montaje de UGC de avatar)** → *"Editá estos clips de UGC"* / *"revisá si hay morph"* → `edicion-ugc` (silencios, morphs, subtítulos y placa, con reglas medidas).
    - **Email** → *"Armá un mail promo para `<marca>`"* → `email-marketing-ecomm`.
 
-Las skills de producto necesitan **URL de producto + imagen de referencia** (si onboardeaste con `new-client`, ya los tenés en `assets/products/index.md`). Si falta algo, la skill te lo pide y frena. Antes de generar te hace **una sola pregunta consolidada** con defaults; confirmás o editás, y recién ahí genera. Todo entregable se **guarda** en `exports/<tipo>/` (o `briefs/`) con nombre `<AAAA-MM-DD>_<slug>_v<N>`.
+Las skills de producto necesitan **URL de producto + imagen de referencia** (si armaste la carpeta del cliente con `new-client`, ya los tenés en `assets/products/index.md`). Si falta algo, la skill te lo pide y frena. Antes de generar te hace **una sola pregunta consolidada** con defaults; confirmás o editás, y recién ahí genera. Todo entregable se **guarda** en `exports/<tipo>/` (o `briefs/`) con nombre `<AAAA-MM-DD>_<slug>_v<N>`.
 
 El output siempre es: **shot list / brief creativo** + **N prompts numerados** listos para pegar en nano banana junto a la imagen del producto. Además de mostrarlo en el chat, **se guarda en disco** dentro de la carpeta del cliente, en `exports/carruseles/` o `exports/stories/`, con el nombre canónico `<AAAA-MM-DD>_<producto-slug>_v<N>.md` (versiona solo, no pisa). Así queda todo ordenado y trazable sin pensar la nomenclatura cada vez.
 
@@ -173,8 +171,7 @@ mcp.json                        MCP servers en la spec abierta (streamable-http)
 hooks/hooks.json                Hook de SessionStart (solo Claude Code)
 hooks/context/stack-policy.md   Política inyectada en cada sesión (lo que recibe el end user)
 skills/stack-overview/          Qué puede hacer el stack (+ la política, para clientes sin hooks)
-skills/new-client/              Onboarding de cliente (estructura + brand/ + CLAUDE.md + productos)
-skills/brand-onboarding/        Onboarding de marca de Indash, conversando (mismo lugar que la app)
+skills/new-client/              Onboarding de la marca en Indash (carga, tienda, análisis) + carpeta local opcional
 skills/content-brief/           Brief de contenido del período (orquesta las skills de ejecución)
 skills/carruseles/              Carruseles 4:5 (genera imágenes vía MCP)
 skills/stories-nano-banana/     Stories 9:16
