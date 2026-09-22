@@ -36,7 +36,7 @@ Si pedís una descripción, te devuelven adjetivos ("cercano, fresco, premium"),
 
 - **Nunca** "describí tu tono" → pedí los posts y captions que ya publicaron.
 - **Nunca** "¿quién es tu cliente?" ni "¿cuáles son las objeciones?" → pedí las reseñas tal cual están y las capturas de los mensajes que ya les aburre contestar.
-- **El mecanismo es por qué funciona, no qué logra.** El cliente casi nunca sabe qué es "un mecanismo": no uses la palabra sola. Preguntá qué tiene adentro el producto y por qué eso hace lo que hace, y mostrá el par:
+- **El mecanismo es por qué funciona, no qué logra.** La `question` de la guía va literal; si la persona no entiende qué le pedís (casi nadie sabe qué es "un mecanismo"), preguntá qué tiene adentro el producto y por qué eso hace lo que hace, y mostrá el par:
   - No sirve: "Hidrata en profundidad y repara la barrera cutánea."
   - Sirve: "Tiene ceramidas iguales a las que tu piel ya fabrica, así que la barrera las reconoce y las usa en vez de rechazarlas."
 

@@ -23,7 +23,7 @@ Por qué existe este circuito: es la única vez que algo que no dijo el cliente 
               vos lo confirmes. ¿Lo corro?"
 ```
 
-No necesita `complete`. Si `state.analysis` ya tiene ramas `pending` de una corrida anterior (aparece en `next[]`), no corras otra: andá a la sección 3 y mostrá lo que hay.
+No necesita `complete`. Si `state.analysis` ya tiene ramas `pending` de una corrida anterior (aparece en `next[]`), no ofrezcas correrlo de nuevo: `state.analysis` no trae el resumen, así que llamá `analyze_brand` sin `force` (no cambió nada, devuelve lo que ya está sin correr) y andá a la sección 3.
 
 ---
 
