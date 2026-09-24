@@ -1,61 +1,64 @@
-# 01 — Intake
+# 01 — Intake y workspace
 
-Primer paso. Validás que tenés lo mínimo para dar de alta al cliente. **Si falta el nombre, frenás acá.**
-
----
-
-## Input obligatorio
-
-1. **Nombre del cliente** — tal como lo vas a usar para nombrar la carpeta y el contexto. De acá derivás el slug en kebab-case (ej: "Acme Foods" → `acme-foods`).
-
-Si no lo tenés, pedilo y frená:
-
-> ¿Cómo se llama el cliente? Con eso armo la carpeta y todo el contexto.
+Salís de acá con dos cosas: el **nombre de la marca** y su **workspace en Indash**. Nada más. Todo lo demás (tienda, Drive, Instagram, material) lo pide el onboarding en su orden, con su pregunta literal; si lo pedís acá, lo pedís dos veces.
 
 ---
 
-## Inputs recomendados (pedilos en UNA sola pregunta consolidada)
+## 1. El nombre
 
-No son obligatorios para arrancar, pero si los tenés el onboarding queda completo en una pasada. Pedilos juntos, no de a uno:
+Si no lo tenés, es la única pregunta de este paso:
 
-- **Identificador del cliente en Indash** — el ID, slug o handle con el que el cliente existe en el MCP de Indash. Es lo que te deja traer sus productos en Discovery. Si no lo sabés, en Discovery probás buscar por nombre.
-- **URL del sitio / tienda** — para analizar marca (paleta, tipografía, tono) y como fallback de productos.
-- **Link a su Google Drive** — carpeta del cliente donde viven assets y entregables.
-- **Link a su Notion** — brief, base de conocimiento o board del cliente.
-- **Logo / imágenes de marca** — si los tenés a mano, mejor; si no, quedan como placeholder.
+> ¿Cómo se llama la marca? Con eso la busco en Indash y arrancamos.
 
-### Pregunta consolidada sugerida
-
-> Dale, doy de alta a **{cliente}**. Para dejarlo completo, si los tenés a mano pasame (lo que falte lo dejo como pendiente):
-> - ID o handle del cliente en Indash (para traer sus productos)
-> - URL de su tienda/sitio
-> - Link a su Drive y/o Notion
->
-> Con el nombre solo ya puedo arrancar igual.
+Si la persona ya arrancó con material ("acá está todo lo de Acme", una carpeta), el nombre suele estar en el mensaje o en la carpeta. No lo repreguntes.
 
 ---
 
-## Cómo manejar entrada incompleta
+## 2. Gate del conector
 
-- **Solo el nombre** → avanzá. En Discovery intentás encontrar el cliente en Indash por nombre; lo que no consigas queda como placeholder en el `CLAUDE.md`.
-- **Nombre + ID de Indash** → ideal. Avanzás directo a Discovery con todo para traer productos.
-- **Sin ID pero con URL** → usás la URL para marca y como fallback de catálogo, y dejás anotado que falta linkear el cliente en Indash.
+Aplicá el gate del conector `indash` de la política del stack. Si no está conectado, frená en una sola intervención:
 
----
+> Para cargar la marca necesito el conector **Indash** conectado. Conectalo con `/mcp` (o desde el panel de conectores) y seguimos.
 
-## Lo que NO hacés en Intake
+Con el conector, verificá que existan `get_brand_onboarding`, `update_brand_onboarding`, `create_onboarding_uploads` y `run_brand_onboarding_action`. Si falta alguna, o contestan que no están disponibles en ese transporte, el conector está desactualizado: pedile a la persona que lo reconecte, o que haga el onboarding en la app. No cargues la marca por otro camino.
 
-- ❌ No pedís el brand kit completo (paleta, tipografía) — eso lo extraés vos en Discovery de la URL/imágenes.
-- ❌ No pedís todo de a una pregunta por vez. Una sola consolidada.
-- ❌ No empezás a crear carpetas todavía. Eso es Scaffold, después del Discovery.
+`analyze_brand` y `confirm_brand_analysis` no son parte del gate: si no están, el paso 3 se saltea y se avisa (ver `04_analisis.md`).
 
 ---
 
-## Tono al pedir input
+## 3. El workspace
 
-Directo, breve, rioplatense. Sin AI-speak ni saludos largos.
+El onboarding se escribe en un workspace. Un material cargado en el equivocado contamina los briefs de otra marca, así que esto se resuelve antes de la primera escritura.
 
-- ✅ *"¿Cómo se llama el cliente? Con eso arranco."*
-- ❌ *"¡Hola! Estoy aquí para ayudarte con el onboarding. ¿Podrías por favor proporcionarme el nombre del cliente? 😊"*
+```
+¿En qué workspace?
+├── La carpeta actual tiene un `CLAUDE.md` de cliente con el workspace
+│     → usalo, y confirmá que el nombre coincide con la marca que te nombraron
+├── `list_workspaces` devuelve uno solo (el cliente, con su cuenta)
+│     → ese
+├── Devuelve varios, o quien carga es de Indash
+│     → `search_workspaces` por el nombre
+│         ├── Un resultado claro → ese
+│         ├── Varios parecidos ("Acme", "Acme Test", "Acme LATAM") → preguntá cuál, mostrando los nombres
+│         └── Ninguno → la marca no existe en Indash todavía (abajo)
+```
 
-Si tenés todo lo necesario → pasá a `02_discovery.md`.
+Antes de la primera escritura, nombralo en una línea: "cargo en **Acme**". Si la persona corrige, cambiás y volvés a leer.
+
+### Si la marca no existe en Indash
+
+No hay tool para crear un workspace: lo crea alguien de Indash desde la app. Decilo tal cual y frená; sin workspace no hay onboarding, y tampoco carpeta local (no tendría de dónde salir).
+
+> **Acme** no está en Indash todavía. El workspace lo crea el equipo de Indash desde la app; cuando exista, seguimos acá mismo y cargamos todo.
+
+Si quien carga es de Indash, alcanza con que lo cree en la app y vuelva. Mientras tanto no juntes material "para después" en la conversación: se pierde al cerrar la sesión. Lo que sí sirve es decirle en una línea qué conviene tener a mano cuando exista: brand book y logos, fotos de producto, piezas publicadas que sí los representan y piezas que no, reseñas tal cual, capturas de las preguntas que más les hacen, y cómo funciona el producto.
+
+---
+
+## Lo que NO hacés acá
+
+- No pedís URL de la tienda, Drive, Notion, Instagram ni el brand kit. El onboarding los pide en su paso.
+- No pedís que describan la marca.
+- No creás carpetas. La carpeta local es opcional y va al final (`05_carpeta_local.md`).
+
+Con nombre y workspace → pasá a `02_onboarding.md`.

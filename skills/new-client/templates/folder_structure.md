@@ -1,17 +1,17 @@
 # Template — Estructura de carpetas del cliente
 
-Esta es la estructura estándar que crea la skill. `{slug}` es el nombre del cliente en kebab-case (ej: `acme-foods`). Se crea en el directorio de trabajo actual. Es la **convención unificada del stack Indash**: la misma carpeta es un proyecto del **Indash Studio** (el editor de piezas), así que todo lo que produzcas acá se puede abrir/editar ahí sin migración.
+Esta es la estructura estándar que crea la skill, **solo si la persona pide la carpeta local** (`instructions/05_carpeta_local.md`). `{slug}` es el nombre del cliente en kebab-case (ej: `acme-foods`). Se crea en el directorio de trabajo actual. Es la **convención unificada del stack Indash**: la misma carpeta es un proyecto del **Indash Studio** (el editor de piezas), así que todo lo que produzcas acá se puede abrir/editar ahí sin migración.
 
 ```
 {slug}/
-  CLAUDE.md                  Contexto de marca del cliente (fuente de verdad). Lo escribe el paso 4.
+  CLAUDE.md                  Contexto de marca del cliente, escrito desde Indash. Lo escribe el paso 4 (carpeta local).
   creatives/                 Scene graphs JSON del Indash Studio. Arranca vacía (.gitkeep).
   assets/
     logos/                   TODOS los logos del cliente (de Indash o del user). .gitkeep.
     fonts/                   TODAS las tipografías (.otf/.ttf/.woff2). .gitkeep.
     brand-kit/               brand.md (narrativa) + brand-kit.md (resumen estructurado:
                              paleta hex, tipografía, do's & don'ts) + guidelines crudas (PDF).
-    products/                index.md (catálogo del MCP de Indash, paso 5) + imágenes de
+    products/                index.md (catálogo de Indash, `list_products`) + imágenes de
                              referencia por producto. .gitkeep.
     references/              Referencias de estilo / competidores. .gitkeep.
   exports/
@@ -33,7 +33,7 @@ Esta es la estructura estándar que crea la skill. `{slug}` es el nombre del cli
 
 ## Notas
 
-- **`CLAUDE.md`** es el archivo crítico: es lo que las skills (y el claude embebido del Studio) heredan al trabajar en esta carpeta. Su contenido gana sobre defaults genéricos.
+- **`CLAUDE.md`** es el archivo crítico: es lo que las skills (y el claude embebido del Studio) heredan al trabajar en esta carpeta. Su contenido gana sobre defaults genéricos. Se escribe **desde Indash** (`get_brand_context` + `get_brand_kit` + `list_products`), nunca desde el sitio, y nunca es fuente del onboarding.
 - **NO crees** `versions/` ni `.indash/` — son del Studio y las maneja él (`versions/` = snapshots de creatives; `.indash/` = estado privado: comments, sesión del agente). Si existen, no las toques.
 - **Dónde va cada asset de marca** (regla fija):
   - **Logos** → `assets/logos/` (siempre, todos).
@@ -41,8 +41,8 @@ Esta es la estructura estándar que crea la skill. `{slug}` es el nombre del cli
   - **Brand kit crudo / guidelines** (PDF u otros) + `brand.md` + `brand-kit.md` → `assets/brand-kit/`.
   - **Imágenes de referencia de producto** → `assets/products/` (junto al `index.md`).
   - **Referencias de estilo / competidores** → `assets/references/`.
-- **De dónde salen los assets**: primero se intentan **descargar desde el MCP de Indash**. Si la marca no está en Indash, el user pasa los archivos a mano y se ordenan en `assets/`. Ver `instructions/02_discovery.md`.
-- **`assets/products/index.md`** es el puente con el MCP de Indash: nombre + URL + imagen de cada producto, inputs de las skills de contenido.
+- **De dónde salen los assets**: de Indash. Logos y tipografías de `get_brand_kit`; el brand book, de los archivos de `identity` del onboarding. Si la persona tiene archivos que Indash no tiene, primero van al onboarding (`instructions/03_carga_masiva.md`) y después a la carpeta. Ver `instructions/05_carpeta_local.md`.
+- **`assets/products/index.md`** es el puente con el catálogo de Indash: nombre + URL + imagen de cada producto, inputs de las skills de ejecución.
 - Las carpetas que arrancan vacías llevan un `.gitkeep` para quedar versionables.
 - **`brand/` es opcional y no se crea en el onboarding.** Es config por cliente de
   las skills que corren local: hoy, `edicion-ugc` busca ahí su `edicion-ugc.json` y

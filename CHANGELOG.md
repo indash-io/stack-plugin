@@ -1,5 +1,117 @@
 # Changelog
 
+## 0.19.0 — 2026-09-22
+
+**Una sola puerta: `/new-client` es el onboarding entero.** Acompaña a las
+tools `analyze_brand` y `confirm_brand_analysis` del conector
+(indash-io/mkt-agents). Las cuatro tools de onboarding siguen siendo
+requeridas; las dos de análisis no: si el conector no las tiene, la skill
+saltea ese paso y lo dice.
+
+- **`new-client` absorbe a `brand-onboarding`.** Eran dos puertas para el
+  mismo cliente, y `new-client` (el nombre que el equipo ya usa) llevaba por
+  el camino viejo: carpeta local y `CLAUDE.md` analizando el sitio, sin tocar
+  el onboarding de la app. Ahora conduce el onboarding entero, en este orden:
+  nombre y workspace en Indash (si la marca no existe, el workspace lo crea
+  Indash en la app; no hay tool, y sin workspace no hay onboarding); la carga
+  al mismo onboarding de la app, conversada o masiva desde una carpeta (tabla
+  de clasificación, un OK, subida por URL firmada en lotes); tienda temprano;
+  Instagram solo con un sí; cierre con inventario y veredicto.
+- **El análisis, nuevo.** Con el inventario en `can_start` o
+  `can_start_with_pending`, la skill ofrece `analyze_brand`: el server produce
+  lo derivado (perfil de voz, objeciones priorizadas, verbatims, avatar,
+  sistema visual) solo con el material del cliente. Nace `pending` y **el
+  agente de briefs no lo ve hasta que un humano lo confirme**: la skill muestra
+  el resumen rama por rama y guarda las decisiones con
+  `confirm_brand_analysis`. Sin reseñas y sin corpus, `not_enough_material`:
+  se dice qué falta y no se insiste.
+- **La carpeta local pasa a ser opcional y va al final.** "¿Armamos también
+  la carpeta local para producir desde acá?". El `CLAUDE.md` del cliente ya
+  no se escribe desde el sitio: su fuente es lo que hay en Indash
+  (`get_brand_context` + `get_brand_kit` + `list_products`), y lo que el
+  onboarding no tiene queda como placeholder que dice dónde se carga. Nunca al
+  revés: el `CLAUDE.md` no es fuente del onboarding. Los templates
+  (`client_claude_md.md`, `brand_md.md`, `product_index.md`) se reescriben
+  con esa fuente; desaparece el "análisis de marca" desde la URL y los
+  adjetivos de personalidad.
+- **`brand-onboarding` se elimina.** Salió en la 0.18.0 como `draft` y nunca
+  se publicó: no hay nadie que se quede sin ella. Sus disparadores ("cargá mi
+  marca", "onboarding de marca", "el cliente me mandó todo esto, cargalo") y
+  su materia prima (la regla de procedencia, "material, no adjetivos", la
+  carga masiva) pasan a `new-client`, que queda `published`.
+- `content-brief`, `stack-overview`, la política del hook, el README y
+  `CLAUDE.md` dejan de nombrar `brand-onboarding`: **11 skills** (eran 12) y
+  **37 tools** (eran 35), con la familia "El onboarding de marca" en 6.
+
+## 0.18.0 — 2026-09-20
+
+**El onboarding de marca se puede hacer conversando.** Acompaña a las tools
+`get_brand_onboarding`, `update_brand_onboarding`, `create_onboarding_uploads`
+y `run_brand_onboarding_action` del conector (indash-io/mkt-agents). **Requiere
+ese server desplegado**: sin las cuatro tools la skill frena y manda al
+onboarding de la app.
+
+- **Skill nueva: `brand-onboarding`.** Es el mismo onboarding de la app (6
+  pasos) y escribe al mismo lugar, así que se puede hacer mitad en Claude y
+  mitad en `/w/<slug>/onboarding`, y lo cargado lo lee después `content-brief`.
+  Arranca siempre leyendo lo que ya hay y no repregunta.
+- **Dos modos.** Conversado, para el cliente: de a una cosa, con la pregunta
+  literal de la app, aceptando lo incompleto y el "ninguno". Carga masiva, para
+  quien llega con una carpeta (el equipo con lo que el cliente mandó por
+  WhatsApp): inventario, **tabla de clasificación archivo → lista → por qué**,
+  un OK, y recién ahí la subida por URL firmada en lotes de 20. Los audios se
+  transcriben en el server.
+- **La regla de procedencia.** A ningún campo entra nada que la persona no haya
+  dicho, pegado, subido o aprobado explícitamente en la conversación. El
+  material va crudo (las reseñas, con sus errores de tipeo). Lo que Claude saca
+  de un material largo se muestra entero y espera su OK. Un resumen devuelve
+  lenguaje de marketing y el copy sale genérico; un hueco a la vista se resuelve
+  con un mensaje, uno tapado aparece en la ronda de revisión.
+- **Opt-ins explícitos**: `read_instagram` solo si la persona lo pide o lo
+  acepta, y `complete` solo cuando dice que terminó. El cierre muestra el
+  inventario con su veredicto: compuertas, no porcentajes.
+- **Como `content-brief`, es un wrapper fino**: las preguntas de cada paso y
+  qué acepta cada campo los sirve el conector con `include_guide`. La skill no
+  los copia.
+- `new-client` y `brand-onboarding` se nombran entre sí: una arma la carpeta
+  local, la otra carga Indash, y ninguna exige a la otra. `content-brief`, sin
+  contexto de marca, ofrece completar el onboarding acá mismo.
+- `stack-overview`, la política del hook y el README: **12 skills** (eran 11) y
+  **35 tools** (eran 31), con la familia nueva "El onboarding de marca".
+- La skill sale en `status: draft`: falta la lectura de un humano.
+
+## 0.17.0 — 2026-09-18
+
+**El brief del período se arma con el contexto y la metodología de la app.**
+Acompaña a las tools `get_brand_context` y `save_brief` del conector
+(indash-io/mkt-agents, rama `manuel-soria/mcp-brand-context`). **Requiere ese
+server desplegado**: sin las dos tools la skill frena y lo dice.
+
+- **`content-brief` pasa a ser un wrapper fino.** Antes traía su propia
+  metodología (intake, discovery, plan, bloques por pieza), distinta de la del
+  agente de briefs de la app: un brief armado en Claude y uno armado en Indash
+  salían de criterios distintos. Ahora la metodología (`AGENT.md` +
+  `ecom-founder` + `content-brief-builder`) la sirve el conector en vivo, la
+  misma que usa la app, y la skill solo fija el orden: `get_brand_context` con
+  `include_methodology` → armar → `save_brief` → corregir según los chequeos →
+  `send: true` cuando la persona lo confirma. Se borran `instructions/`,
+  `templates/` y `eval/` de la skill: **una sola fuente**.
+- **El contexto de marca sale del onboarding del cliente** (el CKB), con sus
+  archivos originales: las imágenes se abren como imágenes, el resto llega como
+  URL firmada que en Claude Code se puede bajar y leer local. Si el workspace
+  no tiene onboarding ni `CONTEXT.md`, la skill lo dice, ofrece completarlo y
+  avanza con el mínimo marcando el resto como pendiente.
+- **El brief queda guardado en Indash**, con su URL y los mismos chequeos que
+  ve el equipo al aprobar. La copia en `briefs/` sigue, como copia de trabajo.
+- El brief cubre los cuatro formatos de la metodología (video UGC, estático,
+  carrusel, historia). Emails y videos que no son UGC ya no salen del brief:
+  van directo a `email-marketing-ecomm` y `all-videos`.
+- `stack-overview`, la política del hook y el README: **31 tools** (eran 29), la
+  familia nueva "El brief del período", y el kanban de `upload_briefs`
+  renombrado a "pedidos" para que no se confunda con el brief. De paso entran
+  al listado `list_creatives` y `update_product_images`, que estaban contadas
+  pero no nombradas.
+
 ## 0.16.0 — 2026-09-08
 
 **Videos de hasta 40 segundos y la familia GPT Image 2.5.** Acompaña a
