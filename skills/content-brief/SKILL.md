@@ -97,6 +97,7 @@ El brief planifica; la pieza la produce la skill que corresponde, con el copy li
 | Historia | `stories-nano-banana` |
 | Montaje de los clips de avatar (silencios, morphs, subtítulos, placa) | `edicion-ugc` |
 | Pieza final con assets varios, captions con estilo o placa animada | `hyperframes` |
+| Voz en off de una pieza (el guion ya está en el brief) | `locuciones` |
 
 **El video suele necesitar dos pasos**: primero los clips, después la post-producción. Si el brief pide un reel terminado, nombrá a los dos en el handoff, en ese orden.
 

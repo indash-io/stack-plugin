@@ -250,7 +250,9 @@ homónima sin `.md`. **Versioná, nunca pises.** Decí la ruta en una línea.
 | `content-brief` define el mix del período | `hyperframes` cierra el bloque de video | El entregable queda en `exports/videos/` |
 
 Si el user pide **generar** un clip nuevo, esa no es esta skill: es
-`all-videos` o `ugc-generator`. Derivá y volvé cuando el material exista.
+`all-videos` o `ugc-generator`. Si falta la **voz en off**, es `locuciones`
+(entrega el WAV en la carpeta del set, con el nombre del shot). Derivá y
+volvé cuando el material exista.
 
 ### `edicion-ugc` — la otra post-producción
 
