@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.20.0 — 2026-09-24
+
+**Voz.** Acompaña a la tool `generate_speech` del conector (Gemini 3.8 TTS,
+indash-io/mkt-agents). Si el conector todavía no la tiene, la skill lo dice y
+frena: no hay fallback.
+
+- **Skill nueva: `locuciones`.** Voz en off / text-to-speech con dirección:
+  escribe o adapta el guion para el oído (~15 caracteres hablados por
+  segundo), elige la voz — 30 de estudio, la **biblioteca extendida** por
+  idioma/acento (`list_voices`) o una **diseñada** por descripción
+  (`design_voice`: *"una argentina de veinte años, voz clara, acento
+  porteño"*) — con una **audición barata** cuando no está decidida, dirige la
+  lectura en lenguaje natural (`style` de
+  la pieza + acotaciones por línea entre paréntesis + tags como `<laugh>` /
+  `<short pause>`), arma escenas de **dos voces** y entrega WAVs en la
+  galería (creatives `audio`, draft) + el guion dirigido en disco. Deja
+  escrito lo que la tool **no** hace hoy (clonar la voz de una persona real,
+  MP3 desde el conector) para que nadie lo prometa.
+- **Regla que ordena la voz:** edad, género y acento **son de la voz** (se
+  eligen o se diseñan); el `style` es de la lectura (tono, ritmo, energía).
+  Google lo dice explícito y la skill lo repite en cada paso. Las voces
+  diseñadas quedan guardadas por workspace con su sample, viven un año y
+  comparten una cuota de 200 por proyecto: se borran las descartadas
+  (`delete_voice`) y la ganadora se anota en el `CLAUDE.md` del cliente.
+- **Regla nueva de honestidad:** el agente **no puede escuchar** el audio que
+  genera. Su QA es sobre duración, tier y guion; la persona escucha y elige.
+  La skill lo dice en cada entrega.
+- **Costo por largo del guion.** `short` ≤450 caracteres (~30s), `standard`
+  ≤1.500 (~100s), `long` ≤4.500 (~5 min, el tope por item). `gemini-tts-lite`
+  a dos tercios. Está en `reference/capacidades.md` y en `stack-overview`.
+- **Carpetas:** `exports/audio/` para locuciones sueltas; la voz de un video
+  va en la subcarpeta de ese set en `exports/videos/`, con el nombre del shot.
+- `stack-overview` y la política pasan a decir **12 skills y 41 tools**
+  (`generate_speech` entra en la familia de generación; `list_voices`,
+  `design_voice` y `delete_voice` son la familia nueva de voces).
+
 ## 0.19.0 — 2026-09-22
 
 **Una sola puerta: `/new-client` es el onboarding entero.** Acompaña a las

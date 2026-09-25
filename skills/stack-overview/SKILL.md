@@ -1,6 +1,6 @@
 ---
 name: stack-overview
-description: Explica qué es y qué puede hacer el stack de Indash — las 11 skills de creative performance, las 37 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "qué es /save-learnings", "cómo se guarda lo que aprendimos", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
+description: Explica qué es y qué puede hacer el stack de Indash — las 12 skills de creative performance, las 41 tools del conector MCP, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué tipos de referencia (imagen, video y audio) soporta cada modelo. Disparala cuando el user pregunte "qué puedo hacer", "qué hace esto", "qué skills hay", "cómo funciona el stack", "se puede pasar un video de referencia", "se actualizan las skills", "dónde se guarda", "qué es /save-learnings", "cómo se guarda lo que aprendimos", "what can this do", o pida un tour/overview de las capacidades. También es la política del stack para clientes que no ejecutan el hook de SessionStart.
 language: es
 owner: manuel-soria
 status: published
@@ -26,7 +26,7 @@ del gate de autenticación y de guardado que están más abajo son las que valen
 
 Adaptá el nivel al pedido — no vuelques todo el documento cada vez:
 
-- **"¿Qué puedo hacer?" / tour general** → el mapa de las 11 skills + las
+- **"¿Qué puedo hacer?" / tour general** → el mapa de las 12 skills + las
   familias de capacidades del MCP, en no más de una pantalla. Cerrá con **dos o
   tres pedidos de ejemplo** que la persona pueda copiar tal cual.
 - **Pregunta puntual** (video de referencia, dónde se guarda, actualizaciones) →
@@ -38,7 +38,7 @@ Antes de listar capacidades de generación, chequeá si el conector `indash` est
 conectado (ver *Gate de autenticación*). Si no lo está, aclaralo arriba de todo:
 lo que sigue describe lo que va a poder hacer una vez conectado.
 
-## 1. Las 11 skills
+## 1. Las 12 skills
 
 Cada una se dispara sola cuando el pedido coincide — la persona no invoca nada a
 mano.
@@ -59,6 +59,7 @@ mano.
 | `ads` | 3-5 Meta ads (FB/IG): imagen final + copy completo (Primary Text, Headline, Description, CTA) | *"hacé 3 ads para \<producto\>"* |
 | `ugc-video-prompts` | Paquete de video UGC (Kling / Veo / Seedance + first/last frame con Nano Banana) | *"armá un UGC para \<producto\>"* |
 | `ugc-generator` | Producción end-to-end de videos UGC: guiones → frames → clips generados y verificados, con 2 gates de aprobación | *"hacele 2 videos de 10s a \<cliente\> con \<producto\>"* |
+| `locuciones` | **Voz en off / text-to-speech** con Gemini 3.8 TTS: guion para el oído, voz del roster de 30 (con audición), dirección en lenguaje natural por pieza y por línea, tags de vocalización, escenas de dos voces. WAV en la galería + guion dirigido en disco. El agente no escucha el resultado: la persona elige | *"generá la voz para el reel"*, *"leé este guion con una voz"* |
 | `all-videos` | Videos de marketing multi-shot con selección de modelo por shot (Seedance 2.0/2.5, Omni, Veo, Kling) | *"un video cinematográfico de marca"* |
 | `hyperframes` | **Post-producción creativa**: edita y ensambla los clips e imágenes ya generados en la pieza final (cortes, transiciones, captions en zona segura, música/VO) con HyperFrames, en 9:16 / 4:5 / 1:1 / 16:9 | *"editame un reel con los clips de \<producto\>"* |
 | `edicion-ugc` | **Montaje determinístico de UGC de avatar**: recorta silencios, detecta y tapa morphs con B-roll, quema subtítulos y pega la placa de la marca, con reglas medidas contra 21 ediciones manuales. Corre local (macOS + ffmpeg + whisper-cpp), sin créditos | *"editá estos clips de UGC"*, *"revisá si hay morph"* |
@@ -70,7 +71,7 @@ concepto → prompts → self-check → output**. Ninguna genera sin confirmar a
 
 ### Y una skill que invocás vos: `/save-learnings`
 
-Las 11 skills se disparan solas. **`/save-learnings` no**: lo escribe la persona
+Las 12 skills se disparan solas. **`/save-learnings` no**: lo escribe la persona
 en el chat, **a conciencia**, cuando sabe que la sesión dejó algo para guardar —
 no como cierre automático de cada entrega.
 
@@ -98,7 +99,7 @@ sesión hubo fricción con una skill** — la persona pidió rehacer algo, corri
 la skill o dijo que algo no le sirvió — en una línea al final del handoff. Si la
 entrega salió derecho, no lo menciones. Y **no lo ejecutes por tu cuenta**.
 
-## 2. Las 37 tools del conector `indash`
+## 2. Las 41 tools del conector `indash`
 
 Nueve familias. Las skills las usan solas; la persona no las llama a mano.
 
@@ -114,7 +115,13 @@ El catálogo real y la identidad de la marca: paleta, tipografía, logos,
 productos con sus fotos, referencias de estilo. Es **lectura y escritura** — se
 puede dar de alta un producto y subirle fotos desde acá.
 
-**Generación (4)** — `generate_image`, `generate_video`, `extend_video`, `get_video_result`
+**Generación (5)** — `generate_image`, `generate_video`, `extend_video`, `get_video_result`, `generate_speech`
+
+**Voces (3)** — `list_voices`, `design_voice`, `delete_voice`
+Las voces con las que habla `generate_speech`: las 30 de estudio, la biblioteca
+extendida de Google por idioma/acento/género, y las **diseñadas** por
+descripción para el workspace (con sample). Diseñar cuesta un `short`; listar y
+borrar son gratis.
 Donde se consume crédito. Ver sección 4 para modelos y referencias.
 
 **Galería de Indash (3)** — `upload_creative`, `promote_creative`, `list_creatives`
@@ -163,13 +170,13 @@ Las skills que viven **en la cuenta de Indash** de la marca, no en el plugin.
 Hay **dos** conjuntos de skills, y se actualizan distinto. Es la confusión más
 común:
 
-| | Skills del plugin (las 11 de arriba) | Skills del workspace |
+| | Skills del plugin (las 12 de arriba) | Skills del workspace |
 |---|---|---|
 | Dónde viven | En este repo, instaladas en la máquina | En la cuenta de Indash de la marca |
 | Cómo se leen | Las carga el cliente al iniciar sesión | `list_skills` / `get_skill`, en vivo |
 | Cómo se actualizan | **Manual**: `/plugin marketplace update indash` y reiniciar la sesión | **Solas** — se editan en la app y el próximo llamado ya trae lo nuevo |
 
-Es decir: **las 11 skills del plugin NO se actualizan solas.** Si el equipo de
+Es decir: **las 12 skills del plugin NO se actualizan solas.** Si el equipo de
 Indash publica una versión nueva, hay que correr el `marketplace update`. Si
 alguien reporta que "una skill quedó vieja", eso es lo primero a chequear.
 
@@ -208,7 +215,7 @@ versión.
 - `save_brief` → el brief del período queda como borrador en la app, con su URL; con confirmación de la persona, pasa a revisión de Indash.
 - `upload_briefs` → un pedido de pieza entra al kanban del equipo.
 - `create_product` / `add_product_images` / `update_brand_kit` → cambian el catálogo y la identidad de la marca.
-- Toda imagen o video generado se guarda además en la galería del workspace.
+- Toda imagen, video o locución generada se guarda además en la galería del workspace (las locuciones como creatives `audio`).
 
 Lo que **no** se sube queda solo en la máquina. Si la persona quiere que el
 equipo lo vea en la app, hay que subirlo — no pasa solo.
@@ -366,6 +373,32 @@ referencia, describir el movimiento en el prompt (para eso están
 `generate_video` devuelve un `run_id` y el render lleva **minutos**. Se consulta
 con `get_video_result`. En hosts con soporte de MCP Apps el progreso se ve en un
 widget que se actualiza solo; en el resto hay que volver a consultar.
+
+
+### Voz — `generate_speech` (Gemini 3.8 TTS)
+
+Text-to-speech con dirección. Dos modelos: `gemini-tts` (default, el que se
+dirige) y `gemini-tts-lite` (dos tercios de los créditos, para volumen).
+`style` en lenguaje natural para la pieza, acotaciones por línea entre
+paréntesis, tags como `<laugh>` / `<sigh>` / `<short pause>` en el punto exacto,
+y escenas de **dos voces** con turnos naturales. Sale un WAV (24 kHz mono) por
+item, guardado como creative `audio` en la galería.
+
+**Las voces, tres fuentes:** las 30 de estudio (cualquier idioma), la
+**biblioteca extendida** de Google (`list_voices` por `language_codes`,
+género, acento, persona) y las **diseñadas** (`design_voice`: *"una argentina
+de veinte años, voz clara, acento porteño"* → un `voice_…` del workspace con
+sample para escuchar). La regla: **edad, género y acento son de la voz; el
+`style` es de la lectura** — Google lo dice explícito. Las diseñadas viven un
+año y hay 200 por proyecto para todo Indash: se borran las descartadas.
+
+Se cobra **por item según el largo del guion** (caracteres hablados, sin tags):
+`short` ≤450 (~30s), `standard` ≤1.500 (~100s), `long` ≤4.500 (~5 min, el
+tope). Una audición de una línea en tres voces son tres `short`.
+
+Lo que **no** hace hoy: clonar la voz de una persona real, MP3 desde el
+conector (se convierte local con `ffmpeg`), duración exacta. La skill
+`locuciones` lleva todo esto.
 
 ## 5. Gate de autenticación (regla, no sugerencia)
 

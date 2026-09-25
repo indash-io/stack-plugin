@@ -21,11 +21,12 @@ La idea: instalás el plugin, conectás tu cuenta de Indash con un login, y las 
 | **ads** | Meta ads (FB/IG) para DTC e-commerce: 3-5 variaciones con imagen final (vía MCP) + copy de Meta completo (Primary Text, Headline, Description, CTA). |
 | **ugc-video-prompts** | Paquetes de video UGC (Kling 3.0 / Veo 3.1 / Seedance 2.0 + first/last frame con Nano Banana). |
 | **ugc-generator** | **Producción end-to-end de videos UGC**: del pedido (una frase, un sheet, un brief) a los clips generados vía MCP y verificados en carpeta — guiones, frames, QA de producto y 2 gates de aprobación. Se dispara con *"hacele 2 videos de 10s a `<cliente>` con `<producto>`"*. |
+| **locuciones** | **Voz en off / text-to-speech** con Gemini 3.8 TTS: escribe o adapta el guion para el oído, elige la voz (30 de estudio, la biblioteca por idioma/acento, o una **diseñada** por descripción: *"una argentina de veinte años, voz clara, porteña"*) con audición barata, dirige la lectura en lenguaje natural — tono, ritmo, acento, acotaciones por línea, tags como `<laugh>` o `<short pause>` — y arma escenas de dos voces. Entrega WAVs en la galería del workspace + el guion dirigido en disco, listos para `hyperframes` / `edicion-ugc`. El agente no puede escuchar el audio: chequea duración y costo, vos escuchás y elegís. Se dispara con *"generá la voz para el reel"* o *"leé este guion con una voz"*. |
 | **all-videos** | Videos de marketing multi-shot (ads, demos, brand films, hypermotion) con selección de modelo por shot — Seedance 2.0, Omni, Veo, Kling — en modo prompt-only o video generado según el MCP. |
 | **hyperframes** | **Post-producción creativa de video**: edita y ensambla los clips e imágenes que ya generaste en la pieza final con [HyperFrames](https://github.com/heygen-com/hyperframes) — cortes, transiciones, captions en zona segura, música y VO, en 9:16 / 4:5 / 1:1 / 16:9. Entrega el plan de edición por segundos + la composición + el comando de render. Se dispara con *"editame un reel con los clips de `<producto>`"*. |
 | **edicion-ugc** | **Montaje determinístico de clips de avatar/UGC**: recorta silencios muertos, detecta y tapa morphs con B-roll, quema subtítulos en Montserrat y pega la placa final de la marca. Las reglas salen de medir 21 ediciones manuales reales, no de criterio inventado. Corre **local** (macOS + ffmpeg + whisper-cpp, ver requisitos en su `SKILL.md`) y no consume créditos. Se dispara con *"editá estos clips de UGC"*, *"montá estos clips"* o *"revisá si hay morph"*. |
 | **email-marketing-ecomm** | Mails promo DTC: 3 variantes (HTML + PNG) brand-first, listas para Klaviyo / Mailchimp / Customer.io. |
-| **stack-overview** | **Empezá por acá si es tu primera vez.** Te explica el stack: qué hace cada skill, las 37 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué referencias soporta cada modelo (imagen, video y audio). Se dispara con *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"* o cualquier pregunta sobre capacidades. |
+| **stack-overview** | **Empezá por acá si es tu primera vez.** Te explica el stack: qué hace cada skill, las 41 tools del conector, cómo se actualizan las skills, qué queda guardado en Indash y qué en disco, y qué referencias soporta cada modelo (imagen, video y audio). Se dispara con *"¿qué puedo hacer?"*, *"¿se puede pasar un video de referencia?"* o cualquier pregunta sobre capacidades. |
 
 Todas siguen un workflow estricto: intake → discovery (scraping + análisis de imagen) → **una sola pregunta consolidada de decisiones** → concepto → generación de prompts → self-check → output. Nunca generan sin confirmar con vos primero.
 
@@ -129,6 +130,7 @@ Pedile a Claude en lenguaje natural — las skills se disparan solas cuando el p
    - **Video (prompts)** → *"Armá un UGC / video para `<producto>`"* → `ugc-video-prompts` o `all-videos`.
    - **Video (producción completa)** → *"Hacele 2 videos de 10s a `<cliente>` con `<producto>`"* → `ugc-generator` (genera y verifica los clips).
    - **Video (edición final, creativa)** → *"Editame un reel con los clips de `<producto>`"* → `hyperframes` (arma el corte, los captions y el MP4 final).
+   - **Locución / voz en off** → *"Generá la voz para el reel de `<producto>`"* → `locuciones` (guion para el oído + voz dirigida, WAV en la galería).
    - **Video (montaje de UGC de avatar)** → *"Editá estos clips de UGC"* / *"revisá si hay morph"* → `edicion-ugc` (silencios, morphs, subtítulos y placa, con reglas medidas).
    - **Email** → *"Armá un mail promo para `<marca>`"* → `email-marketing-ecomm`.
 
@@ -179,6 +181,7 @@ skills/ads/                     Meta ads DTC (imagen + copy)
 skills/ugc-video-prompts/       Paquetes de video UGC (Kling/Veo/Seedance)
 skills/ugc-generator/           Producción end-to-end de videos UGC (pedido → clips verificados)
 skills/all-videos/              Videos de marketing multi-shot, multi-modelo (Seedance/Omni/Veo/Kling)
+skills/locuciones/              Voz en off / TTS con Gemini 3.8 (guion, voz, dirección, dos voces)
 skills/hyperframes/             Post-producción creativa (composición HyperFrames → MP4)
 skills/edicion-ugc/             Montaje determinístico de UGC de avatar (FFmpeg + whisper-cpp, local)
 skills/email-marketing-ecomm/   Mails promo DTC (HTML + PNG)
