@@ -127,15 +127,33 @@ El usuario tiene una imagen base y quiere cambiarle algo: el fondo, un elemento,
 
 ### Cuándo elegir qué modelo
 
-| Caso | Modelo |
-|---|---|
-| Generate con refs (consistencia de producto, multi-image) | `google/gemini-3-pro-image` (alta calidad) o `google/gemini-2.5-flash-image-preview` (rápido) |
-| Edit puntual de una imagen existente | `gpt-image-2.5-sunburst` (la tool ya rutea por `/v1/images/edits` cuando hay refs) o Gemini multimodal |
-| Generate sin refs (texto puro a imagen) | Gemini o la familia `gpt-image` |
-| Iteración rápida (variaciones, drafts) | `google/gemini-2.5-flash-image-preview` |
-| Output final de campaña | `google/gemini-3-pro-image` |
+`model` es **por item**. La tool ofrece siete modelos y el default es
+`nano-banana-2.1`.
 
-**Default razonable**: Gemini Pro para final, Gemini Flash para iterar.
+**La regla: se queda en el default.** Moverse de ahí es **opt-in** — sólo si la
+pieza necesita para lo que ese otro modelo sirve, o si el humano pidió ese
+modelo en ESTA conversación. Nunca porque uno se lea como "el mejor".
+
+| Modelo | Para qué sirve | Créditos (1k/2k/4k) |
+|---|---|---|
+| `nano-banana-2.1` | **El default.** La respuesta correcta para casi todo: producto con refs, consistencia, ediciones con máscara. | 25 / 38 / 50 |
+| `nano-banana-2-lite` | Iterar composición cuando importa la velocidad (~2 s contra ~15-20 s). La que queda se renderiza en el default. | 25, sólo 1k |
+| `nano-banana-pro` | **Texto ADENTRO de la imagen**: titulares, copy de packaging, tipografía legible. Si la pieza no lleva texto, el default rinde igual a un cuarto del precio. | 100 / 150 / 200 |
+| `gpt-image-2.5-flare` | Cuando el look de OpenAI ya es la respuesta. El rápido de los tres. | 200 / 300 / 400 |
+| `gpt-image-2.5-sunburst` | Control fino a lo largo de varias ediciones, cuando la pieza de verdad necesita el render de OpenAI. | 200 / 300 / 400 |
+| `gpt-image-2` | Superado por `-2.5-flare`, que cuesta lo mismo y es más rápido. Sólo para reproducir un render anterior. | 200 / 300 / 400 |
+| `nano-banana` | Generación anterior. Sólo para reproducir un render anterior (Google lo apaga el 2027-03-15). | 25, sólo 1k |
+
+**La familia de OpenAI es la más cara de todas**: 8x el default y 2x
+`nano-banana-pro`. Un lote de 12 piezas en una de ellas que no hacía falta son
+4800 créditos contra 300 en el default.
+
+`resolution` (`1k` / `2k` / `4k`) también es por item, se **clampea** a lo que el
+modelo soporta, y es **opt-in aparte** — no la cubre la regla de `model`: 1k es
+el default y sólo se sube si el humano pidió más resolución en ESTA
+conversación. Ni para una pieza "final", ni porque un brief diga "4k".
+
+Un pedido que cubría una imagen **no** se traslada al lote siguiente.
 
 ---
 
@@ -143,7 +161,7 @@ El usuario tiene una imagen base y quiere cambiarle algo: el fondo, un elemento,
 
 La tool `generate_image` abstrae esto, pero conviene saber qué hace por debajo para escribir bien el prompt:
 
-- **Gemini multimodal** (`gemini-3-pro-image`, `gemini-2.5-flash-image-preview`): las refs viajan como bloques `image_url` en `chat/completions`. Funciona perfecto con texto + N imágenes. **Pasale las refs, mencionalas en el prompt.**
+- **Gemini multimodal** (`nano-banana-2.1`, `nano-banana-2-lite`, `nano-banana-pro`, `nano-banana`): las refs viajan como bloques `image_url` en `chat/completions`. Funciona perfecto con texto + N imágenes. **Pasale las refs, mencionalas en el prompt.**
 - **Familia gpt-image** (`gpt-image-2`, `gpt-image-2.5-flare`, `gpt-image-2.5-sunburst`): si pasás `reference_paths`, la tool va por `/v1/images/edits` (multipart). La primera imagen es la "base", las demás son adicionales. Si NO pasás refs, va por `/v1/images/generations` (texto puro). **`sunburst` es el que mejor sostiene el control en ediciones**; `flare` es el rápido para explorar.
 - **Imagen / Flux / Grok-Imagine**: solo `/generations`, NO soportan refs. Si pedís refs con esos modelos, la tool tira error explícito — usá Gemini o la familia gpt-image.
 
